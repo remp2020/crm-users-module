@@ -111,7 +111,7 @@ class UsersModule extends CrmModule
         $menuItem = new MenuItem($this->translator->translate('users.menu.sign_out'), ':Users:Sign:out', '', 4999, true);
         $menuContainer->attachMenuItem($menuItem);
 
-        if ($this->user->getIdentity()->role === UsersRepository::ROLE_ADMIN) {
+        if ($this->user->isLoggedIn() && $this->user->getIdentity()->role === UsersRepository::ROLE_ADMIN) {
             $links = [
                 'Users:UsersAdmin' => 'default',
 //                'Content:Content' => 'default',
