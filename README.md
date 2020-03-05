@@ -85,7 +85,7 @@ Response:
 }
 ```
 
-This was a response from default `UserAuthenticator`. If your application use some custom implementation of authenticator
+This was a response from default `UserAuthenticator`. If your application uses some custom implementation of authenticator
 (e.g. `FooAuthenticator`), the authenticator can add extra parameters to the response:
 
 ```json5
