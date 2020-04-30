@@ -71,19 +71,20 @@ class UserManager
      * @param string $source
      * @param null $referer
      * @param bool $checkEmail
+     * @param string $password
      *
      * @return @var ActiveRow|bool $user
      * @throws InvalidEmailException
      * @throws UserAlreadyExistsException
      * @throws \Nette\Utils\JsonException
      */
-    public function addNewUser($email, $sendEmail = true, $source = 'unknown', $referer = null, $checkEmail = true)
+    public function addNewUser($email, $sendEmail = true, $source = 'unknown', $referer = null, $checkEmail = true, $password = null)
     {
         if ($checkEmail && !$this->emailValidator->isValid($email)) {
             throw new InvalidEmailException($email);
         }
 
-        $password = $this->passwordGenerator->generatePassword();
+        $password = $password ?: $this->passwordGenerator->generatePassword();
 
         $user = $this->usersRepository->getByEmail($email);
         if ($user) {

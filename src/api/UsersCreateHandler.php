@@ -33,6 +33,7 @@ class UsersCreateHandler extends ApiHandler
     {
         return [
             new InputParam(InputParam::TYPE_POST, 'email', InputParam::REQUIRED),
+            new InputParam(InputParam::TYPE_POST, 'password', InputParam::OPTIONAL),
             new InputParam(InputParam::TYPE_POST, 'first_name', InputParam::OPTIONAL),
             new InputParam(InputParam::TYPE_POST, 'last_name', InputParam::OPTIONAL),
             new InputParam(InputParam::TYPE_POST, 'ext_id', InputParam::OPTIONAL),
@@ -93,7 +94,7 @@ class UsersCreateHandler extends ApiHandler
         }
 
         try {
-            $user = $this->userManager->addNewUser($email, $sendEmail, $source, $referer, $checkEmail);
+            $user = $this->userManager->addNewUser($email, $sendEmail, $source, $referer, $checkEmail, $params['password'] ?? null);
         } catch (InvalidEmailException $e) {
             $response = new JsonResponse(['status' => 'error', 'message' => 'Invalid email', 'code' => 'invalid_email']);
             $response->setHttpCode(Response::S404_NOT_FOUND);
