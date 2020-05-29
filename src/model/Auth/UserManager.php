@@ -72,13 +72,14 @@ class UserManager
      * @param null $referer
      * @param bool $checkEmail
      * @param string $password
+     * @param bool $addToken
      *
      * @return @var ActiveRow|bool $user
      * @throws InvalidEmailException
      * @throws UserAlreadyExistsException
      * @throws \Nette\Utils\JsonException
      */
-    public function addNewUser($email, $sendEmail = true, $source = 'unknown', $referer = null, $checkEmail = true, $password = null)
+    public function addNewUser($email, $sendEmail = true, $source = 'unknown', $referer = null, $checkEmail = true, $password = null, $addToken = true)
     {
         if ($checkEmail && !$this->emailValidator->isValid($email)) {
             throw new InvalidEmailException($email);
@@ -100,6 +101,7 @@ class UserManager
                 ->setPublicName($email)
                 ->setReferer($referer)
                 ->setSource($source)
+                ->setAddTokenOption($addToken)
                 ->save();
         } catch (UniqueConstraintViolationException $e) {
             throw new UserAlreadyExistsException("Cannot create user, unique constraint triggered: " . $e->getMessage());
