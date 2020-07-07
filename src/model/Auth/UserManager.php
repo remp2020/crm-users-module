@@ -223,14 +223,14 @@ class UserManager
         return true;
     }
 
-    public function requestResetPassword($email)
+    public function requestResetPassword($email, $source = null)
     {
         $user = $this->usersRepository->findBy('email', $email);
         if (!$user) {
             return false;
         }
 
-        $passwordResetToken = $this->passwordResetTokensRepository->add($user);
+        $passwordResetToken = $this->passwordResetTokensRepository->add($user, $source);
 
         $this->emitter->emit(new UserChangePasswordRequestEvent($user, $passwordResetToken->token));
 

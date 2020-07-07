@@ -11,11 +11,12 @@ class PasswordResetTokensRepository extends Repository
 {
     protected $tableName = 'password_reset_tokens';
 
-    final public function add(IRow $user, $expire = '+5 hours')
+    final public function add(IRow $user, $source = null, $expire = '+5 hours')
     {
         return $this->insert([
             'user_id' => $user->id,
             'token' => sha1(Uuid::uuid4()),
+            'source' => $source,
             'created_at' => new DateTime(),
             'expire_at' => DateTime::from(strtotime($expire)),
         ]);
