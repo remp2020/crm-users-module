@@ -8,6 +8,6 @@ class PasswordResetTokenSource extends AbstractMigration
     {
         $this->table('password_reset_tokens')
             ->addColumn('source', 'string', ['null' => true, 'default' => null])
-            ->create();
+            ->update();
     }
 }
