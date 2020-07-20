@@ -237,7 +237,7 @@ class UserManager
         return true;
     }
 
-    public function confirmUser(IRow $user, ?DateTime $date = null)
+    public function confirmUser(IRow $user, ?DateTime $date = null, $byAdmin = false)
     {
         if (!$date) {
             $date = new DateTime();
@@ -248,7 +248,7 @@ class UserManager
                 'confirmed_at' => $date,
             ]);
 
-            $this->emitter->emit(new UserConfirmedEvent($user));
+            $this->emitter->emit(new UserConfirmedEvent($user, $byAdmin));
         }
     }
 }

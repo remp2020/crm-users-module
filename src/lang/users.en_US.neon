@@ -315,6 +315,11 @@ admin:
 		confirm: Do you really want to reset password?
 		success: The password has been successfully reset and email with information for user has been sent.
 
+	confirm:
+		button: Confirm
+		confirm: Do you really want to confirm user?
+		success: User was successfully confirmed
+
 	user_note_form:
 		note_updated: Note was changed
 		note:

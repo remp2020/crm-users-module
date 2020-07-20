@@ -246,6 +246,17 @@ class UsersAdminPresenter extends AdminPresenter
         $this->presenter->flashMessage($this->translator->translate('users.admin.reset_password.success'));
     }
 
+    public function handleConfirm($userId)
+    {
+        $user = $this->usersRepository->find($userId);
+        if (!$user) {
+            throw new Nette\Application\BadRequestException("User with id: {$userId} doesn't exist.");
+        }
+
+        $this->userManager->confirmUser($user, null, true);
+        $this->presenter->flashMessage($this->translator->translate('users.admin.confirm.success'));
+    }
+
     public function createComponentUserForm()
     {
         $id = null;

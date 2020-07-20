@@ -315,6 +315,11 @@ admin:
 		confirm: Opravdu chcete resetovat heslo?
 		success: Heslo bylo úspěšně resetováno a email s informací pro uživatele byl odeslán.
 
+	confirm:
+		button: Potvrdit
+		confirm: Opravdu chcete potvrdit uživatele?
+		success: Uživatel byl úspěšně potvrzen
+
 	user_note_form:
 		note_updated: Poznámka byla změněna
 		note:

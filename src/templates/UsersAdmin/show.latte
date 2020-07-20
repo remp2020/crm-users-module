@@ -83,6 +83,7 @@
 
           <a href="mailto:{$user->email}" class="btn btn-default btn-xs pull-right"><i class="fa fa-envelope"></i></a>
           <a n:href="ResetPassword! $user->id"  class="btn btn-default btn-xs pull-right confirm" style="margin-right: 10px;" onclick="return confirm('{_users.admin.reset_password.confirm}');">{_users.admin.reset_password.button}</a>
+          <a n:if="!$user->confirmed_at" n:href="confirm! $user->id"  class="btn btn-default btn-xs pull-right confirm" style="margin-right: 10px;" onclick="return confirm('{_users.admin.confirm.confirm}');">{_users.admin.confirm.button}</a>
         </li>
         <li n:if="($user->first_name || $user->last_name)" class="list-group-item">
           <p n:if="$user->first_name" style="margin: 0"><b>{_users.admin.show.first_name}:</b> {$user->first_name}</p>
