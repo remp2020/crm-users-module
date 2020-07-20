@@ -131,3 +131,4 @@ services:
 
 	- Crm\UsersModule\Api\GetDeviceTokenApiHandler
 	- Crm\UsersModule\Repositories\DeviceTokensRepository
+	- Crm\UsersModule\Repositories\DeviceAccessTokensRepository

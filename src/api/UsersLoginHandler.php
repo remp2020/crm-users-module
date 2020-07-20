@@ -8,8 +8,9 @@ use Crm\ApiModule\Authorization\ApiAuthorizationInterface;
 use Crm\ApiModule\Params\InputParam;
 use Crm\ApiModule\Params\ParamsProcessor;
 use Crm\UsersModule\Auth\UserAuthenticator;
+use Crm\UsersModule\Repositories\DeviceAccessTokensRepository;
+use Crm\UsersModule\Repositories\DeviceTokensRepository;
 use Crm\UsersModule\Repository\AccessTokensRepository;
-use League\Event\Emitter;
 use Nette\Http\Response;
 use Nette\Localization\ITranslator;
 use Nette\Security\AuthenticationException;
@@ -20,19 +21,23 @@ class UsersLoginHandler extends ApiHandler
 
     private $accessTokensRepository;
 
-    private $emitter;
+    private $deviceTokensRepository;
+
+    private $deviceAccessTokensRepository;
 
     private $translator;
 
     public function __construct(
         UserAuthenticator $userAuthenticator,
         AccessTokensRepository $accessTokensRepository,
-        Emitter $emitter,
+        DeviceTokensRepository $deviceTokensRepository,
+        DeviceAccessTokensRepository $deviceAccessTokensRepository,
         ITranslator $translator
     ) {
         $this->userAuthenticator = $userAuthenticator;
         $this->accessTokensRepository = $accessTokensRepository;
-        $this->emitter = $emitter;
+        $this->deviceTokensRepository = $deviceTokensRepository;
+        $this->deviceAccessTokensRepository = $deviceAccessTokensRepository;
         $this->translator = $translator;
     }
 
@@ -41,7 +46,8 @@ class UsersLoginHandler extends ApiHandler
         return [
             new InputParam(InputParam::TYPE_POST, 'email', InputParam::REQUIRED),
             new InputParam(InputParam::TYPE_POST, 'password', InputParam::REQUIRED),
-            new InputParam(InputParam::TYPE_POST, 'source', InputParam::OPTIONAL)
+            new InputParam(InputParam::TYPE_POST, 'source', InputParam::OPTIONAL),
+            new InputParam(InputParam::TYPE_POST, 'device_token', InputParam::OPTIONAL),
         ];
     }
 
@@ -65,6 +71,20 @@ class UsersLoginHandler extends ApiHandler
             $response = new JsonResponse(['status' => 'error', 'error' => 'no_password', 'message' => 'No valid password']);
             $response->setHttpCode(Response::S400_BAD_REQUEST);
             return $response;
+        }
+
+        $deviceToken = false;
+        if (!empty($params['device_token'])) {
+            $deviceToken = $this->deviceTokensRepository->findByToken($params['device_token']);
+            if (!$deviceToken) {
+                $response = new JsonResponse([
+                    'status' => 'error',
+                    'message' => 'Device token doesn\'t exist',
+                    'code' => 'device_token_doesnt_exist'
+                ]);
+                $response->setHttpCode(Response::S400_BAD_REQUEST);
+                return $response;
+            }
         }
 
         try {
@@ -104,6 +124,10 @@ class UsersLoginHandler extends ApiHandler
         }
 
         $lastToken = $this->accessTokensRepository->allUserTokens($identity->id)->limit(1)->fetch();
+
+        if ($lastToken && $deviceToken) {
+            $this->deviceAccessTokensRepository->pairAccessToken($lastToken, $deviceToken);
+        }
 
         if ($lastToken) {
             $result['access']['token'] = $lastToken->token;

@@ -9,6 +9,8 @@ use Crm\ApiModule\Params\InputParam;
 use Crm\ApiModule\Params\ParamsProcessor;
 use Crm\UsersModule\Auth\InvalidEmailException;
 use Crm\UsersModule\Auth\UserManager;
+use Crm\UsersModule\Repositories\DeviceAccessTokensRepository;
+use Crm\UsersModule\Repositories\DeviceTokensRepository;
 use Crm\UsersModule\Repository\AccessTokensRepository;
 use Crm\UsersModule\Repository\UserAlreadyExistsException;
 use Nette\Database\Table\IRow;
@@ -21,12 +23,20 @@ class UsersCreateHandler extends ApiHandler
 
     private $accessTokensRepository;
 
+    private $deviceTokensRepository;
+
+    private $deviceAccessTokensRepository;
+
     public function __construct(
         UserManager $userManager,
-        AccessTokensRepository $accessTokensRepository
+        AccessTokensRepository $accessTokensRepository,
+        DeviceTokensRepository $deviceTokensRepository,
+        DeviceAccessTokensRepository $deviceAccessTokensRepository
     ) {
         $this->userManager = $userManager;
         $this->accessTokensRepository = $accessTokensRepository;
+        $this->deviceAccessTokensRepository = $deviceAccessTokensRepository;
+        $this->deviceTokensRepository = $deviceTokensRepository;
     }
 
     public function params()
@@ -42,6 +52,7 @@ class UsersCreateHandler extends ApiHandler
             new InputParam(InputParam::TYPE_POST, 'note', InputParam::OPTIONAL),
             new InputParam(InputParam::TYPE_POST, 'send_email', InputParam::OPTIONAL),
             new InputParam(InputParam::TYPE_POST, 'disable_email_validation', InputParam::OPTIONAL),
+            new InputParam(InputParam::TYPE_POST, 'device_token', InputParam::OPTIONAL),
         ];
     }
 
@@ -93,6 +104,20 @@ class UsersCreateHandler extends ApiHandler
             $checkEmail = false;
         }
 
+        $deviceToken = false;
+        if (!empty($params['device_token'])) {
+            $deviceToken = $this->deviceTokensRepository->findByToken($params['device_token']);
+            if (!$deviceToken) {
+                $response = new JsonResponse([
+                    'status' => 'error',
+                    'message' => 'Device token doesn\'t exist',
+                    'code' => 'device_token_doesnt_exist'
+                ]);
+                $response->setHttpCode(Response::S400_BAD_REQUEST);
+                return $response;
+            }
+        }
+
         try {
             $user = $this->userManager->addNewUser($email, $sendEmail, $source, $referer, $checkEmail, $params['password'] ?? null);
         } catch (InvalidEmailException $e) {
@@ -124,14 +149,19 @@ class UsersCreateHandler extends ApiHandler
 
         $user->update($userData);
 
-        $result = $this->formatResponse($user);
+        $lastToken = $this->accessTokensRepository->allUserTokens($user->id)->limit(1)->fetch();
+        if ($lastToken && $deviceToken) {
+            $this->deviceAccessTokensRepository->pairAccessToken($lastToken, $deviceToken);
+        }
+
+        $result = $this->formatResponse($user, $lastToken);
 
         $response = new JsonResponse($result);
         $response->setHttpCode(Response::S200_OK);
         return $response;
     }
 
-    private function formatResponse(IRow $user): array
+    private function formatResponse(IRow $user, IRow $lastToken): array
     {
         $result = [
             'status' => 'ok',
@@ -146,8 +176,6 @@ class UsersCreateHandler extends ApiHandler
         if ($user->ext_id) {
             $result['user']['ext_id'] = $user->ext_id;
         }
-
-        $lastToken = $this->accessTokensRepository->allUserTokens($user->id)->limit(1)->fetch();
 
         if ($lastToken) {
             $result['access']['token'] = $lastToken->token;
