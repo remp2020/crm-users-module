@@ -123,7 +123,9 @@ class SignPresenter extends FrontendPresenter
         $this->flashMessage($this->translator->translate('users.frontend.sign_in.signed_out'));
         $this->restoreRequest($this->getParameter('back'));
 
-        $this->redirect('in');
+        if (!$this->response->getHeader('Location')) {
+            $this->redirect('in');
+        }
     }
 
     public function renderUp()
