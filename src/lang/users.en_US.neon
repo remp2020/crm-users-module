@@ -535,6 +535,7 @@ component:
 		version: Version
 		last_used: Last used
 		ip_agent: IP / Browser
+		source: Source
 		actions: Actions
 		delete_all: Delete all
 		delete_single: Delete token

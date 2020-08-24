@@ -174,7 +174,7 @@ class UserBuilder extends Builder
         $this->emitter->emit(new UserCreatedEvent($row, $this->originalPassword, $this->sendEmail));
 
         if ($this->getOption('add_user_token')) {
-            $this->accessToken->addUserToken($row);
+            $this->accessToken->addUserToken($row, null, null, $this->get('source'));
         }
 
         $this->hermesEmitter->emit(new HermesMessage('user-created', [

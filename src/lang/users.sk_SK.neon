@@ -542,6 +542,7 @@ component:
 		version: Verzia
 		last_used: Naposledy použitý
 		ip_agent: IP / Prehliadač
+		source: Zdroj
 		actions: Akcie
 		delete_all: Zmazať všetky
 		delete_single: Zmazať token

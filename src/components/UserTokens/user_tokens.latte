@@ -17,10 +17,11 @@
             <th>{_users.component.user_tokens.version}</th>
             <th>{_users.component.user_tokens.last_used}</th>
             <th>{_users.component.user_tokens.ip_agent}</th>
+            <th>{_users.component.user_tokens.source}</th>
             <th>{_users.component.user_tokens.actions}</th>
         </tr>
         <tr>
-            <td colspan="5">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
             <td>
                 <a href="{link removeAllAccessToken! userId => $id}" title="{_users.component.user_tokens.delete_all}" class="btn btn-danger"><i class="fa fa-trash"></i> {_users.component.user_tokens.delete_all}</a>
             </td>
@@ -28,7 +29,7 @@
         </thead>
         <tfoot>
         <tr>
-            <td colspan="5">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
             <td>
                 <a href="{link removeAllAccessToken! userId => $id}" title="{_users.component.user_tokens.delete_all}" class="btn btn-danger"><i class="fa fa-trash"></i> {_users.component.user_tokens.delete_all}</a>
             </td>
@@ -51,6 +52,10 @@
                 <td>
                     <small>{$token->ip}</small>
                     <code>{$token->user_agent}</code>
+                </td>
+                <td>
+                    <span class="label label-default">{$token->source}</span>
+                </td>
                 <td>
                     <a href="{link removeAccessToken! token => $token->token}" title="{_users.component.user_tokens.delete_single}" class="btn btn-danger"><i class="fa fa-trash"></i> {_users.component.user_tokens.delete_single}</a>
                 </td>

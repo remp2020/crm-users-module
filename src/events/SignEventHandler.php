@@ -29,7 +29,7 @@ class SignEventHandler extends AbstractListener
     public function handle(EventInterface $event)
     {
         if ($event instanceof UserSignInEvent && $event->getRegenerateToken()) {
-            $this->accessToken->addUserToken($event->getUser(), $this->request, $this->response);
+            $this->accessToken->addUserToken($event->getUser(), $this->request, $this->response, $event->getSource());
         } elseif ($event instanceof UserSignOutEvent) {
             $this->accessToken->deleteActualUserToken($event->getUser(), $this->request, $this->response);
         }

@@ -37,7 +37,7 @@ class AccessToken
         $this->emitter = $emitter;
     }
 
-    public function addUserToken($user, Request $request = null, Response $response = null)
+    public function addUserToken($user, Request $request = null, Response $response = null, ?string $source = null)
     {
         $userRow = $this->usersRepository->find($user->id);
 
@@ -50,7 +50,7 @@ class AccessToken
             }
         }
 
-        $token = $this->accessTokenRepository->add($userRow, $this->version);
+        $token = $this->accessTokenRepository->add($userRow, $this->version, $source);
 
         if ($response/* && !\Crm\ApplicationModule\Request::isApi()*/) {
             $response->setCookie(

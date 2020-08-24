@@ -536,6 +536,7 @@ component:
 		version: Verze
 		last_used: Naposledy použitý
 		ip_agent: IP / Prohlížeč
+		source: Zdroj
 		actions: Akce
 		delete_all: Smazat všechny
 		delete_single: Smazat token

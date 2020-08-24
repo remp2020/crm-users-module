@@ -32,7 +32,7 @@ class AccessTokensRepository extends Repository
         return $this->getTable()->order('created_at DESC')->limit($limit);
     }
 
-    final public function add(IRow $user, int $version)
+    final public function add(IRow $user, int $version, ?string $source = null)
     {
         $token = TokenGenerator::generate();
 
@@ -44,6 +44,7 @@ class AccessTokensRepository extends Repository
             'ip' => Request::getIp(),
             'user_agent' => Request::getUserAgent(),
             'version' => $version,
+            'source' => $source,
         ]);
 
         $this->emitter->emit(new NewAccessTokenEvent($user->id, $token));
