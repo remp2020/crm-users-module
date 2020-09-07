@@ -18,6 +18,7 @@ use Crm\ApplicationModule\SeederManager;
 use Crm\ApplicationModule\User\UserDataRegistrator;
 use Crm\ApplicationModule\Widget\WidgetManagerInterface;
 use Crm\UsersModule\Auth\Permissions;
+use Crm\UsersModule\Commands\SynchronizeUserDataCommand;
 use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
 use Crm\UsersModule\Repository\UserActionsLogRepository;
 use Crm\UsersModule\Repository\UsersRepository;
@@ -201,6 +202,7 @@ class UsersModule extends CrmModule
         $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\UpdateLoginAttemptsCommand::class));
         $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\CheckEmailsCommand::class));
         $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\DisableUserCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\SynchronizeUserDataCommand::class));
     }
 
     public function registerWidgets(WidgetManagerInterface $widgetManager)
