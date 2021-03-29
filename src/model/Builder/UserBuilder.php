@@ -42,7 +42,7 @@ class UserBuilder extends Builder
         if (strlen($this->get('email')) < 1) {
             $this->addError('Nebol zadaný email');
         }
-        $user = $this->database->table($this->tableName)->where(['LOWER(email)' => strtolower($this->get('email'))])->fetch();
+        $user = $this->database->table($this->tableName)->where(['email' => $this->get('email')])->fetch();
         if ($user) {
             $this->addError("Email '{$this->get('email')}' je už registrovaný");
         }
