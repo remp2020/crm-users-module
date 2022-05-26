@@ -6,8 +6,8 @@ use Crm\ApplicationModule\Config\Repository\ConfigsRepository;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProvider\GoogleSignInDataProviderInterface;
 use Crm\UsersModule\Repository\UserConnectedAccountsRepository;
-use Google_Client;
-use Google_Service_Oauth2;
+use Google\Client;
+use Google\Service\Oauth2;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
 use Nette\Http\Response;
@@ -44,7 +44,7 @@ class GoogleSignIn
 
     private DataProviderManager $dataProviderManager;
 
-    private ?Google_Client $googleClient = null;
+    private ?Client $googleClient = null;
 
     private Response $response;
 
@@ -75,7 +75,7 @@ class GoogleSignIn
         return (boolean) ($this->configsRepository->loadByName('google_sign_in_enabled')->value ?? false);
     }
 
-    public function setGoogleClient(Google_Client $googleClient): void
+    public function setGoogleClient(Client $googleClient): void
     {
         $this->googleClient = $googleClient;
     }
@@ -292,10 +292,10 @@ class GoogleSignIn
         $client->fetchAccessTokenWithAuthCode($_GET['code']);
 
         // Get user details using access token
-        $service = new Google_Service_Oauth2($client);
+        $service = new Oauth2($client);
         try {
             $userInfo = $service->userinfo->get();
-        } catch (\Google_Service_Exception $e) {
+        } catch (\Google\Service\Exception $e) {
             throw new SsoException('Google SignIn error: unable to retrieve user info', $e->getCode(), $e);
         }
 
@@ -339,7 +339,7 @@ class GoogleSignIn
         );
     }
 
-    private function getClient(?string $redirectUri = null): Google_Client
+    private function getClient(?string $redirectUri = null): Client
     {
         if ($this->googleClient) {
             return $this->googleClient;
@@ -349,7 +349,7 @@ class GoogleSignIn
             throw new \Exception("Google Sign In Client ID and Secret not configured, please configure 'users.sso.google' parameter based on the README file.");
         }
 
-        $googleClient = new Google_Client([
+        $googleClient = new Client([
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
         ]);
