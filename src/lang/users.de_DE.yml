@@ -1,0 +1,643 @@
+menu:
+    stats: Nutzerstatistiken
+    settings: Einstellungen
+    sign_out: Abmelden
+    people: Personen
+    users: Nutzer
+    groups: Gruppen
+    login_attempts: Login-Versuche
+    events: Ereignisse
+    cheaters: Verdächtig
+    admin_rights: Admin-Rechte
+    actions_log: Aktionslog
+
+frontend:
+    sign_in:
+        title: Anmelden
+        username:
+            label: 'E-Mail:'
+            required: Bitte geben Sie Ihre E-Mail-Adresse an
+            placeholder: z.B. nutzer@example.com
+        password:
+            label: 'Passwort:'
+            required: Bitte geben Sie Ihre Passwort an.
+            placeholder: Ihr Passwort
+        remember: Permanent angemeldet bleiben
+        submit: Anmelden
+        signed_out: "Sie haben sich abgemeldet."
+    sign_up:
+        title: Registrierung
+        username:
+            label: 'E-Mail:'
+            required: Bitte geben Sie Ihre E-Mail-Adresse an
+            placeholder: z.B. nutzer@example.com
+        password:
+            label: 'Passwort:'
+            required: Bitte geben Sie Ihre Passwort an.
+            placeholder: Ihr Passwort
+        toc:
+            required: Sie müssen den Nutzungsbedingungen zustimmen.
+        submit: Registrieren
+        error:
+            already_registered: 'Die E-Mail-Adresse ist bereits registriert. Bitte melden Sie sich mit Ihrem Passwort an. <a href="/users/users/reset-password" style="text-decoration:underline">Passwort vergessen?</a>.'
+            invalid_email: Keine korrekte E-Mail-Adresse angegeben. Bitte prüfen Sie Ihre Eingabe.
+    change_password:
+        title: Passwort ändern
+        submit: Ändere Passwort
+        submit_with_devices_logout: Ändere Passwort und melde mich auf allen angemeldeten Geräten ab
+        actual_password:
+            label: 'Aktuelles Passwort:'
+            required: Bitte geben Sie Ihr aktuelles Passwort an.
+            placeholder: Aktuelles Passwort
+            description: "Wenn Sie Ihr aktuelles Passwort nicht kennen, dann <a href=\"%url%\" class=\"link\">klicken Sie bitte hier</a> um sich ein neues, temporäres Passwort per E-Mail zuzuschicken."
+            confirm: "Wollen Sie Ihr Passwort wirklich zurücksetzen?"
+        new_password:
+            label: 'Neues Passwort:'
+            required: Bitte geben Sie ein neues Passwort an.
+            placeholder: Neues Passwort
+            minlength: Das Passwort muss mindestens %d Zeichen lang sein.
+        new_password_confirm:
+            label: 'Neues Passwort wiederholen:'
+            required: Bitte geben Sie Ihre neues Passwort erneut an.
+            placeholder: Neues Passwort wiederholen
+            description: Bitte geben Sie Ihr neues Passwort zur Überprüfung erneut an.
+            not_matching: "Passwörter stimmen nicht überein."
+        errors:
+            could_not_authenticate: "Wir konnten Ihre Anmeldedaten nicht überprüfen."
+            invalid_credentials: Falsches Passwort
+        success: Passwort wurde erfolgreich geändert.
+        success_with_logout: "Das Passwort wurde erfolgreich geändert, Sie wurden von allen Geräten abgemeldet."
+        reset_success: 'Das Passwort wurde erfolgreich geändert und an %email% geschickt.'
+    address:
+        type:
+            label: Adresstyp
+        first_name:
+            label: 'Vorname:'
+            placeholder: Vorname
+        last_name:
+            label: 'Nachname:'
+            placeholder: Nachname
+        phone_number:
+            label: 'Telefonnummer:'
+            placeholder: z.B. 0915 123 456
+        address:
+            label: 'Straße:'
+            placeholder: Straßenangabe
+        number:
+            label: 'Hausnummer:'
+            placeholder: z.B. 14A
+        zip:
+            label: 'PLZ:'
+            placeholder: z.B. 01234
+        city:
+            label: 'Stadt:'
+            placeholder: z.B. Berlin
+        country:
+            label: 'Land:'
+        company_name:
+            label: 'Firmenname:'
+            placeholder: 'z.B. Meine GmbH'
+        company_id:
+            label: 'Handelsregisternummer:'
+            placeholder: z.B. HRB 012345B
+        company_tax_id:
+            label: 'Steuernummer:'
+            placeholder: z.B. 0123456789
+        company_vat_id:
+            label: 'Umsatzsteuer-ID:'
+            placeholder: z.B. DE012345678
+        submit: Speichern
+    request_password:
+        title: Probleme beim Anmelden
+        info: "Wenn Sie sich nicht mehr an Ihr Passwort erinnern, senden wir Ihnen an Ihre E-Mail-Adresse einen Link, um das Passwort zurückzusetzen."
+        login:
+            text: "Wenn Sie Ihr Passwort kennen,"
+            link: "melden Sie sich hier an."
+        email:
+            label: 'Ihre E-Mail:'
+            required: Bitte geben Sie Ihre E-Mail-Adresse an, mit der Sie sich registriert haben
+            placeholder: E-Mail-Adresse
+        submit: Neues Passwort zusenden
+        invalid_email: Inkorrekte E-Mail-Adresse
+        inactive_user: Ihr Konto wurde deaktiviert. Bitte kontaktieren Sie den Support über %contactEmail%.
+        success:
+            email: "Der Link zum Zurücksetzen des Passwort wurde versandt"
+            spam: "Bitte prüfen Sie Ihren E-Mail-Eingang und auch den Spam-Ordner."
+    reset_password:
+        title: Passwort zurücksetzen
+        info: Sie können jetzt Ihr Passwort ändern.
+        errors:
+            invalid_password_reset_token: Der Link zum Zurücksetzen des Passworts ist abgelaufen. Bitte fordern Sie einen neuen Link an.
+        new_password:
+            label: 'Neues Passwort:'
+            required: Bitte geben Sie Ihr neues Passwort an.
+            placeholder: Neues Passwort
+            min_length: Das Passwort muss mindestens %d Zeichen lang sein.
+        new_password_confirm:
+            label: 'Neues Passwort wiederholen:'
+            required: Bitte geben Sie Ihre neues Passwort erneut an.
+            not_matching: "Passwörter stimmen nicht überein."
+            placeholder: Neues Passwort wiederholen
+            description:  Bitte geben Sie Ihr neues Passwort zur Überprüfung erneut an.
+        submit: Passwort ändern
+        could_not_set: Das neue Passwort konnte nicht geändert werden
+        success: Ihr Passwort wurde erfolgreich geändert.
+    email_confirm:
+        title: E-Mail-Prüfung
+        success: Ihre E-Mail-Adresse wurde erfolgreich überprüft.
+        fail: "Leider war die Prüfung Ihrer E-Mail-Adresse nicht verfolgreich. Bitte kontaktieren Sie den Nutzer-Support."
+        back: Zurück
+    settings:
+        title: Einstellungen
+        personal_data:
+            title: Persönliche Daten
+            info: "Laden Sie Ihre gespeicherten persönlichen Daten herunter."
+            download: Herunterladen
+        devices_logout:
+            title: Geräteverwaltung
+            logout: Von anderen Geräten abmelden
+            confirm: "Wollen Sie sich wirklich von allen Geräten abmelden mit Ausnahme des aktuellen Gerätes?"
+            success: "Sie wurden von allen anderen Geräten abgemeldet."
+        account_delete:
+            title: Konto löschen
+            info: 'Um Ihr Konto permanent zu löschen, geben Sie Ihr Passwort an und betätigen Sie "Konto löschen". <strong>Diese Aktion kann nicht rückgängig gemacht werden!</strong>.'
+            password:
+                label: 'Passwort:'
+                required: Geben Sie Ihr Passwort an.
+            submit: Konto löschen
+            invalid_password: Falsches Passwort
+            cannot_delete: Ihr Konto kann nicht automatisch gelöscht werden. Bitte nehmen Sie Kontakt mit dem Nutzer-Support auf.
+            confirm: Die Kontolöschung kann nicht rückgängig gemacht werden. Sind Sie sich sicher, das Konto zu löschen?
+            success: Ihr Konto wurde gelöscht.
+        linked_accounts:
+            title: Verknüpfte Konten verwalten
+            connect: Konto verknüpfen mit
+            connected: Konto verknüpft
+            unlink: Abbrechen
+            unlink_success: Konto-Verknüpfung wurde entfernt.
+            unlink_disabled_for_admin: "Aus Sicherheitsgründen ist es für die Administration nicht möglich die Verknüpfung zu trennen. Bitte kontaktieren Sie den Technischen Support."
+    google:
+        fail: "Die Anmeldung mit Google ist fehlgeschlagen, bitte kontaktieren Sie den Nutzer-Support."
+        sign_using_google: Mit Google anmelden
+        or: oder
+        used_account: "Konten konnten nicht verknüpft werden. Das Google-Konto %email% ist bereits mit einem anderen Konto verknüpft."
+    apple:
+        fail: "Die Anmeldung mit Apple ist fehlgeschlagen, bitte kontaktieren Sie den Nutzer-Support."
+        sign_using_apple: Mit Apple anmelden
+        used_account: "Konten konnten nicht verknüpft werden. Das Apple-Konto %email% ist bereits mit einem anderen Konto verknüpft."
+
+admin:
+    actions:
+        deactivate: Deaktivieren
+        activate: Aktivieren
+        show: Anzeigen
+        edit: Bearbeiten
+
+    default:
+        title: Nutzer
+        total: Total
+        filtered: gefiltert
+        new_user: Neuer Nutzer
+        email: E-Mail
+        first_name: Vorname
+        last_name: Nachname
+        addresses: Adressen
+        source: Herkunft
+        status: Status
+        created_at: Angelegt am
+        actions: Aktionen
+        invoice: Rechnung
+        institution: Institution
+        admin: Admin
+        no_results: 'Keine Datensätze gefunden. Bitte den Filter ändern.'
+        export: Export
+
+    show:
+        back_to_list: zurück zur Liste
+        edit: Nutzer bearbeiten
+        groups: Gruppen
+        note: Notiz
+        admin_groups: "Admin-Gruppen (Zugriffsrechte)"
+        user_actions: Nutzeraktionen
+        log_out_devices: Von allen Geräten abmelden
+        suspicious: Verdächtiges Konto
+        last_market_at: Zuletzt markiert am
+        basic_info: Basisinformationen
+        email: E-Mail
+        first_name: Vorname
+        last_name: Nachname
+        unconfirmed: Nicht bestätigt
+        created_at: Angelegt am
+        modified_at: Aktualisiert am
+        active: Aktiv
+        deactivate: Deaktiviert
+        activate: Aktivieren
+        external_id: Externe ID
+        source: Herkunft
+        funnel: Registrierungs-Funnel
+        referer: Registrierungs-Referer
+        no_print_address: Keine Lieferadresse
+        invoice_address: Rechnungsadresse
+        add_address: Adresse hinzufügen
+        address_last_change: Letzte Änderung
+        disabled_auto_invoice: Automatische Rechnungsgenerierung ist abgeschaltet
+        last_login: Letzte Anmeldung
+        no_login: Keine Anmeldedaten bisher
+        personal_info: Persönliche Informationen
+        anonymize_alert: "Die Anonymisierung des Nutzerkontos ist nicht umkehrbar. Der Nutzer kann sich dann nicht mehr anmelden und alle persönlichen Daten werden gelöscht. Wirklich fortfahren?"
+        anonymize: Nutzer anonymisieren
+        company_id: Handelsregisternummer
+        company_tax_id: Steuernummer
+        company_vat_id: Umsatzsteuer-ID
+        address: Adresse
+
+    edit:
+        title: Nutzer bearbeiten
+        back_to_detail: Zurück zur Detailansicht
+
+    admin_filter_form:
+        text:
+            label: E-Mail / Name
+            placeholder: E-Mail / Name
+        address:
+            label: Adresse / Rechnungsdetails
+            placeholder: Adresse / Rechnungsdetails
+        group:
+            label: Gruppe
+        source:
+            label: Herkunft
+        submit: Filter
+        cancel_filter: Filter löschen
+        more: Mehr Optionen
+
+    user_form:
+        title: Neuer Nutzer
+        back_to_list: Zurück zur Liste
+        credentials: Zugangsdaten
+        email:
+            label: 'E-Mail*:'
+            required: E-Mail ist erforderlich
+            placeholder: E-Mail angeben
+        password:
+            label: 'Passwort:'
+            placeholder: Das Passwort muss mindestens 6 Zeichen lang sein
+            required: Passwort ist erforderlich
+            description: "Eintrag leer lassen, wenn das Passwort nicht geändert werden soll."
+        source:
+            label: 'Herkunft'
+            required: Herkunft ist erforderlich
+        personal_information: Persönliche Informationen
+        first_name:
+            label: 'Vorname:'
+            placeholder: Vorname
+        last_name:
+            label: 'Nachname:'
+            placeholder: Nachname
+        public_name:
+            label: 'Angezeigter Name:'
+            placeholder: Angezeigter Name
+            description: 'Der Name, dem der Nutzer dargestellt wird. (Wenn leer, wird die E-Mail angezeigt)'
+        institution: Institution
+        is_institution: Nutzer ist eine Institution
+        institution_name:
+            label: 'Name der Institution:'
+            placeholder: z.B. Stadtbibliothek von Berlin
+            required: 'Wenn Institution ausgewählt ist, muss der der Name der Institution angegeben werden'
+        other: Andere
+        external_id:
+            label: 'Externe ID:'
+            placeholder: Numerische externe ID
+            integer: Externe ID muss eine Nummer sein
+        role:
+            label: 'Rolle:'
+            user: Nutzer
+            admin: Admin
+        active: Aktiv
+        submit: Speichern
+        user_created: Nutzer wurde angelegt.
+        user_updated: Nutzer wurde aktualisiert.
+
+    scenarios:
+        user_has_address_criteria:
+            label: Nutzer hat Adresseintrag
+            param: Nutzer hat eine Adresse vom Typ
+        source:
+            label: Registrierungsherkunft
+        is_confirmed:
+            label: Ist bestätigt
+            param: "Nutzerkonto wurde bestätigt"
+        address_type:
+            label: Adresstyp
+            param: Adresstyp
+        locale:
+            label: Sprache
+
+    user_groups_form:
+        user_added: Nutzer wurde zur Gruppe hinzugefügt
+        user_removed: Nutzer wurde von der Gruppe entfernt
+
+    change_activation:
+        activated: Nutzer wurde aktualisiert
+
+    delete_user:
+        deleted: Nutzer wurde gelöscht.
+
+    logout_user:
+        all_devices: 'Der Nutzer wurde von allen Geräten abgemeldet'
+
+    reset_password:
+        button: Passwort zurücksetzen
+        confirm: Soll das Passwort wirklich zurückgesetzt werden?
+        success: Das Passwort wurde erfolgreich zurückgesetzt und eine E-Mail mit Informationen wurde an den Nutzer gesendet.
+
+    confirm:
+        button: Bestätigen
+        confirm: Nutzer wirklich bestätigen?
+        success: Der Nutzer wurde bestätigt.
+
+    user_note_form:
+        note_updated: Notiz wurde geändert
+        note:
+            placeholder: Notiz hinzufügen
+            validation:
+                maximum: Notiz ist zu lang. Maximal sind %d Zeichen zulässig.
+
+    groups_admin:
+        title: Admin-Gruppen
+        groups: Gruppen
+        total: Total
+        new_group: Neue Gruppe
+        name: Name
+        user_count: Nutzeranzahl
+        sorting: Sortierung
+        created_at: Angelegt am
+        actions: Aktionen
+        no_groups: Keine Gruppen gefunden
+        edit: Bearbeiten
+        back_to_list: Zurück zur Liste
+        editing_group: Admin-Gruppe bearbeiten
+        admin_group: Admin-Gruppe
+        edit_group: Gruppe bearbeiten
+        total_users: Nutzer insgesamt
+        view: Anzeige
+
+    group_form:
+        name:
+            label: Gruppenname
+            placeholder: Gruppenname
+        sorting:
+            label: Sortierung
+            placeholder: Sortierung
+        submit: Speichern
+
+    login_attempts:
+        title: Anmeldeversuche
+        filtered: Gefiltert
+        email: E-Mail
+        status: Status
+        source: Herkunft
+        attempt_time: Zeit des Versuchs
+        user_agent: User-Agent
+        message: Nachricht
+        no_records: Keine Datensätze gefunden
+
+    login_attempts_form:
+        email:
+            label: E-Mail
+            placeholder: E-Mail
+        status:
+            label: Status
+        source:
+            label: Herkunft
+        created_at_from:
+            label: Von-Zeit
+            placeholder: z.B. 2016-02-29 12:34
+        created_at_to:
+            label: Bis-Zeit
+            placeholder: z.B. 2020-02-29 12:34
+        user_agent:
+            label: User-Agent
+            placeholder: z.B. Chrome
+        submit: Filtern
+
+    user_actions_log:
+        title: Useraktionen-Log
+        total: Total
+        back_to_list: Zurück zur Liste
+        logaction:
+            label: Aktion
+        submit: Filter
+        user: Nutzer
+        created_at: Erzeugt am
+        action: Aktion
+        data: Daten
+        no_records: Keune Aktionen gefunden
+
+    user_connected_accounts_list_widget:
+        title: Verknüpfte Nutzerkonten
+        not_found: Konto ist mit keinem Service verknüpft.
+        action_button: Trennen
+        flash_message: Kontoverknüpfung wurde getrennt.
+
+    admin_group_admin:
+        title: Admin-Rechte
+        groups: Admin-Gruppen
+        total: Total
+        new_group: Neue Admin-Gruppe
+        name: Name
+        user_count: Nutzeranzahl
+        rights: Rechte
+        created_at: Angelegt am
+        actions: Aktionen
+        no_records: Keine Admin-Gruppen gefunden
+        edit: Bearbeiten
+        back_to_list: Zurück zur Liste
+        editing_group: Gruppe bearbeiten
+        empty_group: Keine Nutzer in dieser Gruppe
+        group_created: Gruppe wurde angelegt.
+        group_updated: Gruppe wurde aktualisiert.
+        rights_updated: Zugriffsrechte für die Gruppe wurde konfiguriert.
+        privileges:
+            global_settings: Globale Einstellungen
+            all: Alle Privilegien
+            read_only: Nur Kesen
+            none: Keine Privilegien
+            custom: Custom
+        submit: Speichern
+
+    admin_group_form:
+        name:
+            label: Gruppenname
+            placeholder: Gruppenname
+        sorting:
+            label: Sortierung
+            placeholder: Sortierung
+        submit: Speichern
+
+    abusive:
+        title: Nutzer mit einer Vielzahl aktiver Geräte.
+        subtitle: Die Tabelle zeigt die Anzahl der Unique-Tokens, die während der Anmeldung im gewählten Zeitraum erzeugt wurden.
+        date_from: Von-Zeit
+        date_to: Bis-Zeit
+        number_of_logins: Anzahl der Anmeldungen
+        number_of_devices: Geräteanzahl
+        submit: Zeigen
+        no_records: Keine Datensätze nach Filterung
+        email: E-Mail
+        name: Name
+        active_logins: Anzahl der aktiven Anmeldungen
+        active_devices: Anzahl der aktiven Geräte
+        time_ip_last_login: Zeit / IP-Adresse der letzten Anmeldung
+        additional_info: Zusätzliche Informationen
+        actions: Aktionen
+        cancel_filter: Filter löschen
+    stats:
+        title: User-Statistiken
+
+authenticator:
+    identity_not_found: Unzulässige E-Mail-Adresse.
+    invalid_credentials: Unzulässiges Passwort.
+    inactive_account: Konto wurde deaktiviert.
+    rate_limit_exceeded: Zuviele Anmeldeversuche. Bitte später noch einmal versuchen.
+    unclaimed_user: Konto gehört niemanden.
+
+    access_token:
+        invalid_token: Unzulässiger Token
+        autologin_disabled: 'Die automatische Anmeldung wurde für dieses Konto deaktiviert. Bitte melden Sie sich mit E-Mail und Passwort an.'
+
+user_source_accesses_component:
+    title: Letzte Zugriffe
+    no_data: Keine Daten aufgezeichnet.
+
+detail_widget_component:
+    other: Andere
+
+month_users_small_bar_graph_widget:
+    title: Nutzer
+
+deletion_note:
+    user_deleted_account: 'Nutzer hat sich gelöscht.'
+    admin_deleted_account: 'Nutzer wurde vom Admin gelöscht.'
+
+api:
+    users_login_handler:
+        identity_not_found: "Die angegebene E-Mail-Adresse existiert nicht. Bitte loggen Sie sich mit den gleichen Daten ein wie auf der Webseite."
+        invalid_credentials: "Das angebene Passwort ist nicht korrekt. Bitte loggen Sie sich mit den gleichen Daten ein wie auf der Webseite."
+
+form:
+    admin_user_group:
+        group_id:
+            prompt: Gruppe auswählen
+        send: Hinzufügen
+        error:
+            insufficient_rights: Fehlende Rechte um die Gruppe zu bearbeiten.
+            no_group: "Ausgewählte Gruppe existiert nicht."
+            no_user: "Ausgewählter Nutzer existiert nicht."
+    user_group:
+        group_id:
+            prompt: Gruppe auswählen
+        send: Hinzufügen
+    register:
+        email:
+            label: E-Mail
+            required: Bitte E-Mail-Adresse angeben
+            placeholder: z.B. email@example.com
+        submit: Absenden
+
+component:
+    user_login_attempts:
+        title: Letzte Anmeldeversuche
+        today: Heute
+        no_record_heading: Kein Datensatz
+        no_record: "Es scheint, dass sich der Nutzer bislang nicht angemeldet hat."
+        total_stats: Alle Statisiken
+        ip_count: Anzahl der IP-Adressen
+        browser_count: Anzahl der Browser
+        web_logins: Web-Anmeldungen
+        mobile_app_logins: Mobile-App-Anmeldungen
+        last_access_by_source: Letzter Zugriff nach Herkunft
+        status: Status
+        attempted_at: Versucht am
+        source: Herkunft
+        message: Nachricht
+        ip_address: IP-Adresse
+        user_agent: Browser / Referer
+
+    user_meta:
+        header: Custom-Einstellungen
+        value_removed: Wert wurde entfernt
+        value_added: Wert wurde hinzugefügt
+        form:
+            key:
+                label: Schlüssel
+                required: Schlüssel ist erforderlich
+            value:
+                label: Wert
+                required: Wert ist erforderlich
+            is_public:
+                label: Öffentlich
+            submit: Speichern
+        no_record: Kein Datensatz verfügbar
+        no_record_description: Für diesen Nutzer ist kein Datensatz verfügbar.
+        key: Schüssel
+        value: Wert
+        created_at: Angelegt am
+        actions: Aktionen
+        public: Öffentlich
+
+    user_tokens:
+        header: Nutzer-Token
+        no_tokens: Kein Token
+        no_tokens_description: Für diesen Nutzer existieren keine Token.
+        created: Angelegt
+        code: Token
+        version: Version
+        last_used: Zuletzt benutzt
+        ip_agent: IP / Browser
+        source: Herkunft
+        actions: Aktion
+        delete_all: Alle löschen
+        delete_single: Lösche Token
+        token_deleted: Token wurde gelöscht
+        all_tokens_deleted: Alle Access-Tokens wurden gelöscht.
+
+    autologin_tokens:
+        created: Angelegt am
+        from: Gültig von
+        to: Gültig bis
+        code: Token
+        used: Benutzt
+        max: Maximale Anzahl
+        empty_title: Kein Eintrag
+        empty_text: Der Nutzer hat derzeit kein Login-Token.
+
+    user_password_changes:
+        title: Änderungen
+        title_requests: Änderungsanfragen
+        empty_title: Kein Eintrag
+        empty_entry_text: "Der Nutzer hat sein Passwort bisher nicht geändert."
+        empty_request_text: Der Nutzer hat bisher keine Passwort-Änderung angefordert.
+        type: Typ
+        when: Datum
+        expire_at: Läuft aus am
+        state: Status
+        token: Token
+
+config:
+    category: Nutzer
+    category_authentication: Authentifizierung
+    not_logged_in_route:
+        name: 'Seite für nicht-angemeldete Nutzer'
+        description: 'Nette-Route, zu der ein Nutzer umgeleitet wird, nach dem dieser eine URL angesteuert hat, die nur für angemeldete Nutzer zulässig ist (z.B. :Users:Sign:in)'
+    google_sign_in_enabled:
+        name: Google-Login aktiviert
+    apple_sign_in_enabled:
+        name: Apple-Sign-In aktiviert
+
+model:
+    user_builder:
+        error:
+            email_missing: E-Mail fehlt
+            email_taken: E-Mail %email% ist bereits in Verwendung
+            password_short: Passwort muss mindestens %length% Zeichen lang sein
+            public_name_missing: Angezeigter Name fehlt
