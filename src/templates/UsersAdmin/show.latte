@@ -98,7 +98,7 @@
           </span>
         </li>
         <li class="list-group-item">
-          <b>{_users.admin.show.active}:</b> {$user->active|activelabel|noescape}
+          <b>{_users.admin.show.active}:</b> {$user->active|activeLabel|noescape}
           {if $user->active}
             <a n:href="ChangeActivation! $user->id" class="btn btn-warning btn-xs"><i class="fa fa-ban"></i> {_users.admin.show.deactivate}</a>
           {else}
