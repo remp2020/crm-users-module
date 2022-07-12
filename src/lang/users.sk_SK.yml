@@ -646,3 +646,7 @@ model:
             email_taken: Email %email% je už registrovaný
             password_short: Heslo musí byť dlhé aspoň %length% znakov
             public_name_missing: Nebolo zadané verejné meno
+
+data_provider:
+    universal_search:
+        user_group: Používatelia

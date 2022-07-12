@@ -22,6 +22,7 @@ use Crm\ApplicationModule\Widget\WidgetManagerInterface;
 use Crm\UsersModule\Api\EmailValidationApiHandler;
 use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;
 use Crm\UsersModule\Auth\Permissions;
+use Crm\UsersModule\DataProvider\UniversalSearchDataProvider;
 use Crm\UsersModule\DataProvider\UsersClaimUserDataProvider;
 use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
 use Crm\UsersModule\Repository\UserActionsLogRepository;
@@ -490,6 +491,11 @@ class UsersModule extends CrmModule
         $dataProviderManager->registerDataProvider(
             'users.dataprovider.claim_unclaimed_user',
             $this->getInstance(UsersClaimUserDataProvider::class)
+        );
+
+        $dataProviderManager->registerDataProvider(
+            'admin.dataprovider.universal_search',
+            $this->getInstance(UniversalSearchDataProvider::class)
         );
     }
 }

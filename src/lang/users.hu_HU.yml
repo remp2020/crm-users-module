@@ -569,3 +569,7 @@ config:
     not_logged_in_route:
         name: 'Nem bejelentkezett felhasználók számára megjelenő oldal'
         description: 'Nette útvonal, ahová átirányítjuk a csak bejelentkezett felhasználóknak elérhető URL ről (pl. :Users:Sign:in)'
+
+data_provider:
+    universal_search:
+        user_group: Felhasználók
