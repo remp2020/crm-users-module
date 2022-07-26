@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\Components\VisualPaginator;
+use Crm\ApplicationModule\Components\PreviousNextPaginator;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProvider\FilterAbusiveUserFormDataProviderInterface;
 use Crm\UsersModule\Forms\AbusiveUsersFilterFormFactory;
@@ -132,14 +132,16 @@ SQL;
         }
         $filteredCount = count($filteredUserIds);
 
-        $vp = new VisualPaginator();
-        $this->addComponent($vp, 'vp');
-        $paginator = $vp->getPaginator();
-        $paginator->setItemCount($filteredCount);
+
+        $pnp = new PreviousNextPaginator();
+        $this->addComponent($pnp, 'paginator');
+        $paginator = $pnp->getPaginator();
         $paginator->setItemsPerPage($this->onPage);
 
         $paginatedUserIds = array_slice($filteredUserIds, $paginator->offset, $paginator->getLength());
         $paginatedUsers = [];
+
+        $pnp->setActualItemCount(count($paginatedUserIds));
 
         $q = $this->usersRepository->getTable()
             ->where('users.id IN (?)', $paginatedUserIds);
@@ -158,7 +160,6 @@ SQL;
         }
 
         $this->template->filteredCount = $filteredCount;
-        $this->template->vp = $vp;
         $this->template->abusers = $paginatedUsers;
         $this->template->sortByTokenCountLink = $this->link('AbusiveUsersAdmin:default', array_merge($this->getParameters(), ['sortBy' => 'token_count']));
         $this->template->sortByDeviceCountLink = $this->link('AbusiveUsersAdmin:default', array_merge($this->getParameters(), ['sortBy' => 'device_count']));

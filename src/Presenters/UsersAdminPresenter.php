@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\Components\VisualPaginator;
+use Crm\ApplicationModule\Components\PreviousNextPaginator;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\User\DeleteUserData;
 use Crm\UsersModule\AdminFilterFormData;
@@ -110,19 +110,18 @@ class UsersAdminPresenter extends AdminPresenter
      */
     public function renderDefault()
     {
-        $filteredCount = $this->adminFilterFormData->getFilteredUsers()->count('distinct(users.id)');
-
         $users = $this->adminFilterFormData->getFilteredUsers();
 
-        $vp = new VisualPaginator();
-        $this->addComponent($vp, 'vp');
-        $paginator = $vp->getPaginator();
-        $paginator->setItemCount($filteredCount);
+        $pnp = new PreviousNextPaginator();
+        $this->addComponent($pnp, 'paginator');
+        $paginator = $pnp->getPaginator();
         $paginator->setItemsPerPage($this->onPage);
-        $this->template->filteredCount = $filteredCount;
-        $this->template->vp = $vp;
-        $this->template->users = $users->limit($paginator->getLength(), $paginator->getOffset());
-        $this->template->totalUsers = $this->usersRepository->totalCount();
+
+        $users = $users->limit($paginator->getLength(), $paginator->getOffset())->fetchAll();
+        $pnp->setActualItemCount(count($users));
+
+        $this->template->users = $users;
+        $this->template->totalUsers = $this->usersRepository->totalCount(true);
     }
 
     /**

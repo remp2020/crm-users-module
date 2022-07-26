@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\Components\VisualPaginator;
+use Crm\ApplicationModule\Components\PreviousNextPaginator;
 use Crm\UsersModule\Repository\LoginAttemptsRepository;
 use Nette\Application\UI\Form;
 use Tomaj\Form\Renderer\BootstrapInlineRenderer;
@@ -37,21 +37,17 @@ class LoginAttemptsAdminPresenter extends AdminPresenter
     {
         $filteredLoginAttempts = $this->getFilteredLoginAttempts();
 
-        $filteredCount = $filteredLoginAttempts->count('*');
-        $this->template->totalLoginAttempts = $this->loginAttemptsRepository->totalCount();
-        $this->template->filteredCount = $filteredCount;
-        $this->template->createdAtFrom = $this->created_at_from;
-        $this->template->createdAtTo = $this->created_at_to;
-
-        $vp = new VisualPaginator();
-        $this->addComponent($vp, 'vp');
-
-        $paginator = $vp->getPaginator();
-        $paginator->setItemCount($filteredCount);
+        $pnp = new PreviousNextPaginator();
+        $this->addComponent($pnp, 'paginator');
+        $paginator = $pnp->getPaginator();
         $paginator->setItemsPerPage($this->onPage);
 
-        $this->template->vp = $vp;
-        $this->template->loginAttempts = $filteredLoginAttempts->limit($paginator->getLength(), $paginator->getOffset());
+        $filteredLoginAttempts = $filteredLoginAttempts->limit($paginator->getLength(), $paginator->getOffset())->fetchAll();
+        $pnp->setActualItemCount(count($filteredLoginAttempts));
+
+        $this->template->createdAtFrom = $this->created_at_from;
+        $this->template->createdAtTo = $this->created_at_to;
+        $this->template->loginAttempts = $filteredLoginAttempts;
     }
 
     private function getFilteredLoginAttempts()
