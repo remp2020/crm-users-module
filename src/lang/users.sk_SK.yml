@@ -195,7 +195,6 @@ admin:
 
     default:
         title: Používatelia
-        total: Celkovo
         filtered: vyfiltrovaných
         new_user: Nový používateľ
         email: Email

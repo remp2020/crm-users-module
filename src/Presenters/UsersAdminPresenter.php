@@ -121,7 +121,6 @@ class UsersAdminPresenter extends AdminPresenter
         $pnp->setActualItemCount(count($users));
 
         $this->template->users = $users;
-        $this->template->totalUsers = $this->usersRepository->totalCount(true);
     }
 
     /**

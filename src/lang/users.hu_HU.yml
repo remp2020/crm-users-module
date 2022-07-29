@@ -193,7 +193,6 @@ admin:
 
     default:
         title: Felhasználók
-        total: Összesen
         filtered: szűrt
         new_user: Új felhasználó
         email: E-mail cím
