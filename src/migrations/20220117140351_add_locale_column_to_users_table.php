@@ -1,5 +1,6 @@
 <?php
 
+use Contributte\Translation\Translator;
 use Phinx\Migration\AbstractMigration;
 
 class AddLocaleColumnToUsersTable extends AbstractMigration
@@ -11,7 +12,7 @@ class AddLocaleColumnToUsersTable extends AbstractMigration
             throw new \Exception("Unable to load application from \$GLOBALS['application'] variable, cannot load default locale.");
         }
         
-        $translator = $app->getContainer()->getService("translation.default");
+        $translator = $app->getContainer()->getByType(Translator::class);
         $defaultLocale = $translator->getDefaultLocale() ?? 'en_US';
         
         $this->table('users')
