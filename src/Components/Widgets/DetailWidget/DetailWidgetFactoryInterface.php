@@ -4,6 +4,5 @@ namespace Crm\UsersModule\Components\Widgets;
 
 interface DetailWidgetFactoryInterface
 {
-    /** @return DetailWidget */
-    public function create();
+    public function create(): DetailWidget;
 }
