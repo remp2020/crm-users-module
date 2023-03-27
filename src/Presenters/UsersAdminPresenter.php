@@ -314,6 +314,12 @@ class UsersAdminPresenter extends AdminPresenter
         $form->onSuccess[] = [$this, 'adminFilterSubmitted'];
 
         $form->setDefaults($this->adminFilterFormData->getFormValues());
+
+        // Expand extra filters group if any of the search params are present
+        if (count(array_filter($this->formData, function ($item) { return !is_null($item); }))) {
+            $collapseGroup->setOption('container', 'div class="collapse in"');
+        }
+
         return $form;
     }
 
