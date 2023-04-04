@@ -21,6 +21,7 @@ class UserEmailConfirmationsRepository extends Repository
 
     public function confirm(string $token): ?ActiveRow
     {
+        /** @var ActiveRow $emailConfirmationRow */
         $emailConfirmationRow = $this->getTable()->where('token', $token)->order('id DESC')->fetch();
         if (!$emailConfirmationRow) {
             return null;
@@ -31,6 +32,14 @@ class UserEmailConfirmationsRepository extends Repository
         }
 
         return $emailConfirmationRow;
+    }
+
+    public function isConfirmed(int $userId):bool
+    {
+        return $this->getTable()
+            ->where('user_id', $userId)
+            ->where('confirmed_at IS NOT NULL')
+            ->count('*') > 0;
     }
 
     public function getToken(int $userId): ?string
