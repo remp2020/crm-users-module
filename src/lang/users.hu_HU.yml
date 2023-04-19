@@ -534,6 +534,7 @@ component:
         key: Kulcs
         value: Érték
         created_at: Létrehozva
+        modified_at: Frissítve
         actions: Műveletek
         public: Publikus
 
