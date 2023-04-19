@@ -576,6 +576,7 @@ component:
         key: Klíč
         value: Hodnota
         created_at: Vytvořeno
+        modified_at: Upraveno
         actions: Akce
         public: Veřejné
 

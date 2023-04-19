@@ -582,6 +582,7 @@ component:
         key: Schüssel
         value: Wert
         created_at: Angelegt am
+        modified_at: Aktualisiert am
         actions: Aktionen
         public: Öffentlich
 

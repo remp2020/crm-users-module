@@ -585,6 +585,7 @@ component:
         key: Key
         value: Value
         created_at: Created at
+        modified_at: Updated at
         actions: Actions
         public: Public
 

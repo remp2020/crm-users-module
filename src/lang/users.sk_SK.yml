@@ -586,6 +586,7 @@ component:
         key: Kľúč
         value: Hodnota
         created_at: Vytvorené
+        modified_at: Upravené
         actions: Akcie
         public: Verejné
 

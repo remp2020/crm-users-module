@@ -10,6 +10,7 @@
       <th>{_users.component.user_meta.key}</th>
       <th>{_users.component.user_meta.value}</th>
       <th>{_users.component.user_meta.created_at}</th>
+      <th>{_users.component.user_meta.modified_at}</th>
       <th>{_users.component.user_meta.actions}</th>
     </tr>
     </thead>
@@ -21,6 +22,7 @@
         </td>
         <td>{$row->value}</td>
         <td class="text-muted">{$row->created_at}</td>
+        <td class="text-muted">{$row->updated_at}</td>
         <td><a n:href="delete! $id, $row->key" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
       </tr>
     </tbody>
