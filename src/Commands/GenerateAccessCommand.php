@@ -114,7 +114,7 @@ class GenerateAccessCommand extends Command
                 }
 
                 // parse resource & load access level from annotation
-                $action = str_replace($methodPrefix, '', $methodName);
+                $action = substr($methodName, strlen($methodPrefix));
                 $action = lcfirst($action);
 
                 $reflectionClass = new ReflectionClass($presenterClass);
