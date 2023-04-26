@@ -5,13 +5,13 @@ namespace Crm\UsersModule\Presenters;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\Components\PreviousNextPaginator;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\User\DownloadUserData;
 use Crm\UsersModule\AdminFilterFormData;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Components\Widgets\DetailWidgetFactoryInterface;
 use Crm\UsersModule\DataProvider\FilterUsersFormDataProviderInterface;
 use Crm\UsersModule\Events\AddressRemovedEvent;
 use Crm\UsersModule\Events\NotificationEvent;
-use Crm\UsersModule\Forms\AbusiveUsersFilterFormFactory;
 use Crm\UsersModule\Forms\AdminUserDeleteFormFactory;
 use Crm\UsersModule\Forms\AdminUserGroupFormFactory;
 use Crm\UsersModule\Forms\UserFormFactory;
@@ -21,12 +21,14 @@ use Crm\UsersModule\Repository\AddressesRepository;
 use Crm\UsersModule\Repository\CantDeleteAddressException;
 use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
 use Crm\UsersModule\Repository\GroupsRepository;
-use Crm\UsersModule\Repository\PasswordResetTokensRepository;
 use Crm\UsersModule\Repository\UserActionsLogRepository;
 use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\User\ZipBuilder;
 use Nette;
+use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
+use Nette\Utils\Json;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class UsersAdminPresenter extends AdminPresenter
@@ -34,69 +36,24 @@ class UsersAdminPresenter extends AdminPresenter
     /** @persistent */
     public $formData = [];
 
-    private $usersRepository;
-
-    private $factory;
-
-    private $groupsRepository;
-
-    private $userGroupsFormFactory;
-
-    private $adminUserGroupsFormFactory;
-
-    private $adminUserDeleteFormFactory;
-
-    private $userNoteFormFactory;
-
-    private $addressesRepository;
-
-    private $dataProviderManager;
-
-    private $userManager;
-
-    private $changePasswordsLogsRepository;
-
-    private $passwordResetTokensRepository;
-
-    private $abusiveUsersFilterFormFactory;
-
-    private $userActionsLogRepository;
-
-    private $adminFilterFormData;
-
     public function __construct(
-        AdminFilterFormData $adminFilterFormData,
-        UsersRepository $usersRepository,
-        UserFormFactory $userFormFactory,
-        GroupsRepository $groupsRepository,
-        UserGroupsFormFactory $userGroupsFormFactory,
-        AdminUserGroupFormFactory $adminUserGroupsFormFactory,
-        AdminUserDeleteFormFactory $adminUserDeleteFormFactory,
-        UserNoteFormFactory $userNoteFormFactory,
-        AddressesRepository $addressesRepository,
-        DataProviderManager $dataProviderManager,
-        UserManager $userManager,
-        ChangePasswordsLogsRepository $changePasswordsLogsRepository,
-        PasswordResetTokensRepository $passwordResetTokensRepository,
-        AbusiveUsersFilterFormFactory $abusiveUsersFilterFormFactory,
-        UserActionsLogRepository $userActionsLogRepository
+        private AdminFilterFormData $adminFilterFormData,
+        private UsersRepository $usersRepository,
+        private UserFormFactory $userFormFactory,
+        private GroupsRepository $groupsRepository,
+        private UserGroupsFormFactory $userGroupsFormFactory,
+        private AdminUserGroupFormFactory $adminUserGroupsFormFactory,
+        private AdminUserDeleteFormFactory $adminUserDeleteFormFactory,
+        private UserNoteFormFactory $userNoteFormFactory,
+        private AddressesRepository $addressesRepository,
+        private DataProviderManager $dataProviderManager,
+        private UserManager $userManager,
+        private ChangePasswordsLogsRepository $changePasswordsLogsRepository,
+        private UserActionsLogRepository $userActionsLogRepository,
+        private DownloadUserData $downloadUserData,
+        private ZipBuilder $zipBuilder,
     ) {
         parent::__construct();
-        $this->usersRepository = $usersRepository;
-        $this->factory = $userFormFactory;
-        $this->groupsRepository = $groupsRepository;
-        $this->userGroupsFormFactory = $userGroupsFormFactory;
-        $this->adminUserGroupsFormFactory = $adminUserGroupsFormFactory;
-        $this->adminUserDeleteFormFactory = $adminUserDeleteFormFactory;
-        $this->userNoteFormFactory = $userNoteFormFactory;
-        $this->addressesRepository = $addressesRepository;
-        $this->dataProviderManager = $dataProviderManager;
-        $this->userManager = $userManager;
-        $this->changePasswordsLogsRepository = $changePasswordsLogsRepository;
-        $this->passwordResetTokensRepository = $passwordResetTokensRepository;
-        $this->abusiveUsersFilterFormFactory = $abusiveUsersFilterFormFactory;
-        $this->userActionsLogRepository = $userActionsLogRepository;
-        $this->adminFilterFormData = $adminFilterFormData;
     }
 
     public function startup()
@@ -246,12 +203,12 @@ class UsersAdminPresenter extends AdminPresenter
             $id = $this->params['id'];
         }
 
-        $form = $this->factory->create($id);
-        $this->factory->onSave = function ($form, $user) {
+        $form = $this->userFormFactory->create($id);
+        $this->userFormFactory->onSave = function ($form, $user) {
             $this->flashMessage($this->translator->translate('users.admin.user_form.user_created'));
             $this->redirect('UsersAdmin:Show', $user->id);
         };
-        $this->factory->onUpdate = function ($form, $user) {
+        $this->userFormFactory->onUpdate = function ($form, $user) {
             $this->flashMessage($this->translator->translate('users.admin.user_form.user_updated'));
             $this->redirect('UsersAdmin:Show', $user->id);
         };
@@ -512,5 +469,33 @@ class UsersAdminPresenter extends AdminPresenter
             $this->redirect('this');
         }
         $this->emitter->emit(new AddressRemovedEvent($address));
+    }
+
+    /**
+     * @admin-access-level read
+     */
+    public function handleDownloadData($userId)
+    {
+        set_time_limit(120);
+
+        $zip = $this->zipBuilder->getZipFile();
+        $fileName = $zip->filename;
+
+        // text data
+        $userData = $this->downloadUserData->getData($userId);
+        $zip->addFromString('data.json', Json::encode($userData));
+
+        // file attachments
+        foreach ($this->downloadUserData->getAttachments($userId) as $attachmentName => $attachmentPath) {
+            $zip->addFile($attachmentPath, $attachmentName);
+        }
+
+        $zip->close();
+        clearstatcache();
+
+        $response = new FileResponse($fileName, 'data.zip', 'application/zip', true);
+        // Nette appends Content-Range header even when no Range header is present, Varnish doesn't like that
+        $response->resuming = false;
+        $this->sendResponse($response);
     }
 }

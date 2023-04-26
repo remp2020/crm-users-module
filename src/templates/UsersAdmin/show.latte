@@ -195,7 +195,10 @@
       <div class="panel-heading">{_users.admin.show.personal_info}</div>
       <div class="panel-body">
         <p class="text-center">
-          <a n:href="DeleteUser! $user->id" class="ajax btn btn-warning">
+          <a n:href="DownloadData! $user->id" class="btn btn-default btn-block" style="margin-bottom: 0.5em">
+            <i class="fa fa-download"></i> {_system.download}
+          </a>
+          <a n:href="DeleteUser! $user->id" class="ajax btn btn-warning btn-block">
             <i class="fa fa-trash"></i> {_users.admin.delete_user_admin_form.anonymize}
           </a>
           </p>
