@@ -176,16 +176,28 @@ signInRedirectValidator:
 
 ### Required Google Sign-In
 
-To enhance security, one may require all users with admin role to log-in using Google Sign-In, if they want to access admin interface. User verification security then relies on Google security mechanisms to identify potentional abuse.
+To enhance security, one may require all users with admin role to log-in using Google Sign-In, if they want to access admin interface. User verification security then relies on Google security mechanisms to identify potential abuse.
 
-- To turn on this option (called "**Secured login**"), check Authentication section of CRM settings.
-- After enabling the option, each admin user has to connect Google Sign-In to his/her CRM account.
-- In addition, each such user has to be acknowledged by adding `secure_login_allowed` flag to `user_meta` table.
+To turn on this option (called "**Secured login**"):
+
+- [Register](https://github.com/remp2020/crm-skeleton#registereventhandlers) following event handler to one of your internal modules so the sign-in process correctly flags the source of sign-in (e.g. Google) secure:
+    ```php
+    public function registerEventHandlers(\League\Event\Emitter $emitter)
+    {
+        // ...
+        $emitter->addListener(
+            \Crm\UsersModule\Events\UserSignInEvent::class,
+            $this->getInstance(\Crm\UsersModule\Events\SecureAccessSignInEventHandler::class)
+        );
+    );
+    ```
+  - If you want more control or different level of security, create your own `SecureAccessSignInEventHandler` and implement your custom rules.
+- Check Authentication section of CRM admin settings and enable _Secured login_.
+- After enabling the option, each such user has to be acknowledged by adding `secure_login_allowed` flag to `user_meta` table.
 
 ### Two-factor authentication
 
 Currently, 2FA authentication is not implemented.
-
 
 ## Data retention configuration
 
