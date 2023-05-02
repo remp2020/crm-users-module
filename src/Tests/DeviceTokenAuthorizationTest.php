@@ -106,7 +106,7 @@ class DeviceTokenAuthorizationTest extends DatabaseTestCase
         $this->assertCount(3, $authorizedUsers);
 
         $authorizedTokens = $this->deviceTokenAuthorization->getAccessTokens();
-        $this->assertCount(3, $authorizedTokens);
+        $this->assertCount(4, $authorizedTokens);
     }
 
     public function testAuthorizedOnlyClaimedUsers()
@@ -118,24 +118,73 @@ class DeviceTokenAuthorizationTest extends DatabaseTestCase
         $accessToken2 = $this->accessTokensRepository->add($user2, 3);
 
         $user3 = $this->usersRepository->add('test3@user.com', 'nbusr123');
-        $accessToken3 = $this->accessTokensRepository->add($user3, 3);
-        $accessToken4 = $this->accessTokensRepository->add($user3, 3);
+        $accessToken3_1 = $this->accessTokensRepository->add($user3, 3);
+        $accessToken3_2 = $this->accessTokensRepository->add($user3, 3);
+
+        $user4 = $this->usersRepository->add('test4@user.com', 'nbusr123');
+        $accessToken4 = $this->accessTokensRepository->add($user4, 3);
 
         $deviceToken = $this->deviceTokensRepository->generate('test_dev_id');
-
-        $this->accessTokensRepository->pairWithDeviceToken($accessToken1, $deviceToken);
-        $this->accessTokensRepository->pairWithDeviceToken($accessToken2, $deviceToken);
-        $this->accessTokensRepository->pairWithDeviceToken($accessToken3, $deviceToken);
-        $this->accessTokensRepository->pairWithDeviceToken($accessToken4, $deviceToken);
-
         $_SERVER['HTTP_AUTHORIZATION'] = 'Bearer ' . $deviceToken->token;
 
+        // ================================================================================
+        $this->accessTokensRepository->pairWithDeviceToken($accessToken1, $deviceToken);
         $this->assertTrue($this->deviceTokenAuthorization->authorized());
 
         $authorizedUsers = $this->deviceTokenAuthorization->getAuthorizedUsers();
         $this->assertCount(1, $authorizedUsers);
+        $this->assertEquals($user1->id, reset($authorizedUsers)->id);
 
         $authorizedTokens = $this->deviceTokenAuthorization->getAccessTokens();
         $this->assertCount(1, $authorizedTokens);
+        $this->assertEquals($accessToken1->token, reset($authorizedTokens)->token);
+
+        // ================================================================================
+        $this->accessTokensRepository->pairWithDeviceToken($accessToken2, $deviceToken);
+        $this->assertTrue($this->deviceTokenAuthorization->authorized());
+
+        $authorizedUsers = $this->deviceTokenAuthorization->getAuthorizedUsers();
+        $this->assertCount(1, $authorizedUsers);
+        $this->assertEquals($user2->id, reset($authorizedUsers)->id);
+
+        $authorizedTokens = $this->deviceTokenAuthorization->getAccessTokens();
+        $this->assertCount(1, $authorizedTokens);
+        $this->assertEquals($accessToken2->token, reset($authorizedTokens)->token);
+
+        // ================================================================================
+        $this->accessTokensRepository->pairWithDeviceToken($accessToken3_1, $deviceToken);
+        $this->assertTrue($this->deviceTokenAuthorization->authorized());
+
+        $authorizedUsers = $this->deviceTokenAuthorization->getAuthorizedUsers();
+        $this->assertCount(1, $authorizedUsers);
+        $this->assertEquals($user3->id, reset($authorizedUsers)->id);
+
+        $authorizedTokens = $this->deviceTokenAuthorization->getAccessTokens();
+        $this->assertCount(1, $authorizedTokens);
+        $this->assertEquals($accessToken3_1->token, reset($authorizedTokens)->token);
+
+        // ================================================================================
+        $this->accessTokensRepository->pairWithDeviceToken($accessToken3_2, $deviceToken);
+        $this->assertTrue($this->deviceTokenAuthorization->authorized());
+
+        $authorizedUsers = $this->deviceTokenAuthorization->getAuthorizedUsers();
+        $this->assertCount(1, $authorizedUsers);
+        $this->assertEquals($user3->id, reset($authorizedUsers)->id);
+
+        $authorizedTokens = $this->deviceTokenAuthorization->getAccessTokens();
+        $this->assertCount(2, $authorizedTokens);
+        $this->assertEqualsCanonicalizing([$accessToken3_1->token, $accessToken3_2->token], array_column($authorizedTokens, 'token'));
+
+        // ================================================================================
+        $this->accessTokensRepository->pairWithDeviceToken($accessToken4, $deviceToken);
+        $this->assertTrue($this->deviceTokenAuthorization->authorized());
+
+        $authorizedUsers = $this->deviceTokenAuthorization->getAuthorizedUsers();
+        $this->assertCount(1, $authorizedUsers);
+        $this->assertEquals($user4->id, reset($authorizedUsers)->id);
+
+        $authorizedTokens = $this->deviceTokenAuthorization->getAccessTokens();
+        $this->assertCount(1, $authorizedTokens);
+        $this->assertEquals($accessToken4->token, reset($authorizedTokens)->token);
     }
 }

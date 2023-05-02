@@ -17,6 +17,7 @@ use DateTime;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 
 class AccessTokensRepository extends Repository
 {
@@ -92,15 +93,20 @@ class AccessTokensRepository extends Repository
         return $this->allUserTokens($userId)->where(['source' => $source]);
     }
 
+    final public function allByDeviceToken(ActiveRow $deviceToken): Selection
+    {
+        return $this->getTable()->where('device_token_id', $deviceToken->id);
+    }
+
     final public function findAllByDeviceToken(ActiveRow $deviceToken)
     {
-        return $this->getTable()->where('device_token_id', $deviceToken->id)->fetchAll();
+        return $this->allByDeviceToken($deviceToken)->fetchAll();
     }
 
     final public function pairWithDeviceToken($accessToken, $deviceToken)
     {
         if (!$this->userMetaRepository->userMetaValueByKey($accessToken->user, UnclaimedUser::META_KEY)) {
-            $this->unpairDeviceToken($deviceToken);
+            $this->unpairDeviceToken($deviceToken, $accessToken->user);
         }
 
         $this->update($accessToken, [
@@ -109,9 +115,14 @@ class AccessTokensRepository extends Repository
         $this->emitter->emit(new PairDeviceAccessTokensEvent($deviceToken, $accessToken));
     }
 
-    final public function unpairDeviceToken($deviceToken)
+    final public function unpairDeviceToken($deviceToken, $user = null)
     {
-        $accessTokens = $this->findAllByDeviceToken($deviceToken);
+        $accessTokens = $this->allByDeviceToken($deviceToken);
+
+        // if user provided, do not unpair device token from provided user access tokens
+        if (isset($user)) {
+            $accessTokens->where('user_id != ?', $user->id);
+        }
 
         foreach ($accessTokens as $accessToken) {
             /** @var AccessTokenDataProviderInterface[] $accessTokenDataProviders */
