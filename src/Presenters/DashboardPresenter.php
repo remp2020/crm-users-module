@@ -72,6 +72,31 @@ class DashboardPresenter extends AdminPresenter
         return $control;
     }
 
+    public function createComponentGoogleUserRegistrationsStatsPerSalesFunnelGraph(GoogleBarGraphGroupControlFactoryInterface $factory)
+    {
+        $this->getSession()->close();
+
+        $control = $factory->create();
+        $control->setGraphTitle($this->translator->translate('dashboard.users.registration_from_funnel.title'))
+            ->setGraphHelp($this->translator->translate('dashboard.users.registration_from_funnel.tooltip'))
+            ->setFrom($this->dateFrom)
+            ->setTo($this->dateTo);
+
+        $criteria = (new Criteria)
+            ->setSeries(NewUsersMeasurement::CODE)
+            ->setGroupBy(NewUsersMeasurement::GROUP_SALES_FUNNEL)
+            ->setWhere('`measurement_group_values`.`key` IS NOT NULL') // filter out registrations without funnel
+            ->setStart($this->dateFrom)
+            ->setEnd($this->dateTo);
+        $graphDataItem = new GraphDataItem();
+        $graphDataItem->setCriteria($criteria)
+            ->setScaleProvider(RangeScaleFactory::PROVIDER_MEASUREMENT);
+
+        $control->addGraphDataItem($graphDataItem);
+
+        return $control;
+    }
+
     public function createComponentGoogleUserDisabledGraph(GoogleBarGraphGroupControlFactoryInterface $factory)
     {
         $this->getSession()->close();
