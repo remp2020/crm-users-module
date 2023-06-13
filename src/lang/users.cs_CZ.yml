@@ -242,7 +242,7 @@ admin:
         add_address: Přidej adresu
         address_last_change: Poslední změna
         disabled_auto_invoice: Vypnuté automatické generování faktury
-        last_login: Poslední přihlášení
+        current_login: Aktuální přihlášení
         no_login: Zatím nebyl přihlášen
         personal_info: Osobní údaje
         company_id: IČO

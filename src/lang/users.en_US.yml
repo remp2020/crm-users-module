@@ -243,7 +243,7 @@ admin:
         add_address: Add address
         address_last_change: Last change
         disabled_auto_invoice: Automatic invoice generation is disabled
-        last_login: Last login
+        current_login: Current login
         no_login: No login record yet
         personal_info: Personal info
         company_id: Company ID

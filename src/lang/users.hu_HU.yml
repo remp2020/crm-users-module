@@ -241,7 +241,7 @@ admin:
         add_address: Cím hozzáadása
         address_last_change: Utolsó módosítás
         disabled_auto_invoice: Automatikus számla generálás kikapcsolva
-        last_login: Utolsó bejelentkezés
+        current_login: Jelenlegi bejelentkezés
         no_login: Nincs bejelentkezési bejegyzés
         personal_info: Személyes adatok
         company_id: Cégnév

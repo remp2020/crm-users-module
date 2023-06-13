@@ -182,10 +182,10 @@
     {control simpleWidget 'admin.user.detail.box', $user->id}
 
     <div class="panel panel-default">
-      <div class="panel-heading">{_users.admin.show.last_login}</div>
+      <div class="panel-heading">{_users.admin.show.current_login}</div>
       <div class="panel-body">
-        {if $user->last_sign_in_at}
-          <b>{$user->last_sign_in_at|userDate}</b> / <code>{$user->last_sign_in_ip}</code>
+        {if $user->current_sign_in_at}
+          <b>{$user->current_sign_in_at|userDate}</b> / <code>{$user->current_sign_in_ip}</code>
         {else}
           <p class="bg-warning">{_users.admin.show.no_login}</p>
         {/if}

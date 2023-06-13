@@ -240,7 +240,7 @@ admin:
         add_address: Adresse hinzufügen
         address_last_change: Letzte Änderung
         disabled_auto_invoice: Automatische Rechnungsgenerierung ist abgeschaltet
-        last_login: Letzte Anmeldung
+        current_login: Aktueller Anmeldung
         no_login: Keine Anmeldedaten bisher
         personal_info: Persönliche Informationen
         company_id: Handelsregisternummer
