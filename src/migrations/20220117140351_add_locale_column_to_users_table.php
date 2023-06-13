@@ -19,7 +19,7 @@ class AddLocaleColumnToUsersTable extends AbstractMigration
             ->addColumn('locale', 'string', [ 'null' => true, 'after' => 'note' ])
             ->update();
 
-        $this->query("UPDATE `users` SET locale = '${defaultLocale}'");
+        $this->query("UPDATE `users` SET locale = '{$defaultLocale}'");
 
         $this->table('users')
             ->changeColumn('locale', 'string', [ 'null' => false])
