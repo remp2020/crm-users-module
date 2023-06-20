@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Commands;
 
-use Crm\SegmentModule\SegmentFactory;
+use Crm\SegmentModule\SegmentFactoryInterface;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\User\UserData;
 use Nette\UnexpectedValueException;
@@ -17,7 +17,7 @@ class ReconstructUserDataCommand extends Command
     public function __construct(
         private UsersRepository $usersRepository,
         private UserData $userData,
-        private SegmentFactory $segmentFactory
+        private SegmentFactoryInterface $segmentFactory
     ) {
         parent::__construct();
     }
