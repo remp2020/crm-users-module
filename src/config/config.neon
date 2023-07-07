@@ -153,6 +153,7 @@ services:
 	- Crm\UsersModule\Api\GoogleTokenSignInHandler
 	- Crm\UsersModule\Api\EmailValidationApiHandler
 	- Crm\UsersModule\Api\DeleteUserApiHandler
+	- Crm\UsersModule\Api\UsersTouchApiHandler
 	- Crm\UsersModule\Events\LoginAttemptHandler
 	- Crm\UsersModule\Events\UserUpdatedHandler
 	- Crm\UsersModule\Hermes\UserTokenUsageHandler

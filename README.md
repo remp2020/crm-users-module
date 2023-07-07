@@ -1009,6 +1009,36 @@ Response:
   ```
 
 ---
+
+#### GET `/api/v1/users/touch`
+
+API call to refresh cached user's data.
+
+##### *Headers:*
+
+| Name | Value | Required | Description |
+| --- |---| --- | --- |
+| Authorization | Bearer *String* | yes | User token. |
+
+
+##### *Example:*
+
+```shell
+curl -v –X GET http://crm.press/api/v1/users/touch \
+-H "Authorization: Bearer XXX"
+```
+
+Response:
+
+```json5
+{
+    "status": "ok",
+    "message": "User touched"
+}
+```
+
+
+---
 ### USER META INFORMATION API
 
 The concept of meta user's information is to provide the way how to store user related data without need of the database structure changes.

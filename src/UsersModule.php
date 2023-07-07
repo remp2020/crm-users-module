@@ -21,6 +21,7 @@ use Crm\ApplicationModule\SeederManager;
 use Crm\ApplicationModule\User\UserDataRegistrator;
 use Crm\ApplicationModule\Widget\LazyWidgetManagerInterface;
 use Crm\UsersModule\Api\EmailValidationApiHandler;
+use Crm\UsersModule\Api\UsersTouchApiHandler;
 use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;
 use Crm\UsersModule\Auth\Permissions;
 use Crm\UsersModule\DataProvider\UniversalSearchDataProvider;
@@ -399,6 +400,13 @@ class UsersModule extends CrmModule
             new ApiRoute(
                 new ApiIdentifier('1', 'users', 'set-email-invalidated'),
                 EmailValidationApiHandler::class,
+                BearerTokenAuthorization::class
+            )
+        );
+        $apiRoutersContainer->attachRouter(
+            new ApiRoute(
+                new ApiIdentifier('1', 'users', 'touch'),
+                UsersTouchApiHandler::class,
                 BearerTokenAuthorization::class
             )
         );
