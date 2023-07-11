@@ -61,7 +61,7 @@ class AccessToken
                 strtotime('+10 years'),
                 '/',
                 CrmRequest::getDomain(),
-                null,
+                $request->isSecured(),
                 false,
                 $this->sameSiteFlag
             );
