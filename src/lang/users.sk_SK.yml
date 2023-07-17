@@ -194,6 +194,7 @@ admin:
         activate: Aktivuj
         show: Zobraz
         edit: Uprav
+        delete: Vymaž
 
     default:
         title: Používatelia

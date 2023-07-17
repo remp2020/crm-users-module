@@ -194,6 +194,7 @@ admin:
         activate: Activate
         show: Show
         edit: Edit
+        delete: Delete
 
     default:
         title: Users

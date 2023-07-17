@@ -43,6 +43,7 @@
               <p class="text-nowrap">
                 <a n:href="show $group->id" class="btn btn-sm btn-info" title="{_users.admin.actions.show}"><i class="fa fa-eye"></i> </a>
                 <a n:href="edit $group->id" class="btn btn-sm btn-primary" title="{_users.admin.actions.edit}"><i class="fa fa-edit"></i> </a>
+                <a n:if="$group->related('user_groups')->count('*') === 0" n:href="delete! $group->id" class="btn btn-sm btn-danger" title="{_users.admin.actions.delete}"><i class="fa fa-trash"></i></a>
               </p>
             </td>
           </tr>

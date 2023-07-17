@@ -45,6 +45,18 @@ class GroupsAdminPresenter extends AdminPresenter
         $this->template->group = $this->groupsRepository->find($id);
     }
 
+    /**
+     * @admin-access-level write
+     */
+    public function handleDelete($id)
+    {
+        $row = $this->groupsRepository->find($id);
+
+        if (!is_null($row)) {
+            $this->groupsRepository->delete($row);
+        }
+    }
+
     public function createComponentGroupForm()
     {
         $id = null;

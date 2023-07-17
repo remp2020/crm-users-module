@@ -193,6 +193,7 @@ admin:
         activate: Aktivuj
         show: Zobraz
         edit: Uprav
+        delete: Odstraň
 
     default:
         title: Uživatelé
