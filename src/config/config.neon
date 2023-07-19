@@ -132,6 +132,7 @@ services:
 	- Crm\UsersModule\Events\FrontendRequestAccessTokenAutologinHandler
 	- Crm\UsersModule\Api\UsersEmailHandler
 	- Crm\UsersModule\Api\v2\UsersEmailHandler
+	- Crm\UsersModule\Api\UsersEmailCheckHandler
 	- Crm\UsersModule\Api\UsersLoginHandler
 	- Crm\UsersModule\Api\UsersLogoutHandler
 	- Crm\UsersModule\Api\ListUsersHandler

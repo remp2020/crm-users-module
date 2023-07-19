@@ -509,6 +509,53 @@ Response when email is available:
 
 ---
 
+#### POST `/api/v1/users/email-check`
+
+API call checks whether provided email address is valid and available to use (for possible registration).
+
+##### *Headers:*
+
+| Name | Value | Required | Description |
+| --- | --- | --- | --- |
+| Authorization | Bearer *String* | yes | API token |
+
+##### *Params:*
+
+| Name | Value | Required | Description |
+| --- |---| --- | --- |
+| Email | *String* | yes | Email to verify |
+
+
+##### *Example:*
+
+```shell
+curl -v –X GET http://crm.press/api/v1/users/email-check \
+  -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'Accept: application/json' \
+  --data 'email=admin%40admin.sk'
+```
+
+Response when email is already taken:
+
+```json5
+{
+    "email": "admin@admin.sk", // String; requested email
+    "id": 9, // Integer; ID of user if email is taken
+    "status": "taken", // String; allowed values ["available", "taken"]
+}
+```
+
+Response when email is available:
+
+```json5
+{
+    "email": "admin@admin.cz",
+    "status": "available",
+}
+```
+
+---
+
 #### POST `/api/v1/users/create`
 
 API for registration of user into the system. Password is generated automatically by the system and sent to user by email.
@@ -545,6 +592,7 @@ When the user is registered, he/she is automatically logged in and user token is
 
 ```shell
 curl -v –X GET http://crm.press/api/v1/users/create \
+  -H 'Authorization: Bearer XXX' \
   -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
   -H 'Accept: application/json' \
   --data 'email=user%40user.sk'
