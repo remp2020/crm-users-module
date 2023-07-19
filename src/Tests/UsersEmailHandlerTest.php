@@ -126,7 +126,7 @@ class UsersEmailHandlerTest extends DatabaseTestCase
 
     public function testClaimedUserNoPassword()
     {
-        $email = 'user@user.sk';
+        $email = UsersSeeder::USER_CUSTOMER;
 
         $_POST = [
             'email' => $email,
@@ -149,7 +149,7 @@ class UsersEmailHandlerTest extends DatabaseTestCase
 
     public function testClaimedUserInvalidPassword()
     {
-        $email = 'user@user.sk';
+        $email = UsersSeeder::USER_CUSTOMER;
 
         $_POST = [
             'email' => $email,
@@ -173,7 +173,7 @@ class UsersEmailHandlerTest extends DatabaseTestCase
 
     public function testClaimedUserCorrectPassword()
     {
-        $email = 'user@user.sk';
+        $email = UsersSeeder::USER_CUSTOMER;
 
         $_POST = [
             'email' => $email,

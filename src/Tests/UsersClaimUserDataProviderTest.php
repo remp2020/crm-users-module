@@ -54,7 +54,7 @@ class UsersClaimUserDataProviderTest extends DatabaseTestCase
         $this->userMetaRepository = $this->getRepository(UserMetaRepository::class);
 
         $this->unclaimedUserObj = $this->unclaimedUser->createUnclaimedUser();
-        $this->loggedUser = $this->usersRepository->getByEmail('admin@admin.sk');
+        $this->loggedUser = $this->usersRepository->getByEmail(UsersSeeder::USER_ADMIN);
     }
 
     public function testWrongArguments(): void
@@ -84,7 +84,7 @@ class UsersClaimUserDataProviderTest extends DatabaseTestCase
         $this->dataProvider->provide(['unclaimedUser' => $this->unclaimedUserObj, 'loggedUser' => $this->loggedUser]);
 
         // empty note
-        $this->assertEquals(null, $this->usersRepository->getByEmail('admin@admin.sk')->note);
+        $this->assertEquals(null, $this->usersRepository->getByEmail(UsersSeeder::USER_ADMIN)->note);
 
         $this->unclaimedUserObj->update(['note' => 'test']);
         $this->dataProvider->provide(['unclaimedUser' => $this->unclaimedUserObj, 'loggedUser' => $this->loggedUser]);

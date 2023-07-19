@@ -64,7 +64,7 @@ class UsersConfirmApiHandlerTest extends DatabaseTestCase
 
     public function testConfirmUserUserFound()
     {
-        $_POST['email'] = 'admin@admin.sk';
+        $_POST['email'] = UsersSeeder::USER_ADMIN;
 
         $response = $this->runJsonApi($this->handler);
 

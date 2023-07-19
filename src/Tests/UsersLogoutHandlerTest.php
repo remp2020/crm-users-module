@@ -11,6 +11,7 @@ use Crm\UsersModule\Auth\UserTokenAuthorization;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
 use Crm\UsersModule\Repository\AccessTokensRepository;
 use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Seeders\UsersSeeder;
 use Crm\UsersModule\User\UnclaimedUser;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;
@@ -52,7 +53,7 @@ class UsersLogoutHandlerTest extends DatabaseTestCase
 
     public function testUserLogout()
     {
-        $user1 = $this->addUser('user@user.sk', 'password');
+        $user1 = $this->addUser(UsersSeeder::USER_CUSTOMER, 'password');
         $accessToken1 = $this->accessTokenRepository->add($user1, 3);
         $accessToken2 = $this->accessTokenRepository->add($user1, 3);
         $this->assertEquals(2, $this->accessTokenRepository->all()->count());
@@ -70,9 +71,9 @@ class UsersLogoutHandlerTest extends DatabaseTestCase
 
     public function testDeviceTokenLogout()
     {
-        $user1 = $this->addUser('user1@user.sk', 'password');
+        $user1 = $this->addUser('user1@crm.press', 'password');
         $userUnclaimed = $this->inject(UnclaimedUser::class)->createUnclaimedUser();
-        $user2 = $this->addUser('user2@user.sk', 'password');
+        $user2 = $this->addUser('user2@crm.press', 'password');
 
         $deviceToken = $this->deviceTokensRepository->generate('test');
 

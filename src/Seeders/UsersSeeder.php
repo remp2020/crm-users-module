@@ -12,6 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UsersSeeder implements ISeeder
 {
+    public const USER_ADMIN = 'admin@crm.press';
+    public const USER_CUSTOMER = 'user@crm.press';
+
     private $userBuilder;
 
     private $usersRepository;
@@ -57,21 +60,27 @@ class UsersSeeder implements ISeeder
             }
         }
 
+        // Do not seed demo users if there are existing users in table
+        if ($this->usersRepository->getTable()->limit(1)->fetch()) {
+            return;
+        }
+
+        $email = self::USER_ADMIN;
         $user = $this->userBuilder->createNew()
-            ->setEmail('admin@admin.sk')
+            ->setEmail($email)
             ->setPassword('password')
             ->setFirstName('Test')
             ->setLastName('Admin')
-            ->setPublicName('admin@admin.sk')
+            ->setPublicName($email)
             ->setAddTokenOption(false)
             ->setRole(UsersRepository::ROLE_ADMIN)
             ->save();
 
         if (!$user) {
-            $output->writeln('  * user <info>admin@admin.sk</info> exists');
-            $user = $this->usersRepository->getByEmail('admin@admin.sk');
+            $output->writeln("  * user <info>$email</info> exists");
+            $user = $this->usersRepository->getByEmail($email);
         } else {
-            $output->writeln('  <comment>* user <info>admin@admin.sk</info> created</comment>');
+            $output->writeln("  <comment>* user <info>$email</info> created</comment>");
         }
 
         if (!$user->related('admin_user_groups')->where(['admin_group_id' => $superGroup->id])->count('*')) {
@@ -83,18 +92,19 @@ class UsersSeeder implements ISeeder
             ]);
         }
 
+        $email = self::USER_CUSTOMER;
         $user = $this->userBuilder->createNew()
-            ->setEmail('user@user.sk')
+            ->setEmail($email)
             ->setPassword('password')
             ->setFirstName('Test')
             ->setLastName('User')
-            ->setPublicName('admin@admin.sk')
+            ->setPublicName($email)
             ->setAddTokenOption(false)
             ->save();
         if (!$user) {
-            $output->writeln('  * user <info>user@user.sk</info> exists');
+            $output->writeln("  * user <info>$email</info> exists");
         } else {
-            $output->writeln('  <comment>* user <info>user@user.sk</info> created</comment>');
+            $output->writeln("  <comment>* user <info>$email</info> created</comment>");
         }
     }
 

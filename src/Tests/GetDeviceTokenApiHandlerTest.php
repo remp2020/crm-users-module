@@ -102,7 +102,7 @@ class GetDeviceTokenApiHandlerTest extends DatabaseTestCase
     {
         $_POST['device_id'] = 'asd123';
 
-        $user = $this->usersRepository->getByEmail('admin@admin.sk');
+        $user = $this->usersRepository->getByEmail(UsersSeeder::USER_ADMIN);
         $accessTokenRow = $this->accessTokensRepository->add($user, 1);
         $_POST['access_token'] = $accessTokenRow->token;
 

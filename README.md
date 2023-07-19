@@ -359,7 +359,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 9,
-        "email": "admin@admin.sk",
+        "email": "admin@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
         "first_name": "Test",
         "last_name": "Admin",
@@ -441,7 +441,7 @@ Response when email is already taken:
 
 ```json5
 {
-    "email": "admin@admin.sk", // String; requested email
+    "email": "admin@crm.press", // String; requested email
     "status": "taken", // String; allowed values ["available", "taken"]
     "id": 9, // Integer; ID of user if email is taken
     "password": null // Boolean; set only if password was provided in request
@@ -489,7 +489,7 @@ Response when email is already taken:
 
 ```json5
 {
-    "email": "admin@admin.sk", // String; requested email
+    "email": "admin@crm.press", // String; requested email
     "status": "taken", // String; allowed values ["available", "taken"]
     "id": 9, // Integer; ID of user if email is taken
     "password": null // Boolean; set only if password was provided in request
@@ -605,7 +605,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 101,
-        "email": "user@user.sk",
+        "email": "user@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
         "first_name": null,
         "last_name": null,
@@ -657,7 +657,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 101,
-        "email": "user@user.sk",
+        "email": "user@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00" // RFC3339 date or NULL; user confirmation date
     }
 }
@@ -765,7 +765,7 @@ Lists all user addresses. User is identified by email address.
 
 ```shell
 curl -X GET \
-  'http://crm.press/api/v1/users/addresses?email=user@user.sk' \
+  'http://crm.press/api/v1/users/addresses?email=user@crm.press' \
   -H 'Authorization: Bearer XXX' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   -d email=user%40user.sk
@@ -781,7 +781,7 @@ Response:
             "user_id": 10, // Integer; ID of user
             "type": "print", // String; type of address
             "created_at": "2019-03-08T11:37:45+01:00", // RFC3339 date; address creation date
-            "email": "user@user.sk", // String; email address of user
+            "email": "user@crm.press", // String; email address of user
             "company_name": "", // String; company name
             "phone_number": "0800123456", // String; phone number (not validated)
             "company_id": "", // String: company ID
@@ -965,11 +965,11 @@ Response:
     "users": { // Object; map of users keyed by userId with value object containing user data
         "9": {
             "id": 9, // Integer; ID of user
-            "email": "admin@admin.sk" // String; email of user
+            "email": "admin@crm.press" // String; email of user
         },
         "10": {
             "id": 10,
-            "email": "user@user.sk"
+            "email": "user@crm.press"
         }
     }
 }
@@ -1300,9 +1300,9 @@ Success response:
     "status": "ok",
     "user": {
         "id": 9,
-        "email": "user@user.sk",
+        "email": "user@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
-        "public_name": "user@user.sk",
+        "public_name": "user@crm.press",
         "first_name": "Test",
         "last_name": "User"
     },

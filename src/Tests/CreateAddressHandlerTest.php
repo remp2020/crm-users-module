@@ -68,7 +68,7 @@ class CreateAddressHandlerTest extends BaseTestCase
 
     public function testTypeNotFound()
     {
-        $_POST['email'] = 'admin@admin.sk';
+        $_POST['email'] = UsersSeeder::USER_ADMIN;
         $_POST['type'] = '@test';
 
         $response = $this->runJsonApi($this->handler);
@@ -83,7 +83,7 @@ class CreateAddressHandlerTest extends BaseTestCase
 
     public function testCountryNotFound()
     {
-        $_POST['email'] = 'admin@admin.sk';
+        $_POST['email'] = UsersSeeder::USER_ADMIN;
         $_POST['type'] = 'test';
 
         $_POST['country_iso'] = 'QQQ';
@@ -100,7 +100,7 @@ class CreateAddressHandlerTest extends BaseTestCase
 
     public function testValid()
     {
-        $_POST['email'] = 'admin@admin.sk';
+        $_POST['email'] = UsersSeeder::USER_ADMIN;
         $_POST['type'] = 'test';
 
         $_POST['address'] = 'Vysoka';
