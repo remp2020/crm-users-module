@@ -4,23 +4,26 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\UsersModule\Auth\Repository\AdminAccessRepository;
+use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
 use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
 use Crm\UsersModule\Forms\AdminGroupFormFactory;
 use Nette\Application\UI\Form;
-use Nette\Utils\DateTime;
 use Nette\Utils\Html;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class AdminGroupAdminPresenter extends AdminPresenter
 {
-    /** @var  AdminGroupsRepository @inject */
-    public $adminGroupsRepository;
+    /** @inject */
+    public AdminGroupsRepository $adminGroupsRepository;
 
-    /** @var  AdminGroupFormFactory @inject */
-    public $adminGroupFormFactory;
+    /** @inject */
+    public AdminGroupFormFactory $adminGroupFormFactory;
 
-    /** @var  AdminAccessRepository @inject */
-    public $adminAccessRepository;
+    /** @inject */
+    public AdminAccessRepository $adminAccessRepository;
+
+    /** @inject */
+    public AdminGroupsAccessRepository $adminGroupsAccessRepository;
 
     /**
      * @admin-access-level read
@@ -220,8 +223,6 @@ class AdminGroupAdminPresenter extends AdminPresenter
 
         $form->addSubmit('submit', $this->translator->translate('users.admin.admin_group_admin.submit'));
         $form->onSuccess[] = function ($form, $values) use ($group) {
-            $group->related('admin_groups_access')->delete();
-
             $accesses = [];
             foreach ($values as $key => $value) {
                 if (!$value) {
@@ -233,12 +234,20 @@ class AdminGroupAdminPresenter extends AdminPresenter
                 }
                 $accesses[] = $accessId;
             }
-            $group->related('admin_groups_access')->where(['NOT admin_access_id' => $accesses])->delete();
+
+            // if admin group's access is not part of form, it should not exist in database
+            // (this is cleaning process to ensure database holds only accesses administrator saw in form)
+            $this->adminGroupsAccessRepository->deleteByGroup(
+                adminGroup: $group,
+                toDelete: [],
+                toExclude: $accesses,
+            );
             foreach ($accesses as $accessId) {
-                $group->related('admin_groups_access')->insert([
-                    'admin_access_id' => $accessId,
-                    'created_at' => new DateTime(),
-                ]);
+                $adminAccess = $this->adminAccessRepository->find($accessId);
+                $adminGroupAccessExists = $this->adminGroupsAccessRepository->exists($group, $adminAccess);
+                if (!$adminGroupAccessExists) {
+                    $this->adminGroupsAccessRepository->add($group, $adminAccess);
+                }
             }
 
             $this->flashMessage($this->translator->translate('users.admin.admin_group_admin.rights_updated'));

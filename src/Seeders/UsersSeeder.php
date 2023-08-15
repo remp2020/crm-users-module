@@ -4,6 +4,7 @@ namespace Crm\UsersModule\Seeders;
 
 use Crm\ApplicationModule\Seeders\ISeeder;
 use Crm\UsersModule\Auth\Repository\AdminAccessRepository;
+use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
 use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
 use Crm\UsersModule\Builder\UserBuilder;
 use Crm\UsersModule\Repository\UsersRepository;
@@ -15,24 +16,13 @@ class UsersSeeder implements ISeeder
     public const USER_ADMIN = 'admin@crm.press';
     public const USER_CUSTOMER = 'user@crm.press';
 
-    private $userBuilder;
-
-    private $usersRepository;
-
-    private $adminGroupsRepository;
-
-    private $adminAccessRepository;
-
     public function __construct(
-        UserBuilder $userBuilder,
-        UsersRepository $usersRepository,
-        AdminGroupsRepository $adminGroupsRepository,
-        AdminAccessRepository $adminAccessRepository
+        private UserBuilder $userBuilder,
+        private UsersRepository $usersRepository,
+        private AdminGroupsRepository $adminGroupsRepository,
+        private AdminAccessRepository $adminAccessRepository,
+        private AdminGroupsAccessRepository $adminGroupsAccessRepository,
     ) {
-        $this->userBuilder = $userBuilder;
-        $this->usersRepository = $usersRepository;
-        $this->adminGroupsRepository = $adminGroupsRepository;
-        $this->adminAccessRepository = $adminAccessRepository;
     }
 
     public function seed(OutputInterface $output)
@@ -51,12 +41,8 @@ class UsersSeeder implements ISeeder
 
         $accesses = $this->adminAccessRepository->all();
         foreach ($accesses as $access) {
-            if ($superGroup->related('admin_groups_access')->where(['admin_group_id' => $superGroup->id, 'admin_access_id' => $access->id])->count('*') == 0) {
-                $superGroup->related('admin_groups_access')->insert([
-                    'admin_group_id' => $superGroup->id,
-                    'admin_access_id' => $access->id,
-                    'created_at' => new DateTime(),
-                ]);
+            if (!$this->adminGroupsAccessRepository->exists($superGroup, $access)) {
+                $this->adminGroupsAccessRepository->add($superGroup, $access);
             }
         }
 
@@ -140,11 +126,7 @@ class UsersSeeder implements ISeeder
         foreach ($handleAccesses as $handleAccess) {
             foreach ($adminGroups as $adminGroup) {
                 // only inserting; no signals should be assigned to admin groups; update is not needed
-                $adminGroup->related('admin_groups_access')->insert([
-                    'admin_group_id' => $adminGroup->id,
-                    'admin_access_id' => $handleAccess,
-                    'created_at' => new DateTime(),
-                ]);
+                $this->adminGroupsAccessRepository->add($adminGroup, $handleAccess);
             }
         }
     }
