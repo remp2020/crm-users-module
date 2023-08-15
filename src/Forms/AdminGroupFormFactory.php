@@ -41,7 +41,7 @@ class AdminGroupFormFactory
         $form->setRenderer(new BootstrapRenderer());
         $form->addProtection();
 
-        $form->addHidden('group_id');
+        $form->addHidden('id');
 
         $form->addText('name', $this->translator->translate('users.admin.admin_group_form.name.label'))
             ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_group_form.name.placeholder'))
@@ -65,8 +65,9 @@ class AdminGroupFormFactory
 
     public function formSucceeded($form, $values)
     {
-        if ($values->group_id) {
-            $group = $this->adminGroupsRepository->find($values->group_id);
+        if ($values->id) {
+            $group = $this->adminGroupsRepository->find($values->id);
+            unset($values->id);
             $this->adminGroupsRepository->update($group, $values);
             $this->onUpdate->__invoke($group);
         } else {
