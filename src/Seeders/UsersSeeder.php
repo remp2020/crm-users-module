@@ -6,9 +6,9 @@ use Crm\ApplicationModule\Seeders\ISeeder;
 use Crm\UsersModule\Auth\Repository\AdminAccessRepository;
 use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
 use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
+use Crm\UsersModule\Auth\Repository\AdminUserGroupsRepository;
 use Crm\UsersModule\Builder\UserBuilder;
 use Crm\UsersModule\Repository\UsersRepository;
-use Nette\Utils\DateTime;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UsersSeeder implements ISeeder
@@ -22,6 +22,7 @@ class UsersSeeder implements ISeeder
         private AdminGroupsRepository $adminGroupsRepository,
         private AdminAccessRepository $adminAccessRepository,
         private AdminGroupsAccessRepository $adminGroupsAccessRepository,
+        private AdminUserGroupsRepository $adminUserGroupsRepository,
     ) {
     }
 
@@ -69,13 +70,8 @@ class UsersSeeder implements ISeeder
             $output->writeln("  <comment>* user <info>$email</info> created</comment>");
         }
 
-        if (!$user->related('admin_user_groups')->where(['admin_group_id' => $superGroup->id])->count('*')) {
-            $user->related('admin_user_groups')->insert([
-                'created_at' => new DateTime(),
-                'updated_at' => new DateTime(),
-                'admin_group_id' => $superGroup->id,
-                'user_id' => $user->id,
-            ]);
+        if (!$this->adminUserGroupsRepository->exists($superGroup, $user)) {
+            $this->adminUserGroupsRepository->add($superGroup, $user);
         }
 
         $email = self::USER_CUSTOMER;

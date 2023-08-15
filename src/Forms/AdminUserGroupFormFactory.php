@@ -4,20 +4,14 @@ namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Forms\BootstrapSmallInlineFormRenderer;
 use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
+use Crm\UsersModule\Auth\Repository\AdminUserGroupsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
-use Nette\Utils\DateTime;
 
 class AdminUserGroupFormFactory
 {
-    protected $usersRepository;
-
-    protected $adminGroupsRepository;
-
-    protected $translator;
-
     public $onAddedUserToGroup;
 
     public $onRemovedUserFromGroup;
@@ -25,13 +19,11 @@ class AdminUserGroupFormFactory
     public $authorize;
 
     public function __construct(
-        UsersRepository $usersRepository,
-        AdminGroupsRepository $adminGroupsRepository,
-        Translator $translator
+        private AdminGroupsRepository $adminGroupsRepository,
+        private AdminUserGroupsRepository $adminUserGroupsRepository,
+        private UsersRepository $usersRepository,
+        private Translator $translator
     ) {
-        $this->usersRepository = $usersRepository;
-        $this->adminGroupsRepository = $adminGroupsRepository;
-        $this->translator = $translator;
     }
 
     /**
@@ -66,7 +58,7 @@ class AdminUserGroupFormFactory
                 $button->setHtmlAttribute('class', 'btn btn-default btn-blxock btn-sm');
                 $button->getControlPrototype()->setName('button')->setHtml('<i class="fa fa-times"></i> ' . $group->name . ' (' . $accesses . ')');
                 $button->onClick[] = function () use ($factory, $group, $user, $form) {
-                    $user->related('admin_user_groups')->where(['admin_group_id' => $group->id])->delete();
+                    $this->adminUserGroupsRepository->remove($group, $user);
                     $factory->onRemovedUserFromGroup->__invoke($form, $group, $user);
                     return false;
                 };
@@ -108,8 +100,8 @@ class AdminUserGroupFormFactory
             return;
         }
 
-        $group = $this->adminGroupsRepository->find($values['group_id']);
-        if (!$group) {
+        $adminGroup = $this->adminGroupsRepository->find($values['group_id']);
+        if (!$adminGroup) {
             $form['group_id']->addError('users.form.admin_user_group.error.no_group');
             return;
         }
@@ -119,14 +111,9 @@ class AdminUserGroupFormFactory
             return;
         }
 
-        $result = $user->related('admin_user_groups')->insert([
-            'admin_group_id' => $group->id,
-            'user_id' => $user->id,
-            'created_at' => new DateTime(),
-            'updated_at' => new DateTime(),
-        ]);
+        $result = $this->adminUserGroupsRepository->add($adminGroup, $user);
         if ($result) {
-            $this->onAddedUserToGroup->__invoke($form, $group, $user);
+            $this->onAddedUserToGroup->__invoke($form, $adminGroup, $user);
         }
     }
 }
