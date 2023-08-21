@@ -54,9 +54,11 @@ class AdminUserGroupFormFactory
                 $group = $userGroup->group;
                 $userGroupsIds[] = $group->id;
                 $accesses = $group->related('admin_groups_access')->count('*');
-                $button = $form->addSubmit('group_' . $group->id, $group->name);
+                $button = $form->addSubmit('group_' . $group->id);
                 $button->setHtmlAttribute('class', 'btn btn-default btn-blxock btn-sm');
-                $button->getControlPrototype()->setName('button')->setHtml('<i class="fa fa-times"></i> ' . $group->name . ' (' . $accesses . ')');
+                $button->getControlPrototype()
+                    ->setName('button')
+                    ->setHtml('<i class="fa fa-times"></i> ' . $group->name . ' (' . $accesses . ')');
                 $button->onClick[] = function () use ($factory, $group, $user, $form) {
                     $this->adminUserGroupsRepository->remove($group, $user);
                     $factory->onRemovedUserFromGroup->__invoke($form, $group, $user);
