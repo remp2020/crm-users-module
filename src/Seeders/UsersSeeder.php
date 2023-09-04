@@ -101,14 +101,14 @@ class UsersSeeder implements ISeeder
     {
         // 1. load signals (handle prefix)
         $handleAccesses = $this->adminAccessRepository->all()
-            ->where('type = "handle"')
-            ->fetchAssoc('id=id');
+            ->where('type = ?', "handle")
+            ->fetchPairs('id');
 
         // check if any admin group was given access to signal
         // if yes, abort seeding rights to signals
         $count = $this->adminAccessRepository->getDatabase()
             ->table('admin_groups_access')
-            ->where(['admin_access_id IN (?)' => $handleAccesses])
+            ->where(['admin_access_id IN (?)' => array_keys($handleAccesses)])
             ->count('*');
 
         if ($count > 0) {
