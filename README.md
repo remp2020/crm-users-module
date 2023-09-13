@@ -768,7 +768,7 @@ curl -X GET \
   'http://crm.press/api/v1/users/addresses?email=user@crm.press' \
   -H 'Authorization: Bearer XXX' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d email=user%40user.sk
+  -d 'email=user%40user.sk'
 ```
 
 Response:
@@ -1415,9 +1415,9 @@ API call invalidates email address for user, if the user exists.
 
 ##### *Params:*
 
-| Name | Value | Required | Description |
-| --- |---| --- | --- |
-| Email | *String* | yes | User's email address. |
+| Name  | Value    | Required | Description           |
+|-------|----------|----------|-----------------------|
+| Email | *String* | yes      | User's email address. |
 
 ##### *Example:*
 
@@ -1439,6 +1439,70 @@ Success response:
 ```
 
 All other responses are the same as for /validateMail method above
+
+---
+
+---
+
+#### POST `/api/v2/users/set-email-validated`
+
+API call validates email addresses for users that exist.
+
+##### *Params:*
+
+| Name   | Value      | Required | Description                  |
+|--------|------------|----------|------------------------------|
+| emails | *String[]* | yes      | Array of emails to validate. |
+
+##### *Example:*
+
+```shell
+curl 'http://crm.press/api/v2/users/set-email-validated \
+  -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'Accept: application/json' \
+  --data '{
+    "emails": ["john+doe@gmail.com", "name@example.com"]
+  }'
+```
+
+Success response:
+```json5
+{
+    "status": "ok",
+}
+```
+
+---
+
+---
+
+#### POST `/api/v2/users/set-email-invalidated`
+
+API call invalidates email addresses for users that exist.
+
+##### *Params:*
+
+| Name   | Value      | Required | Description                    |
+|--------|------------|----------|--------------------------------|
+| emails | *String[]* | yes      | Array of emails to invalidate. |
+
+##### *Example:*
+
+```shell
+curl 'http://crm.press/api/v2/users/set-email-invalidated \
+  -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'Accept: application/json' \
+  --data '{
+    "emails": ["john+doe@gmail.com", "name@example.com"]
+  }'
+```
+
+Success response:
+```json5
+{
+  "status": "ok",
+}
+```
 
 ---
 

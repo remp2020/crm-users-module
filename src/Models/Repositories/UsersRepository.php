@@ -63,7 +63,7 @@ class UsersRepository extends Repository
     /**
      * @inheritDoc
      */
-    final public function getByEmail($email)
+    final public function getByEmail($email): ?ActiveRow
     {
         return $this->getTable()->select('*')->where(['email' => $email])->fetch();
     }
@@ -286,7 +286,7 @@ class UsersRepository extends Repository
         ])->count('*') > 0;
     }
 
-    final public function setEmailValidated($user, \DateTime $validatedAt)
+    final public function setEmailValidated(ActiveRow $user, \DateTime $validatedAt): void
     {
         if ($user->email_validated_at) {
             return;
@@ -296,7 +296,7 @@ class UsersRepository extends Repository
         ]);
     }
 
-    final public function setEmailInvalidated($user)
+    final public function setEmailInvalidated(ActiveRow $user): void
     {
         $this->update($user, [
             'email_validated_at' => null,

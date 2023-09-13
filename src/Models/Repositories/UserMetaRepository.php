@@ -91,7 +91,7 @@ class UserMetaRepository extends Repository
     {
         $value = $this->userMetaRows($user)
             ->where('key = ?', $key)
-            ->fetchField('value');
+            ->fetch()?->value;
 
         if (!$value) {
             return null;

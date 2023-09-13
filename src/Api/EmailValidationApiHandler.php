@@ -55,7 +55,7 @@ class EmailValidationApiHandler extends ApiHandler
                 'message' => 'Email isn\'t assigned to any user',
                 'code'    => 'email_not_found',
             ];
-            $response = new JsonApiResponse(IResponse::S404_NOT_FOUND, $result);
+            $response = new JsonApiResponse(IResponse::S404_NotFound, $result);
             return $response;
         }
 
@@ -86,7 +86,7 @@ class EmailValidationApiHandler extends ApiHandler
         if (isset($this->action)) {
             return $this->action;
         }
-        if (strpos($this->request->getUrl()->getPath(), "invalidate") !== false) {
+        if (str_contains($this->request->getUrl()->getPath(), "invalidate")) {
             return 'invalidate';
         }
         return 'validate';

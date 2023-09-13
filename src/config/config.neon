@@ -153,6 +153,7 @@ services:
 	- Crm\UsersModule\Api\AppleTokenSignInHandler
 	- Crm\UsersModule\Api\GoogleTokenSignInHandler
 	- Crm\UsersModule\Api\EmailValidationApiHandler
+	- Crm\UsersModule\Api\v2\EmailValidationApiHandler
 	- Crm\UsersModule\Api\DeleteUserApiHandler
 	- Crm\UsersModule\Api\UsersTouchApiHandler
 	- Crm\UsersModule\Events\LoginAttemptHandler
