@@ -24,7 +24,7 @@ class AddressesMetaRepository extends Repository
         if ($override && $this->exists($address, $addressChangeRequest, $key)) {
             $meta = $this->getTable()->where([
                 'address_id' => $address->id,
-                'address_change_request_id' => $addressChangeRequest->id ?? null,
+                'address_change_request_id' => $addressChangeRequest?->id,
                 'key' => $key,
             ])->fetch();
             if ($meta) {
@@ -39,7 +39,7 @@ class AddressesMetaRepository extends Repository
         }
         return $this->insert([
             'address_id' => $address->id,
-            'address_change_request_id' => $addressChangeRequest->id,
+            'address_change_request_id' => $addressChangeRequest?->id,
             'key' => $key,
             'value' => $value,
             'created_at' => new \DateTime(),

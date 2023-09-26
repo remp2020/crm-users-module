@@ -1,6 +1,9 @@
 {if $address}
 <div style="margin-bottom: 5px">
   <b>
+    {if $address->company_name}
+      {$address->company_name}
+    {/if}
     {if $address->first_name}
       {$address->first_name}
     {/if}
