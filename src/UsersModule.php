@@ -41,7 +41,6 @@ use Crm\UsersModule\Seeders\MeasurementsSeeder;
 use Crm\UsersModule\Seeders\SegmentsSeeder;
 use Crm\UsersModule\Seeders\SnippetsSeeder;
 use Crm\UsersModule\Seeders\UsersSeeder;
-use League\Event\Emitter;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 use Nette\DI\Container;
@@ -154,51 +153,51 @@ class UsersModule extends CrmModule
         }
     }
 
-    public function registerEventHandlers(Emitter $emitter)
+    public function registerLazyEventHandlers(\Crm\ApplicationModule\Event\LazyEventEmitter $emitter)
     {
         $emitter->addListener(
             \Crm\UsersModule\Events\LoginAttemptEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\LoginAttemptHandler::class)
+            \Crm\UsersModule\Events\LoginAttemptHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\UserLastAccessEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\UserLastAccessHandler::class)
+            \Crm\UsersModule\Events\UserLastAccessHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\UserUpdatedEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\RefreshUserDataTokenHandler::class)
+            \Crm\UsersModule\Events\RefreshUserDataTokenHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\UserUpdatedEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\UserUpdatedHandler::class)
+            \Crm\UsersModule\Events\UserUpdatedHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\UserMetaEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\RefreshUserDataTokenHandler::class)
+            \Crm\UsersModule\Events\RefreshUserDataTokenHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\UserSignInEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\SignEventHandler::class)
+            \Crm\UsersModule\Events\SignEventHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\UserSignOutEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\SignEventHandler::class)
+            \Crm\UsersModule\Events\SignEventHandler::class
         );
         $emitter->addListener(
             \Crm\ApplicationModule\Events\AuthenticationEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\AuthenticationHandler::class)
+            \Crm\UsersModule\Events\AuthenticationHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\NewAccessTokenEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\NewAccessTokenHandler::class)
+            \Crm\UsersModule\Events\NewAccessTokenHandler::class
         );
         $emitter->addListener(
             \Crm\UsersModule\Events\RemovedAccessTokenEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\RemovedAccessTokenHandler::class)
+            \Crm\UsersModule\Events\RemovedAccessTokenHandler::class
         );
         $emitter->addListener(
             \Crm\ApplicationModule\Events\FrontendRequestEvent::class,
-            $this->getInstance(\Crm\UsersModule\Events\FrontendRequestAccessTokenAutologinHandler::class)
+            \Crm\UsersModule\Events\FrontendRequestAccessTokenAutologinHandler::class
         );
     }
 
