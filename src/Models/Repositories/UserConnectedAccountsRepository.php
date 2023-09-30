@@ -79,7 +79,7 @@ class UserConnectedAccountsRepository extends Repository
         return $removed;
     }
 
-    public function removeAccountForUser(ActiveRow $user, int $id): int
+    public function removeAccountForUser(ActiveRow $user, int $id): ?bool
     {
         $userAccount = $this->getTable()
             ->where([
@@ -89,7 +89,7 @@ class UserConnectedAccountsRepository extends Repository
             ->fetch();
 
         if (!$userAccount) {
-            return 0;
+            return null;
         }
 
         return $this->delete($userAccount);
