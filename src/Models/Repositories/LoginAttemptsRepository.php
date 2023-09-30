@@ -4,7 +4,6 @@ namespace Crm\UsersModule\Repository;
 
 use Crm\ApplicationModule\Repository;
 use DeviceDetector\DeviceDetector;
-use Nette\Database\Explorer;
 
 class LoginAttemptsRepository extends Repository
 {
@@ -23,7 +22,6 @@ class LoginAttemptsRepository extends Repository
     public const STATUS_LOGIN_AFTER_SIGN_UP = 'login_after_sign_up';
     public const RATE_LIMIT_EXCEEDED = 'rate_limit_exceeded';
 
-    /** @var Explorer */
     protected $tableName = 'login_attempts';
 
     final public function okStatuses(): array
