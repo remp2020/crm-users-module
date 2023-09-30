@@ -28,7 +28,7 @@ class TestUserTokenAuthorization implements UsersApiAuthorizationInterface, Acce
 
     public function getErrorMessage(): ?string
     {
-        return false;
+        return null;
     }
 
     public function getAuthorizedData()
