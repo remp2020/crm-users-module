@@ -49,6 +49,7 @@ class UserActionLogAdmin extends Control
 
         $logsRows = $logs->limit(300);
 
+        /** @var FilterUserActionLogsDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders('users.dataprovider.filter_user_actions_log_selection', FilterUserActionLogsDataProviderInterface::class);
         foreach ($providers as $sorting => $provider) {
             $logs = $provider

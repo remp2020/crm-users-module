@@ -136,6 +136,7 @@ class UnclaimedUser
             throw new AccessTokenNotFoundException("There is no access token for user {$loggedUser->id} and device token {$deviceToken->id}");
         }
 
+        /** @var ClaimUserDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders('users.dataprovider.claim_unclaimed_user', ClaimUserDataProviderInterface::class);
         foreach ($providers as $sorting => $provider) {
             $provider->provide(['unclaimedUser' => $unclaimedUser, 'loggedUser' => $loggedUser]);
