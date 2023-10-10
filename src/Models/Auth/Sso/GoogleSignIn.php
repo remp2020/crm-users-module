@@ -314,6 +314,7 @@ class GoogleSignIn
                 'googleUserEmail' => $userEmail,
                 'googleUserId' => $googleUserId,
                 'gsiAccessToken' => $client->getAccessToken()['access_token'],
+                'redirectUri' => $redirectUri,
                 'locale' => $locale,
             ]);
         }
