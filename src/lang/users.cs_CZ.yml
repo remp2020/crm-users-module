@@ -521,8 +521,8 @@ deletion_note:
 
 api:
     users_login_handler:
-        identity_not_found: "Zadaný e-mail se neshoduje s našimi záznamy. Přihlaste se, prosím, stejně jako na webu Deníku N."
-        invalid_credentials: "Zadané heslo se neshoduje s našimi záznamy. Přihlaste se, prosím, stejně jako na webu Deníku N."
+        identity_not_found: "Zadaný e-mail se neshoduje s našimi záznamy. Přihlaste se, prosím, stejně jako na webu."
+        invalid_credentials: "Zadané heslo se neshoduje s našimi záznamy. Přihlaste se, prosím, stejně jako na webu."
 
 form:
     admin_user_group:
