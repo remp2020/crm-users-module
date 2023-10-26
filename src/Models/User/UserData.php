@@ -23,8 +23,13 @@ class UserData
 
     public function refreshUserTokens($userId): void
     {
+        $tokens = $this->accessTokensRepository->allUserTokens($userId)->fetchAll();
+        if (!count($tokens)) {
+            // no need to generate user data if there are no access tokens to store.
+            return;
+        }
+
         $userDataContent = $this->userDataRegistrator->generate($userId);
-        $tokens = $this->accessTokensRepository->allUserTokens($userId);
 
         $tokensString = [];
         foreach ($tokens as $token) {
