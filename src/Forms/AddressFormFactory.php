@@ -9,57 +9,30 @@ use Crm\UsersModule\Repository\AddressTypesRepository;
 use Crm\UsersModule\Repository\AddressesRepository;
 use Crm\UsersModule\Repository\CountriesRepository;
 use Crm\UsersModule\Repository\UsersRepository;
-use League\Event\Emitter;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class AddressFormFactory
 {
-    private $userRepository;
-
-    private $countriesRepository;
-
-    private $addressesRepository;
-
-    private $addressTypesRepository;
-
-    private $addressChangeRequestsRepository;
-
-    private $emitter;
-
-    private $translator;
-
     public $onSave;
 
     public $onUpdate;
 
-    private $dataProviderManager;
+    private $address;
 
     public function __construct(
-        UsersRepository $userRepository,
-        AddressesRepository $addressesRepository,
-        CountriesRepository $countriesRepository,
-        AddressTypesRepository $addressTypesRepository,
-        AddressChangeRequestsRepository $addressChangeRequestsRepository,
-        Emitter $emitter,
-        Translator $translator,
-        DataProviderManager $dataProviderManager
+        private UsersRepository $userRepository,
+        private AddressesRepository $addressesRepository,
+        private CountriesRepository $countriesRepository,
+        private AddressTypesRepository $addressTypesRepository,
+        private AddressChangeRequestsRepository $addressChangeRequestsRepository,
+        private Translator $translator,
+        private DataProviderManager $dataProviderManager,
     ) {
-        $this->userRepository = $userRepository;
-        $this->addressesRepository = $addressesRepository;
-        $this->addressTypesRepository = $addressTypesRepository;
-        $this->addressChangeRequestsRepository = $addressChangeRequestsRepository;
-        $this->countriesRepository = $countriesRepository;
-        $this->emitter = $emitter;
-        $this->translator = $translator;
-        $this->dataProviderManager = $dataProviderManager;
     }
 
-    /**
-     * @return Form
-     */
-    public function create($addressId, $userId)
+    public function create($addressId, $userId): Form
     {
         $form = new Form;
 
@@ -135,6 +108,8 @@ class AddressFormFactory
 
         $form->setDefaults($defaults);
 
+        $form->onSuccess[] = [$this, 'formSucceeded'];
+
         /** @var AddressFormDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders('users.dataprovider.address_form', AddressFormDataProviderInterface::class);
         foreach ($providers as $sorting => $provider) {
@@ -146,11 +121,12 @@ class AddressFormFactory
             ->setName('button')
             ->setHtml('<i class="fa fa-save"></i> ' . $this->translator->translate('users.frontend.address.submit'));
 
-        $form->onSuccess[] = [$this, 'formSucceeded'];
+        $form->onSuccess[] = [$this, 'formSucceededAfterProviders'];
+
         return $form;
     }
 
-    public function formSucceeded($form, $values)
+    public function formSucceeded(Form $form, $values): void
     {
         $user = $this->userRepository->find($values->user_id);
         $address = null;
@@ -180,11 +156,15 @@ class AddressFormFactory
         if ($changeRequest) {
             $address = $this->addressChangeRequestsRepository->acceptRequest($changeRequest, true);
         }
+        $this->address = $address;
+    }
 
+    public function formSucceededAfterProviders(Form $form, $values): void
+    {
         if (isset($values->id)) {
-            $this->onUpdate->__invoke($form, $address);
+            $this->onUpdate->__invoke($form, $this->address);
         } else {
-            $this->onSave->__invoke($form, $address);
+            $this->onSave->__invoke($form, $this->address);
         }
     }
 }
