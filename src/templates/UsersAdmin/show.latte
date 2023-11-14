@@ -114,6 +114,8 @@
         <li n:if="$user->sales_funnel_id" class="list-group-item"><b>{_users.admin.show.funnel}:</b> <a n:href=":SalesFunnel:SalesFunnelsAdmin:show $user->sales_funnel_id">{$user->sales_funnel->name}</a></li>
         <li n:if="$user->referer" class="list-group-item"><b>{_users.admin.show.referer}:</b> <small class="text-muted"><a href="{$user->referer}" target="_blank">{$user->referer|truncate:70}</a></small></li>
         <li class="list-group-item"><b>{_users.admin.show.locale}:</b> {Locale::getDisplayLanguage($user->locale, $translator->getLocale())}</li>
+
+        {control simpleWidget 'admin.user.detail.basic_info', $user->id}
       </ul>
     </div>
 
