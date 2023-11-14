@@ -3,6 +3,8 @@
 namespace Crm\UsersModule\DataProvider;
 
 use Crm\ApplicationModule\DataProvider\DataProviderException;
+use Crm\UsersModule\Repository\AddressChangeRequestsRepository;
+use Crm\UsersModule\Repository\AddressesRepository;
 use Crm\UsersModule\Repository\UserMetaRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\User\ClaimUserDataProviderInterface;
@@ -10,16 +12,12 @@ use Crm\UsersModule\User\UnclaimedUser;
 
 class UsersClaimUserDataProvider implements ClaimUserDataProviderInterface
 {
-    private $usersRepository;
-
-    private $userMetaRepository;
-
     public function __construct(
-        UsersRepository $usersRepository,
-        UserMetaRepository $userMetaRepository
+        private UsersRepository $usersRepository,
+        private UserMetaRepository $userMetaRepository,
+        private AddressesRepository $addressesRepository,
+        private AddressChangeRequestsRepository $addressChangeRequestsRepository,
     ) {
-        $this->userMetaRepository = $userMetaRepository;
-        $this->usersRepository = $usersRepository;
     }
 
     public function provide(array $params): void
@@ -42,6 +40,24 @@ class UsersClaimUserDataProvider implements ClaimUserDataProviderInterface
                 continue;
             }
             $this->userMetaRepository->update($unclaimedUserMeta, ['user_id' => $params['loggedUser']->id]);
+        }
+
+        $addresses = $this->addressesRepository->getTable()
+            ->where('user_id = ?', $params['unclaimedUser']->id);
+
+        foreach ($addresses as $address) {
+            $this->addressesRepository->update($address, [
+                'user_id' => $params['loggedUser']->id,
+            ]);
+        }
+
+        $addressChangeRequests = $this->addressChangeRequestsRepository->getTable()
+            ->where('user_id = ?', $params['unclaimedUser']->id);
+
+        foreach ($addressChangeRequests as $addressChangeRequest) {
+            $this->addressChangeRequestsRepository->update($addressChangeRequest, [
+                'user_id' => $params['loggedUser']->id,
+            ]);
         }
 
         // trim - if any of the notes is null or empty
