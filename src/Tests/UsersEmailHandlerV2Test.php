@@ -4,6 +4,7 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Authenticator\AuthenticatorManagerInterface;
+use Crm\ApplicationModule\Event\LazyEventEmitter;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\v2\UsersEmailHandler;
 use Crm\UsersModule\Auth\UserManager;
@@ -15,7 +16,6 @@ use Crm\UsersModule\Repository\UserMetaRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\Seeders\UsersSeeder;
 use Crm\UsersModule\User\UnclaimedUser;
-use League\Event\Emitter;
 use Nette\Http\IResponse;
 use Nette\Utils\Random;
 use Tomaj\NetteApi\Response\JsonApiResponse;
@@ -29,7 +29,7 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
     private LoginAttemptsRepository $loginAttemptsRepository;
     private UserManager $userManager;
     private UnclaimedUser $unclaimedUser;
-    private Emitter $emitter;
+    private LazyEventEmitter $lazyEventEmitter;
 
     protected function requiredSeeders(): array
     {
@@ -56,8 +56,8 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
         $this->unclaimedUser = $this->inject(UnclaimedUser::class);
         $this->loginAttemptsRepository = $this->getRepository(LoginAttemptsRepository::class);
 
-        $this->emitter = $this->inject(Emitter::class);
-        $this->emitter->addListener(
+        $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
+        $this->lazyEventEmitter->addListener(
             LoginAttemptEvent::class,
             $this->inject(LoginAttemptHandler::class)
         );
@@ -68,10 +68,7 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
 
     protected function tearDown(): void
     {
-        $this->emitter->removeListener(
-            LoginAttemptEvent::class,
-            $this->inject(LoginAttemptHandler::class)
-        );
+        $this->lazyEventEmitter->removeAllListeners(LoginAttemptEvent::class);
 
         parent::tearDown();
     }

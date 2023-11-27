@@ -4,6 +4,7 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Authenticator\AuthenticatorManagerInterface;
+use Crm\ApplicationModule\Event\LazyEventEmitter;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\UsersLoginHandler;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;
@@ -14,7 +15,6 @@ use Crm\UsersModule\Repository\AccessTokensRepository;
 use Crm\UsersModule\Repository\UserMetaRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\User\UnclaimedUser;
-use League\Event\Emitter;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 
 class UserLoginApiHandlerTest extends DatabaseTestCase
@@ -30,7 +30,7 @@ class UserLoginApiHandlerTest extends DatabaseTestCase
     private AccessTokensRepository $accessTokensRepository;
     private AuthenticatorManagerInterface $authenticatorManager;
     private UnclaimedUser $unclaimedUser;
-    private Emitter $emitter;
+    private LazyEventEmitter $lazyEventEmitter;
 
     private $user;
 
@@ -60,8 +60,8 @@ class UserLoginApiHandlerTest extends DatabaseTestCase
         $this->unclaimedUser = $this->inject(UnclaimedUser::class);
         $this->handler = $this->inject(UsersLoginHandler::class);
 
-        $this->emitter = $this->inject(Emitter::class);
-        $this->emitter->addListener(
+        $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
+        $this->lazyEventEmitter->addListener(
             UserSignInEvent::class,
             $this->inject(SignEventHandler::class)
         );
@@ -72,10 +72,7 @@ class UserLoginApiHandlerTest extends DatabaseTestCase
 
     protected function tearDown(): void
     {
-        $this->emitter->removeListener(
-            UserSignInEvent::class,
-            $this->inject(SignEventHandler::class)
-        );
+        $this->lazyEventEmitter->removeAllListeners(UserSignInEvent::class);
 
         parent::tearDown();
     }
