@@ -11,8 +11,13 @@
       <h1>
         <small>[{$user->id}]</small>
         {$user->email|gravatar,50|noescape}
-        <span>{$user|userLabel|noescape}{if $user->supporter} - <span class="btn btn-success btn">podporovatel</span> {/if}
-        {if $user->public_name && $user->public_name !== $user->email} - {$user->public_name} {/if}</span>
+
+        {capture $title}
+          {$user|userLabel|noescape}{if $user->supporter} - <span class="btn btn-success btn">podporovatel</span>{/if}
+          {if $user->public_name && $user->public_name !== $user->email} - {$user->public_name}{/if}
+        {/capture}
+
+        <span>{trim($title)}</span>
 		<span n:if="$user->role === \Crm\UsersModule\Repository\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
 
       	<a n:href="edit $user->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>
