@@ -7,9 +7,9 @@
   "require": {
     "php": "^8.0",
     "mobiledetect/mobiledetectlib": "^2.8",
-    "sinergi/browser-detector": "^6.1",
     "google/apiclient": "^2.9",
-    "firebase/php-jwt": "^v6.3.0"
+    "firebase/php-jwt": "^v6.3.0",
+    "matomo/device-detector": "^6.2"
   },
   "minimum-stability": "dev",
   "autoload": {

@@ -3,11 +3,8 @@
 namespace Crm\UsersModule\Repository;
 
 use Crm\ApplicationModule\Repository;
+use DeviceDetector\DeviceDetector;
 use Nette\Database\Explorer;
-use Sinergi\BrowserDetector\Browser;
-use Sinergi\BrowserDetector\Device;
-use Sinergi\BrowserDetector\Os;
-use Sinergi\BrowserDetector\UserAgent;
 
 class LoginAttemptsRepository extends Repository
 {
@@ -73,16 +70,14 @@ class LoginAttemptsRepository extends Repository
         $device = null;
         $isMobile = null;
         if ($userAgent) {
-            $ua = new UserAgent($userAgent);
-            $o = new Os($ua);
-            $d = new Device($ua);
-            $b = new Browser($ua);
+            $deviceDetector = new DeviceDetector($userAgent);
+            $deviceDetector->parse();
 
-            $isMobile = $o->isMobile();
-            $browser = $b->getName();
-            $browserVersion = $b->getVersion();
-            $os = $o->getName();
-            $device = $d->getName();
+            $isMobile = $deviceDetector->isMobile();
+            $browser = $deviceDetector->getClient('name');
+            $browserVersion = $deviceDetector->getClient('version');
+            $os = $deviceDetector->getOs('name');
+            $device = $deviceDetector->getDeviceName();
         }
 
         return $this->getTable()->insert([

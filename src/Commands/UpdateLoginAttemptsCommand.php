@@ -3,10 +3,7 @@
 namespace Crm\UsersModule\Commands;
 
 use Crm\UsersModule\Repository\LoginAttemptsRepository;
-use Sinergi\BrowserDetector\Browser;
-use Sinergi\BrowserDetector\Device;
-use Sinergi\BrowserDetector\Os;
-use Sinergi\BrowserDetector\UserAgent;
+use DeviceDetector\DeviceDetector;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,16 +37,14 @@ class UpdateLoginAttemptsCommand extends Command
                 $lastId = $attempt->id;
                 $found = true;
 
-                $ua = new UserAgent($attempt->user_agent);
-                $o = new Os($ua);
-                $d = new Device($ua);
-                $b = new Browser($ua);
+                $deviceDetector = new DeviceDetector($attempt->user_agent);
+                $deviceDetector->parse();
 
-                $isMobile = $o->isMobile();
-                $browser = $b->getName();
-                $browserVersion = $b->getVersion();
-                $os = $o->getName();
-                $device = $d->getName();
+                $isMobile = $deviceDetector->isMobile();
+                $browser = $deviceDetector->getClient('name');
+                $browserVersion = $deviceDetector->getClient('version');
+                $os = $deviceDetector->getOs('name');
+                $device = $deviceDetector->getDeviceName();
 
                 $this->loginAttemptsRepository->update($attempt, [
                     'browser' => $browser,
