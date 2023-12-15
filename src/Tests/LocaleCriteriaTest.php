@@ -6,6 +6,7 @@ use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Builder\UserBuilder;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\Scenarios\LocaleCriteria;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LocaleCriteriaTest extends DatabaseTestCase
 {
@@ -19,7 +20,7 @@ class LocaleCriteriaTest extends DatabaseTestCase
         return [];
     }
 
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             [true, 'sk_SK', 'sk_SK'],
@@ -27,9 +28,7 @@ class LocaleCriteriaTest extends DatabaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function testIsLocale(bool $isSelected, string $selectedLocale, string $userLocale): void
     {
         [$userSelection, $userRow] = $this->prepareData($userLocale);

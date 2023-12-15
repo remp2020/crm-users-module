@@ -6,6 +6,7 @@ use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\Scenarios\IsConfirmedCriteria;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class IsConfirmedCriteriaTest extends DatabaseTestCase
 {
@@ -22,7 +23,7 @@ class IsConfirmedCriteriaTest extends DatabaseTestCase
         ];
     }
 
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             'Confirmed_CheckConfirmed_ShouldReturnTrue' => [
@@ -48,9 +49,7 @@ class IsConfirmedCriteriaTest extends DatabaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function testIsConfirmed(bool $isConfirmed, bool $selectedValue, bool $expectedValue): void
     {
         [$userSelection, $userRow] = $this->prepareData($isConfirmed);

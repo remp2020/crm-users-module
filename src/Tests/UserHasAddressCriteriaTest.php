@@ -10,6 +10,7 @@ use Crm\UsersModule\Repository\AddressesRepository;
 use Crm\UsersModule\Repository\CountriesRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\Scenarios\UserHasAddressCriteria;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class UserHasAddressCriteriaTest extends DatabaseTestCase
 {
@@ -30,7 +31,7 @@ class UserHasAddressCriteriaTest extends DatabaseTestCase
         ];
     }
 
-    public function dataProviderForTestUserHasAddressCriteria(): array
+    public static function dataProviderForTestUserHasAddressCriteria(): array
     {
         return [
             [
@@ -56,9 +57,7 @@ class UserHasAddressCriteriaTest extends DatabaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProviderForTestUserHasAddressCriteria
-     */
+    #[DataProvider('dataProviderForTestUserHasAddressCriteria')]
     public function testUserHasAddressCriteriaTest(array $hasAddresses, array $shouldHaveOneOfAddressTypes, bool $expectedResult) : void
     {
         [$userSelection, $userRow] = $this->prepareData($hasAddresses);
