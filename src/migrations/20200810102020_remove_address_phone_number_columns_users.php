@@ -1,5 +1,6 @@
 <?php
 
+use Cake\Database\Query;
 use Phinx\Migration\AbstractMigration;
 
 class RemoveAddressPhoneNumberColumnsUsers extends AbstractMigration
@@ -63,7 +64,9 @@ class RemoveAddressPhoneNumberColumnsUsers extends AbstractMigration
                                 `um`.`key` = 'deprecated_phone_number'
                             ");
 
-        $this->getQueryBuilder()->delete('user_meta')
+        /** @var Query\DeleteQuery $builder */
+        $builder = $this->getQueryBuilder(Query::TYPE_DELETE);
+        $builder->delete('user_meta')
             ->whereInList('user_meta.key', ['deprecated_address', 'deprecated_phone_number'])
             ->execute();
     }
