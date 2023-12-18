@@ -4,25 +4,20 @@ namespace Crm\UsersModule\Events;
 
 use Crm\ApiModule\Repository\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Config\ApplicationConfig;
-use Crm\UsersModule\Repository\UsersRepository;
-use Detection\MobileDetect;
+use DeviceDetector\DeviceDetector;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 
 class UserLastAccessHandler extends AbstractListener
 {
-    private $usersRepository;
-
     private $userSourceAccessesRepository;
 
     private $applicationConfig;
 
     public function __construct(
-        UsersRepository $usersRepository,
         UserSourceAccessesRepository $userSourceAccessesRepository,
         ApplicationConfig $applicationConfig
     ) {
-        $this->usersRepository = $usersRepository;
         $this->userSourceAccessesRepository = $userSourceAccessesRepository;
         $this->applicationConfig = $applicationConfig;
     }
@@ -49,10 +44,13 @@ class UserLastAccessHandler extends AbstractListener
     {
         if (empty($source) || $source === UserSignInEvent::SOURCE_WEB) {
             $source = UserSignInEvent::SOURCE_WEB;
-            $detector = new MobileDetect(null, $userAgent);
-            if ($detector->isTablet()) {
+
+            $deviceDetector = new DeviceDetector($userAgent);
+            $deviceDetector->parse();
+
+            if ($deviceDetector->isTablet()) {
                 $source .= '_tablet';
-            } elseif ($detector->isMobile()) {
+            } elseif ($deviceDetector->isMobile()) {
                 $source .= '_mobile';
             }
             return $source;
