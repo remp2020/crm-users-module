@@ -5,14 +5,15 @@ namespace Crm\UsersModule\Presenters;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\UsersModule\Forms\GroupFormFactory;
 use Crm\UsersModule\Repository\GroupsRepository;
+use Nette\DI\Attributes\Inject;
 
 class GroupsAdminPresenter extends AdminPresenter
 {
-    /** @var  GroupsRepository @inject */
-    public $groupsRepository;
+    #[Inject]
+    public GroupsRepository $groupsRepository;
 
-    /** @var  GroupFormFactory @inject */
-    public $groupFormFactory;
+    #[Inject]
+    public GroupFormFactory $groupFormFactory;
 
     /**
      * @admin-access-level read

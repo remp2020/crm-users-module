@@ -24,7 +24,8 @@ use Crm\UsersModule\Repository\GroupsRepository;
 use Crm\UsersModule\Repository\UserActionsLogRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\User\ZipBuilder;
-use Nette;
+use Nette\Application\Attributes\Persistent;
+use Nette\Application\BadRequestException;
 use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
@@ -33,7 +34,7 @@ use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class UsersAdminPresenter extends AdminPresenter
 {
-    /** @persistent */
+    #[Persistent]
     public $formData = [];
 
     public function __construct(
@@ -88,7 +89,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($id);
         if (!$user) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
         $this->template->user = $user;
         $this->template->translator = $this->translator;
@@ -108,7 +109,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($id);
         if (!$user) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
         $this->template->user = $user;
     }
@@ -127,7 +128,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            throw new Nette\Application\BadRequestException("User with id: {$userId} doesn't exist.");
+            throw new BadRequestException("User with id: {$userId} doesn't exist.");
         }
 
         $abusiveInformationSelection = $this->usersRepository->getAbusiveUsers(
@@ -168,7 +169,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            throw new Nette\Application\BadRequestException("User with id: {$userId} doesn't exist.");
+            throw new BadRequestException("User with id: {$userId} doesn't exist.");
         }
 
         $password = $this->userManager->resetPassword($user, null, false);
@@ -189,7 +190,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            throw new Nette\Application\BadRequestException("User with id: {$userId} doesn't exist.");
+            throw new BadRequestException("User with id: {$userId} doesn't exist.");
         }
 
         $this->userManager->confirmUser($user, new DateTime(), true);
@@ -339,7 +340,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
 
         $this->usersRepository->toggleActivation($user);
@@ -358,7 +359,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($id);
         if (!$user) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
 
         $this->payload->isModal = true;
@@ -372,7 +373,7 @@ class UsersAdminPresenter extends AdminPresenter
 
         $user = $this->usersRepository->find($userId);
         if ($user === null) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
 
         $form = $this->adminUserDeleteFormFactory->create($user);
@@ -398,7 +399,7 @@ class UsersAdminPresenter extends AdminPresenter
     {
         $user = $this->usersRepository->find($userId);
         if (!$user) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
 
         $abusiveInformationSelection = $this->usersRepository->getAbusiveUsers(

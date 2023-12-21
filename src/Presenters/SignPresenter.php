@@ -10,6 +10,7 @@ use Crm\UsersModule\Auth\InvalidEmailException;
 use Crm\UsersModule\Auth\SignInRedirectValidator;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Events\UserSignOutEvent;
+use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IUserStorage;
@@ -18,7 +19,7 @@ use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class SignPresenter extends FrontendPresenter
 {
-    /** @persistent */
+    #[Persistent]
     public $back;
 
     private string $referer;

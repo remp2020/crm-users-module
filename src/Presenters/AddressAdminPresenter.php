@@ -6,7 +6,7 @@ use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\UsersModule\Forms\AddressFormFactory;
 use Crm\UsersModule\Repository\AddressesRepository;
 use Crm\UsersModule\Repository\UsersRepository;
-use Nette;
+use Nette\Application\BadRequestException;
 
 class AddressAdminPresenter extends AdminPresenter
 {
@@ -34,7 +34,7 @@ class AddressAdminPresenter extends AdminPresenter
     {
         $address = $this->addressesRepository->find($id);
         if (!$address) {
-            throw new Nette\Application\BadRequestException();
+            throw new BadRequestException();
         }
         $this->template->address = $address;
         $this->template->user = $address->user;

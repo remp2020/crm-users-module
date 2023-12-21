@@ -11,6 +11,7 @@ use Crm\UsersModule\Components\UserActionLogAdminFactoryInterface;
 use Crm\UsersModule\DataProvider\FilterUserActionLogsDataProviderInterface;
 use Crm\UsersModule\DataProvider\FilterUserActionLogsFormDataProviderInterface;
 use Crm\UsersModule\Repository\UserActionsLogRepository;
+use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Form;
 use Tomaj\Form\Renderer\BootstrapInlineRenderer;
 
@@ -20,10 +21,10 @@ class UserActionsLogAdminPresenter extends AdminPresenter
 
     private $dataProviderManager;
 
-    /** @persistent */
+    #[Persistent]
     public $logAction;
 
-    /** @persistent */
+    #[Persistent]
     public $subscriptionTypeId;
 
     public function __construct(

@@ -8,21 +8,22 @@ use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
 use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
 use Crm\UsersModule\Forms\AdminGroupFormFactory;
 use Nette\Application\UI\Form;
+use Nette\DI\Attributes\Inject;
 use Nette\Utils\Html;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class AdminGroupAdminPresenter extends AdminPresenter
 {
-    /** @inject */
+    #[Inject]
     public AdminGroupsRepository $adminGroupsRepository;
 
-    /** @inject */
+    #[Inject]
     public AdminGroupFormFactory $adminGroupFormFactory;
 
-    /** @inject */
+    #[Inject]
     public AdminAccessRepository $adminAccessRepository;
 
-    /** @inject */
+    #[Inject]
     public AdminGroupsAccessRepository $adminGroupsAccessRepository;
 
     /**

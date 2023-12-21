@@ -9,41 +9,43 @@ use Crm\UsersModule\DataProvider\FilterAbusiveUserFormDataProviderInterface;
 use Crm\UsersModule\Forms\AbusiveUsersFilterFormFactory;
 use Crm\UsersModule\Repository\AccessTokensRepository;
 use Crm\UsersModule\Repository\UsersRepository;
+use Nette\Application\Attributes\Persistent;
 use Nette\Application\BadRequestException;
+use Nette\DI\Attributes\Inject;
 use Nette\Utils\DateTime;
 use PDO;
 
 class AbusiveUsersAdminPresenter extends AdminPresenter
 {
-    /** @persistent */
+    #[Persistent]
     public $email;
 
-    /** @persistent */
+    #[Persistent]
     public $dateFrom;
 
-    /** @persistent */
+    #[Persistent]
     public $dateTo;
 
-    /** @persistent */
+    #[Persistent]
     public $loginCount;
 
-    /** @persistent */
+    #[Persistent]
     public $deviceCount;
 
-    /** @persistent */
+    #[Persistent]
     public $sortBy;
 
-    /** @var UsersRepository @inject */
-    public $usersRepository;
+    #[Inject]
+    public UsersRepository $usersRepository;
 
-    /** @var AccessTokensRepository @inject */
-    public $accessTokensRepository;
+    #[Inject]
+    public AccessTokensRepository $accessTokensRepository;
 
-    /** @var AbusiveUsersFilterFormFactory @inject */
-    public $abusiveUsersFilterFormFactory;
+    #[Inject]
+    public AbusiveUsersFilterFormFactory $abusiveUsersFilterFormFactory;
 
-    /** @var DataProviderManager @inject */
-    public $dataProviderManager;
+    #[Inject]
+    public DataProviderManager $dataProviderManager;
 
     protected $onPage = 100;
 

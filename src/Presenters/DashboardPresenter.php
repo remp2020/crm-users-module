@@ -11,14 +11,15 @@ use Crm\ApplicationModule\Graphs\GraphDataItem;
 use Crm\ApplicationModule\Models\Graphs\Scale\Measurements\RangeScaleFactory;
 use Crm\UsersModule\Measurements\NewUsersMeasurement;
 use Crm\UsersModule\Measurements\SignInMeasurement;
+use Nette\Application\Attributes\Persistent;
 use Nette\Utils\DateTime;
 
 class DashboardPresenter extends AdminPresenter
 {
-    /** @persistent */
+    #[Persistent]
     public $dateFrom;
 
-    /** @persistent */
+    #[Persistent]
     public $dateTo;
 
     public function startup()

@@ -5,22 +5,23 @@ namespace Crm\UsersModule\Presenters;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\ApplicationModule\Components\PreviousNextPaginator;
 use Crm\UsersModule\Repository\LoginAttemptsRepository;
+use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class LoginAttemptsAdminPresenter extends AdminPresenter
 {
-    /** @persistent */
+    #[Persistent]
     public $created_at_from;
 
-    /** @persistent */
+    #[Persistent]
     public $created_at_to;
 
-    /** @persistent */
+    #[Persistent]
     public $email;
 
-    /** @persistent */
+    #[Persistent]
     public $user_agent;
 
     private $loginAttemptsRepository;
