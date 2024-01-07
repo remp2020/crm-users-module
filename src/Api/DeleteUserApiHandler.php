@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Api;
 
 use Contributte\Translation\Translator;
-use Crm\ApiModule\Api\ApiHandler;
-use Crm\ApiModule\Api\EmptyResponse;
+use Crm\ApiModule\Models\Api\ApiHandler;
+use Crm\ApiModule\Models\Response\EmptyResponse;
 use Crm\ApplicationModule\User\DeleteUserData;
 use Crm\UsersModule\Auth\UsersApiAuthorizationInterface;
 use Nette\Http\IResponse;

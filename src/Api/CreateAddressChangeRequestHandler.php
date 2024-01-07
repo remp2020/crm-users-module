@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Api;
 
-use Crm\ApiModule\Api\ApiHandler;
+use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Repository\AddressChangeRequestsRepository;
 use Crm\UsersModule\Repository\AddressTypesRepository;

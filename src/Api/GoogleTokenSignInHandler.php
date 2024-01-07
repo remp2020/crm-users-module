@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Api;
 
-use Crm\ApiModule\Api\ApiHandler;
+use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\DataProvider\GoogleTokenSignInDataProviderInterface;

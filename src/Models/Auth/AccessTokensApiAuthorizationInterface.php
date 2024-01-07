@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Auth;
 
-use Crm\ApiModule\Authorization\ApiAuthorizationInterface;
+use Crm\ApiModule\Models\Authorization\ApiAuthorizationInterface;
 use Nette\Database\Table\ActiveRow;
 
 interface AccessTokensApiAuthorizationInterface extends ApiAuthorizationInterface

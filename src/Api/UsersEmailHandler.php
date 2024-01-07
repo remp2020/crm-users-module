@@ -2,9 +2,9 @@
 
 namespace Crm\UsersModule\Api;
 
-use Crm\ApiModule\Api\ApiHandler;
-use Crm\ApiModule\Api\ApiParamsValidatorInterface;
-use Crm\ApiModule\Params\InputParam;
+use Crm\ApiModule\Models\Api\ApiHandler;
+use Crm\ApiModule\Models\Api\ApiParamsValidatorInterface;
+use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Auth\Rate\RateLimitException;
 use Crm\UsersModule\Auth\UserAuthenticator;
 use Crm\UsersModule\Auth\UserManager;

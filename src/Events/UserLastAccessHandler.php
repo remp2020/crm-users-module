@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Events;
 
-use Crm\ApiModule\Repository\UserSourceAccessesRepository;
+use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Config\ApplicationConfig;
 use DeviceDetector\DeviceDetector;
 use League\Event\AbstractListener;

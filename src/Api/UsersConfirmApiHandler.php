@@ -2,10 +2,10 @@
 
 namespace Crm\UsersModule\Api;
 
-use Crm\ApiModule\Api\ApiHandler;
-use Crm\ApiModule\Api\IdempotentHandlerInterface;
-use Crm\ApiModule\Params\InputParam;
-use Crm\ApiModule\Params\ParamsProcessor;
+use Crm\ApiModule\Models\Api\ApiHandler;
+use Crm\ApiModule\Models\Api\IdempotentHandlerInterface;
+use Crm\ApiModule\Models\Params\InputParam;
+use Crm\ApiModule\Models\Params\ParamsProcessor;
 use Crm\UsersModule\Auth\UserManager;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;

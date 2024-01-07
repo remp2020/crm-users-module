@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Auth;
 
-use Crm\ApiModule\Authorization\BearerTokenAuthorization;
+use Crm\ApiModule\Models\Authorization\BearerTokenAuthorization;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Http\IRequest;
 use Nette\Security\Authorizator;

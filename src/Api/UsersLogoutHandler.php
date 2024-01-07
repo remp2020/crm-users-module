@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Api;
 
-use Crm\ApiModule\Api\ApiHandler;
+use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\UsersModule\Auth\AccessTokensApiAuthorizationInterface;
 use Crm\UsersModule\Events\UserSignOutEvent;
 use Crm\UsersModule\Repository\AccessTokensRepository;

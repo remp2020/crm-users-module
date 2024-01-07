@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Components;
 
-use Crm\ApiModule\Repository\UserSourceAccessesRepository;
+use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Widget\WidgetInterface;
 use Crm\UsersModule\Repository\LoginAttemptsRepository;
 use Nette\Application\UI\Control;

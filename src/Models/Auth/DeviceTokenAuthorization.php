@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Auth;
 
-use Crm\ApiModule\Authorization\TokenParser;
+use Crm\ApiModule\Models\Authorization\TokenParser;
 use Crm\ApplicationModule\Request;
 use Crm\UsersModule\Events\UserLastAccessEvent;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;

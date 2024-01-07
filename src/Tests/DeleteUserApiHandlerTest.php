@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Tests;
 
-use Crm\ApiModule\Api\EmptyResponse;
+use Crm\ApiModule\Models\Response\EmptyResponse;
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\ActiveRow;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;

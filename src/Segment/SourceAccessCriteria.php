@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Segment;
 
-use Crm\ApiModule\Repository\UserSourceAccessesRepository;
+use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Criteria\CriteriaInterface;
 use Crm\SegmentModule\Params\DateTimeParam;
 use Crm\SegmentModule\Params\ParamsBag;
