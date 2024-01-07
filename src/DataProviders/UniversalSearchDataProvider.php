@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\DataProvider;
 
 use Contributte\Translation\Translator;
-use Crm\AdminModule\Model\UniversalSearchDataProviderInterface;
+use Crm\AdminModule\Models\UniversalSearchDataProviderInterface;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Application\LinkGenerator;
 
