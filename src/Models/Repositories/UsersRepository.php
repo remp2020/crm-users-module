@@ -7,6 +7,7 @@ use Crm\ApplicationModule\Cache\CacheRepository;
 use Crm\ApplicationModule\Hermes\HermesMessage;
 use Crm\ApplicationModule\Repository;
 use Crm\ApplicationModule\Repository\AuditLogRepository;
+use Crm\ApplicationModule\Request;
 use Crm\UsersModule\Events\NewUserEvent;
 use Crm\UsersModule\Events\UserDisabledEvent;
 use Crm\UsersModule\Events\UserRegisteredEvent;
@@ -123,7 +124,7 @@ class UsersRepository extends Repository
             return (int) $this->cacheRepository->loadAndUpdate(
                 'users_count',
                 $callable,
-                \Nette\Utils\DateTime::from(CacheRepository::REFRESH_TIME_5_MINUTES),
+                DateTime::from(CacheRepository::REFRESH_TIME_5_MINUTES),
                 $forceCacheUpdate
             );
         }
@@ -135,7 +136,7 @@ class UsersRepository extends Repository
         return $this->getTable()->where(['id' => $user->id])->update([
             'current_sign_in_at' => new \DateTime(),
             'last_sign_in_at' => $user->current_sign_in_at,
-            'current_sign_in_ip' => \Crm\ApplicationModule\Request::getIp(),
+            'current_sign_in_ip' => Request::getIp(),
             'last_sign_in_ip' => $user->current_sign_in_ip,
         ]);
     }

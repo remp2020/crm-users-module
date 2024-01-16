@@ -22,6 +22,7 @@ use Nette\Security\Passwords;
 use Nette\Security\User;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
+use Nette\Utils\JsonException;
 
 class UserManager
 {
@@ -74,7 +75,7 @@ class UserManager
      * @return ActiveRow|bool
      * @throws InvalidEmailException
      * @throws UserAlreadyExistsException
-     * @throws \Nette\Utils\JsonException
+     * @throws JsonException
      */
     public function addNewUser(
         string $email,

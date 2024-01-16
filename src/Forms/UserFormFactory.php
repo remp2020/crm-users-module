@@ -12,10 +12,10 @@ use Crm\UsersModule\Repository\UserAlreadyExistsException;
 use Crm\UsersModule\Repository\UsersRepository;
 use League\Event\Emitter;
 use Locale;
-use Nette;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\Passwords;
+use Nette\Utils\ArrayHash;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class UserFormFactory
@@ -164,7 +164,7 @@ class UserFormFactory
     {
         $values = clone($values);
         foreach ($values as $i => $item) {
-            if ($item instanceof Nette\Utils\ArrayHash) {
+            if ($item instanceof ArrayHash) {
                 unset($values[$i]);
             }
         }

@@ -4,9 +4,9 @@ namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\User\DeleteUserData;
 use Crm\UsersModule\Repository\UsersRepository;
-use Nette;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
+use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 
 class UserDeleteFormFactory
@@ -69,7 +69,7 @@ class UserDeleteFormFactory
         $user = $this->usersRepository->find($values->user_id);
         try {
             $this->authenticator->authenticate(['username' => $user->email, 'password' => $values->password]);
-        } catch (Nette\Security\AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             $form->addError($this->translator->translate('users.frontend.settings.account_delete.invalid_password'));
             return;
         }

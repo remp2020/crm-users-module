@@ -7,6 +7,7 @@ use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
 use Crm\UsersModule\Repository\LoginAttemptsRepository;
 use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Security\Passwords;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class UsersPopulator extends AbstractPopulator
 {
@@ -19,7 +20,7 @@ class UsersPopulator extends AbstractPopulator
         parent::__construct($name, $count);
     }
     /**
-     * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
+     * @param ProgressBar $progressBar
      */
     public function seed($progressBar)
     {

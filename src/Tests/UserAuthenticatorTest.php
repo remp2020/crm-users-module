@@ -8,6 +8,10 @@ use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Auth\Access\AccessToken;
 use Crm\UsersModule\Auth\UserAuthenticator;
 use Crm\UsersModule\Auth\UserManager;
+use Crm\UsersModule\Authenticator\AccessTokenAuthenticator;
+use Crm\UsersModule\Authenticator\AutoLoginAuthenticator;
+use Crm\UsersModule\Authenticator\AutoLoginTokenAuthenticator;
+use Crm\UsersModule\Authenticator\UsersAuthenticator;
 use Crm\UsersModule\Repository\AccessTokensRepository;
 use Crm\UsersModule\Repository\LoginAttemptsRepository;
 use Crm\UsersModule\Repository\UserMetaRepository;
@@ -72,19 +76,19 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
         $authenticatorManager = $this->inject(AuthenticatorManagerInterface::class);
         $authenticatorManager->registerAuthenticator(
-            $this->inject(\Crm\UsersModule\Authenticator\AutoLoginAuthenticator::class),
+            $this->inject(AutoLoginAuthenticator::class),
             700
         );
         $authenticatorManager->registerAuthenticator(
-            $this->inject(\Crm\UsersModule\Authenticator\UsersAuthenticator::class),
+            $this->inject(UsersAuthenticator::class),
             500
         );
         $authenticatorManager->registerAuthenticator(
-            $this->inject(\Crm\UsersModule\Authenticator\AccessTokenAuthenticator::class),
+            $this->inject(AccessTokenAuthenticator::class),
             200
         );
         $authenticatorManager->registerAuthenticator(
-            $this->inject(\Crm\UsersModule\Authenticator\AutoLoginTokenAuthenticator::class),
+            $this->inject(AutoLoginTokenAuthenticator::class),
             800
         );
 
@@ -95,7 +99,7 @@ class UserAuthenticatorTest extends DatabaseTestCase
         $this->usersRepository = $this->getRepository(UsersRepository::class);
         $this->accessTokenRepository = $this->getRepository(AccessTokensRepository::class);
 
-        /** @var \Crm\UsersModule\Auth\Access\AccessToken $accessToken */
+        /** @var AccessToken $accessToken */
         $accessToken = $this->inject(AccessToken::class);
         $this->accessTokenLastVersion = $accessToken->lastVersion();
 

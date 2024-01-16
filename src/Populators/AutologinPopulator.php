@@ -3,11 +3,12 @@
 namespace Crm\UsersModule\Populator;
 
 use Crm\ApplicationModule\Populator\AbstractPopulator;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class AutologinPopulator extends AbstractPopulator
 {
     /**
-     * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
+     * @param ProgressBar $progressBar
      */
     public function seed($progressBar)
     {

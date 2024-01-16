@@ -6,6 +6,7 @@ use Crm\UsersModule\Repository\UsersRepository;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Localization\Translator;
+use Phinx\Db\Adapter\MysqlAdapter;
 use Tomaj\Form\Renderer\BootstrapInlineRenderer;
 
 class UserNoteFormFactory
@@ -49,7 +50,7 @@ class UserNoteFormFactory
                 ->addRule(
                     Form::MAX_LENGTH,
                     'users.admin.user_note_form.note.validation.maximum',
-                    \Phinx\Db\Adapter\MysqlAdapter::TEXT_REGULAR
+                    MysqlAdapter::TEXT_REGULAR
                 );
         $note->getControlPrototype()->addAttributes([
                 'class' => 'autosize',

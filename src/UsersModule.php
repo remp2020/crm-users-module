@@ -5,6 +5,7 @@ namespace Crm\UsersModule;
 use Contributte\Translation\Translator;
 use Crm\ApiModule\Api\ApiRoutersContainerInterface;
 use Crm\ApiModule\Authorization\BearerTokenAuthorization;
+use Crm\ApiModule\Authorization\NoAuthorization;
 use Crm\ApiModule\Router\ApiIdentifier;
 use Crm\ApiModule\Router\ApiRoute;
 use Crm\ApplicationModule\Authenticator\AuthenticatorManagerInterface;
@@ -15,18 +16,98 @@ use Crm\ApplicationModule\Criteria\ScenariosCriteriaStorage;
 use Crm\ApplicationModule\CrmModule;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\Event\EventsStorage;
+use Crm\ApplicationModule\Event\LazyEventEmitter;
+use Crm\ApplicationModule\Events\AuthenticationEvent;
+use Crm\ApplicationModule\Events\FrontendRequestEvent;
 use Crm\ApplicationModule\Menu\MenuContainerInterface;
 use Crm\ApplicationModule\Menu\MenuItem;
 use Crm\ApplicationModule\SeederManager;
 use Crm\ApplicationModule\User\UserDataRegistrator;
 use Crm\ApplicationModule\Widget\LazyWidgetManagerInterface;
+use Crm\UsersModule\Api\AddressesHandler;
+use Crm\UsersModule\Api\AppleTokenSignInHandler;
+use Crm\UsersModule\Api\AutoLoginTokenLoginApiHandler;
+use Crm\UsersModule\Api\CreateAddressChangeRequestHandler;
+use Crm\UsersModule\Api\CreateAddressHandler;
+use Crm\UsersModule\Api\DeleteUserApiHandler;
 use Crm\UsersModule\Api\EmailValidationApiHandler;
+use Crm\UsersModule\Api\GetDeviceTokenApiHandler;
+use Crm\UsersModule\Api\GoogleTokenSignInHandler;
+use Crm\UsersModule\Api\ListUsersHandler;
+use Crm\UsersModule\Api\UserDataHandler;
+use Crm\UsersModule\Api\UserGroupApiHandler;
+use Crm\UsersModule\Api\UserInfoHandler;
+use Crm\UsersModule\Api\UserMetaDeleteHandler;
+use Crm\UsersModule\Api\UserMetaKeyUsersHandler;
+use Crm\UsersModule\Api\UserMetaListHandler;
+use Crm\UsersModule\Api\UserMetaUpsertHandler;
+use Crm\UsersModule\Api\UsersConfirmApiHandler;
+use Crm\UsersModule\Api\UsersCreateHandler;
+use Crm\UsersModule\Api\UsersEmailCheckHandler;
+use Crm\UsersModule\Api\UsersEmailHandler;
+use Crm\UsersModule\Api\UsersLoginHandler;
+use Crm\UsersModule\Api\UsersLogoutHandler;
 use Crm\UsersModule\Api\UsersTouchApiHandler;
+use Crm\UsersModule\Api\UsersUpdateHandler;
 use Crm\UsersModule\Api\v2\EmailValidationApiHandler as EmailValidationApiHandlerV2;
 use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;
 use Crm\UsersModule\Auth\Permissions;
+use Crm\UsersModule\Auth\ServiceTokenAuthorization;
+use Crm\UsersModule\Auth\UserTokenAuthorization;
+use Crm\UsersModule\Authenticator\AccessTokenAuthenticator;
+use Crm\UsersModule\Authenticator\AutoLoginAuthenticator;
+use Crm\UsersModule\Authenticator\AutoLoginTokenAuthenticator;
+use Crm\UsersModule\Authenticator\UsersAuthenticator;
+use Crm\UsersModule\Commands\AddUserCommand;
+use Crm\UsersModule\Commands\CheckEmailsCommand;
+use Crm\UsersModule\Commands\DisableUserCommand;
+use Crm\UsersModule\Commands\GenerateAccessCommand;
+use Crm\UsersModule\Commands\ReconstructUserDataCommand;
+use Crm\UsersModule\Commands\UpdateLoginAttemptsCommand;
+use Crm\UsersModule\Components\ActiveRegisteredUsersStatWidget;
+use Crm\UsersModule\Components\AddressWidget;
+use Crm\UsersModule\Components\AutologinTokens;
+use Crm\UsersModule\Components\MonthToDateUsersStatWidget;
+use Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget;
+use Crm\UsersModule\Components\MonthUsersStatWidget;
+use Crm\UsersModule\Components\SsoWidget;
+use Crm\UsersModule\Components\TodayUsersStatWidget;
+use Crm\UsersModule\Components\UserConnectedAccountsListWidget;
+use Crm\UsersModule\Components\UserLoginAttempts;
+use Crm\UsersModule\Components\UserMeta;
+use Crm\UsersModule\Components\UserPasswordChanges;
+use Crm\UsersModule\Components\UserSourceAccesses;
+use Crm\UsersModule\Components\UserTokens;
 use Crm\UsersModule\DataProvider\UniversalSearchDataProvider;
 use Crm\UsersModule\DataProvider\UsersClaimUserDataProvider;
+use Crm\UsersModule\Events\AddressChangedEvent;
+use Crm\UsersModule\Events\AuthenticationHandler;
+use Crm\UsersModule\Events\FrontendRequestAccessTokenAutologinHandler;
+use Crm\UsersModule\Events\LoginAttemptEvent;
+use Crm\UsersModule\Events\LoginAttemptHandler;
+use Crm\UsersModule\Events\NewAccessTokenEvent;
+use Crm\UsersModule\Events\NewAccessTokenHandler;
+use Crm\UsersModule\Events\NewAddressEvent;
+use Crm\UsersModule\Events\NotificationEvent;
+use Crm\UsersModule\Events\RefreshUserDataTokenHandler;
+use Crm\UsersModule\Events\RemovedAccessTokenEvent;
+use Crm\UsersModule\Events\RemovedAccessTokenHandler;
+use Crm\UsersModule\Events\SignEventHandler;
+use Crm\UsersModule\Events\UserChangePasswordEvent;
+use Crm\UsersModule\Events\UserChangePasswordRequestEvent;
+use Crm\UsersModule\Events\UserConfirmedEvent;
+use Crm\UsersModule\Events\UserDisabledEvent;
+use Crm\UsersModule\Events\UserLastAccessEvent;
+use Crm\UsersModule\Events\UserLastAccessHandler;
+use Crm\UsersModule\Events\UserMetaEvent;
+use Crm\UsersModule\Events\UserRegisteredEvent;
+use Crm\UsersModule\Events\UserResetPasswordEvent;
+use Crm\UsersModule\Events\UserSignInEvent;
+use Crm\UsersModule\Events\UserSignOutEvent;
+use Crm\UsersModule\Events\UserSuspiciousEvent;
+use Crm\UsersModule\Events\UserUpdatedEvent;
+use Crm\UsersModule\Events\UserUpdatedHandler;
+use Crm\UsersModule\Hermes\UserTokenUsageHandler;
 use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
 use Crm\UsersModule\Repository\UserActionsLogRepository;
 use Crm\UsersModule\Repository\UsersRepository;
@@ -41,6 +122,20 @@ use Crm\UsersModule\Seeders\MeasurementsSeeder;
 use Crm\UsersModule\Seeders\SegmentsSeeder;
 use Crm\UsersModule\Seeders\SnippetsSeeder;
 use Crm\UsersModule\Seeders\UsersSeeder;
+use Crm\UsersModule\Segment\ActiveCriteria;
+use Crm\UsersModule\Segment\CreatedCriteria;
+use Crm\UsersModule\Segment\DeletedCriteria;
+use Crm\UsersModule\Segment\EmailCriteria;
+use Crm\UsersModule\Segment\GroupCriteria;
+use Crm\UsersModule\Segment\SourceAccessCriteria;
+use Crm\UsersModule\Segment\SourceCriteria;
+use Crm\UsersModule\User\AddressesUserDataProvider;
+use Crm\UsersModule\User\AdminUserGroupsUserDataProvider;
+use Crm\UsersModule\User\AutoLoginTokensUserDataProvider;
+use Crm\UsersModule\User\BasicUserDataProvider;
+use Crm\UsersModule\User\LoginAttemptsUserDataProvider;
+use Crm\UsersModule\User\UserConnectedAccountsDataProvider;
+use Crm\UsersModule\User\UserMetaUserDataProvider;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 use Nette\DI\Container;
@@ -67,19 +162,19 @@ class UsersModule extends CrmModule
     public function registerAuthenticators(AuthenticatorManagerInterface $authenticatorManager)
     {
         $authenticatorManager->registerAuthenticator(
-            $this->getInstance(\Crm\UsersModule\Authenticator\AutoLoginAuthenticator::class),
+            $this->getInstance(AutoLoginAuthenticator::class),
             700
         );
         $authenticatorManager->registerAuthenticator(
-            $this->getInstance(\Crm\UsersModule\Authenticator\UsersAuthenticator::class),
+            $this->getInstance(UsersAuthenticator::class),
             500
         );
         $authenticatorManager->registerAuthenticator(
-            $this->getInstance(\Crm\UsersModule\Authenticator\AccessTokenAuthenticator::class),
+            $this->getInstance(AccessTokenAuthenticator::class),
             200
         );
         $authenticatorManager->registerAuthenticator(
-            $this->getInstance(\Crm\UsersModule\Authenticator\AutoLoginTokenAuthenticator::class),
+            $this->getInstance(AutoLoginTokenAuthenticator::class),
             800
         );
     }
@@ -88,7 +183,7 @@ class UsersModule extends CrmModule
     {
         $dispatcher->registerHandler(
             'user-token-usage',
-            $this->getInstance(\Crm\UsersModule\Hermes\UserTokenUsageHandler::class)
+            $this->getInstance(UserTokenUsageHandler::class)
         );
     }
 
@@ -153,141 +248,141 @@ class UsersModule extends CrmModule
         }
     }
 
-    public function registerLazyEventHandlers(\Crm\ApplicationModule\Event\LazyEventEmitter $emitter)
+    public function registerLazyEventHandlers(LazyEventEmitter $emitter)
     {
         $emitter->addListener(
-            \Crm\UsersModule\Events\LoginAttemptEvent::class,
-            \Crm\UsersModule\Events\LoginAttemptHandler::class
+            LoginAttemptEvent::class,
+            LoginAttemptHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\UserLastAccessEvent::class,
-            \Crm\UsersModule\Events\UserLastAccessHandler::class
+            UserLastAccessEvent::class,
+            UserLastAccessHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\UserUpdatedEvent::class,
-            \Crm\UsersModule\Events\RefreshUserDataTokenHandler::class
+            UserUpdatedEvent::class,
+            RefreshUserDataTokenHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\UserUpdatedEvent::class,
-            \Crm\UsersModule\Events\UserUpdatedHandler::class
+            UserUpdatedEvent::class,
+            UserUpdatedHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\UserMetaEvent::class,
-            \Crm\UsersModule\Events\RefreshUserDataTokenHandler::class
+            UserMetaEvent::class,
+            RefreshUserDataTokenHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\UserSignInEvent::class,
-            \Crm\UsersModule\Events\SignEventHandler::class
+            UserSignInEvent::class,
+            SignEventHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\UserSignOutEvent::class,
-            \Crm\UsersModule\Events\SignEventHandler::class
+            UserSignOutEvent::class,
+            SignEventHandler::class
         );
         $emitter->addListener(
-            \Crm\ApplicationModule\Events\AuthenticationEvent::class,
-            \Crm\UsersModule\Events\AuthenticationHandler::class
+            AuthenticationEvent::class,
+            AuthenticationHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\NewAccessTokenEvent::class,
-            \Crm\UsersModule\Events\NewAccessTokenHandler::class
+            NewAccessTokenEvent::class,
+            NewAccessTokenHandler::class
         );
         $emitter->addListener(
-            \Crm\UsersModule\Events\RemovedAccessTokenEvent::class,
-            \Crm\UsersModule\Events\RemovedAccessTokenHandler::class
+            RemovedAccessTokenEvent::class,
+            RemovedAccessTokenHandler::class
         );
         $emitter->addListener(
-            \Crm\ApplicationModule\Events\FrontendRequestEvent::class,
-            \Crm\UsersModule\Events\FrontendRequestAccessTokenAutologinHandler::class
+            FrontendRequestEvent::class,
+            FrontendRequestAccessTokenAutologinHandler::class
         );
     }
 
     public function registerCommands(CommandsContainerInterface $commandsContainer)
     {
-        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\AddUserCommand::class));
-        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\GenerateAccessCommand::class));
-        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\UpdateLoginAttemptsCommand::class));
-        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\CheckEmailsCommand::class));
-        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\DisableUserCommand::class));
-        $commandsContainer->registerCommand($this->getInstance(\Crm\UsersModule\Commands\ReconstructUserDataCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(AddUserCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(GenerateAccessCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(UpdateLoginAttemptsCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(CheckEmailsCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(DisableUserCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(ReconstructUserDataCommand::class));
     }
 
     public function registerLazyWidgets(LazyWidgetManagerInterface $widgetManager)
     {
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
-            \Crm\UsersModule\Components\UserLoginAttempts::class,
+            UserLoginAttempts::class,
             710
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
-            \Crm\UsersModule\Components\UserPasswordChanges::class,
+            UserPasswordChanges::class,
             1700
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
-            \Crm\UsersModule\Components\AutologinTokens::class,
+            AutologinTokens::class,
             1900
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
-            \Crm\UsersModule\Components\UserMeta::class,
+            UserMeta::class,
             960
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
-            \Crm\UsersModule\Components\UserTokens::class,
+            UserTokens::class,
             1235
         );
 
         $widgetManager->registerWidget(
             'admin.user.detail.box',
-            \Crm\UsersModule\Components\UserSourceAccesses::class,
+            UserSourceAccesses::class,
             580
         );
         $widgetManager->registerWidget(
             'admin.user.detail.left',
-            \Crm\UsersModule\Components\UserConnectedAccountsListWidget::class,
+            UserConnectedAccountsListWidget::class,
             710
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.totals',
-            \Crm\UsersModule\Components\ActiveRegisteredUsersStatWidget::class,
+            ActiveRegisteredUsersStatWidget::class,
             500
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.today',
-            \Crm\UsersModule\Components\TodayUsersStatWidget::class,
+            TodayUsersStatWidget::class,
             500
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.month',
-            \Crm\UsersModule\Components\MonthUsersStatWidget::class,
+            MonthUsersStatWidget::class,
             500
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.mtd',
-            \Crm\UsersModule\Components\MonthToDateUsersStatWidget::class,
+            MonthToDateUsersStatWidget::class,
             500
         );
         $widgetManager->registerWidget(
             'admin.users.header',
-            \Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget::class,
+            MonthUsersSmallBarGraphWidget::class,
             500
         );
 
         $widgetManager->registerWidget(
             'admin.user.address.partial',
-            \Crm\UsersModule\Components\AddressWidget::class,
+            AddressWidget::class,
             100
         );
         $widgetManager->registerWidget(
             'frontend.user.address.partial',
-            \Crm\UsersModule\Components\AddressWidget::class,
+            AddressWidget::class,
             100
         );
         $widgetManager->registerWidget(
             'users.sign_in.top',
-            \Crm\UsersModule\Components\SsoWidget::class,
+            SsoWidget::class,
             100
         );
     }
@@ -309,86 +404,86 @@ class UsersModule extends CrmModule
     public function registerApiCalls(ApiRoutersContainerInterface $apiRoutersContainer)
     {
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user', 'info'), \Crm\UsersModule\Api\UserInfoHandler::class, \Crm\UsersModule\Auth\UserTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user', 'info'), UserInfoHandler::class, UserTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'login'), \Crm\UsersModule\Api\UsersLoginHandler::class, \Crm\ApiModule\Authorization\NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'login'), UsersLoginHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'logout'), \Crm\UsersModule\Api\UsersLogoutHandler::class, \Crm\UsersModule\Auth\UserTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'logout'), UsersLogoutHandler::class, UserTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'email'), \Crm\UsersModule\Api\UsersEmailHandler::class, \Crm\ApiModule\Authorization\NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'email'), UsersEmailHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('2', 'users', 'email'), \Crm\UsersModule\Api\v2\UsersEmailHandler::class, \Crm\ApiModule\Authorization\NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('2', 'users', 'email'), \Crm\UsersModule\Api\v2\UsersEmailHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'email-check'), \Crm\UsersModule\Api\UsersEmailCheckHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'email-check'), UsersEmailCheckHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'create'), \Crm\UsersModule\Api\UsersCreateHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'create'), UsersCreateHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'update'), \Crm\UsersModule\Api\UsersUpdateHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'update'), UsersUpdateHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'add-to-group'), \Crm\UsersModule\Api\UserGroupApiHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'add-to-group'), UserGroupApiHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'remove-from-group'), \Crm\UsersModule\Api\UserGroupApiHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'remove-from-group'), UserGroupApiHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'addresses'), \Crm\UsersModule\Api\AddressesHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'addresses'), AddressesHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'address'), \Crm\UsersModule\Api\CreateAddressHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'address'), CreateAddressHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'change-address-request'), \Crm\UsersModule\Api\CreateAddressChangeRequestHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'change-address-request'), CreateAddressChangeRequestHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'list'), \Crm\UsersModule\Api\ListUsersHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'list'), ListUsersHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'confirm'), \Crm\UsersModule\Api\UsersConfirmApiHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'confirm'), UsersConfirmApiHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'list'), \Crm\UsersModule\Api\UserMetaListHandler::class, \Crm\UsersModule\Auth\ServiceTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'list'), UserMetaListHandler::class, ServiceTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'key-users'), \Crm\UsersModule\Api\UserMetaKeyUsersHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'key-users'), UserMetaKeyUsersHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'delete'), \Crm\UsersModule\Api\UserMetaDeleteHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'delete'), UserMetaDeleteHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'upsert'), \Crm\UsersModule\Api\UserMetaUpsertHandler::class, \Crm\ApiModule\Authorization\BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'upsert'), UserMetaUpsertHandler::class, BearerTokenAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'autologin-token-login'), \Crm\UsersModule\Api\AutoLoginTokenLoginApiHandler::class, \Crm\ApiModule\Authorization\NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'autologin-token-login'), AutoLoginTokenLoginApiHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'google-token-sign-in'), \Crm\UsersModule\Api\GoogleTokenSignInHandler::class, \Crm\ApiModule\Authorization\NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'google-token-sign-in'), GoogleTokenSignInHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'apple-token-sign-in'), \Crm\UsersModule\Api\AppleTokenSignInHandler::class, \Crm\ApiModule\Authorization\NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'apple-token-sign-in'), AppleTokenSignInHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user', 'delete'), \Crm\UsersModule\Api\DeleteUserApiHandler::class, \Crm\UsersModule\Auth\UserTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user', 'delete'), DeleteUserApiHandler::class, UserTokenAuthorization::class)
         );
 
         $apiRoutersContainer->attachRouter(new ApiRoute(
             new ApiIdentifier('1', 'users', 'data'),
-            \Crm\UsersModule\Api\UserDataHandler::class,
-            \Crm\ApiModule\Authorization\NoAuthorization::class
+            UserDataHandler::class,
+            NoAuthorization::class
         ));
 
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('1', 'users', 'get-device-token'),
-                \Crm\UsersModule\Api\GetDeviceTokenApiHandler::class,
-                \Crm\ApiModule\Authorization\NoAuthorization::class
+                GetDeviceTokenApiHandler::class,
+                NoAuthorization::class
             )
         );
 
@@ -431,24 +526,24 @@ class UsersModule extends CrmModule
 
     public function registerUserData(UserDataRegistrator $dataRegistrator)
     {
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\BasicUserDataProvider::class), 10); // low priority; should be executed last
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\AddressesUserDataProvider::class));
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\AutoLoginTokensUserDataProvider::class));
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\UserMetaUserDataProvider::class));
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\AdminUserGroupsUserDataProvider::class));
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\UserConnectedAccountsDataProvider::class));
-        $dataRegistrator->addUserDataProvider($this->getInstance(\Crm\UsersModule\User\LoginAttemptsUserDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(BasicUserDataProvider::class), 10); // low priority; should be executed last
+        $dataRegistrator->addUserDataProvider($this->getInstance(AddressesUserDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(AutoLoginTokensUserDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(UserMetaUserDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(AdminUserGroupsUserDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(UserConnectedAccountsDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(LoginAttemptsUserDataProvider::class));
     }
 
     public function registerSegmentCriteria(CriteriaStorage $criteriaStorage)
     {
-        $criteriaStorage->register('users', 'active', $this->getInstance(\Crm\UsersModule\Segment\ActiveCriteria::class));
-        $criteriaStorage->register('users', 'deleted', $this->getInstance(\Crm\UsersModule\Segment\DeletedCriteria::class));
-        $criteriaStorage->register('users', 'source', $this->getInstance(\Crm\UsersModule\Segment\SourceCriteria::class));
-        $criteriaStorage->register('users', 'source_access', $this->getInstance(\Crm\UsersModule\Segment\SourceAccessCriteria::class));
-        $criteriaStorage->register('users', 'email', $this->getInstance(\Crm\UsersModule\Segment\EmailCriteria::class));
-        $criteriaStorage->register('users', 'created', $this->getInstance(\Crm\UsersModule\Segment\CreatedCriteria::class));
-        $criteriaStorage->register('users', 'group', $this->getInstance(\Crm\UsersModule\Segment\GroupCriteria::class));
+        $criteriaStorage->register('users', 'active', $this->getInstance(ActiveCriteria::class));
+        $criteriaStorage->register('users', 'deleted', $this->getInstance(DeletedCriteria::class));
+        $criteriaStorage->register('users', 'source', $this->getInstance(SourceCriteria::class));
+        $criteriaStorage->register('users', 'source_access', $this->getInstance(SourceAccessCriteria::class));
+        $criteriaStorage->register('users', 'email', $this->getInstance(EmailCriteria::class));
+        $criteriaStorage->register('users', 'created', $this->getInstance(CreatedCriteria::class));
+        $criteriaStorage->register('users', 'group', $this->getInstance(GroupCriteria::class));
 
         $criteriaStorage->setDefaultFields('users', ['id', 'email']);
         $criteriaStorage->setFields('users', [
@@ -504,24 +599,24 @@ class UsersModule extends CrmModule
 
     public function registerEvents(EventsStorage $eventsStorage)
     {
-        $eventsStorage->register('address_changed', Events\AddressChangedEvent::class, true);
-        $eventsStorage->register('login_attempt', Events\LoginAttemptEvent::class);
-        $eventsStorage->register('new_access_token', Events\NewAccessTokenEvent::class);
-        $eventsStorage->register('new_address', Events\NewAddressEvent::class);
-        $eventsStorage->register('notification', Events\NotificationEvent::class);
-        $eventsStorage->register('removed_access_token', Events\RemovedAccessTokenEvent::class);
-        $eventsStorage->register('user_change_password', Events\UserChangePasswordEvent::class);
-        $eventsStorage->register('user_change_password_request', Events\UserChangePasswordRequestEvent::class);
-        $eventsStorage->register('user_confirmed', Events\UserConfirmedEvent::class);
-        $eventsStorage->register('user_registered', Events\UserRegisteredEvent::class, true);
-        $eventsStorage->register('user_disabled', Events\UserDisabledEvent::class);
-        $eventsStorage->register('user_last_access', Events\UserLastAccessEvent::class);
-        $eventsStorage->register('user_meta', Events\UserMetaEvent::class);
-        $eventsStorage->register('user_reset_password', Events\UserResetPasswordEvent::class);
-        $eventsStorage->register('user_suspicious', Events\UserSuspiciousEvent::class);
-        $eventsStorage->register('user_sign_in', Events\UserSignInEvent::class);
-        $eventsStorage->register('user_sign_out', Events\UserSignOutEvent::class);
-        $eventsStorage->register('user_updated', Events\UserUpdatedEvent::class);
+        $eventsStorage->register('address_changed', AddressChangedEvent::class, true);
+        $eventsStorage->register('login_attempt', LoginAttemptEvent::class);
+        $eventsStorage->register('new_access_token', NewAccessTokenEvent::class);
+        $eventsStorage->register('new_address', NewAddressEvent::class);
+        $eventsStorage->register('notification', NotificationEvent::class);
+        $eventsStorage->register('removed_access_token', RemovedAccessTokenEvent::class);
+        $eventsStorage->register('user_change_password', UserChangePasswordEvent::class);
+        $eventsStorage->register('user_change_password_request', UserChangePasswordRequestEvent::class);
+        $eventsStorage->register('user_confirmed', UserConfirmedEvent::class);
+        $eventsStorage->register('user_registered', UserRegisteredEvent::class, true);
+        $eventsStorage->register('user_disabled', UserDisabledEvent::class);
+        $eventsStorage->register('user_last_access', UserLastAccessEvent::class);
+        $eventsStorage->register('user_meta', UserMetaEvent::class);
+        $eventsStorage->register('user_reset_password', UserResetPasswordEvent::class);
+        $eventsStorage->register('user_suspicious', UserSuspiciousEvent::class);
+        $eventsStorage->register('user_sign_in', UserSignInEvent::class);
+        $eventsStorage->register('user_sign_out', UserSignOutEvent::class);
+        $eventsStorage->register('user_updated', UserUpdatedEvent::class);
     }
 
     public function registerDataProviders(DataProviderManager $dataProviderManager)

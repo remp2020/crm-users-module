@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Auth\Sso;
 
 use Crm\ApplicationModule\Config\Repository\ConfigsRepository;
+use Crm\ApplicationModule\DataProvider\DataProviderException;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProvider\GoogleSignInDataProviderInterface;
 use Crm\UsersModule\Repository\UserConnectedAccountsRepository;
@@ -70,7 +71,7 @@ class GoogleSignIn
      * @param string|null $locale if user is created, this locale will be set as a default user locale
      * @return ActiveRow|null created/matched user
      * @throws AlreadyLinkedAccountSsoException
-     * @throws \Crm\ApplicationModule\DataProvider\DataProviderException
+     * @throws DataProviderException
      */
     public function signInUsingIdToken(
         string $idToken,
@@ -242,7 +243,7 @@ class GoogleSignIn
      * @return ActiveRow user row
      * @throws AlreadyLinkedAccountSsoException if connected account is used
      * @throws SsoException if authentication fails
-     * @throws \Crm\ApplicationModule\DataProvider\DataProviderException
+     * @throws DataProviderException
      */
     public function signInCallback(string $redirectUri, ?string $referer = null, ?string $locale = null): ActiveRow
     {
