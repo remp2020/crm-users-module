@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Commands;
 
-use Crm\SegmentModule\SegmentFactoryInterface;
+use Crm\SegmentModule\Models\SegmentFactoryInterface;
 use Crm\UsersModule\Repository\UsersRepository;
 use Crm\UsersModule\User\UserData;
 use Nette\UnexpectedValueException;

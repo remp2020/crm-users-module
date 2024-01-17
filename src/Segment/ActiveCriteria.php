@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Segment;
 
 use Crm\ApplicationModule\Criteria\CriteriaInterface;
-use Crm\SegmentModule\Params\BooleanParam;
-use Crm\SegmentModule\Params\ParamsBag;
+use Crm\SegmentModule\Models\Params\BooleanParam;
+use Crm\SegmentModule\Models\Params\ParamsBag;
 
 class ActiveCriteria implements CriteriaInterface
 {

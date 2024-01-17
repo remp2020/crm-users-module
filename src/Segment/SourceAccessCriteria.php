@@ -4,8 +4,8 @@ namespace Crm\UsersModule\Segment;
 
 use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Criteria\CriteriaInterface;
-use Crm\SegmentModule\Params\DateTimeParam;
-use Crm\SegmentModule\Params\ParamsBag;
+use Crm\SegmentModule\Models\Params\DateTimeParam;
+use Crm\SegmentModule\Models\Params\ParamsBag;
 
 class SourceAccessCriteria implements CriteriaInterface
 {

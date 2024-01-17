@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Segment;
 
 use Crm\ApplicationModule\Criteria\CriteriaInterface;
-use Crm\SegmentModule\Params\NumberArrayParam;
-use Crm\SegmentModule\Params\ParamsBag;
+use Crm\SegmentModule\Models\Params\NumberArrayParam;
+use Crm\SegmentModule\Models\Params\ParamsBag;
 use Crm\UsersModule\Repository\GroupsRepository;
 
 class GroupCriteria implements CriteriaInterface

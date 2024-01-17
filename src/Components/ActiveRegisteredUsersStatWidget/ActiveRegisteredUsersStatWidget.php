@@ -4,8 +4,8 @@ namespace Crm\UsersModule\Components;
 
 use Crm\ApplicationModule\Widget\BaseLazyWidget;
 use Crm\ApplicationModule\Widget\LazyWidgetManager;
-use Crm\SegmentModule\Repository\SegmentsRepository;
-use Crm\SegmentModule\Repository\SegmentsValuesRepository;
+use Crm\SegmentModule\Repositories\SegmentsRepository;
+use Crm\SegmentModule\Repositories\SegmentsValuesRepository;
 
 /**
  * This widget renders simple single stat widget with total active (not deleted) users count.
