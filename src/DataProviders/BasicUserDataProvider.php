@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\User\UserDataProviderInterface;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Utils\DateTime;
 use Nette\Utils\Random;
 

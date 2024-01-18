@@ -4,11 +4,11 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApplicationModule\Seeders\CountriesSeeder;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\AddressTypesRepository;
-use Crm\UsersModule\Repository\AddressesRepository;
-use Crm\UsersModule\Repository\CountriesRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\AddressTypesRepository;
+use Crm\UsersModule\Repositories\AddressesRepository;
+use Crm\UsersModule\Repositories\CountriesRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Scenarios\UserHasAddressCriteria;
 use PHPUnit\Framework\Attributes\DataProvider;
 

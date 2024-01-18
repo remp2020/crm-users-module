@@ -4,11 +4,11 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApplicationModule\DataProvider\DataProviderException;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\DataProvider\UsersClaimUserDataProvider;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\DataProviders\UsersClaimUserDataProvider;
+use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Seeders\UsersSeeder;
-use Crm\UsersModule\User\UnclaimedUser;
 use Nette\Database\Table\ActiveRow;
 
 class UsersClaimUserDataProviderTest extends DatabaseTestCase

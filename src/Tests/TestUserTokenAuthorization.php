@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Tests;
 
-use Crm\UsersModule\Auth\AccessTokensApiAuthorizationInterface;
-use Crm\UsersModule\Auth\UsersApiAuthorizationInterface;
+use Crm\UsersModule\Models\Auth\AccessTokensApiAuthorizationInterface;
+use Crm\UsersModule\Models\Auth\UsersApiAuthorizationInterface;
 use Nette\Security\Authorizator;
 
 class TestUserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface

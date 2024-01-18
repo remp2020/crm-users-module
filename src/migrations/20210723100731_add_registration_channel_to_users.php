@@ -1,8 +1,8 @@
 <?php
 
-use Crm\UsersModule\Auth\Sso\AppleSignIn;
-use Crm\UsersModule\Auth\Sso\GoogleSignIn;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
+use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
+use Crm\UsersModule\Models\Auth\Sso\AppleSignIn;
 use Phinx\Migration\AbstractMigration;
 
 class AddRegistrationChannelToUsers extends AbstractMigration

@@ -3,12 +3,11 @@
 namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\DataProvider\DataProviderException;
-use Crm\UsersModule\Repository\AddressChangeRequestsRepository;
-use Crm\UsersModule\Repository\AddressesRepository;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
-use Crm\UsersModule\User\ClaimUserDataProviderInterface;
-use Crm\UsersModule\User\UnclaimedUser;
+use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\AddressChangeRequestsRepository;
+use Crm\UsersModule\Repositories\AddressesRepository;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 
 class UsersClaimUserDataProvider implements ClaimUserDataProviderInterface
 {

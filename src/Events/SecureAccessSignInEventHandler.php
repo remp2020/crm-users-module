@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Events;
 
 use Crm\AdminModule\Helpers\SecuredAdminAccess;
-use Crm\UsersModule\Auth\Sso\GoogleSignIn;
+use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 

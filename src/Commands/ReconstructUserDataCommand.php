@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Commands;
 
 use Crm\SegmentModule\Models\SegmentFactoryInterface;
-use Crm\UsersModule\Repository\UsersRepository;
-use Crm\UsersModule\User\UserData;
+use Crm\UsersModule\Models\User\UserData;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\UnexpectedValueException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;

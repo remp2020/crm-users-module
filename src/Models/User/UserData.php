@@ -4,8 +4,8 @@ namespace Crm\UsersModule\Models\User;
 
 use Crm\ApplicationModule\User\UserDataRegistrator;
 use Crm\ApplicationModule\User\UserDataStorageInterface;
-use Crm\UsersModule\Auth\Access\AccessToken;
-use Crm\UsersModule\Repository\AccessTokensRepository;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Nette\Http\IRequest;
 use Nette\Utils\Json;
 

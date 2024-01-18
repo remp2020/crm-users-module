@@ -10,11 +10,11 @@ use Crm\UsersModule\Api\UsersLoginHandler;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;
 use Crm\UsersModule\Events\SignEventHandler;
 use Crm\UsersModule\Events\UserSignInEvent;
+use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
-use Crm\UsersModule\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 
 class UserLoginApiHandlerTest extends DatabaseTestCase

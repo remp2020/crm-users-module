@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Components\MonthUsersStatWidget;
 
 use Crm\ApplicationModule\Widget\BaseLazyWidget;
 use Crm\ApplicationModule\Widget\LazyWidgetManager;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Utils\DateTime;
 
 /**

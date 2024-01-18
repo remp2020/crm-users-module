@@ -4,10 +4,10 @@ namespace Crm\UsersModule\Models\Builder;
 
 use Contributte\Translation\Translator;
 use Crm\ApplicationModule\Builder\Builder;
-use Crm\UsersModule\Auth\Access\AccessToken;
 use Crm\UsersModule\Events\NewUserEvent;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
 use Nette\Security\Passwords;

@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Events;
 
 use Crm\ApplicationModule\Events\AuthenticationEvent;
-use Crm\UsersModule\Auth\Access\AccessToken;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Nette\Http\Request;

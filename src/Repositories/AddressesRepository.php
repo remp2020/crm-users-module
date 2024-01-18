@@ -6,7 +6,7 @@ use Crm\ApplicationModule\DataProvider\DataProviderException;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\Repository;
 use Crm\ApplicationModule\Repository\AuditLogRepository;
-use Crm\UsersModule\DataProvider\CanDeleteAddressDataProviderInterface;
+use Crm\UsersModule\DataProviders\CanDeleteAddressDataProviderInterface;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;

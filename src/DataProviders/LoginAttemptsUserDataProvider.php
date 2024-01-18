@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\User\UserDataProviderInterface;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 
 class LoginAttemptsUserDataProvider implements UserDataProviderInterface
 {

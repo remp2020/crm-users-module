@@ -7,7 +7,7 @@ use Crm\ApplicationModule\Models\Measurements\BaseMeasurement;
 use Crm\ApplicationModule\Models\Measurements\Criteria;
 use Crm\ApplicationModule\Models\Measurements\Point;
 use Crm\ApplicationModule\Models\Measurements\Series;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 
 class SignInMeasurement extends BaseMeasurement
 {

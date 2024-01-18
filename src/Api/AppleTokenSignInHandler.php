@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Auth\Sso\AppleSignIn;
+use Crm\UsersModule\Models\Auth\Sso\AppleSignIn;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IResponse;
 use Tomaj\NetteApi\Params\PostInputParam;

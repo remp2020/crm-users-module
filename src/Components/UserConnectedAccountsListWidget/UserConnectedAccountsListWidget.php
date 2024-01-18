@@ -4,8 +4,8 @@ namespace Crm\UsersModule\Components\UserConnectedAccountsListWidget;
 
 use Crm\ApplicationModule\Widget\BaseLazyWidget;
 use Crm\ApplicationModule\Widget\LazyWidgetManager;
-use Crm\UsersModule\Repository\UserConnectedAccountsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Localization\Translator;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 

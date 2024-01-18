@@ -34,18 +34,18 @@
               <td>{$loginAttempt->email}</td>
               <td>
                 {if in_array($loginAttempt->status, [
-                 \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_OK,
-                 \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_API_OK,
-                 \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_TOKEN_OK,
-                 \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_ACCESS_TOKEN_OK,
-                 \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_LOGIN_AFTER_SIGN_UP
+                 \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_OK,
+                 \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_API_OK,
+                 \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_TOKEN_OK,
+                 \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_ACCESS_TOKEN_OK,
+                 \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_LOGIN_AFTER_SIGN_UP
               ])}
                   <span class="label label-success">{$loginAttempt->status}</span>
-                {elseif $loginAttempt->status == \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL}
+                {elseif $loginAttempt->status == \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL}
                   <span class="label label-warning">{$loginAttempt->status}</span>
-                {elseif $loginAttempt->status == \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_WRONG_PASS}
+                {elseif $loginAttempt->status == \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_WRONG_PASS}
                   <span class="label label-danger">{$loginAttempt->status}</span>
-                {elseif $loginAttempt->status == \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_INACTIVE_USER}
+                {elseif $loginAttempt->status == \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_INACTIVE_USER}
                   <span class="label label-default">{$loginAttempt->status}</span>
                 {else}
                   <span class="label label-default">{$loginAttempt->status}</span>

@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\AddressesRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\AddressesRepository;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Params\GetInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;

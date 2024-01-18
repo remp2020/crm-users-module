@@ -3,10 +3,10 @@
 
 namespace Crm\UsersModule\Models\Auth\Sso;
 
-use Crm\UsersModule\Auth\PasswordGenerator;
-use Crm\UsersModule\Builder\UserBuilder;
-use Crm\UsersModule\Repository\UserConnectedAccountsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\PasswordGenerator;
+use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 //use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
 

@@ -6,7 +6,7 @@ use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\IdempotentHandlerInterface;
 use Crm\ApiModule\Models\Params\InputParam;
 use Crm\ApiModule\Models\Params\ParamsProcessor;
-use Crm\UsersModule\Auth\UserManager;
+use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;

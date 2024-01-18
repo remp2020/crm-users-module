@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\UsersModule\Auth\Repository\AdminAccessRepository;
-use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
-use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
 use Crm\UsersModule\Forms\AdminGroupFormFactory;
+use Crm\UsersModule\Repositories\AdminAccessRepository;
+use Crm\UsersModule\Repositories\AdminGroupsAccessRepository;
+use Crm\UsersModule\Repositories\AdminGroupsRepository;
 use Nette\Application\UI\Form;
 use Nette\DI\Attributes\Inject;
 use Nette\Utils\Html;

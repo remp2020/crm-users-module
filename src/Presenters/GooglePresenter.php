@@ -4,10 +4,10 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
-use Crm\UsersModule\Auth\SignInRedirectValidator;
-use Crm\UsersModule\Auth\Sso\AlreadyLinkedAccountSsoException;
-use Crm\UsersModule\Auth\Sso\GoogleSignIn;
-use Crm\UsersModule\Auth\Sso\SsoException;
+use Crm\UsersModule\Models\Auth\SignInRedirectValidator;
+use Crm\UsersModule\Models\Auth\Sso\AlreadyLinkedAccountSsoException;
+use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
+use Crm\UsersModule\Models\Auth\Sso\SsoException;
 use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
 use Nette\Utils\Json;

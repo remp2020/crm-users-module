@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Commands;
 
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use DeviceDetector\DeviceDetector;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

@@ -3,11 +3,11 @@
 namespace Crm\UsersModule\Api\v2;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Auth\Rate\RateLimitException;
-use Crm\UsersModule\Auth\UserAuthenticator;
-use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;
-use Crm\UsersModule\Email\EmailValidator;
+use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
+use Crm\UsersModule\Models\Auth\UserAuthenticator;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Models\Email\EmailValidator;
 use Nette\Http\IResponse;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\Validators;

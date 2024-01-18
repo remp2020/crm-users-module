@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Events;
 
-use Crm\UsersModule\Auth\Access\AccessToken;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 use Nette\Http\Request;

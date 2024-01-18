@@ -3,11 +3,11 @@
 namespace Crm\UsersModule\Tests;
 
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\Builder\UserBuilder;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
-use Crm\UsersModule\User\ReachChecker;
-use Crm\UsersModule\User\UnclaimedUser;
+use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Models\User\ReachChecker;
+use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
 
 class ReachCheckerTest extends DatabaseTestCase

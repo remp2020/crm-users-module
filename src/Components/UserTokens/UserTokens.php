@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Components\UserTokens;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
-use Crm\UsersModule\Auth\Access\AccessToken;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
-use Crm\UsersModule\User\UserData;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Models\User\UserData;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;

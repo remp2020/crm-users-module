@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Events;
 
-use Crm\UsersModule\User\IUserGetter;
+use Crm\UsersModule\Models\User\IUserGetter;
 use League\Event\AbstractEvent;
 
 class UserSuspiciousEvent extends AbstractEvent implements IUserGetter

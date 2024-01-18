@@ -10,7 +10,7 @@
         {_users.admin.edit.title}:
         <small>[{$user->id}]</small>
       	{$user->first_name} {$user->last_name}
-        {if $user->role === \Crm\UsersModule\Repository\UsersRepository::ROLE_ADMIN}
+        {if $user->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN}
           <span class="label label-warning">admin</span>
         {/if}
       </h1>

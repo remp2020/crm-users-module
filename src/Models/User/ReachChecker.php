@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Models\User;
 
-use Crm\UsersModule\Repository\UserMetaRepository;
+use Crm\UsersModule\Repositories\UserMetaRepository;
 use Nette\Database\Table\ActiveRow;
 
 class ReachChecker

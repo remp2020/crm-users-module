@@ -3,10 +3,10 @@ services:
 		setup:
 			- addModule(Crm\UsersModule\UsersModule(), 300)
 	emailValidator:
-		factory: Crm\UsersModule\Email\EmailValidator
+		factory: Crm\UsersModule\Models\Email\EmailValidator
 		setup:
-			- addValidator(Crm\UsersModule\Email\RegexpValidator())
-			- addValidator(Crm\UsersModule\Email\StaticDomainFileValidator())
+			- addValidator(Crm\UsersModule\Models\Email\RegexpValidator())
+			- addValidator(Crm\UsersModule\Models\Email\StaticDomainFileValidator())
 	filterLoader:
 		setup:
 			- register('gravatar', [Crm\UsersModule\Helpers\GravatarHelper(), process])
@@ -17,65 +17,65 @@ services:
 			- register(Crm\UsersModule\Measurements\SignInMeasurement())
 			- register(Crm\UsersModule\Measurements\NewUsersMeasurement())
 
-	accessTokensRepository: Crm\UsersModule\Repository\AccessTokensRepository
-	usersRepository: Crm\UsersModule\Repository\UsersRepository
-	groupsRepository: Crm\UsersModule\Repository\GroupsRepository
-	userGroupsRepository: Crm\UsersModule\Repository\UserGroupsRepository
-	loginAttemptsRepository: Crm\UsersModule\Repository\LoginAttemptsRepository
-	registrationAttemptsRepository: Crm\UsersModule\Repository\RegistrationAttemptsRepository
+	accessTokensRepository: Crm\UsersModule\Repositories\AccessTokensRepository
+	usersRepository: Crm\UsersModule\Repositories\UsersRepository
+	groupsRepository: Crm\UsersModule\Repositories\GroupsRepository
+	userGroupsRepository: Crm\UsersModule\Repositories\UserGroupsRepository
+	loginAttemptsRepository: Crm\UsersModule\Repositories\LoginAttemptsRepository
+	registrationAttemptsRepository: Crm\UsersModule\Repositories\RegistrationAttemptsRepository
 	changePasswordsLogsRepository:
-		factory: Crm\UsersModule\Repository\ChangePasswordsLogsRepository
+		factory: Crm\UsersModule\Repositories\ChangePasswordsLogsRepository
 		setup:
 			- setRetentionThreshold('-12 months')
-	userMetaRepository: Crm\UsersModule\Repository\UserMetaRepository
-	addressesRepository: Crm\UsersModule\Repository\AddressesRepository
-	addressesMetaRepository: Crm\UsersModule\Repository\AddressesMetaRepository
-	addressChangeRequestsRepository: Crm\UsersModule\Repository\AddressChangeRequestsRepository
+	userMetaRepository: Crm\UsersModule\Repositories\UserMetaRepository
+	addressesRepository: Crm\UsersModule\Repositories\AddressesRepository
+	addressesMetaRepository: Crm\UsersModule\Repositories\AddressesMetaRepository
+	addressChangeRequestsRepository: Crm\UsersModule\Repositories\AddressChangeRequestsRepository
 	userActionsLogRepository:
-		factory: Crm\UsersModule\Repository\UserActionsLogRepository
+		factory: Crm\UsersModule\Repositories\UserActionsLogRepository
 		setup:
 			- setRetentionThreshold('-12 months')
-	adminAccessRepository: Crm\UsersModule\Auth\Repository\AdminAccessRepository
-	adminGroupsRepository: Crm\UsersModule\Auth\Repository\AdminGroupsRepository
-	adminGroupsAccessRepository: Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository
+	adminAccessRepository: Crm\UsersModule\Repositories\AdminAccessRepository
+	adminGroupsRepository: Crm\UsersModule\Repositories\AdminGroupsRepository
+	adminGroupsAccessRepository: Crm\UsersModule\Repositories\AdminGroupsAccessRepository
 	autoLoginTokensRepository:
-		factory: Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository
+		factory: Crm\UsersModule\Repositories\AutoLoginTokensRepository
 		setup:
 			- setRetentionThreshold('now', 'valid_to')
-	countriesRepository: Crm\UsersModule\Repository\CountriesRepository(%countries.default%)
-	addressTypesRepository: Crm\UsersModule\Repository\AddressTypesRepository
-	passwordResetTokensRepository: Crm\UsersModule\Repository\PasswordResetTokensRepository
-	userEmailConfirmationsRepository: Crm\UsersModule\Repository\UserEmailConfirmationsRepository
-	adminUserGroupsRepository: Crm\UsersModule\Auth\Repository\AdminUserGroupsRepository
-	userConnectedAccountsRepository: Crm\UsersModule\Repository\UserConnectedAccountsRepository
-	userStatsRepository: Crm\UsersModule\Repository\UserStatsRepository
+	countriesRepository: Crm\UsersModule\Repositories\CountriesRepository(%countries.default%)
+	addressTypesRepository: Crm\UsersModule\Repositories\AddressTypesRepository
+	passwordResetTokensRepository: Crm\UsersModule\Repositories\PasswordResetTokensRepository
+	userEmailConfirmationsRepository: Crm\UsersModule\Repositories\UserEmailConfirmationsRepository
+	adminUserGroupsRepository: Crm\UsersModule\Repositories\AdminUserGroupsRepository
+	userConnectedAccountsRepository: Crm\UsersModule\Repositories\UserConnectedAccountsRepository
+	userStatsRepository: Crm\UsersModule\Repositories\UserStatsRepository
 
 	# Authentication
 	- Crm\UsersModule\Authenticator\AutoLoginAuthenticator
 	- Crm\UsersModule\Authenticator\AccessTokenAuthenticator
 	- Crm\UsersModule\Authenticator\UsersAuthenticator
 	- Crm\UsersModule\Authenticator\AutoLoginTokenAuthenticator
-	- Crm\UsersModule\Auth\UserAuthenticator
+	- Crm\UsersModule\Models\Auth\UserAuthenticator
 
 	# API Authorization
-	userTokenAuthorization: Crm\UsersModule\Auth\UserTokenAuthorization
-	defaultUserTokenAuthorization: Crm\UsersModule\Auth\DefaultUserTokenAuthorization
-	deviceTokenAuthorization: Crm\UsersModule\Auth\DeviceTokenAuthorization
-	serviceTokenAuthorization: Crm\UsersModule\Auth\ServiceTokenAuthorization
+	userTokenAuthorization: Crm\UsersModule\Models\Auth\UserTokenAuthorization
+	defaultUserTokenAuthorization: Crm\UsersModule\Models\Auth\DefaultUserTokenAuthorization
+	deviceTokenAuthorization: Crm\UsersModule\Models\Auth\DeviceTokenAuthorization
+	serviceTokenAuthorization: Crm\UsersModule\Models\Auth\ServiceTokenAuthorization
 
-	accessToken: Crm\UsersModule\Auth\Access\AccessToken
+	accessToken: Crm\UsersModule\Models\Auth\Access\AccessToken
 
-	- Crm\UsersModule\Auth\Sso\SsoUserManager
-	googleSignIn: Crm\UsersModule\Auth\Sso\GoogleSignIn(%sso.google.client_id%, %sso.google.client_secret%)
-	appleSignIn: Crm\UsersModule\Auth\Sso\AppleSignIn(%sso.apple.client_id%, %sso.apple.trusted_client_ids%)
+	- Crm\UsersModule\Models\Auth\Sso\SsoUserManager
+	googleSignIn: Crm\UsersModule\Models\Auth\Sso\GoogleSignIn(%sso.google.client_id%, %sso.google.client_secret%)
+	appleSignIn: Crm\UsersModule\Models\Auth\Sso\AppleSignIn(%sso.apple.client_id%, %sso.apple.trusted_client_ids%)
 
 	signInRedirectValidator:
-		factory: Crm\UsersModule\Auth\SignInRedirectValidator
+		factory: Crm\UsersModule\Models\Auth\SignInRedirectValidator
 
-	userDataLocaleResolver: Crm\UsersModule\Locale\UserDataLocaleResolver
+	userDataLocaleResolver: Crm\UsersModule\Models\Locale\UserDataLocaleResolver
 	translation.localeResolver:
 		setup:
-			- addResolver(Crm\UsersModule\Locale\UserDataLocaleResolver)
+			- addResolver(Crm\UsersModule\Models\Locale\UserDataLocaleResolver)
 
 	- Crm\UsersModule\Forms\ChangePasswordFormFactory
 	- Crm\UsersModule\Forms\RequestPasswordFormFactory
@@ -98,31 +98,31 @@ services:
 	- Crm\UsersModule\Scenarios\IsConfirmedCriteria
 	- Crm\UsersModule\Scenarios\AddressTypeCriteria
 	- Crm\UsersModule\Scenarios\AddressScenarioConditionModel
-	- Crm\UsersModule\Auth\AutoLogin\AutoLogin
-	- Crm\UsersModule\Auth\UserManager
-	- Crm\UsersModule\Auth\PasswordGenerator
-	- Crm\UsersModule\Auth\Authorizator
-	- Crm\UsersModule\Auth\Permissions
-	- Crm\UsersModule\Builder\UserBuilder
+	- Crm\UsersModule\Models\Auth\AutoLogin\AutoLogin
+	- Crm\UsersModule\Models\Auth\UserManager
+	- Crm\UsersModule\Models\Auth\PasswordGenerator
+	- Crm\UsersModule\Models\Auth\Authorizator
+	- Crm\UsersModule\Models\Auth\Permissions
+	- Crm\UsersModule\Models\Builder\UserBuilder
 	- Crm\UsersModule\Commands\AddUserCommand
 	- Crm\UsersModule\Commands\GenerateAccessCommand
 	- Crm\UsersModule\Commands\CheckEmailsCommand
 	- Crm\UsersModule\Commands\DisableUserCommand
 	- Crm\UsersModule\Commands\ReconstructUserDataCommand
-	- Crm\UsersModule\Components\AddressWidget
-	- Crm\UsersModule\Components\UserLoginAttempts
-	- Crm\UsersModule\Components\UserPasswordChanges
-	- Crm\UsersModule\Components\AutologinTokens
-	- Crm\UsersModule\Components\UserMeta
-	- Crm\UsersModule\Components\ActiveRegisteredUsersStatWidget
-	- Crm\UsersModule\Components\TodayUsersStatWidget
-	- Crm\UsersModule\Components\MonthUsersStatWidget
-	- Crm\UsersModule\Components\MonthToDateUsersStatWidget
-	- Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget
-	- Crm\UsersModule\Components\SsoWidget
-	- Crm\UsersModule\Components\Widgets\DetailWidgetFactoryInterface
-	- Crm\UsersModule\DataProvider\UniversalSearchDataProvider
-	- Crm\UsersModule\DataProvider\UsersClaimUserDataProvider
+	- Crm\UsersModule\Components\AddressWidget\AddressWidget
+	- Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts
+	- Crm\UsersModule\Components\UserPasswordChanges\UserPasswordChanges
+	- Crm\UsersModule\Components\AutologinTokens\AutologinTokens
+	- Crm\UsersModule\Components\UserMeta\UserMeta
+	- Crm\UsersModule\Components\ActiveRegisteredUsersStatWidget\ActiveRegisteredUsersStatWidget
+	- Crm\UsersModule\Components\TodayUsersStatWidget\TodayUsersStatWidget
+	- Crm\UsersModule\Components\MonthUsersStatWidget\MonthUsersStatWidget
+	- Crm\UsersModule\Components\MonthToDateUsersStatWidget\MonthToDateUsersStatWidget
+	- Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget\MonthUsersSmallBarGraphWidget
+	- Crm\UsersModule\Components\SsoWidget\SsoWidget
+	- Crm\UsersModule\Components\Widgets\DetailWidget\DetailWidgetFactoryInterface
+	- Crm\UsersModule\DataProviders\UniversalSearchDataProvider
+	- Crm\UsersModule\DataProviders\UsersClaimUserDataProvider
 	- Crm\UsersModule\Events\UserLastAccessHandler
 	- Crm\UsersModule\Events\SignEventHandler
 	- Crm\UsersModule\Events\AuthenticationHandler
@@ -160,18 +160,18 @@ services:
 	- Crm\UsersModule\Events\UserUpdatedHandler
 	- Crm\UsersModule\Hermes\UserTokenUsageHandler
 	- Crm\UsersModule\Commands\UpdateLoginAttemptsCommand
-	- Crm\UsersModule\Components\UserActionLogAdminFactoryInterface
-	- Crm\UsersModule\User\UserData
-	- Crm\UsersModule\User\UnclaimedUser
-	- Crm\UsersModule\User\BasicUserDataProvider
-	- Crm\UsersModule\User\AddressesUserDataProvider
-	- Crm\UsersModule\User\AdminUserGroupsUserDataProvider
-	- Crm\UsersModule\User\AutoLoginTokensUserDataProvider
-	- Crm\UsersModule\User\LoginAttemptsUserDataProvider
-	- Crm\UsersModule\User\UserMetaUserDataProvider
-	- Crm\UsersModule\User\UserConnectedAccountsDataProvider
-	- Crm\UsersModule\User\ZipBuilder('%tempDir%')
-	- Crm\UsersModule\User\ReachChecker
+	- Crm\UsersModule\Components\UserActionLogAdmin\UserActionLogAdminFactoryInterface
+	- Crm\UsersModule\Models\User\UserData
+	- Crm\UsersModule\Models\User\UnclaimedUser
+	- Crm\UsersModule\DataProviders\BasicUserDataProvider
+	- Crm\UsersModule\DataProviders\AddressesUserDataProvider
+	- Crm\UsersModule\DataProviders\AdminUserGroupsUserDataProvider
+	- Crm\UsersModule\DataProviders\AutoLoginTokensUserDataProvider
+	- Crm\UsersModule\DataProviders\LoginAttemptsUserDataProvider
+	- Crm\UsersModule\DataProviders\UserMetaUserDataProvider
+	- Crm\UsersModule\DataProviders\UserConnectedAccountsDataProvider
+	- Crm\UsersModule\Models\User\ZipBuilder('%tempDir%')
+	- Crm\UsersModule\Models\User\ReachChecker
 	- Crm\UsersModule\Segment\SourceAccessCriteria
 	- Crm\UsersModule\Segment\ActiveCriteria
 	- Crm\UsersModule\Segment\DeletedCriteria
@@ -184,14 +184,14 @@ services:
 	- Crm\UsersModule\Seeders\UsersSeeder
 	- Crm\UsersModule\Seeders\SnippetsSeeder
 	- Crm\UsersModule\Seeders\MeasurementsSeeder
-	- Crm\UsersModule\Components\UserSourceAccesses
-	- Crm\UsersModule\Components\UserTokens
-	- Crm\UsersModule\Auth\Rate\WrongPasswordRateLimit
-	- Crm\UsersModule\Auth\Rate\IpRateLimit
+	- Crm\UsersModule\Components\UserSourceAccesses\UserSourceAccesses
+	- Crm\UsersModule\Components\UserTokens\UserTokens
+	- Crm\UsersModule\Models\Auth\Rate\WrongPasswordRateLimit
+	- Crm\UsersModule\Models\Auth\Rate\IpRateLimit
 	registrationIpRateLimit:
-		factory: Crm\UsersModule\Auth\Rate\RegistrationIpRateLimit
-	- Crm\UsersModule\AdminFilterFormData
+		factory: Crm\UsersModule\Models\Auth\Rate\RegistrationIpRateLimit
+	- Crm\UsersModule\Models\AdminFilterFormData
 
 	- Crm\UsersModule\Api\GetDeviceTokenApiHandler
 	- Crm\UsersModule\Repositories\DeviceTokensRepository
-	- Crm\UsersModule\Components\UserConnectedAccountsListWidget
+	- Crm\UsersModule\Components\UserConnectedAccountsListWidget\UserConnectedAccountsListWidget

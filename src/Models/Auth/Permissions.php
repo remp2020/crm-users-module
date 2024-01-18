@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth;
 
-use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
+use Crm\UsersModule\Repositories\AdminGroupsRepository;
 use Nette\Security\Authorizator;
 use Nette\Security\Permission;
 use Tracy\Debugger;

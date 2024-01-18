@@ -4,7 +4,7 @@ namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\NowTrait;
 use Crm\ApplicationModule\User\UserDataProviderInterface;
-use Crm\UsersModule\Repository\AddressesRepository;
+use Crm\UsersModule\Repositories\AddressesRepository;
 
 class AddressesUserDataProvider implements UserDataProviderInterface
 {

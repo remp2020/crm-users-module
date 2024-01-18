@@ -4,9 +4,9 @@ namespace Crm\UsersModule\Authenticator;
 
 use Crm\ApplicationModule\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Authenticator\BaseAuthenticator;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;

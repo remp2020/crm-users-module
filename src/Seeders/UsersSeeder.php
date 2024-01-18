@@ -3,12 +3,12 @@
 namespace Crm\UsersModule\Seeders;
 
 use Crm\ApplicationModule\Seeders\ISeeder;
-use Crm\UsersModule\Auth\Repository\AdminAccessRepository;
-use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
-use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
-use Crm\UsersModule\Auth\Repository\AdminUserGroupsRepository;
-use Crm\UsersModule\Builder\UserBuilder;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Repositories\AdminAccessRepository;
+use Crm\UsersModule\Repositories\AdminGroupsAccessRepository;
+use Crm\UsersModule\Repositories\AdminGroupsRepository;
+use Crm\UsersModule\Repositories\AdminUserGroupsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UsersSeeder implements ISeeder

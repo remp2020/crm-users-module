@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Components\AutologinTokens;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
-use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;
+use Crm\UsersModule\Repositories\AutoLoginTokensRepository;
 use Nette\Application\UI\Control;
 
 /**

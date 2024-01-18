@@ -4,8 +4,8 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\UsersModule\Forms\AddressFormFactory;
-use Crm\UsersModule\Repository\AddressesRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\AddressesRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\BadRequestException;
 
 class AddressAdminPresenter extends AdminPresenter

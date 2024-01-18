@@ -6,7 +6,7 @@ use Crm\ApiModule\Models\Authorization\TokenParser;
 use Crm\ApplicationModule\Config\ApplicationConfig;
 use Crm\ApplicationModule\Request;
 use Crm\UsersModule\Events\UserLastAccessEvent;
-use Crm\UsersModule\Repository\AccessTokensRepository;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use DateTime;
 use League\Event\Emitter;
 use Nette\Security\Authorizator;

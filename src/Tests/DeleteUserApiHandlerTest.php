@@ -9,8 +9,8 @@ use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\ApplicationModule\User\UserDataProviderInterface;
 use Crm\ApplicationModule\User\UserDataRegistrator;
 use Crm\UsersModule\Api\DeleteUserApiHandler;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 
 class DeleteUserApiHandlerTest extends DatabaseTestCase

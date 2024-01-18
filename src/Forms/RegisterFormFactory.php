@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\UsersModule\Auth\InvalidEmailException;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\DataProvider\RegisterFormDataProviderInterface;
+use Crm\UsersModule\DataProviders\RegisterFormDataProviderInterface;
+use Crm\UsersModule\Models\Auth\InvalidEmailException;
+use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;

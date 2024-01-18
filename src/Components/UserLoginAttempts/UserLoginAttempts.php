@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Components\UserLoginAttempts;
 
 use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Widget\WidgetInterface;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 use Nette\Utils\DateTime;

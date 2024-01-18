@@ -2,12 +2,12 @@
 
 namespace Crm\UsersModule\Tests;
 
-use Crm\UsersModule\Auth\InvalidEmailException;
-use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Events\NewUserEvent;
 use Crm\UsersModule\Events\UserRegisteredEvent;
-use Crm\UsersModule\Repository\UserAlreadyExistsException;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\InvalidEmailException;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\UserAlreadyExistsException;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\AbstractListener;
 use League\Event\Emitter;
 

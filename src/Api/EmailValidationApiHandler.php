@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Repository\UsersRepository;
-use Crm\UsersModule\User\UnclaimedUser;
+use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Http\IResponse;
 use Nette\Http\Request;
 use Nette\Utils\Validators;

@@ -18,7 +18,7 @@
         {/capture}
 
         <span>{trim($title)}</span>
-		<span n:if="$user->role === \Crm\UsersModule\Repository\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
+		<span n:if="$user->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
 
       	<a n:href="edit $user->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>
       </h1>
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div n:if="$user->role == \Crm\UsersModule\Repository\UsersRepository::ROLE_ADMIN && $canEditRoles" class="panel panel-danger">
+    <div n:if="$user->role == \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN && $canEditRoles" class="panel panel-danger">
       <div class="panel-heading">{_users.admin.show.admin_groups}</div>
       <div class="panel-body">
         {control adminUserGroupsForm}

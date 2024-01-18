@@ -4,9 +4,9 @@ namespace Crm\UsersModule\Models\Auth;
 
 use Crm\ApplicationModule\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Authenticator\AuthenticatorManager;
-use Crm\UsersModule\Auth\Rate\RateLimitException;
 use Crm\UsersModule\Events\UserSignInEvent;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Localization\Translator;

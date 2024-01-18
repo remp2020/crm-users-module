@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Auth\AccessTokensApiAuthorizationInterface;
 use Crm\UsersModule\Events\UserSignOutEvent;
-use Crm\UsersModule\Repository\AccessTokensRepository;
+use Crm\UsersModule\Models\Auth\AccessTokensApiAuthorizationInterface;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use League\Event\Emitter;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;

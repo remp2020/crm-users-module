@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Email\EmailValidator;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
-use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Email\EmailValidator;
+use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use League\Fractal\ScopeFactoryInterface;
 use Nette\Database\Table\ActiveRow;

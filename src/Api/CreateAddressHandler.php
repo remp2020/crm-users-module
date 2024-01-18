@@ -3,11 +3,11 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Auth\UserManager;
 use Crm\UsersModule\Events\NewAddressEvent;
-use Crm\UsersModule\Repository\AddressChangeRequestsRepository;
-use Crm\UsersModule\Repository\AddressTypesRepository;
-use Crm\UsersModule\Repository\CountriesRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\AddressChangeRequestsRepository;
+use Crm\UsersModule\Repositories\AddressTypesRepository;
+use Crm\UsersModule\Repositories\CountriesRepository;
 use League\Event\Emitter;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Params\PostInputParam;

@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\PasswordResetTokensRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapRenderer;

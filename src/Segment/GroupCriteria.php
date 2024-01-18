@@ -5,7 +5,7 @@ namespace Crm\UsersModule\Segment;
 use Crm\ApplicationModule\Criteria\CriteriaInterface;
 use Crm\SegmentModule\Models\Params\NumberArrayParam;
 use Crm\SegmentModule\Models\Params\ParamsBag;
-use Crm\UsersModule\Repository\GroupsRepository;
+use Crm\UsersModule\Repositories\GroupsRepository;
 
 class GroupCriteria implements CriteriaInterface
 {

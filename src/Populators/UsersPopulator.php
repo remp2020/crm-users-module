@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Populators;
 
 use Crm\ApplicationModule\Populator\AbstractPopulator;
-use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Security\Passwords;
 use Symfony\Component\Console\Helper\ProgressBar;
 

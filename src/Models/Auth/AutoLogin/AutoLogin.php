@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Models\Auth\AutoLogin;
 
-use Crm\UsersModule\Auth\Access\TokenGenerator;
-use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;
+use Crm\UsersModule\Models\Auth\Access\TokenGenerator;
+use Crm\UsersModule\Repositories\AutoLoginTokensRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
 

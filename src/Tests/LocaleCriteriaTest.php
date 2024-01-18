@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Tests;
 
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\Builder\UserBuilder;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Scenarios\LocaleCriteria;
 use PHPUnit\Framework\Attributes\DataProvider;
 

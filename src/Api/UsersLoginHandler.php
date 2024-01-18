@@ -4,10 +4,10 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\ApiParamsValidatorInterface;
-use Crm\UsersModule\Auth\UserAuthenticator;
+use Crm\UsersModule\Models\Auth\UserAuthenticator;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Http\Response;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;

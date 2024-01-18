@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\User\DeleteUserData;
-use Crm\UsersModule\Repository\UserActionsLogRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UserActionsLogRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Localization\Translator;

@@ -6,7 +6,7 @@ use Contributte\Translation\Translator;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Response\EmptyResponse;
 use Crm\ApplicationModule\User\DeleteUserData;
-use Crm\UsersModule\Auth\UsersApiAuthorizationInterface;
+use Crm\UsersModule\Models\Auth\UsersApiAuthorizationInterface;
 use Nette\Http\IResponse;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;

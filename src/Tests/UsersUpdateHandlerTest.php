@@ -7,7 +7,7 @@ use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\UsersUpdateHandler;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Events\UserUpdatedEvent;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\AbstractListener;
 use League\Event\Emitter;
 use Nette\Security\Passwords;

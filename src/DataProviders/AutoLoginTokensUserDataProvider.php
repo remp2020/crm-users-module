@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\User\UserDataProviderInterface;
-use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;
+use Crm\UsersModule\Repositories\AutoLoginTokensRepository;
 
 class AutoLoginTokensUserDataProvider implements UserDataProviderInterface
 {

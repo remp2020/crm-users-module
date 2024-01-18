@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Forms\BootstrapSmallInlineFormRenderer;
-use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
-use Crm\UsersModule\Auth\Repository\AdminUserGroupsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\AdminGroupsRepository;
+use Crm\UsersModule\Repositories\AdminUserGroupsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;

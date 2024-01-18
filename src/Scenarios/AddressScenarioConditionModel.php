@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Scenarios;
 
 use Crm\ApplicationModule\Criteria\ScenarioConditionModelInterface;
 use Crm\ApplicationModule\Selection;
-use Crm\UsersModule\Repository\AddressesRepository;
+use Crm\UsersModule\Repositories\AddressesRepository;
 
 class AddressScenarioConditionModel implements ScenarioConditionModelInterface
 {

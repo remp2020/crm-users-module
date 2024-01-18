@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Events;
 
 use Crm\ApplicationModule\Request;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\AbstractListener;
 use League\Event\Emitter;
 use League\Event\EventInterface;

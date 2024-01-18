@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Components\UserMeta;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;

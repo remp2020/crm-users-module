@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Auth\UserAuthenticator;
+use Crm\UsersModule\Models\Auth\UserAuthenticator;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
 use Nette\Http\Response;
 use Nette\Security\AuthenticationException;
 use Tomaj\NetteApi\Params\PostInputParam;

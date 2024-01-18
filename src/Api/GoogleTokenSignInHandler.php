@@ -4,11 +4,11 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\UsersModule\Auth\Sso\GoogleSignIn;
-use Crm\UsersModule\DataProvider\GoogleTokenSignInDataProviderInterface;
+use Crm\UsersModule\DataProviders\GoogleTokenSignInDataProviderInterface;
+use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\LinkGenerator;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IResponse;

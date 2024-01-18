@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Commands;
 
-use Crm\UsersModule\Auth\Repository\AdminAccessRepository;
-use Crm\UsersModule\Auth\Repository\AdminGroupsAccessRepository;
+use Crm\UsersModule\Repositories\AdminAccessRepository;
+use Crm\UsersModule\Repositories\AdminGroupsAccessRepository;
 use Nette\DI\Container;
 use Nette\DI\MissingServiceException;
 use ReflectionClass;

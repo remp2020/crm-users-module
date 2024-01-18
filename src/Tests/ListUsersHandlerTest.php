@@ -5,7 +5,7 @@ namespace Crm\UsersModule\Tests;
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\ListUsersHandler;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
 use Tomaj\NetteApi\Response\JsonApiResponse;

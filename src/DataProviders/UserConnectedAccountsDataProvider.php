@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\User\UserDataProviderInterface;
-use Crm\UsersModule\Repository\UserConnectedAccountsRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 
 class UserConnectedAccountsDataProvider implements UserDataProviderInterface
 {

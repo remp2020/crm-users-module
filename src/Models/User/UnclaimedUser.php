@@ -3,16 +3,17 @@
 namespace Crm\UsersModule\Models\User;
 
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\UsersModule\Auth\Access\AccessToken;
-use Crm\UsersModule\Auth\Access\AccessTokenNotFoundException;
-use Crm\UsersModule\Auth\InvalidEmailException;
-use Crm\UsersModule\Auth\PasswordGenerator;
-use Crm\UsersModule\Auth\UserManager;
+use Crm\UsersModule\DataProviders\ClaimUserDataProviderInterface;
 use Crm\UsersModule\Events\UserClaimedEvent;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UserAlreadyExistsException;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Models\Auth\Access\AccessTokenNotFoundException;
+use Crm\UsersModule\Models\Auth\InvalidEmailException;
+use Crm\UsersModule\Models\Auth\PasswordGenerator;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\UserAlreadyExistsException;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Exception;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;

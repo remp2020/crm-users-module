@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Models\Auth\Access;
 
 use Crm\ApplicationModule\Request as CrmRequest;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Http\IRequest;
 use Nette\Http\Request;
 use Nette\Http\Response;

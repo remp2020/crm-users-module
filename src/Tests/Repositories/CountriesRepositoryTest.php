@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Tests\Repositories;
 
 use Crm\ApplicationModule\Seeders\CountriesSeeder;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\Repository\CountriesRepository;
+use Crm\UsersModule\Repositories\CountriesRepository;
 use Nette\Database\Explorer;
 
 class CountriesRepositoryTest extends DatabaseTestCase

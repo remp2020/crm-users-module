@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Authorization\TokenParser;
-use Crm\UsersModule\User\UserData;
+use Crm\UsersModule\Models\User\UserData;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;

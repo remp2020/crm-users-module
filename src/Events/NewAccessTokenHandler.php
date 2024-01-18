@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Events;
 
-use Crm\UsersModule\User\UserData;
+use Crm\UsersModule\Models\User\UserData;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
 

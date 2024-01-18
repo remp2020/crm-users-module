@@ -6,13 +6,13 @@ use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\GetDeviceTokenApiHandler;
 use Crm\UsersModule\Api\UsersLogoutHandler;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Auth\UserTokenAuthorization;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Models\Auth\UserTokenAuthorization;
+use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Seeders\UsersSeeder;
-use Crm\UsersModule\User\UnclaimedUser;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 

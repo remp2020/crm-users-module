@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Models\Auth\Sso;
 
 use Crm\ApplicationModule\Config\Repository\ConfigsRepository;
 use Crm\ApplicationModule\Request as CrmRequest;
-use Crm\UsersModule\Repository\UserConnectedAccountsRepository;
+use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;

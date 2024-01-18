@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Models\Locale;
 
 use Contributte\Translation\LocalesResolvers\ResolverInterface;
 use Contributte\Translation\Translator;
-use Crm\UsersModule\User\UserData;
+use Crm\UsersModule\Models\User\UserData;
 use Nette\Http\IRequest;
 
 class UserDataLocaleResolver implements ResolverInterface

@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth\Rate;
 
-use Crm\UsersModule\Repository\RegistrationAttemptsRepository;
+use Crm\UsersModule\Repositories\RegistrationAttemptsRepository;
 use Nette\Utils\DateTime;
 
 class RegistrationIpRateLimit

@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\UsersModule\Forms\GroupFormFactory;
-use Crm\UsersModule\Repository\GroupsRepository;
+use Crm\UsersModule\Repositories\GroupsRepository;
 use Nette\DI\Attributes\Inject;
 
 class GroupsAdminPresenter extends AdminPresenter

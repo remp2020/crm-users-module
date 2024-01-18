@@ -3,18 +3,18 @@
 namespace Crm\UsersModule\Models\Auth;
 
 use Crm\ApplicationModule\EnvironmentConfig;
-use Crm\UsersModule\Builder\UserBuilder;
-use Crm\UsersModule\Email\EmailValidator;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Events\UserChangePasswordRequestEvent;
 use Crm\UsersModule\Events\UserConfirmedEvent;
 use Crm\UsersModule\Events\UserSuspiciousEvent;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
-use Crm\UsersModule\Repository\PasswordResetTokensRepository;
-use Crm\UsersModule\Repository\UserAlreadyExistsException;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Models\Email\EmailValidator;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
+use Crm\UsersModule\Repositories\UserAlreadyExistsException;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\UniqueConstraintViolationException;

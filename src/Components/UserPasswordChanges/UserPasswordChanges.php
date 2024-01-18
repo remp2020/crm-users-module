@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Components\UserPasswordChanges;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
-use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
-use Crm\UsersModule\Repository\PasswordResetTokensRepository;
+use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
 use Nette\Application\UI\Control;
 
 /**

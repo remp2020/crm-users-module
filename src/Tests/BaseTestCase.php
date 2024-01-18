@@ -4,22 +4,22 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApplicationModule\Seeders\CountriesSeeder;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
+use Crm\UsersModule\Repositories\AccessTokensRepository;
+use Crm\UsersModule\Repositories\AddressChangeRequestsRepository;
+use Crm\UsersModule\Repositories\AddressTypesRepository;
+use Crm\UsersModule\Repositories\AddressesMetaRepository;
+use Crm\UsersModule\Repositories\AddressesRepository;
+use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\CountriesRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
-use Crm\UsersModule\Repository\AccessTokensRepository;
-use Crm\UsersModule\Repository\AddressChangeRequestsRepository;
-use Crm\UsersModule\Repository\AddressTypesRepository;
-use Crm\UsersModule\Repository\AddressesMetaRepository;
-use Crm\UsersModule\Repository\AddressesRepository;
-use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
-use Crm\UsersModule\Repository\CountriesRepository;
-use Crm\UsersModule\Repository\GroupsRepository;
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
-use Crm\UsersModule\Repository\PasswordResetTokensRepository;
-use Crm\UsersModule\Repository\UserActionsLogRepository;
-use Crm\UsersModule\Repository\UserEmailConfirmationsRepository;
-use Crm\UsersModule\Repository\UserGroupsRepository;
-use Crm\UsersModule\Repository\UserMetaRepository;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\GroupsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
+use Crm\UsersModule\Repositories\UserActionsLogRepository;
+use Crm\UsersModule\Repositories\UserEmailConfirmationsRepository;
+use Crm\UsersModule\Repositories\UserGroupsRepository;
+use Crm\UsersModule\Repositories\UserMetaRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 
 /**
  * Base database test case for UsersModule

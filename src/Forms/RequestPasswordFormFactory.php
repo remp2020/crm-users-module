@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Config\ApplicationConfig;
-use Crm\UsersModule\Auth\UserManager;
+use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\TextInput;
 use Nette\Localization\Translator;

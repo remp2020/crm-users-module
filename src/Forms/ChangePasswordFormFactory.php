@@ -2,9 +2,9 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\UsersModule\Auth\Access\AccessToken;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;

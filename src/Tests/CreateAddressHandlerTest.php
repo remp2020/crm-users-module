@@ -5,7 +5,7 @@ namespace Crm\UsersModule\Tests;
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Seeders\CountriesSeeder;
 use Crm\UsersModule\Api\CreateAddressHandler;
-use Crm\UsersModule\Repository\AddressTypesRepository;
+use Crm\UsersModule\Repositories\AddressTypesRepository;
 use Crm\UsersModule\Seeders\UsersSeeder;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;

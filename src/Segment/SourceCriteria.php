@@ -5,7 +5,7 @@ namespace Crm\UsersModule\Segment;
 use Crm\ApplicationModule\Criteria\CriteriaInterface;
 use Crm\SegmentModule\Models\Params\ParamsBag;
 use Crm\SegmentModule\Models\Params\StringArrayParam;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Repositories\UsersRepository;
 
 class SourceCriteria implements CriteriaInterface
 {

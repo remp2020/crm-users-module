@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth\Rate;
 
-use Crm\UsersModule\Repository\LoginAttemptsRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use DateInterval;
 use Nette\Utils\DateTime;
 

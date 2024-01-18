@@ -3,13 +3,13 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\UsersModule\Auth\Repository\AdminUserGroupsRepository;
-use Crm\UsersModule\Builder\UserBuilder;
-use Crm\UsersModule\DataProvider\UserFormDataProviderInterface;
+use Crm\UsersModule\DataProviders\UserFormDataProviderInterface;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
-use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;
-use Crm\UsersModule\Repository\UserAlreadyExistsException;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Repositories\AdminUserGroupsRepository;
+use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\UserAlreadyExistsException;
+use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Locale;
 use Nette\Application\UI\Form;

@@ -63,11 +63,11 @@
             <td>
               {if $isOkStatus($attempt->status)}
                 <span class="label label-success">{$attempt->status}</span>
-              {elseif $attempt->status == \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL}
+              {elseif $attempt->status == \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL}
                 <span class="label label-warning">{$attempt->status}</span>
-              {elseif $attempt->status == \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_WRONG_PASS}
+              {elseif $attempt->status == \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_WRONG_PASS}
                 <span class="label label-danger">{$attempt->status}</span>
-              {elseif $attempt->status == \Crm\UsersModule\Repository\LoginAttemptsRepository::STATUS_INACTIVE_USER}
+              {elseif $attempt->status == \Crm\UsersModule\Repositories\LoginAttemptsRepository::STATUS_INACTIVE_USER}
                 <span class="label label-default">{$attempt->status}</span>
               {else}
                 <span class="label label-default">{$attempt->status}</span>

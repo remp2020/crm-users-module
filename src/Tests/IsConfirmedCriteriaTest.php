@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Tests;
 
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\Auth\UserManager;
-use Crm\UsersModule\Repository\UsersRepository;
+use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Scenarios\IsConfirmedCriteria;
 use PHPUnit\Framework\Attributes\DataProvider;
 
