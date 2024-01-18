@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\User;
+namespace Crm\UsersModule\Models\User;
 
 /**
  * @deprecated use Crm\UsersModule\Events\UserEventInterface instead.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget;
 
 use Crm\ApplicationModule\Components\Graphs\SmallBarGraphControlFactoryInterface;
 use Crm\ApplicationModule\Graphs\Criteria;

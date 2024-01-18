@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\MonthToDateUsersStatWidget;
 
 use Crm\ApplicationModule\Widget\BaseLazyWidget;
 use Crm\ApplicationModule\Widget\LazyWidgetManager;

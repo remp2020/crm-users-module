@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Populator;
+namespace Crm\UsersModule\Populators;
 
 use Crm\ApplicationModule\Populator\AbstractPopulator;
 use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Auth\Access;
+namespace Crm\UsersModule\Models\Auth\Access;
 
 use Crm\ApplicationModule\Request as CrmRequest;
 use Crm\UsersModule\Repository\AccessTokensRepository;

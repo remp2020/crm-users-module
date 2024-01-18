@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\UserSourceAccesses;
 
 use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Widget\BaseLazyWidget;
@@ -40,7 +40,7 @@ class UserSourceAccesses extends BaseLazyWidget
     {
         $accesses = $this->userSourceAccessesRepository->getByUser($id);
         $this->template->accesses = $accesses;
-        
+
         $this->template->setFile(__DIR__ . '/' . $this->templateName);
         $this->template->render();
     }

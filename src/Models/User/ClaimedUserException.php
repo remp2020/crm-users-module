@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Crm\UsersModule\User;
+namespace Crm\UsersModule\Models\User;
 
 class ClaimedUserException extends \Exception
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\DataProvider;
+namespace Crm\UsersModule\DataProviders;
 
 use Crm\ApplicationModule\DataProvider\DataProviderException;
 use Crm\ApplicationModule\DataProvider\DataProviderInterface;

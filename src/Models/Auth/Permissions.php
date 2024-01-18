@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Auth;
+namespace Crm\UsersModule\Models\Auth;
 
 use Crm\UsersModule\Auth\Repository\AdminGroupsRepository;
 use Nette\Security\Authorizator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Email;
+namespace Crm\UsersModule\Models\Email;
 
 use Nette\Utils\Validators;
 

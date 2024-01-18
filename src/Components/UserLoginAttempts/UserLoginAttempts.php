@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\UserLoginAttempts;
 
 use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Widget\WidgetInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Builder;
+namespace Crm\UsersModule\Models\Builder;
 
 use Contributte\Translation\Translator;
 use Crm\ApplicationModule\Builder\Builder;

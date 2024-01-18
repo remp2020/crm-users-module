@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule;
+namespace Crm\UsersModule\Models;
 
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProvider\FilterUsersFormDataProviderInterface;

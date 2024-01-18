@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Locale;
+namespace Crm\UsersModule\Models\Locale;
 
 use Contributte\Translation\LocalesResolvers\ResolverInterface;
 use Contributte\Translation\Translator;

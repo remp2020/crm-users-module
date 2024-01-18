@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Auth\Rate;
+namespace Crm\UsersModule\Models\Auth\Rate;
 
 use Nette\Security\AuthenticationException;
 

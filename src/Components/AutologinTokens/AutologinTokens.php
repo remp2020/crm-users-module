@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\AutologinTokens;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
 use Crm\UsersModule\Auth\AutoLogin\Repository\AutoLoginTokensRepository;

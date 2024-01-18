@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Auth;
+namespace Crm\UsersModule\Models\Auth;
 
 use Crm\ApplicationModule\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Authenticator\AuthenticatorManager;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\User;
+namespace Crm\UsersModule\Models\User;
 
 use Crm\UsersModule\Repository\UserMetaRepository;
 use Nette\Database\Table\ActiveRow;

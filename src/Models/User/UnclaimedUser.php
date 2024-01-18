@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\User;
+namespace Crm\UsersModule\Models\User;
 
 use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\Auth\Access\AccessToken;

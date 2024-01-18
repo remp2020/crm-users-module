@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\DataProvider;
+namespace Crm\UsersModule\DataProviders;
 
 use Contributte\Translation\Translator;
 use Crm\AdminModule\Models\UniversalSearchDataProviderInterface;

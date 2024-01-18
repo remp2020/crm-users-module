@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\UserTokens;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
 use Crm\UsersModule\Auth\Access\AccessToken;

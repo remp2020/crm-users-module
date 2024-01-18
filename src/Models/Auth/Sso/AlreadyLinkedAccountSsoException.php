@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Auth\Sso;
+namespace Crm\UsersModule\Models\Auth\Sso;
 
 class AlreadyLinkedAccountSsoException extends \Exception
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Components;
+namespace Crm\UsersModule\Components\UserPasswordChanges;
 
 use Crm\ApplicationModule\Widget\WidgetInterface;
 use Crm\UsersModule\Repository\ChangePasswordsLogsRepository;

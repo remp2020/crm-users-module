@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Auth\Sso;
+namespace Crm\UsersModule\Models\Auth\Sso;
 
 use Crm\ApplicationModule\Config\Repository\ConfigsRepository;
 use Crm\ApplicationModule\DataProvider\DataProviderException;

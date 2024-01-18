@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Crm\UsersModule\Auth\Sso;
+namespace Crm\UsersModule\Models\Auth\Sso;
 
 use Crm\UsersModule\Auth\PasswordGenerator;
 use Crm\UsersModule\Builder\UserBuilder;

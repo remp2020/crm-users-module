@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\User;
+namespace Crm\UsersModule\Models\User;
 
 use ZipArchive;
 
