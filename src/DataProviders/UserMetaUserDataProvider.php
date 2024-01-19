@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\DataProviders;
 
-use Crm\ApplicationModule\User\UserDataProviderInterface;
+use Crm\ApplicationModule\Models\User\UserDataProviderInterface;
 use Crm\UsersModule\Repositories\UserMetaRepository;
 
 class UserMetaUserDataProvider implements UserDataProviderInterface

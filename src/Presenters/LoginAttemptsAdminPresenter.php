@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\Components\PreviousNextPaginator;
+use Crm\ApplicationModule\Components\PreviousNextPaginator\PreviousNextPaginator;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Form;

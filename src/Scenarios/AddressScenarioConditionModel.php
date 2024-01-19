@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Scenarios;
 
-use Crm\ApplicationModule\Criteria\ScenarioConditionModelInterface;
-use Crm\ApplicationModule\Selection;
+use Crm\ApplicationModule\Models\Criteria\ScenarioConditionModelInterface;
+use Crm\ApplicationModule\Models\Database\Selection;
 use Crm\UsersModule\Repositories\AddressesRepository;
 
 class AddressScenarioConditionModel implements ScenarioConditionModelInterface

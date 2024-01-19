@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Models\Auth;
 
-use Crm\ApplicationModule\Authenticator\AuthenticatorInterface;
-use Crm\ApplicationModule\Authenticator\AuthenticatorManager;
+use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
+use Crm\ApplicationModule\Models\Authenticator\AuthenticatorManager;
 use Crm\UsersModule\Events\UserSignInEvent;
 use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
 use Crm\UsersModule\Repositories\UsersRepository;

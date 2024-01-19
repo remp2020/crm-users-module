@@ -2,12 +2,12 @@
 
 namespace Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget;
 
-use Crm\ApplicationModule\Components\Graphs\SmallBarGraphControlFactoryInterface;
-use Crm\ApplicationModule\Graphs\Criteria;
-use Crm\ApplicationModule\Graphs\GraphData;
-use Crm\ApplicationModule\Graphs\GraphDataItem;
-use Crm\ApplicationModule\Widget\BaseLazyWidget;
-use Crm\ApplicationModule\Widget\LazyWidgetManager;
+use Crm\ApplicationModule\Components\Graphs\SmallBarGraph\SmallBarGraphControlFactoryInterface;
+use Crm\ApplicationModule\Models\Graphs\Criteria;
+use Crm\ApplicationModule\Models\Graphs\GraphData;
+use Crm\ApplicationModule\Models\Graphs\GraphDataItem;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Nette\Localization\Translator;
 
 /**

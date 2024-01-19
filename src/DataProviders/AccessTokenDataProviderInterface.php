@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\DataProviders;
 
-use Crm\ApplicationModule\DataProvider\DataProviderInterface;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderInterface;
 use Nette\Database\Table\ActiveRow;
 
 interface AccessTokenDataProviderInterface extends DataProviderInterface

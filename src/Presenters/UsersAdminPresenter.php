@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\Components\PreviousNextPaginator;
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\ApplicationModule\User\DownloadUserData;
+use Crm\ApplicationModule\Components\PreviousNextPaginator\PreviousNextPaginator;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\UsersModule\Components\Widgets\DetailWidget\DetailWidgetFactoryInterface;
 use Crm\UsersModule\DataProviders\FilterUsersFormDataProviderInterface;
 use Crm\UsersModule\Events\AddressRemovedEvent;

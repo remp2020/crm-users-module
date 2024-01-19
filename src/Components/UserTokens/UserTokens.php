@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Components\UserTokens;
 
-use Crm\ApplicationModule\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\WidgetInterface;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use Crm\UsersModule\Models\User\UserData;
 use Crm\UsersModule\Repositories\AccessTokensRepository;

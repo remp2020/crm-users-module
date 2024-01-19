@@ -2,10 +2,10 @@
 
 namespace Crm\UsersModule\Repositories;
 
-use Crm\ApplicationModule\DataProvider\DataProviderException;
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\ApplicationModule\Repository;
-use Crm\ApplicationModule\Repository\AuditLogRepository;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderException;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Crm\UsersModule\DataProviders\CanDeleteAddressDataProviderInterface;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;

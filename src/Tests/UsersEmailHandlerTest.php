@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
-use Crm\ApplicationModule\Authenticator\AuthenticatorManagerInterface;
-use Crm\ApplicationModule\Event\LazyEventEmitter;
+use Crm\ApplicationModule\Models\Authenticator\AuthenticatorManagerInterface;
+use Crm\ApplicationModule\Models\Event\LazyEventEmitter;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\UsersEmailHandler;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;

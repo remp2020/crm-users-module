@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Hermes\HermesMessage;
-use Crm\ApplicationModule\Repository;
+use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Events\AddressChangedEvent;
 use Crm\UsersModule\Events\NewAddressEvent;
 use League\Event\Emitter;

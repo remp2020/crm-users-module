@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Components\TodayUsersStatWidget;
 
-use Crm\ApplicationModule\Widget\BaseLazyWidget;
-use Crm\ApplicationModule\Widget\LazyWidgetManager;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Utils\DateTime;
 

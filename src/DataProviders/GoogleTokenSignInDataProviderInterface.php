@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\DataProviders;
 
-use Crm\ApplicationModule\DataProvider\DataProviderInterface;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderInterface;
 
 interface GoogleTokenSignInDataProviderInterface extends DataProviderInterface
 {

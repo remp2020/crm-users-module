@@ -2,9 +2,9 @@
 
 namespace Crm\UsersModule\Models\Auth\Sso;
 
-use Crm\ApplicationModule\Config\Repository\ConfigsRepository;
-use Crm\ApplicationModule\DataProvider\DataProviderException;
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderException;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Repositories\ConfigsRepository;
 use Crm\UsersModule\DataProviders\GoogleSignInDataProviderInterface;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Google\Client;

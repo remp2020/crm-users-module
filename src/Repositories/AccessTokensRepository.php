@@ -2,9 +2,9 @@
 
 namespace Crm\UsersModule\Repositories;
 
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
-use Crm\ApplicationModule\Repository;
-use Crm\ApplicationModule\Request;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Models\Request;
 use Crm\UsersModule\DataProviders\AccessTokenDataProviderInterface;
 use Crm\UsersModule\Events\BeforeRemoveAccessTokenEvent;
 use Crm\UsersModule\Events\NewAccessTokenEvent;

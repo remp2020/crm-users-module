@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\RegisterFormDataProviderInterface;
 use Crm\UsersModule\Models\Auth\InvalidEmailException;
 use Crm\UsersModule\Models\Auth\UserManager;

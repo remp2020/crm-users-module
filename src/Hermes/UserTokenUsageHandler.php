@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Hermes;
 
-use Crm\ApplicationModule\Config\ApplicationConfig;
+use Crm\ApplicationModule\Models\Config\ApplicationConfig;
 use Crm\UsersModule\Events\UserLastAccessEvent;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use League\Event\Emitter;

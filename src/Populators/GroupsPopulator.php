@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Populators;
 
-use Crm\ApplicationModule\Populator\AbstractPopulator;
+use Crm\ApplicationModule\Populators\AbstractPopulator;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 class GroupsPopulator extends AbstractPopulator

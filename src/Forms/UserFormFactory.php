@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\UserFormDataProviderInterface;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Models\Builder\UserBuilder;

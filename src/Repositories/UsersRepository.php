@@ -3,11 +3,11 @@
 namespace Crm\UsersModule\Repositories;
 
 use Contributte\Translation\Translator;
-use Crm\ApplicationModule\Cache\CacheRepository;
 use Crm\ApplicationModule\Hermes\HermesMessage;
-use Crm\ApplicationModule\Repository;
-use Crm\ApplicationModule\Repository\AuditLogRepository;
-use Crm\ApplicationModule\Request;
+use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Models\Request;
+use Crm\ApplicationModule\Repositories\AuditLogRepository;
+use Crm\ApplicationModule\Repositories\CacheRepository;
 use Crm\UsersModule\Events\NewUserEvent;
 use Crm\UsersModule\Events\UserDisabledEvent;
 use Crm\UsersModule\Events\UserRegisteredEvent;

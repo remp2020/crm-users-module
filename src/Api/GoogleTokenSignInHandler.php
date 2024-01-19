@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\GoogleTokenSignInDataProviderInterface;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\Repositories\AccessTokensRepository;

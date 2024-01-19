@@ -2,7 +2,6 @@
 
 namespace Crm\UsersModule\Models\Auth\Access;
 
-use Crm\ApplicationModule\Request as CrmRequest;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Http\IRequest;
@@ -54,13 +53,13 @@ class AccessToken
 
         $token = $this->accessTokenRepository->add($userRow, $this->version, $source);
 
-        if ($response && !CrmRequest::isApi()) {
+        if ($response && !\Crm\ApplicationModule\Models\Request::isApi()) {
             $response->setCookie(
                 $this->cookieName,
                 $token->token,
                 strtotime('+10 years'),
                 '/',
-                CrmRequest::getDomain(),
+                \Crm\ApplicationModule\Models\Request::getDomain(),
                 $request->isSecured(),
                 false,
                 $this->sameSiteFlag
@@ -78,8 +77,8 @@ class AccessToken
             $this->accessTokenRepository->remove($token->token);
         }
 
-        $response->deleteCookie($this->cookieName, '/', CrmRequest::getDomain());
-        $response->deleteCookie('n_version', '/', CrmRequest::getDomain());
+        $response->deleteCookie($this->cookieName, '/', \Crm\ApplicationModule\Models\Request::getDomain());
+        $response->deleteCookie('n_version', '/', \Crm\ApplicationModule\Models\Request::getDomain());
     }
 
     public function getToken(IRequest $request)

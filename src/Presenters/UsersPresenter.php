@@ -2,9 +2,9 @@
 
 namespace Crm\UsersModule\Presenters;
 
+use Crm\ApplicationModule\Models\User\DeleteUserData;
+use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
-use Crm\ApplicationModule\User\DeleteUserData;
-use Crm\ApplicationModule\User\DownloadUserData;
 use Crm\UsersModule\Events\NotificationEvent;
 use Crm\UsersModule\Events\UserSignOutEvent;
 use Crm\UsersModule\Forms\ChangePasswordFormFactory;

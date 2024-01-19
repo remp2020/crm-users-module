@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\DataProviders;
 
-use Crm\ApplicationModule\DataProvider\DataProviderInterface;
-use Crm\ApplicationModule\Selection;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderInterface;
+use Crm\ApplicationModule\Models\Database\Selection;
 
 interface FilterAbusiveUserFormDataProviderInterface extends DataProviderInterface
 {

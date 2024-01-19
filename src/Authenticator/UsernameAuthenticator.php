@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Authenticator;
 
-use Crm\ApplicationModule\Authenticator\AuthenticatorInterface;
-use Crm\ApplicationModule\Authenticator\BaseAuthenticator;
+use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
+use Crm\ApplicationModule\Models\Authenticator\BaseAuthenticator;
 use Crm\UsersModule\Models\Auth\Rate\IpRateLimit;
 use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
 use Crm\UsersModule\Models\Auth\Rate\WrongPasswordRateLimit;
@@ -92,7 +92,7 @@ abstract class UsernameAuthenticator extends BaseAuthenticator
      */
     private function process() : ActiveRow
     {
-        if ($this->ipRateLimit->reachLimit(\Crm\ApplicationModule\Request::getIp())) {
+        if ($this->ipRateLimit->reachLimit(\Crm\ApplicationModule\Models\Request::getIp())) {
             $this->addAttempt($this->username, null, $this->source, LoginAttemptsRepository::RATE_LIMIT_EXCEEDED, 'Rate limit exceeded.');
             throw new RateLimitException($this->translator->translate('users.authenticator.rate_limit_exceeded'), UserAuthenticator::FAILURE);
         }

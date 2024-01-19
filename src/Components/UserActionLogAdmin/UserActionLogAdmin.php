@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Components\UserActionLogAdmin;
 
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\FilterUserActionLogsDataProviderInterface;
 use Crm\UsersModule\Repositories\UserActionsLogRepository;
 use Nette\Application\UI\Control;

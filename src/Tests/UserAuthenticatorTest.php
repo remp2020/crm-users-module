@@ -3,7 +3,7 @@
 namespace Crm\UsersModule\Tests;
 
 use Contributte\Translation\Translator;
-use Crm\ApplicationModule\Authenticator\AuthenticatorManagerInterface;
+use Crm\ApplicationModule\Models\Authenticator\AuthenticatorManagerInterface;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Authenticator\AccessTokenAuthenticator;
 use Crm\UsersModule\Authenticator\AutoLoginAuthenticator;

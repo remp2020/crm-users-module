@@ -2,8 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth\Sso;
 
-use Crm\ApplicationModule\Config\Repository\ConfigsRepository;
-use Crm\ApplicationModule\Request as CrmRequest;
+use Crm\ApplicationModule\Repositories\ConfigsRepository;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
@@ -362,7 +361,7 @@ class AppleSignIn
                 $cookieToken,
                 strtotime('+5 minutes'), // this is short-lived cookie
                 $url->getPath(), // valid only for callback path
-                CrmRequest::getDomain(),
+                \Crm\ApplicationModule\Models\Request::getDomain(),
                 true, // "SameSite: None" requires secure to be set to "true"
                 $cookie['httponly'],
                 'None'

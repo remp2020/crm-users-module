@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Repositories;
 
-use Crm\ApplicationModule\Repository;
+use Crm\ApplicationModule\Models\Database\Repository;
 use Nette\Utils\DateTime;
 
 class RegistrationAttemptsRepository extends Repository

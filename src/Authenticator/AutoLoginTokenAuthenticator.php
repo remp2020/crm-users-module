@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Authenticator;
 
-use Crm\ApplicationModule\Authenticator\AuthenticatorInterface;
-use Crm\ApplicationModule\Authenticator\BaseAuthenticator;
+use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
+use Crm\ApplicationModule\Models\Authenticator\BaseAuthenticator;
 use Crm\UsersModule\Models\Auth\AutoLogin\AutoLogin;
 use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;

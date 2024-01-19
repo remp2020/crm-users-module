@@ -5,7 +5,7 @@ namespace Crm\UsersModule\Api;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\ApiParamsValidatorInterface;
 use Crm\ApiModule\Models\Authorization\NoAuthorization;
-use Crm\ApplicationModule\Request;
+use Crm\ApplicationModule\Models\Request;
 use Crm\UsersModule\Models\Auth\InvalidEmailException;
 use Crm\UsersModule\Models\Auth\Rate\RegistrationIpRateLimit;
 use Crm\UsersModule\Models\Auth\UserManager;

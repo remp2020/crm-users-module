@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Seeders;
 
-use Crm\ApplicationModule\Models\Measurements\Repository\MeasurementsRepository;
+use Crm\ApplicationModule\Repositories\MeasurementsRepository;
 use Crm\ApplicationModule\Seeders\ISeeder;
 use Crm\ApplicationModule\Seeders\MeasurementsTrait;
 use Crm\UsersModule\Measurements\NewUsersMeasurement;

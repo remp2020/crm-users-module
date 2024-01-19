@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Models\User;
 
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\ClaimUserDataProviderInterface;
 use Crm\UsersModule\Events\UserClaimedEvent;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;

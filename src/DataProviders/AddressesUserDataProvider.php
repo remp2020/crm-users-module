@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\DataProviders;
 
-use Crm\ApplicationModule\NowTrait;
-use Crm\ApplicationModule\User\UserDataProviderInterface;
+use Crm\ApplicationModule\Models\NowTrait;
+use Crm\ApplicationModule\Models\User\UserDataProviderInterface;
 use Crm\UsersModule\Repositories\AddressesRepository;
 
 class AddressesUserDataProvider implements UserDataProviderInterface

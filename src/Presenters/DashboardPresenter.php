@@ -4,10 +4,10 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Components\DateFilterFormFactory;
 use Crm\AdminModule\Presenters\AdminPresenter;
-use Crm\ApplicationModule\Components\Graphs\GoogleBarGraphGroupControlFactoryInterface;
-use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroupControlFactoryInterface;
-use Crm\ApplicationModule\Graphs\Criteria;
-use Crm\ApplicationModule\Graphs\GraphDataItem;
+use Crm\ApplicationModule\Components\Graphs\GoogleBarGraphGroup\GoogleBarGraphGroupControlFactoryInterface;
+use Crm\ApplicationModule\Components\Graphs\GoogleLineGraphGroup\GoogleLineGraphGroupControlFactoryInterface;
+use Crm\ApplicationModule\Models\Graphs\Criteria;
+use Crm\ApplicationModule\Models\Graphs\GraphDataItem;
 use Crm\ApplicationModule\Models\Graphs\Scale\Measurements\RangeScaleFactory;
 use Crm\UsersModule\Measurements\NewUsersMeasurement;
 use Crm\UsersModule\Measurements\SignInMeasurement;

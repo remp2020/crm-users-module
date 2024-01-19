@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\ApplicationModule\Config\ApplicationConfig;
+use Crm\ApplicationModule\Models\Config\ApplicationConfig;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\TextInput;

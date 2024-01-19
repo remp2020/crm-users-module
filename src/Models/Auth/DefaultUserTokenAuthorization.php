@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Models\Auth;
 
 use Crm\ApiModule\Models\Authorization\TokenParser;
-use Crm\ApplicationModule\Config\ApplicationConfig;
-use Crm\ApplicationModule\Request;
+use Crm\ApplicationModule\Models\Config\ApplicationConfig;
+use Crm\ApplicationModule\Models\Request;
 use Crm\UsersModule\Events\UserLastAccessEvent;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use DateTime;

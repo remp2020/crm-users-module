@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth;
 
-use Crm\ApplicationModule\EnvironmentConfig;
+use Crm\ApplicationModule\Application\EnvironmentConfig;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Events\UserChangePasswordRequestEvent;
 use Crm\UsersModule\Events\UserConfirmedEvent;

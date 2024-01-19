@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Repositories;
 
-use Crm\ApplicationModule\ActiveRow;
-use Crm\ApplicationModule\Repository;
+use Crm\ApplicationModule\Models\Database\ActiveRow;
+use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Models\Auth\Access\TokenGenerator;
 use Nette\Utils\DateTime;
 

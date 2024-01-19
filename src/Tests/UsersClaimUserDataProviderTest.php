@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Tests;
 
-use Crm\ApplicationModule\DataProvider\DataProviderException;
+use Crm\ApplicationModule\Models\DataProvider\DataProviderException;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\DataProviders\UsersClaimUserDataProvider;
 use Crm\UsersModule\Models\User\UnclaimedUser;

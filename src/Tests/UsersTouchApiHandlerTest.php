@@ -3,9 +3,9 @@
 namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
+use Crm\ApplicationModule\Models\User\RedisUserDataStorage;
+use Crm\ApplicationModule\Models\User\UserDataRegistrator;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\ApplicationModule\User\RedisUserDataStorage;
-use Crm\ApplicationModule\User\UserDataRegistrator;
 use Crm\UsersModule\Api\UsersTouchApiHandler;
 use Crm\UsersModule\DataProviders\BasicUserDataProvider;
 use Crm\UsersModule\Models\Auth\UserManager;

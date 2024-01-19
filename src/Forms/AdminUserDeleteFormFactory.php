@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\ApplicationModule\User\DeleteUserData;
+use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\UsersModule\Repositories\UserActionsLogRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Form;

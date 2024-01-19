@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Models\User;
 
-use Crm\ApplicationModule\User\UserDataRegistrator;
-use Crm\ApplicationModule\User\UserDataStorageInterface;
+use Crm\ApplicationModule\Models\User\UserDataRegistrator;
+use Crm\ApplicationModule\Models\User\UserDataStorageInterface;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Nette\Http\IRequest;

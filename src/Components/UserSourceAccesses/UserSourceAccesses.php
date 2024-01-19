@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Components\UserSourceAccesses;
 
 use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
-use Crm\ApplicationModule\Widget\BaseLazyWidget;
-use Crm\ApplicationModule\Widget\LazyWidgetManager;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 
 /**
  * This widget fetches last user accesses from access repository

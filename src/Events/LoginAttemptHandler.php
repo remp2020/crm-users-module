@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Events;
 
-use Crm\ApplicationModule\Request;
+use Crm\ApplicationModule\Models\Request;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\AbstractListener;

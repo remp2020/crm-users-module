@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Components\UserMeta;
 
-use Crm\ApplicationModule\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\WidgetInterface;
 use Crm\UsersModule\Repositories\UserMetaRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Control;

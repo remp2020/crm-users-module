@@ -2,9 +2,9 @@
 
 namespace Crm\UsersModule\Presenters;
 
+use Crm\ApplicationModule\Models\Snippet\SnippetRenderer;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
-use Crm\ApplicationModule\Snippet\SnippetRenderer;
 use Crm\UsersModule\Events\UserSignOutEvent;
 use Crm\UsersModule\Models\Auth\Authorizator;
 use Crm\UsersModule\Models\Auth\InvalidEmailException;

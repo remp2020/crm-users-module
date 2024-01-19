@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Repositories;
 
-use Crm\ApplicationModule\Repository;
-use Crm\ApplicationModule\Repository\RetentionData;
+use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Models\Database\RetentionData;
 use Nette\Database\Table\ActiveRow;
 
 class AutoLoginTokensRepository extends Repository
