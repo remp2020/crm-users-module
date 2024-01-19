@@ -52,7 +52,6 @@ class BasicUserDataProvider implements UserDataProviderInterface
             'email' => $user->email,
             'public_name' => $user->public_name,
             'created_at' => $user->created_at->format(\DateTimeInterface::RFC3339), //confirmed_at?
-            'last_sign_in_up' => $user->last_sign_in_ip, //?
             'current_sign_in_up' => $user->current_sign_in_ip, //?
         ];
     }
@@ -79,7 +78,6 @@ class BasicUserDataProvider implements UserDataProviderInterface
             'public_name' => 'GDPR Removal',
             'password' => 'GDPR Removal',
             'ext_id' => null,
-            'last_sign_in_ip' => 'GDPR Removal',
             'current_sign_in_ip' => 'GDPR Removal',
             'referer' => 'GDPR Removal',
             'institution_name' => 'GDPR Removal',

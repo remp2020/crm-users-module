@@ -135,9 +135,7 @@ class UsersRepository extends Repository
     {
         return $this->getTable()->where(['id' => $user->id])->update([
             'current_sign_in_at' => new \DateTime(),
-            'last_sign_in_at' => $user->current_sign_in_at,
             'current_sign_in_ip' => Request::getIp(),
-            'last_sign_in_ip' => $user->current_sign_in_ip,
         ]);
     }
 
