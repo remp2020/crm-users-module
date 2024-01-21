@@ -2,42 +2,22 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Crm\ApplicationModule\DataProvider\DataProviderManager;
 use Crm\UsersModule\Auth\Authorizator;
-use Crm\UsersModule\Auth\UserManager;
 use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;
-use Nette\Security\IUserStorage;
 use Nette\Security\User;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class SignInFormFactory
 {
-    private $userManager;
-
-    private $dataProviderManager;
-
-    private $user;
-
-    private $translator;
-
-    private $authorizator;
-
     public $onAuthenticated;
 
     public function __construct(
-        UserManager $userManager,
-        DataProviderManager $dataProviderManager,
-        Translator $translator,
-        Authorizator $authorizator,
-        User $user
+        protected Translator $translator,
+        protected Authorizator $authorizator,
+        protected User $user
     ) {
-        $this->userManager = $userManager;
-        $this->dataProviderManager = $dataProviderManager;
-        $this->user = $user;
-        $this->authorizator = $authorizator;
-        $this->translator = $translator;
     }
 
     public function create($email = null)
@@ -78,7 +58,7 @@ class SignInFormFactory
         if ($values->remember) {
             $this->user->setExpiration('14 days');
         } else {
-            $this->user->setExpiration('20 minutes', IUserStorage::CLEAR_IDENTITY);
+            $this->user->setExpiration('20 minutes', true);
         }
 
         try {
