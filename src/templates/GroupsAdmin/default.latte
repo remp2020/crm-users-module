@@ -34,7 +34,7 @@
             <td>
               <a n:href="show $group->id">{$group->name}</a>
             </td>
-            <td><a n:href="UsersAdmin:default group => $group->id">{$group->related('user_groups')->count('*')}</a></td>
+            <td><a n:href="UsersAdmin:default formData => [group => $group->id]">{$group->related('user_groups')->count('*')}</a></td>
             <td><small>{$group->sorting}</small></td>
             <td>
               {$group->created_at|userDate}

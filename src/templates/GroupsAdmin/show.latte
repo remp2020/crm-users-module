@@ -21,8 +21,8 @@
 <div class="row">
   <div class="col-md-12">
     {_users.admin.groups_admin.total_users}:
-    <a n:href="UsersAdmin:default group => $group->id">{$group->related('user_groups')->count('*')}</a>
-    <a n:href="UsersAdmin:default group => $group->id" class="btn btn-xs btn-default">{_users.admin.groups_admin.view}</a>
+    <a n:href="UsersAdmin:default formData => [group => $group->id]">{$group->related('user_groups')->count('*')}</a>
+    <a n:href="UsersAdmin:default formData => [group => $group->id]" class="btn btn-xs btn-default">{_users.admin.groups_admin.view}</a>
     <br>
     <hr>
     <p>
