@@ -66,7 +66,8 @@ services:
 	accessToken: Crm\UsersModule\Models\Auth\Access\AccessToken
 
 	- Crm\UsersModule\Models\Auth\Sso\SsoUserManager
-	googleSignIn: Crm\UsersModule\Models\Auth\Sso\GoogleSignIn(%sso.google.client_id%, %sso.google.client_secret%)
+	- Crm\UsersModule\Models\Auth\Sso\GoogleSignInConfig(%sso.google.client_id%, %sso.google.client_secret%)
+	googleSignIn: Crm\UsersModule\Models\Auth\Sso\GoogleSignIn
 	appleSignIn: Crm\UsersModule\Models\Auth\Sso\AppleSignIn(%sso.apple.client_id%, %sso.apple.trusted_client_ids%)
 
 	signInRedirectValidator:

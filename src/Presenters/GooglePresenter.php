@@ -131,4 +131,59 @@ class GooglePresenter extends FrontendPresenter
             $this->redirect($this->homeRoute);
         }
     }
+
+    public function actionCodeSignIn()
+    {
+        if (!$this->googleSignIn->isEnabled()) {
+            $this->redirect('Sign:in');
+        }
+
+        $referer = $this->getParameter('referer');
+        $back = $this->getParameter('back');
+        $locale = $this->getParameter('locale');
+        $source = $this->getParameter('source');
+        $finalUrl = $this->getParameter('url');
+        $code = $this->getParameter('code');
+
+        if (!$code) {
+            $this->error("Empty 'code' parameter", IResponse::S400_BAD_REQUEST);
+        }
+
+        try {
+            $user = $this->googleSignIn->signInUsingCode(
+                code: $code,
+                referer: $referer,
+                locale: $locale,
+                source: $source,
+            );
+
+            if (!$this->getUser()->isLoggedIn()) {
+                // AutoLogin will log in user - create access token and set user flag (in session) to authenticated
+                $this->getUser()->login([
+                    'user' => $user,
+                    'autoLogin' => true,
+                    'source' => GoogleSignIn::ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO,
+                ]);
+            }
+        } catch (SsoException $e) {
+            Debugger::log($e, Debugger::WARNING);
+            $this->flashMessage($this->translator->translate('users.frontend.google.fail'), 'error');
+            $this->redirect('Users:settings');
+        } catch (AlreadyLinkedAccountSsoException $e) {
+            $this->flashMessage($this->translator->translate('users.frontend.google.used_account', [
+                'email' => $e->getEmail(),
+            ]), 'error');
+            $this->redirect('Users:settings');
+        }
+
+        if ($back) {
+            $this->restoreRequest($back);
+        }
+
+        if ($finalUrl) {
+            $this->redirectUrl($finalUrl);
+        } else {
+            $this->redirect($this->homeRoute);
+        }
+    }
 }

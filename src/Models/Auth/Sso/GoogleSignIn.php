@@ -19,7 +19,6 @@ class GoogleSignIn
     public const ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO = 'web+google_sso';
     public const USER_SOURCE_GOOGLE_SSO = "google_sso";
     public const USER_GOOGLE_REGISTRATION_CHANNEL = "google";
-
     private const COOKIE_GSI_STATE = 'gsi_state';
     private const COOKIE_GSI_SOURCE = 'gsi_source';
     private const COOKIE_GSI_USER_ID = 'gsi_user_id';
@@ -29,13 +28,10 @@ class GoogleSignIn
         'email',
     ];
 
-    private ?string $clientId;
-    private ?string $clientSecret;
     private ?Client $googleClient = null;
 
     public function __construct(
-        ?string $clientId,
-        ?string $clientSecret,
+        private GoogleSignInConfig $googleSignInConfig,
         private ConfigsRepository $configsRepository,
         private SsoUserManager $ssoUserManager,
         private User $user,
@@ -43,8 +39,6 @@ class GoogleSignIn
         private Response $response,
         private Request $request,
     ) {
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
     }
 
     public function isEnabled(): bool
@@ -61,8 +55,8 @@ class GoogleSignIn
      * Implements validation of ID token (JWT token) as described in:
      * https://developers.google.com/identity/sign-in/web/backend-auth
      *
-     * If token is successfully verified, user with Google connected account will be created (or matched to an existing user).
-     * Note: Access token is not automatically created
+     * If token is successfully verified, user with Google connected account will be created (or matched to an existing
+     * user). Note: Access token is not automatically created
      *
      * @param string $idToken
      * @param string|null $gsiAccessToken
@@ -232,7 +226,8 @@ class GoogleSignIn
 
     /**
      * Second step OAuth authorization flow
-     * If callback data is successfully verified, user with Google connected account will be created (or matched to an existing user).
+     * If callback data is successfully verified, user with Google connected account will be created (or matched to an
+     * existing user).
      *
      * Note: Access token is not automatically created
      *
@@ -287,6 +282,56 @@ class GoogleSignIn
         $client = $this->getClient($redirectUri);
         $client->fetchAccessTokenWithAuthCode($code);
 
+        return $this->matchUserUsingGoogleClientWithAuthToken($client, $locale, $referer, $gsiSource);
+    }
+
+    public function signInUsingCode(string $code, ?string $referer = null, ?string $locale = null, ?string $source = null): ActiveRow
+    {
+        if (!$this->isEnabled()) {
+            throw new \Exception('Google Sign In is not enabled, please see authentication configuration in your admin panel.');
+        }
+
+        if (!$code) {
+            throw new SsoException('Google SignIn error: empty code');
+        }
+
+        // https://stackoverflow.com/questions/71968377/redirect-uri-mismatch-when-exchanging-access-token-under-popup-mode
+        $this->getClient();
+        $redirectUri = 'postmessage';
+        $client = $this->getClient($redirectUri);
+        $client->addScope(self::DEFAULT_SCOPES);
+        $client->setAccessType('online');
+        $client->fetchAccessTokenWithAuthCode($code); // Get OAuth access token
+
+        return $this->matchUserUsingGoogleClientWithAuthToken($client, $locale, $referer, $source);
+    }
+
+    private function getClient(?string $redirectUri = null): Client
+    {
+        if ($this->googleClient) {
+            return $this->googleClient;
+        }
+
+        if (!$this->googleSignInConfig->clientId || !$this->googleSignInConfig->clientSecret) {
+            throw new \Exception("Google Sign In Client ID and Secret not configured, please configure 'users.sso.google' parameter based on the README file.");
+        }
+
+        $googleClient = new Client([
+            'client_id' => $this->googleSignInConfig->clientId,
+            'client_secret' => $this->googleSignInConfig->clientSecret,
+        ]);
+        if ($redirectUri) {
+            $googleClient->setRedirectUri($redirectUri);
+        }
+        return $googleClient;
+    }
+
+    private function matchUserUsingGoogleClientWithAuthToken(
+        Client $client,
+        ?string $locale,
+        ?string $referer,
+        ?string $source
+    ): ActiveRow {
         // Get user details using access token
         $service = new Oauth2($client);
         try {
@@ -296,15 +341,9 @@ class GoogleSignIn
         }
 
         $userEmail =  $userInfo->getEmail();
-        // 'sub' represents Google ID in id_token
-        //
-        // Note: A Google account's email address can change, so don't use it to identify a user.
-        // Instead, use the account's ID, which you can get on the client with getBasicProfile().getId(),
-        // and on the backend from the sub claim of the ID token.
-        // https://developers.google.com/identity/sign-in/web/people
         $googleUserId =  $userInfo->getId();
 
-        // Match only already connected accounts (DO NOT provide email here) before any external matching (via data provider) is done
+        // Match already connected accounts before any external matching (via data provider) or matching using email is done
         $matchedUser = $this->ssoUserManager->matchUser(UserConnectedAccountsRepository::TYPE_GOOGLE_SIGN_IN, $googleUserId);
 
         /** @var GoogleSignInDataProviderInterface[] $providers */
@@ -315,14 +354,14 @@ class GoogleSignIn
                 'googleUserEmail' => $userEmail,
                 'googleUserId' => $googleUserId,
                 'gsiAccessToken' => $client->getAccessToken()['access_token'],
-                'redirectUri' => $redirectUri,
+                'redirectUri' => $client->getRedirectUri(),
                 'locale' => $locale,
             ]);
         }
 
         $userBuilder = $this->ssoUserManager->createUserBuilder(
             $userEmail,
-            $gsiSource ?? self::USER_SOURCE_GOOGLE_SSO,
+            $source ?? self::USER_SOURCE_GOOGLE_SSO,
             self::USER_GOOGLE_REGISTRATION_CHANNEL,
             $referer
         );
@@ -331,6 +370,8 @@ class GoogleSignIn
             $userBuilder->setLocale($locale);
         }
 
+        $loggedUserId = $this->user->isLoggedIn() ? $this->user->getId() : null;
+
         // Match google user to CRM user
         return $this->ssoUserManager->matchOrCreateUser(
             $googleUserId,
@@ -338,27 +379,7 @@ class GoogleSignIn
             UserConnectedAccountsRepository::TYPE_GOOGLE_SIGN_IN,
             $userBuilder,
             $userInfo->toSimpleObject(),
-            $loggedUserId,
+            $loggedUserId
         );
-    }
-
-    private function getClient(?string $redirectUri = null): Client
-    {
-        if ($this->googleClient) {
-            return $this->googleClient;
-        }
-
-        if (!$this->clientId || !$this->clientSecret) {
-            throw new \Exception("Google Sign In Client ID and Secret not configured, please configure 'users.sso.google' parameter based on the README file.");
-        }
-
-        $googleClient = new Client([
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
-        ]);
-        if ($redirectUri) {
-            $googleClient->setRedirectUri($redirectUri);
-        }
-        return $googleClient;
     }
 }
