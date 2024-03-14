@@ -110,6 +110,7 @@ services:
 	- Crm\UsersModule\Commands\CheckEmailsCommand
 	- Crm\UsersModule\Commands\DisableUserCommand
 	- Crm\UsersModule\Commands\ReconstructUserDataCommand
+	- Crm\UsersModule\Commands\GenerateUuidForUsersCommand
 	- Crm\UsersModule\Components\AddressWidget\AddressWidget
 	- Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts
 	- Crm\UsersModule\Components\UserPasswordChanges\UserPasswordChanges

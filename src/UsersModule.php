@@ -58,6 +58,7 @@ use Crm\UsersModule\Commands\AddUserCommand;
 use Crm\UsersModule\Commands\CheckEmailsCommand;
 use Crm\UsersModule\Commands\DisableUserCommand;
 use Crm\UsersModule\Commands\GenerateAccessCommand;
+use Crm\UsersModule\Commands\GenerateUuidForUsersCommand;
 use Crm\UsersModule\Commands\ReconstructUserDataCommand;
 use Crm\UsersModule\Commands\UpdateLoginAttemptsCommand;
 use Crm\UsersModule\Components\ActiveRegisteredUsersStatWidget\ActiveRegisteredUsersStatWidget;
@@ -304,6 +305,7 @@ class UsersModule extends CrmModule
         $commandsContainer->registerCommand($this->getInstance(CheckEmailsCommand::class));
         $commandsContainer->registerCommand($this->getInstance(DisableUserCommand::class));
         $commandsContainer->registerCommand($this->getInstance(ReconstructUserDataCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(GenerateUuidForUsersCommand::class));
     }
 
     public function registerLazyWidgets(LazyWidgetManagerInterface $widgetManager)

@@ -18,6 +18,7 @@ use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Security\Passwords;
 use Nette\Utils\DateTime;
+use Ramsey\Uuid\Uuid;
 
 class UsersRepository extends Repository
 {
@@ -103,6 +104,7 @@ class UsersRepository extends Repository
             'modified_at' => new \DateTime(),
             'active' => (int)$active,
             'ext_id' => $extId,
+            'uuid' => Uuid::uuid4(),
             'registration_channel' => self::DEFAULT_REGISTRATION_CHANNEL,
             'locale' => $locale,
         ]);

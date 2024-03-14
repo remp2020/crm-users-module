@@ -11,6 +11,7 @@ use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
 use Nette\Security\Passwords;
+use Ramsey\Uuid\Uuid;
 
 class UserBuilder extends Builder
 {
@@ -70,6 +71,7 @@ class UserBuilder extends Builder
         $this->set('last_name', null);
         $this->set('public_name', null);
         $this->set('ext_id', null);
+        $this->set('uuid', Uuid::uuid4());
         $this->set('role', UsersRepository::ROLE_USER);
         $this->set('invoice', false);
         $this->set('locale', $this->translator->getDefaultLocale());
