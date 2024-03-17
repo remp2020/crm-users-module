@@ -54,17 +54,22 @@ class SsoUserManager
             }
         }
 
-        if (!$this->securedAdminAccess->canLinkOrUnlinkAccount($user)) {
-            throw new AdminAccountSsoLinkingException("Unable to link user [{$user->id}]");
-        }
+        $connectedAccount = $this->connectedAccountsRepository->getForUser($user, $type)
+            ->where('external_id', $externalId)
+            ->fetch();
 
-        $this->connectedAccountsRepository->connectUser(
-            $user,
-            $type,
-            $externalId,
-            $email,
-            $connectedAccountMeta
-        );
+        if (!$connectedAccount) {
+            if (!$this->securedAdminAccess->canLinkOrUnlinkAccount($user)) {
+                throw new AdminAccountSsoLinkingException("Unable to link user [{$user->id}]");
+            }
+            $this->connectedAccountsRepository->add(
+                user: $user,
+                type: $type,
+                externalId: $externalId,
+                email: $email,
+                meta: $connectedAccountMeta,
+            );
+        }
 //        } catch (\Exception $e) {
 //            $this->dbContext->rollBack();
 //            throw $e;
