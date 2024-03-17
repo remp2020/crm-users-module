@@ -1,8 +1,8 @@
 <?php
 
-
 namespace Crm\UsersModule\Models\Auth\Sso;
 
+use Crm\AdminModule\Helpers\SecuredAdminAccess;
 use Crm\UsersModule\Models\Auth\PasswordGenerator;
 use Crm\UsersModule\Models\Builder\UserBuilder;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
@@ -12,30 +12,19 @@ use Nette\Database\Table\ActiveRow;
 
 class SsoUserManager
 {
-//    private Explorer $dbContext;
-
-    private UserConnectedAccountsRepository $connectedAccountsRepository;
-
-    private UsersRepository $usersRepository;
-
-    private PasswordGenerator $passwordGenerator;
-
-    private UserBuilder $userBuilder;
-
     public function __construct(
-        PasswordGenerator $passwordGenerator,
-        UserBuilder $userBuilder,
-        //        Explorer $dbContext,
-        UserConnectedAccountsRepository $connectedAccountsRepository,
-        UsersRepository $usersRepository
+        private PasswordGenerator $passwordGenerator,
+        private UserBuilder $userBuilder,
+        private UserConnectedAccountsRepository $connectedAccountsRepository,
+        private UsersRepository $usersRepository,
+        private SecuredAdminAccess $securedAdminAccess,
     ) {
-//        $this->dbContext = $dbContext;
-        $this->connectedAccountsRepository = $connectedAccountsRepository;
-        $this->usersRepository = $usersRepository;
-        $this->passwordGenerator = $passwordGenerator;
-        $this->userBuilder = $userBuilder;
     }
 
+    /**
+     * @throws AlreadyLinkedAccountSsoException
+     * @throws AdminAccountSsoLinkingException
+     */
     public function matchOrCreateUser(
         string $externalId,
         string $email,
@@ -65,13 +54,17 @@ class SsoUserManager
             }
         }
 
-            $this->connectedAccountsRepository->connectUser(
-                $user,
-                $type,
-                $externalId,
-                $email,
-                $connectedAccountMeta
-            );
+        if (!$this->securedAdminAccess->canLinkOrUnlinkAccount($user)) {
+            throw new AdminAccountSsoLinkingException("Unable to link user [{$user->id}]");
+        }
+
+        $this->connectedAccountsRepository->connectUser(
+            $user,
+            $type,
+            $externalId,
+            $email,
+            $connectedAccountMeta
+        );
 //        } catch (\Exception $e) {
 //            $this->dbContext->rollBack();
 //            throw $e;

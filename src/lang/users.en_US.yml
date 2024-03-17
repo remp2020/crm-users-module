@@ -181,6 +181,7 @@ frontend:
         sign_using_google: Sign in using Google
         or: or
         used_account: "Unable to link accounts. Google account %email% was already linked with another account."
+        link_disabled_for_admin: "For security reasons, it is not possible for the administrator to link the account. Please contact technical support."
     apple:
         fail: "Unable to log in using Apple Sign-in, please contact our support."
         cancel: 'Apple Sign-in was cancelled.'

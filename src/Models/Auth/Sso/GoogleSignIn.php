@@ -51,6 +51,7 @@ class GoogleSignIn
         $this->googleClient = $googleClient;
     }
 
+
     /**
      * Implements validation of ID token (JWT token) as described in:
      * https://developers.google.com/identity/sign-in/web/backend-auth
@@ -63,9 +64,11 @@ class GoogleSignIn
      * @param int|null $loggedUserId
      * @param string|null $source
      * @param string|null $locale if user is created, this locale will be set as a default user locale
+     *
      * @return ActiveRow|null created/matched user
      * @throws AlreadyLinkedAccountSsoException
      * @throws DataProviderException
+     * @throws AdminAccountSsoLinkingException
      */
     public function signInUsingIdToken(
         string $idToken,
@@ -224,6 +227,7 @@ class GoogleSignIn
         return $client->createAuthUrl();
     }
 
+
     /**
      * Second step OAuth authorization flow
      * If callback data is successfully verified, user with Google connected account will be created (or matched to an
@@ -239,6 +243,7 @@ class GoogleSignIn
      * @throws AlreadyLinkedAccountSsoException if connected account is used
      * @throws SsoException if authentication fails
      * @throws DataProviderException
+     * @throws AdminAccountSsoLinkingException
      */
     public function signInCallback(string $redirectUri, ?string $referer = null, ?string $locale = null): ActiveRow
     {

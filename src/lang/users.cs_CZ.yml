@@ -181,6 +181,7 @@ frontend:
         sign_using_google: Přihlásit přes Google
         or: nebo
         used_account: "Propojení účtu není možné. Google účet %email% už je propojen s jiným účtem."
+        link_disabled_for_admin: "Pro uživatele s admin právy není z bezpečnostních důvodů možné propojit účet. Obraťte se na technickou podporu."
     apple:
         fail: "Chyba přihlašování pomocí přihlášení přes Apple, prosím kontaktujte naši podporu."
         cancel: 'Přihlášení přes Apple bylo přerušeno.'

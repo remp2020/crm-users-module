@@ -4,15 +4,9 @@ namespace Crm\UsersModule\Models\Auth\Sso;
 
 class AlreadyLinkedAccountSsoException extends \Exception
 {
-    protected $externalId;
-
-    protected $email;
-
-    public function __construct($externalId, $email)
+    public function __construct(protected $externalId, protected $email)
     {
         parent::__construct("Account {$email}-{$externalId}");
-        $this->externalId = $externalId;
-        $this->email = $email;
     }
 
     public function getEmail()

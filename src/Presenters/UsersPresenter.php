@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Presenters;
 
+use Crm\AdminModule\Helpers\SecuredAdminAccess;
 use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
@@ -19,7 +20,6 @@ use Crm\UsersModule\Models\User\ZipBuilder;
 use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Crm\UsersModule\Repositories\UserEmailConfirmationsRepository;
-use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\Responses\FileResponse;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
@@ -27,65 +27,24 @@ use Nette\Utils\Json;
 
 class UsersPresenter extends FrontendPresenter
 {
-    private $changePasswordFormFactory;
-
-    private $downloadUserData;
-
-    private $deleteUserData;
-
-    private $requestPasswordFormFactory;
-
-    private $resetPasswordFormFactory;
-
-    private $passwordResetTokensRepository;
-
-    private $zipBuilder;
-
-    private $userDeleteFormFactory;
-
-    private $userManager;
-
-    private $accessToken;
-
-    private $userEmailConfirmationsRepository;
-
-    private $googleSignIn;
-
-    private $appleSignIn;
-
-    private $userConnectedAccountsRepository;
-
     public function __construct(
-        ChangePasswordFormFactory $changePasswordFormFactory,
-        DownloadUserData $downloadUserData,
-        DeleteUserData $deleteUserData,
-        RequestPasswordFormFactory $requestPasswordFormFactory,
-        ResetPasswordFormFactory $resetPasswordFormFactory,
-        PasswordResetTokensRepository $passwordResetTokensRepository,
-        ZipBuilder $zipBuilder,
-        UserDeleteFormFactory $userDeleteFormFactory,
-        UserManager $userManager,
-        AccessToken $accessToken,
-        UserEmailConfirmationsRepository $userEmailConfirmationsRepository,
-        GoogleSignIn $googleSignIn,
-        AppleSignIn $appleSignIn,
-        UserConnectedAccountsRepository $userConnectedAccountsRepository
+        private ChangePasswordFormFactory $changePasswordFormFactory,
+        private DownloadUserData $downloadUserData,
+        private DeleteUserData $deleteUserData,
+        private RequestPasswordFormFactory $requestPasswordFormFactory,
+        private ResetPasswordFormFactory $resetPasswordFormFactory,
+        private PasswordResetTokensRepository $passwordResetTokensRepository,
+        private ZipBuilder $zipBuilder,
+        private UserDeleteFormFactory $userDeleteFormFactory,
+        private UserManager $userManager,
+        private AccessToken $accessToken,
+        private UserEmailConfirmationsRepository $userEmailConfirmationsRepository,
+        private GoogleSignIn $googleSignIn,
+        private AppleSignIn $appleSignIn,
+        private UserConnectedAccountsRepository $userConnectedAccountsRepository,
+        private SecuredAdminAccess $securedAdminAccess,
     ) {
         parent::__construct();
-        $this->changePasswordFormFactory = $changePasswordFormFactory;
-        $this->downloadUserData = $downloadUserData;
-        $this->deleteUserData = $deleteUserData;
-        $this->requestPasswordFormFactory= $requestPasswordFormFactory;
-        $this->resetPasswordFormFactory = $resetPasswordFormFactory;
-        $this->passwordResetTokensRepository = $passwordResetTokensRepository;
-        $this->zipBuilder = $zipBuilder;
-        $this->userDeleteFormFactory = $userDeleteFormFactory;
-        $this->userManager = $userManager;
-        $this->accessToken = $accessToken;
-        $this->userEmailConfirmationsRepository = $userEmailConfirmationsRepository;
-        $this->googleSignIn = $googleSignIn;
-        $this->appleSignIn = $appleSignIn;
-        $this->userConnectedAccountsRepository = $userConnectedAccountsRepository;
     }
 
     public function renderProfile()
@@ -175,15 +134,21 @@ class UsersPresenter extends FrontendPresenter
 
             $userRow = $this->usersRepository->find($this->getUser()->getId());
 
+            if (!$userRow) {
+                throw new \RuntimeException("User with id [{$this->getUser()->getId()}] not found");
+            }
+
             $this->template->appleSignIn = $this->appleSignIn->isEnabled() ?
                 $this->link(':Users:Apple:sign', ['url' => $this->link('//this')]) : false;
-            $this->template->appleConnectedAccount = $this->userConnectedAccountsRepository
-                ->getForUser($userRow, UserConnectedAccountsRepository::TYPE_APPLE_SIGN_IN);
-
             $this->template->googleSignIn = $this->googleSignIn->isEnabled() ?
                 $this->link(':Users:Google:sign', ['url' => $this->link('//this')]) : false;
-            $this->template->googleConnectedAccount = $this->userConnectedAccountsRepository
-                ->getForUser($userRow, UserConnectedAccountsRepository::TYPE_GOOGLE_SIGN_IN);
+
+            $this->template->appleConnectedAccounts = $this->userConnectedAccountsRepository
+                ->getForUser($userRow, UserConnectedAccountsRepository::TYPE_APPLE_SIGN_IN)
+                ->fetchAll();
+            $this->template->googleConnectedAccounts = $this->userConnectedAccountsRepository
+                ->getForUser($userRow, UserConnectedAccountsRepository::TYPE_GOOGLE_SIGN_IN)
+                ->fetchAll();
         }
     }
 
@@ -230,9 +195,7 @@ class UsersPresenter extends FrontendPresenter
 
         $userRow = $this->usersRepository->find($this->getUser()->getId());
 
-        // DO NOT allow ADMIN user to unlink their SSO accounts if 'admin_secure_login_check' is turned on,
-        // otherwise attacker might bypass SSO authentication.
-        if ($this->applicationConfig->get('admin_secure_login_check') && $userRow->role === UsersRepository::ROLE_ADMIN) {
+        if (!$this->securedAdminAccess->canLinkOrUnlinkAccount($userRow)) {
             $this->flashMessage($this->translator->translate('users.frontend.settings.linked_accounts.unlink_disabled_for_admin'), 'error');
         } else {
             $this->userConnectedAccountsRepository->removeAccountForUser($userRow, $accountId);

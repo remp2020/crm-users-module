@@ -6,6 +6,7 @@ use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 use Nette\Utils\Json;
 use Tracy\Debugger;
 
@@ -52,12 +53,12 @@ class UserConnectedAccountsRepository extends Repository
         ])->fetch();
     }
 
-    final public function getForUser(ActiveRow $user, string $type)
+    final public function getForUser(ActiveRow $user, string $type): Selection
     {
         return $this->getTable()->where([
             'user_id' => $user->id,
             'type' => $type,
-        ])->fetch();
+        ]);
     }
 
     public function removeAccountsForUser(ActiveRow $user): int
@@ -97,7 +98,10 @@ class UserConnectedAccountsRepository extends Repository
 
     public function connectUser(ActiveRow $user, $type, $externalId, $email, $meta = null)
     {
-        $connectedAccount = $this->getForUser($user, $type);
+        $connectedAccount = $this->getForUser($user, $type)
+            ->where('external_id', $externalId)
+            ->fetch();
+
         if (!$connectedAccount) {
             $connectedAccount = $this->add(
                 $user,

@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Api;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\GoogleTokenSignInDataProviderInterface;
+use Crm\UsersModule\Models\Auth\Sso\AdminAccountSsoLinkingException;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
@@ -104,7 +105,17 @@ class GoogleTokenSignInHandler extends ApiHandler
             }
         }
 
-        $user = $this->googleSignIn->signInUsingIdToken($idToken, $gsiAccessToken, null, $params['source'] ?? null, $params['locale'] ?? null);
+        try {
+            $user = $this->googleSignIn->signInUsingIdToken($idToken, $gsiAccessToken, null, $params['source'] ?? null, $params['locale'] ?? null);
+        } catch (AdminAccountSsoLinkingException $e) {
+            return new JsonApiResponse(IResponse::S403_FORBIDDEN, [
+                'status' => 'error',
+                'code' => 'error_linking_admin_account',
+                'message' => 'Unable to log in using Google account, because it cannot be linked to the CRM account' .
+                    'with admin rights - this is forbidden for security reasons. Please contact support.',
+            ]);
+        }
+
 
         if (!$user) {
             return new JsonApiResponse(IResponse::S400_BAD_REQUEST, [

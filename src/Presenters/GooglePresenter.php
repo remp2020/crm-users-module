@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Presenters;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
 use Crm\UsersModule\Models\Auth\SignInRedirectValidator;
+use Crm\UsersModule\Models\Auth\Sso\AdminAccountSsoLinkingException;
 use Crm\UsersModule\Models\Auth\Sso\AlreadyLinkedAccountSsoException;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\Models\Auth\Sso\SsoException;
@@ -115,6 +116,9 @@ class GooglePresenter extends FrontendPresenter
             $this->flashMessage($this->translator->translate('users.frontend.google.used_account', [
                 'email' => $e->getEmail(),
             ]), 'error');
+            $this->redirect('Users:settings');
+        } catch (AdminAccountSsoLinkingException $e) {
+            $this->flashMessage($this->translator->translate('users.frontend.google.link_disabled_for_admin', 'error'));
             $this->redirect('Users:settings');
         }
 

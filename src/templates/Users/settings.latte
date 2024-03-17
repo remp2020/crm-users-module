@@ -121,35 +121,36 @@
 
     <div class="col-md-8">
       {if $googleSignIn}
-        {if $googleConnectedAccount}
+
+        {foreach $googleConnectedAccounts as $acc}
           <div class="sign-sso-btn sign-sso-google" title="Google">
-            <span>{$googleConnectedAccount->email}</span>
+            <span>{$acc->email}</span>
           </div>
-          <a n:href="unlinkConnectedAccount! $googleConnectedAccount->id" class="signout-sso-btn-link">
+          <a n:href="unlinkConnectedAccount! $acc->id" class="signout-sso-btn-link">
             <span class="action"><i class="fa fa-close"></i>&nbsp;{_users.frontend.settings.linked_accounts.unlink}</i></span>
           </a>
-        {else}
-          <a href="{$googleSignIn}" class="sign-sso-btn sign-sso-google" title="Google" target="_top" rel="noopener">
-            <span>{_users.frontend.settings.linked_accounts.connect} Google</span>
-          </a>
-        {/if}
+        {/foreach}
+        <a href="{$googleSignIn}" class="sign-sso-btn sign-sso-google" title="Google" target="_top" rel="noopener">
+          <span>{_users.frontend.settings.linked_accounts.connect} Google</span>
+        </a>
+
       {/if}
     </div>
     <div class="col-md-8">
-
       {if $appleSignIn}
-        {if $appleConnectedAccount}
+
+        {foreach $appleConnectedAccounts as $acc}
           <div class="sign-sso-btn sign-sso-apple" title="Apple">
-              <span>{$appleConnectedAccount->email}</span>
+            <span>{$acc->email}</span>
           </div>
-          <a n:href="unlinkConnectedAccount! $appleConnectedAccount->id" class="signout-sso-btn-link">
+          <a n:href="unlinkConnectedAccount! $acc->id" class="signout-sso-btn-link">
             <span class="action"><i class="fa fa-close"></i>&nbsp;{_users.frontend.settings.linked_accounts.unlink}</i></span>
           </a>
-        {else}
-          <a href="{$appleSignIn}" class="sign-sso-btn sign-sso-apple" title="Apple" target="_top" rel="noopener">
-            <span>{_users.frontend.settings.linked_accounts.connect} Apple</span>
-          </a>
-        {/if}
+        {/foreach}
+        <a href="{$appleSignIn}" class="sign-sso-btn sign-sso-apple" title="Apple" target="_top" rel="noopener">
+          <span>{_users.frontend.settings.linked_accounts.connect} Apple</span>
+        </a>
+
       {/if}
     </div>
   </div>

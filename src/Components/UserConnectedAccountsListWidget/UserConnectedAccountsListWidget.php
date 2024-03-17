@@ -43,6 +43,7 @@ class UserConnectedAccountsListWidget extends BaseLazyWidget
     {
         $userConnectedAccount = $this->userConnectedAccountsRepository->getTable()->where(['id' => $id])->fetch();
         if ($userConnectedAccount) {
+            // here we do not check for permissions to link/unlink, since we are already in CRM administration
             $this->userConnectedAccountsRepository->removeAccountForUser($userConnectedAccount->user, $id);
             $this->presenter->flashMessage($this->translator->translate('users.admin.user_connected_accounts_list_widget.flash_message'));
         }
