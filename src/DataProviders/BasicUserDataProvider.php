@@ -50,9 +50,18 @@ class BasicUserDataProvider implements UserDataProviderInterface
 
         return [
             'email' => $user->email,
+            'email_validated_at' => $user->email_validated_at?->format(\DateTimeInterface::RFC3339),
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
             'public_name' => $user->public_name,
-            'created_at' => $user->created_at->format(\DateTimeInterface::RFC3339), //confirmed_at?
-            'current_sign_in_up' => $user->current_sign_in_ip, //?
+            'institution_name' => $user->institution_name,
+            'locale' => $user->locale,
+            'source' => $user->source,
+            'referer' => $user->referer,
+            'registration_channel' => $user->registration_channel,
+            'created_at' => $user->created_at->format(\DateTimeInterface::RFC3339),
+            'current_sign_in_at' => $user->current_sign_in_at?->format(\DateTimeInterface::RFC3339),
+            'current_sign_in_ip' => $user->current_sign_in_ip,
         ];
     }
 
