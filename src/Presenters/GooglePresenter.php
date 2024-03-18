@@ -118,7 +118,7 @@ class GooglePresenter extends FrontendPresenter
             ]), 'error');
             $this->redirect('Users:settings');
         } catch (AdminAccountSsoLinkingException $e) {
-            $this->flashMessage($this->translator->translate('users.frontend.google.link_disabled_for_admin', 'error'));
+            $this->flashMessage($this->translator->translate('users.frontend.google.link_disabled_for_admin'), 'error');
             $this->redirect('Users:settings');
         }
 
