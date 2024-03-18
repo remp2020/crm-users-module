@@ -390,6 +390,7 @@ admin:
         anonymize_alert: "Anonymizácia používateľského konta '%email%' je <b><u>nezvratná akcia</u></b>, po ktorej sa používateľ nebude môcť znovu prihlásiť a všetky osobné dáta budú zmazané."
         anonymize: "Anonymizácia používateľa"
         button: "Anonymizovať %email%"
+        sending: "Odosielam"
         reason:
             label: "Dôvod zmazania"
             required: "Tento používateľ je systémom označený ako aktívny (má nedávnu platbu, aktívne predplatné, atď.). Ochranu je možné obísť. Prosím vyplňte dôvod zmazania."

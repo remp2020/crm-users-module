@@ -390,6 +390,7 @@ admin:
         anonymize_alert: "Anonymization of user account '%email%' is <b><u>irreversible</u></b>. User won't be able to log in again and all personal data will be erased."
         anonymize: "Anonymize user"
         button: "Anonymize %email%"
+        sending: "Sending"
         reason:
             label: "Reason for anonymization"
             required: "This user is marked as active by the system (has a recent payment, active subscription, etc.). Protection can be bypassed. Please fill in the reason for deletion."

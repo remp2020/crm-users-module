@@ -75,6 +75,8 @@ class AdminUserDeleteFormFactory
         $form->addSubmit('send')
             ->getControlPrototype()
             ->setName('button')
+            ->setAttribute('onclick', "if (Nette.validateForm(this.form, true)) $(this).button('loading');")
+            ->setAttribute('data-loading-text', $this->translator->translate('users.admin.delete_user_admin_form.sending'))
             ->setHtml('<i class="fa fa-trash"></i> ' . $this->translator->translate('users.admin.delete_user_admin_form.button', ['email' => $user->email]));
 
         $form->addHidden('user_id', $user->id);
