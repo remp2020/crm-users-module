@@ -1,16 +1,16 @@
-{block #title}{_users.admin.edit.title} {$user->email}{/block}
+{block #title}{_users.admin.edit.title} {$dbUser->email}{/block}
 
 {block #content}
 
 <div class="row">
   <div class="col-md-12">
-  <a href="{link UsersAdmin:Show $user->id}"><i class="fa fa-angle-left"></i> {_users.admin.edit.back_to_detail}</a>
+  <a href="{link UsersAdmin:Show $dbUser->id}"><i class="fa fa-angle-left"></i> {_users.admin.edit.back_to_detail}</a>
     <div class="page-header">
       <h1>
         {_users.admin.edit.title}:
-        <small>[{$user->id}]</small>
-      	{$user->first_name} {$user->last_name}
-        {if $user->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN}
+        <small>[{$dbUser->id}]</small>
+      	{$dbUser->first_name} {$dbUser->last_name}
+        {if $dbUser->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN}
           <span class="label label-warning">admin</span>
         {/if}
       </h1>

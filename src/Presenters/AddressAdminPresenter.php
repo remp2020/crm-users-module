@@ -37,7 +37,7 @@ class AddressAdminPresenter extends AdminPresenter
             throw new BadRequestException();
         }
         $this->template->address = $address;
-        $this->template->user = $address->user;
+        $this->template->dbUser = $address->user;
     }
 
     /**
@@ -45,7 +45,7 @@ class AddressAdminPresenter extends AdminPresenter
      */
     public function renderNew($userId)
     {
-        $this->template->user = $this->usersRepository->find($userId);
+        $this->template->dbUser = $this->usersRepository->find($userId);
     }
 
     public function createComponentAddressForm()
