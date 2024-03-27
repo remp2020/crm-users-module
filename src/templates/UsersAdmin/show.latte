@@ -1,5 +1,5 @@
 {block title}
-{$dbUser|userLabel|noescape}
+{$userRow|userLabel|noescape}
 {/block}
 
 {block #content}
@@ -9,18 +9,18 @@
     <a n:href="default"><i class="fa fa-angle-left"></i> {_users.admin.show.back_to_list}</a>
     <div class="page-header">
       <h1>
-        <small>[{$dbUser->id}]</small>
-        {$dbUser->email|gravatar,50|noescape}
+        <small>[{$userRow->id}]</small>
+        {$userRow->email|gravatar,50|noescape}
 
         {capture $title}
-          {$dbUser|userLabel|noescape}{if $dbUser->supporter} - <span class="btn btn-success btn">podporovatel</span>{/if}
-          {if $dbUser->public_name && $dbUser->public_name !== $dbUser->email} - {$dbUser->public_name}{/if}
+          {$userRow|userLabel|noescape}{if $userRow->supporter} - <span class="btn btn-success btn">podporovatel</span>{/if}
+          {if $userRow->public_name && $userRow->public_name !== $userRow->email} - {$userRow->public_name}{/if}
         {/capture}
 
         <span>{trim($title)}</span>
-		<span n:if="$dbUser->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
+		<span n:if="$userRow->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
 
-      	<a n:href="edit $dbUser->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>
+      	<a n:href="edit $userRow->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>
       </h1>
     </div>
   </div>
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div n:if="$dbUser->role == \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN && $canEditRoles" class="panel panel-danger">
+    <div n:if="$userRow->role == \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN && $canEditRoles" class="panel panel-danger">
       <div class="panel-heading">{_users.admin.show.admin_groups}</div>
       <div class="panel-body">
         {control adminUserGroupsForm}
@@ -66,15 +66,15 @@
     <div class="panel {if $lastSuspicious}panel-danger{else}panel-default{/if}">
       <div class="panel-heading">{_users.admin.show.user_actions}</div>
       <div class="panel-body">
-        <a n:href="LogOut! $dbUser->id" class="btn btn-danger" style="margin-bottom: 4px">{_users.admin.show.log_out_devices}</a>
-        <a n:href="Suspicious! $dbUser->id" class="btn btn-default" style="margin-bottom: 4px" onclick="return confirm('Are you sure?')">{_users.admin.show.suspicious}</a>
+        <a n:href="LogOut! $userRow->id" class="btn btn-danger" style="margin-bottom: 4px">{_users.admin.show.log_out_devices}</a>
+        <a n:href="Suspicious! $userRow->id" class="btn btn-default" style="margin-bottom: 4px" onclick="return confirm('Are you sure?')">{_users.admin.show.suspicious}</a>
         {if $lastSuspicious}
           <p class="text-muted"><br>{_users.admin.show.last_market_at}: {$lastSuspicious->created_at}</p>
         {/if}
       </div>
     </div>
 
-    {control simpleWidget 'admin.user.detail.left', $dbUser->id}
+    {control simpleWidget 'admin.user.detail.left', $userRow->id}
 
   </div>
 
@@ -83,52 +83,52 @@
       <div class="panel-heading">{_users.admin.show.basic_info}</div>
       <ul class="list-group">
         <li class="list-group-item clearfix">
-          <b>{_users.admin.show.email}:</b> {$dbUser->email}
-          {if $dbUser->confirmed_at}
-            <small class="text-muted">({$dbUser->confirmed_at|userDate} <i class="fa fa-check"></i> )</small>
+          <b>{_users.admin.show.email}:</b> {$userRow->email}
+          {if $userRow->confirmed_at}
+            <small class="text-muted">({$userRow->confirmed_at|userDate} <i class="fa fa-check"></i> )</small>
           {else}
             <small class="text-danger">({_users.admin.show.unconfirmed} <i class="fa fa-times"></i>)</small>
           {/if}
           <div class="clearfix pull-right">
-            <a href="mailto:{$dbUser->email}" class="btn btn-default btn-xs pull-right"><i class="fa fa-envelope"></i></a>
-            <a n:href="ResetPassword! $dbUser->id"  class="btn btn-default btn-xs pull-right confirm" style="margin-right: 10px;" onclick="return confirm('{_users.admin.reset_password.confirm}');">{_users.admin.reset_password.button}</a>
-            <a n:if="!$dbUser->confirmed_at" n:href="confirm! $dbUser->id"  class="btn btn-default btn-xs pull-right confirm" style="margin-right: 10px;" onclick="return confirm('{_users.admin.confirm.confirm}');">{_users.admin.confirm.button}</a>
+            <a href="mailto:{$userRow->email}" class="btn btn-default btn-xs pull-right"><i class="fa fa-envelope"></i></a>
+            <a n:href="ResetPassword! $userRow->id"  class="btn btn-default btn-xs pull-right confirm" style="margin-right: 10px;" onclick="return confirm('{_users.admin.reset_password.confirm}');">{_users.admin.reset_password.button}</a>
+            <a n:if="!$userRow->confirmed_at" n:href="confirm! $userRow->id"  class="btn btn-default btn-xs pull-right confirm" style="margin-right: 10px;" onclick="return confirm('{_users.admin.confirm.confirm}');">{_users.admin.confirm.button}</a>
           </div>
         </li>
-        <li n:if="($dbUser->first_name || $dbUser->last_name)" class="list-group-item">
-          <p n:if="$dbUser->first_name" style="margin: 0"><b>{_users.admin.show.first_name}:</b> {$dbUser->first_name}</p>
-          <p n:if="$dbUser->last_name" style="margin: 0"><b>{_users.admin.show.last_name}:</b> {$dbUser->last_name}</p>
+        <li n:if="($userRow->first_name || $userRow->last_name)" class="list-group-item">
+          <p n:if="$userRow->first_name" style="margin: 0"><b>{_users.admin.show.first_name}:</b> {$userRow->first_name}</p>
+          <p n:if="$userRow->last_name" style="margin: 0"><b>{_users.admin.show.last_name}:</b> {$userRow->last_name}</p>
         </li>
         <li class="list-group-item">
           <b>{_users.admin.show.created_at}:</b>
           <span class="text-muted">
-            {$dbUser->created_at|userDate}
-            <small n:if="$dbUser->created_at != $dbUser->modified_at">({_users.admin.show.modified_at} {$dbUser->modified_at|userDate})</small>
+            {$userRow->created_at|userDate}
+            <small n:if="$userRow->created_at != $userRow->modified_at">({_users.admin.show.modified_at} {$userRow->modified_at|userDate})</small>
           </span>
         </li>
         <li class="list-group-item">
-          <b>{_users.admin.show.active}:</b> {$dbUser->active|activeLabel|noescape}
-          {if $dbUser->active}
-            <a n:href="ChangeActivation! $dbUser->id" class="btn btn-warning btn-xs"><i class="fa fa-ban"></i> {_users.admin.show.deactivate}</a>
+          <b>{_users.admin.show.active}:</b> {$userRow->active|activeLabel|noescape}
+          {if $userRow->active}
+            <a n:href="ChangeActivation! $userRow->id" class="btn btn-warning btn-xs"><i class="fa fa-ban"></i> {_users.admin.show.deactivate}</a>
           {else}
-            <a n:href="ChangeActivation! $dbUser->id" class="btn btn-success btn-xs"><i class="fa fa-check-circle"></i> {_users.admin.show.activate}</a>
+            <a n:href="ChangeActivation! $userRow->id" class="btn btn-success btn-xs"><i class="fa fa-check-circle"></i> {_users.admin.show.activate}</a>
           {/if}
         </li>
-        <li n:if="$dbUser->ext_id" class="list-group-item"><b>{_users.admin.show.external_id}:</b> {$dbUser->ext_id}</li>
-        <li class="list-group-item"><b>{_users.admin.show.source}:</b> {$dbUser->source}</li>
-        <li n:if="$dbUser->sales_funnel_id" class="list-group-item"><b>{_users.admin.show.funnel}:</b> <a n:href=":SalesFunnel:SalesFunnelsAdmin:show $dbUser->sales_funnel_id">{$dbUser->sales_funnel->name}</a></li>
-        <li n:if="$dbUser->referer" class="list-group-item"><b>{_users.admin.show.referer}:</b> <small class="text-muted"><a href="{$dbUser->referer}" target="_blank">{$dbUser->referer|truncate:70}</a></small></li>
-        <li class="list-group-item"><b>{_users.admin.show.locale}:</b> {Locale::getDisplayLanguage($dbUser->locale, $translator->getLocale())}</li>
+        <li n:if="$userRow->ext_id" class="list-group-item"><b>{_users.admin.show.external_id}:</b> {$userRow->ext_id}</li>
+        <li class="list-group-item"><b>{_users.admin.show.source}:</b> {$userRow->source}</li>
+        <li n:if="$userRow->sales_funnel_id" class="list-group-item"><b>{_users.admin.show.funnel}:</b> <a n:href=":SalesFunnel:SalesFunnelsAdmin:show $userRow->sales_funnel_id">{$userRow->sales_funnel->name}</a></li>
+        <li n:if="$userRow->referer" class="list-group-item"><b>{_users.admin.show.referer}:</b> <small class="text-muted"><a href="{$userRow->referer}" target="_blank">{$userRow->referer|truncate:70}</a></small></li>
+        <li class="list-group-item"><b>{_users.admin.show.locale}:</b> {Locale::getDisplayLanguage($userRow->locale, $translator->getLocale())}</li>
 
-        {control simpleWidget 'admin.user.detail.basic_info', $dbUser->id}
+        {control simpleWidget 'admin.user.detail.basic_info', $userRow->id}
       </ul>
     </div>
 
-    {control simpleWidget 'admin.user.detail.mainbox', $dbUser->id}
+    {control simpleWidget 'admin.user.detail.mainbox', $userRow->id}
   </div>
 
   <div class="col-md-3">
-    {control simpleWidget 'admin.user.detail.center', $dbUser->id}
+    {control simpleWidget 'admin.user.detail.center', $userRow->id}
 
     {if count($printAddresses) == 0}
       <p class="well text-muted text-center">{_users.admin.show.no_print_address}</p>
@@ -173,39 +173,39 @@
         {if $invoiceAddress->country_id}
           {$invoiceAddress->country->name}
         {/if}
-        <span n:if="$dbUser->disable_auto_invoice" class="label label-danger">{_users.admin.show.disabled_auto_invoice}</span>
+        <span n:if="$userRow->disable_auto_invoice" class="label label-danger">{_users.admin.show.disabled_auto_invoice}</span>
       </div>
       <div class="panel-footer"><small class="text-muted">{_users.admin.show.address_last_change} {$invoiceAddress->updated_at|userDate}</small></div>
     </div>
 
     <p class="text-center">
-      <a n:href="AddressAdmin:new userId => $dbUser->id" class="btn btn-xs btn-default"><i class="fa fa-plus"></i> {_users.admin.show.add_address}</a>
+      <a n:href="AddressAdmin:new userId => $userRow->id" class="btn btn-xs btn-default"><i class="fa fa-plus"></i> {_users.admin.show.add_address}</a>
     </p>
 
   </div>
 
   <div class="col-md-2">
 
-    {control simpleWidget 'admin.user.detail.box', $dbUser->id}
+    {control simpleWidget 'admin.user.detail.box', $userRow->id}
 
     <div class="panel panel-default">
       <div class="panel-heading">{_users.admin.show.current_login}</div>
       <div class="panel-body">
-        {if $dbUser->current_sign_in_at}
-          <b>{$dbUser->current_sign_in_at|userDate}</b> / <code>{$dbUser->current_sign_in_ip}</code>
+        {if $userRow->current_sign_in_at}
+          <b>{$userRow->current_sign_in_at|userDate}</b> / <code>{$userRow->current_sign_in_ip}</code>
         {else}
           <p class="bg-warning">{_users.admin.show.no_login}</p>
         {/if}
       </div>
     </div>
-    <div n:if="!$dbUser->deleted_at" class="panel panel-default">
+    <div n:if="!$userRow->deleted_at" class="panel panel-default">
       <div class="panel-heading">{_users.admin.show.personal_info}</div>
       <div class="panel-body">
         <p class="text-center">
-          <a n:href="DownloadData! $dbUser->id" class="btn btn-default btn-block" style="margin-bottom: 0.5em">
+          <a n:href="DownloadData! $userRow->id" class="btn btn-default btn-block" style="margin-bottom: 0.5em">
             <i class="fa fa-download"></i> {_system.download}
           </a>
-          <a n:href="DeleteUser! $dbUser->id" class="ajax btn btn-warning btn-block">
+          <a n:href="DeleteUser! $userRow->id" class="ajax btn btn-warning btn-block">
             <i class="fa fa-trash"></i> {_users.admin.delete_user_admin_form.anonymize}
           </a>
           </p>
@@ -214,7 +214,7 @@
   </div>
 </div>
 
-{control detailWidget 'admin.user.detail.bottom', $dbUser->id}
+{control detailWidget 'admin.user.detail.bottom', $userRow->id}
 
 <div class="modal fade modal-ajax" id="admin-user-delete-modal">
   <div class="modal-dialog modal-lg" style="width: 800px">
@@ -227,7 +227,7 @@
       </div>
       <div class="modal-body" id="reason">
         {snippet adminUserDeleteFormSnippet}
-          {_users.admin.delete_user_admin_form.anonymize_alert, ['email' => $dbUser->email]|noescape}
+          {_users.admin.delete_user_admin_form.anonymize_alert, ['email' => $userRow->email]|noescape}
           <br><br>
           {if $presenter->isAjax()}
             {control "adminUserDeleteForm"}

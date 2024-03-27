@@ -91,7 +91,7 @@ class UsersAdminPresenter extends AdminPresenter
         if (!$user) {
             throw new BadRequestException();
         }
-        $this->template->dbUser = $user;
+        $this->template->userRow = $user;
         $this->template->translator = $this->translator;
         $this->template->invoiceAddress = $this->addressesRepository->address($user, 'invoice');
         $this->template->printAddresses = array_filter($this->addressesRepository->addresses($user), function ($item) {
@@ -111,7 +111,7 @@ class UsersAdminPresenter extends AdminPresenter
         if (!$user) {
             throw new BadRequestException();
         }
-        $this->template->dbUser = $user;
+        $this->template->userRow = $user;
     }
 
     /**

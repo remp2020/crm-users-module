@@ -1,15 +1,15 @@
-{block #title}Uprava adresy pre {$dbUser->email}{/block}
+{block #title}Uprava adresy pre {$userRow->email}{/block}
 
 {block #content}
 
 <div class="row">
     <div class="col-md-12">
-        <a href="{link UsersAdmin:Show $dbUser->id}"><i class="fa fa-angle-left"></i> späť na záznam</a>
+        <a href="{link UsersAdmin:Show $userRow->id}"><i class="fa fa-angle-left"></i> späť na záznam</a>
         <div class="page-header">
             <h1>
                 Úprava adresy:
                 <small>[{$address->id}]</small>
-                {$dbUser->email}
+                {$userRow->email}
             </h1>
         </div>
     </div>
