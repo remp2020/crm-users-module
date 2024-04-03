@@ -63,10 +63,18 @@ class AddressFormFactory
 
         $form->addText('first_name', 'users.frontend.address.first_name.label')
             ->setNullable()
-            ->setHtmlAttribute('placeholder', 'users.frontend.address.first_name.placeholder');
+            ->setHtmlAttribute('placeholder', 'users.frontend.address.first_name.placeholder')
+            ->setOption('id', 'first_name');
         $form->addText('last_name', 'users.frontend.address.last_name.label')
             ->setNullable()
-            ->setHtmlAttribute('placeholder', 'users.frontend.address.first_name.placeholder');
+            ->setHtmlAttribute('placeholder', 'users.frontend.address.first_name.placeholder')
+            ->setOption('id', 'last_name');
+
+        $form->addTextArea('company_name', 'users.frontend.address.company_name.label', null, 1)
+            ->setNullable()
+            ->setHtmlAttribute('placeholder', 'users.frontend.address.company_name.placeholder')
+            ->setMaxLength(150)
+            ->setOption('id', 'company_name');
 
         $form->addText('phone_number', 'users.frontend.address.phone_number.label')
             ->setNullable()
@@ -85,10 +93,6 @@ class AddressFormFactory
             ->setHtmlAttribute('placeholder', 'users.frontend.address.city.placeholder');
         $form->addSelect('country_id', 'users.frontend.address.country.label', $this->countriesRepository->getAllPairs());
 
-        $form->addTextArea('company_name', 'users.frontend.address.company_name.label', null, 1)
-            ->setNullable()
-            ->setHtmlAttribute('placeholder', 'users.frontend.address.company_name.placeholder')
-            ->setMaxLength(150);
         $form->addText('company_id', 'users.frontend.address.company_id.label')
             ->setNullable()
             ->setHtmlAttribute('placeholder', 'users.frontend.address.company_id.placeholder');
