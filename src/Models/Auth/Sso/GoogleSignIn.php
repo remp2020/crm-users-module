@@ -285,6 +285,8 @@ class GoogleSignIn
 
         // Get OAuth access token
         $client = $this->getClient($redirectUri);
+        $client->addScope(self::DEFAULT_SCOPES);
+        $client->setAccessType('online');
         $client->fetchAccessTokenWithAuthCode($code);
 
         return $this->matchUserUsingGoogleClientWithAuthToken($client, $locale, $referer, $gsiSource);

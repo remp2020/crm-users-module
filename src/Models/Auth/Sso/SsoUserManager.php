@@ -51,6 +51,9 @@ class SsoUserManager
                 // if user is not in our DB, create him/her
                 // our access_token is not automatically created
                 $user = $userBuilder->save();
+                if (!$user) {
+                    throw new \RuntimeException("Unable to create users, errors: [" . implode(", ", $userBuilder->getErrors()) . "]");
+                }
             }
         }
 
