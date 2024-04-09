@@ -94,6 +94,7 @@ services:
 	- Crm\UsersModule\Forms\SignInFormFactory
 	- Crm\UsersModule\Forms\AbusiveUsersFilterFormFactory
 	- Crm\UsersModule\Scenarios\LocaleCriteria
+	- Crm\UsersModule\Scenarios\UserGroupsCriteria
 	- Crm\UsersModule\Scenarios\UserSourceCriteria
 	- Crm\UsersModule\Scenarios\UserHasAddressCriteria
 	- Crm\UsersModule\Scenarios\IsConfirmedCriteria

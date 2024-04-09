@@ -1,6 +1,6 @@
 <?php
 
-namespace Crm\UsersModule\Tests;
+namespace Crm\UsersModule\Tests\Scenarios;
 
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Models\Builder\UserBuilder;

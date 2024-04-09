@@ -123,6 +123,7 @@ use Crm\UsersModule\Scenarios\AddressScenarioConditionModel;
 use Crm\UsersModule\Scenarios\AddressTypeCriteria;
 use Crm\UsersModule\Scenarios\IsConfirmedCriteria;
 use Crm\UsersModule\Scenarios\LocaleCriteria;
+use Crm\UsersModule\Scenarios\UserGroupsCriteria;
 use Crm\UsersModule\Scenarios\UserHasAddressCriteria;
 use Crm\UsersModule\Scenarios\UserSourceCriteria;
 use Crm\UsersModule\Seeders\ConfigsSeeder;
@@ -387,6 +388,7 @@ class UsersModule extends CrmModule
     public function registerScenariosCriteria(ScenariosCriteriaStorage $scenariosCriteriaStorage)
     {
         $scenariosCriteriaStorage->register('user', 'source', $this->getInstance(UserSourceCriteria::class));
+        $scenariosCriteriaStorage->register('user', UserGroupsCriteria::KEY, $this->getInstance(UserGroupsCriteria::class));
         $scenariosCriteriaStorage->register('user', UserHasAddressCriteria::KEY, $this->getInstance(UserHasAddressCriteria::class));
         $scenariosCriteriaStorage->register('user', IsConfirmedCriteria::KEY, $this->getInstance(IsConfirmedCriteria::class));
         $scenariosCriteriaStorage->register('address', AddressTypeCriteria::KEY, $this->getInstance(AddressTypeCriteria::class));

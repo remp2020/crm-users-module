@@ -323,6 +323,9 @@ admin:
         user_updated: Používateľ bol aktualizovaný.
 
     scenarios:
+        user_group:
+            label: Používateľ je v skupine
+            param: Skupiny
         user_has_address_criteria:
             label: Používateľ má adresu
             param: Používateľ má adresu typu
