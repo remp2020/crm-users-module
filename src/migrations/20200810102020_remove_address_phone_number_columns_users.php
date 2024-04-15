@@ -64,8 +64,7 @@ class RemoveAddressPhoneNumberColumnsUsers extends AbstractMigration
                                 `um`.`key` = 'deprecated_phone_number'
                             ");
 
-        /** @var Query\DeleteQuery $builder */
-        $builder = $this->getQueryBuilder(Query::TYPE_DELETE);
+        $builder = $this->getDeleteBuilder();
         $builder->delete('user_meta')
             ->whereInList('user_meta.key', ['deprecated_address', 'deprecated_phone_number'])
             ->execute();
