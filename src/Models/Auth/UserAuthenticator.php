@@ -24,10 +24,10 @@ class UserAuthenticator implements IAuthenticator
     const COLUMN_PASSWORD_HASH = 'password';
 
     public function __construct(
-        private Emitter $emitter,
-        private AuthenticatorManager $authenticatorManager,
-        private Translator $translator,
-        private UnclaimedUser $unclaimedUser,
+        private readonly Emitter $emitter,
+        private readonly AuthenticatorManager $authenticatorManager,
+        private readonly Translator $translator,
+        private readonly UnclaimedUser $unclaimedUser,
     ) {
     }
 
