@@ -6,6 +6,7 @@ use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Models\Authenticator\AuthenticatorManager;
 use Crm\UsersModule\Events\UserSignInEvent;
 use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
+use Crm\UsersModule\Models\User\UnclaimedUser;
 use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
@@ -22,20 +23,12 @@ class UserAuthenticator implements IAuthenticator
 
     const COLUMN_PASSWORD_HASH = 'password';
 
-    private $emitter;
-
-    private $authenticatorManager;
-
-    private $translator;
-
     public function __construct(
-        Emitter $emitter,
-        AuthenticatorManager $authenticatorManager,
-        Translator $translator
+        private Emitter $emitter,
+        private AuthenticatorManager $authenticatorManager,
+        private Translator $translator,
+        private UnclaimedUser $unclaimedUser,
     ) {
-        $this->emitter = $emitter;
-        $this->authenticatorManager = $authenticatorManager;
-        $this->translator = $translator;
     }
 
     /**
@@ -64,6 +57,11 @@ class UserAuthenticator implements IAuthenticator
         foreach ($authenticators as $authenticator) {
             try {
                 $u = $authenticator->setCredentials($credentials)->authenticate();
+                if ($u && $this->unclaimedUser->isUnclaimedUser($u)) {
+                    // No exception thrown here, this shouldn't propagate outside. Only exceptions thrown
+                    // by authenticators themselves will be propagated.
+                    $u = null;
+                }
 
                 $regenerateToken = $authenticator->shouldRegenerateToken();
 
