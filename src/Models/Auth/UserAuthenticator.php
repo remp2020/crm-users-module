@@ -61,8 +61,7 @@ class UserAuthenticator implements IAuthenticator
                     // No exception thrown here, this shouldn't propagate outside. Only exceptions thrown
                     // by authenticators themselves will be propagated.
 
-                    // TODO: temporarily disabled, causes issues with AutoLoginAuthenticator
-                    // $u = null;
+                     $u = null;
                 }
 
                 $regenerateToken = $authenticator->shouldRegenerateToken();

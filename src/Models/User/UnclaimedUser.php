@@ -196,11 +196,11 @@ class UnclaimedUser
             $originalPassword = $this->passwordGenerator->generatePassword();
         }
 
-        $this->usersRepository->update($user, [
+        $this->usersRepository->update($user, array_filter([
             'password' => $this->passwords->hash($originalPassword),
             'referer' => $referer,
             'source' => $source,
-        ]);
+        ]));
 
         $this->accessToken->addUserToken($user, null, null, $source);
 

@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Models\Auth\Sso;
 use Crm\AdminModule\Helpers\SecuredAdminAccess;
 use Crm\UsersModule\Models\Auth\PasswordGenerator;
 use Crm\UsersModule\Models\Builder\UserBuilder;
+use Crm\UsersModule\Models\User\UnclaimedUser;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 //use Nette\Database\Explorer;
@@ -13,11 +14,12 @@ use Nette\Database\Table\ActiveRow;
 class SsoUserManager
 {
     public function __construct(
-        private PasswordGenerator $passwordGenerator,
-        private UserBuilder $userBuilder,
-        private UserConnectedAccountsRepository $connectedAccountsRepository,
-        private UsersRepository $usersRepository,
-        private SecuredAdminAccess $securedAdminAccess,
+        private readonly PasswordGenerator $passwordGenerator,
+        private readonly UserBuilder $userBuilder,
+        private readonly UserConnectedAccountsRepository $connectedAccountsRepository,
+        private readonly UsersRepository $usersRepository,
+        private readonly SecuredAdminAccess $securedAdminAccess,
+        private readonly UnclaimedUser $unclaimedUser,
     ) {
     }
 
@@ -54,6 +56,11 @@ class SsoUserManager
                 if (!$user) {
                     throw new \RuntimeException("Unable to create users, errors: [" . implode(", ", $userBuilder->getErrors()) . "]");
                 }
+            }
+
+            // if the user existed but wasn't claimed yet, claim them, so they can make a valid login
+            if ($this->unclaimedUser->isUnclaimedUser($user)) {
+                $this->unclaimedUser->makeUnclaimedUserRegistered(user: $user);
             }
         }
 
