@@ -24,6 +24,7 @@ use Nette\Application\Responses\FileResponse;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Nette\Utils\Json;
+use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class UsersPresenter extends FrontendPresenter
 {
@@ -237,7 +238,9 @@ class UsersPresenter extends FrontendPresenter
             ]
         ));
 
-        $this->flashMessage($this->translator->translate('users.frontend.change_password.reset_success', ['email' => $user->email]));
+        $this->flashMessage($this->translator->translate('users.frontend.change_password.reset_success', [
+            'email' => escapehtml($user->email)
+        ]));
         $this->redirect('this');
     }
 

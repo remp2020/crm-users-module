@@ -31,6 +31,7 @@ use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
 use Tomaj\Form\Renderer\BootstrapRenderer;
+use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class UsersAdminPresenter extends AdminPresenter
 {
@@ -298,11 +299,11 @@ class UsersAdminPresenter extends AdminPresenter
 
         $form = $this->userGroupsFormFactory->create($this->params['id']);
         $this->userGroupsFormFactory->onAddedUserToGroup = function ($form, $group, $user) {
-            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_added') . ' ' . $group->name);
+            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_added') . ' ' . escapehtml($group->name));
             $this->redirect('UsersAdmin:Show', $user->id);
         };
         $this->userGroupsFormFactory->onRemovedUserFromGroup = function ($form, $group, $user) {
-            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_removed') . ' ' . $group->name);
+            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_removed') . ' ' . escapehtml($group->name));
             $this->redirect('UsersAdmin:Show', $user->id);
         };
 
@@ -322,11 +323,11 @@ class UsersAdminPresenter extends AdminPresenter
             return $user->isAllowed('Users:AdminGroupAdmin', 'edit');
         };
         $this->adminUserGroupsFormFactory->onAddedUserToGroup = function ($form, $group, $user) {
-            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_added') . ' ' . $group->name);
+            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_added') . ' ' . escapehtml($group->name));
             $this->redirect('UsersAdmin:Show', $user->id);
         };
         $this->adminUserGroupsFormFactory->onRemovedUserFromGroup = function ($form, $group, $user) {
-            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_removed') . ' ' . $group->name);
+            $this->flashMessage($this->translator->translate('users.admin.user_groups_form.user_removed') . ' ' . escapehtml($group->name));
             $this->redirect('UsersAdmin:Show', $user->id);
         };
 

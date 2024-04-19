@@ -12,6 +12,7 @@ use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
 use Nette\Utils\Json;
 use Tracy\Debugger;
+use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class ApplePresenter extends FrontendPresenter
 {
@@ -117,7 +118,9 @@ class ApplePresenter extends FrontendPresenter
             $this->flashMessage($this->translator->translate('users.frontend.apple.fail'), 'danger');
             $this->redirect('Users:settings');
         } catch (AlreadyLinkedAccountSsoException $e) {
-            $this->flashMessage($this->translator->translate('users.frontend.apple.used_account', ['email' => $e->getEmail()]), 'danger');
+            $this->flashMessage($this->translator->translate('users.frontend.apple.used_account', [
+                'email' => escapehtml($e->getEmail())
+            ]), 'danger');
             $this->redirect('Users:settings');
         }
 

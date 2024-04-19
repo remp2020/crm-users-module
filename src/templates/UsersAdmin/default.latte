@@ -128,7 +128,9 @@
       </div>
       <div class="modal-body" id="reason">
         {snippet adminUserDeleteFormSnippet}
-          {_users.admin.delete_user_admin_form.anonymize_alert, ['email' => $userEmail ?? null]|noescape}
+          {_users.admin.delete_user_admin_form.anonymize_alert, [
+            'email' => escapehtml($userEmail ?? ''),
+          ]|noescape}
           <br><br>
           {if $presenter->isAjax()}
             {control "adminUserDeleteForm"}
