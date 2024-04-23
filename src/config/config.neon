@@ -105,6 +105,7 @@ services:
 	- Crm\UsersModule\Models\Auth\Authorizator
 	- Crm\UsersModule\Models\Auth\Permissions
 	- Crm\UsersModule\Models\Builder\UserBuilder
+	- Crm\UsersModule\Models\DeviceDetector
 	- Crm\UsersModule\Commands\AddUserCommand
 	- Crm\UsersModule\Commands\GenerateAccessCommand
 	- Crm\UsersModule\Commands\CheckEmailsCommand

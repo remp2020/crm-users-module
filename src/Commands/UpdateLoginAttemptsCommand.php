@@ -2,20 +2,19 @@
 
 namespace Crm\UsersModule\Commands;
 
+use Crm\UsersModule\Models\DeviceDetector;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
-use DeviceDetector\DeviceDetector;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateLoginAttemptsCommand extends Command
 {
-    private $loginAttemptsRepository;
-
-    public function __construct(LoginAttemptsRepository $loginAttemptsRepository)
-    {
+    public function __construct(
+        private LoginAttemptsRepository $loginAttemptsRepository,
+        private DeviceDetector $deviceDetector,
+    ) {
         parent::__construct();
-        $this->loginAttemptsRepository = $loginAttemptsRepository;
     }
 
     protected function configure()
@@ -37,14 +36,14 @@ class UpdateLoginAttemptsCommand extends Command
                 $lastId = $attempt->id;
                 $found = true;
 
-                $deviceDetector = new DeviceDetector($attempt->user_agent);
-                $deviceDetector->parse();
+                $this->deviceDetector->setUserAgent($attempt->user_agent);
+                $this->deviceDetector->parse();
 
-                $isMobile = $deviceDetector->isMobile();
-                $browser = $deviceDetector->getClient('name');
-                $browserVersion = $deviceDetector->getClient('version');
-                $os = $deviceDetector->getOs('name');
-                $device = $deviceDetector->getDeviceName();
+                $isMobile = $this->deviceDetector->isMobile();
+                $browser = $this->deviceDetector->getClient('name');
+                $browserVersion = $this->deviceDetector->getClient('version');
+                $os = $this->deviceDetector->getOs('name');
+                $device = $this->deviceDetector->getDeviceName();
 
                 $this->loginAttemptsRepository->update($attempt, [
                     'browser' => $browser,
