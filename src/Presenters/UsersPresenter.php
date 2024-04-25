@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Helpers\SecuredAdminAccess;
+use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
@@ -24,7 +25,6 @@ use Nette\Application\Responses\FileResponse;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Nette\Utils\Json;
-use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class UsersPresenter extends FrontendPresenter
 {
@@ -239,7 +239,7 @@ class UsersPresenter extends FrontendPresenter
         ));
 
         $this->flashMessage($this->translator->translate('users.frontend.change_password.reset_success', [
-            'email' => escapehtml($user->email)
+            'email' => EscapeHTML::escape($user->email)
         ]));
         $this->redirect('this');
     }

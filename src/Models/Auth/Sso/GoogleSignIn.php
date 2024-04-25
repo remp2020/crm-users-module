@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth\Sso;
 
+use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderException;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\Repositories\ConfigsRepository;
@@ -13,7 +14,6 @@ use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
 use Nette\Http\Response;
 use Nette\Security\User;
-use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class GoogleSignIn
 {
@@ -262,7 +262,7 @@ class GoogleSignIn
         $error = $this->request->getQuery('error');
         if (!empty($error)) {
             // Got an error, probably user denied access
-            throw new SsoException('Google SignIn error: ' . escapehtml($error));
+            throw new SsoException('Google SignIn error: ' . EscapeHTML::escape($error));
         }
 
         $code = $this->request->getQuery('code');

@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Presenters;
 
+use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
 use Crm\UsersModule\Models\Auth\SignInRedirectValidator;
@@ -12,7 +13,6 @@ use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
 use Nette\Utils\Json;
 use Tracy\Debugger;
-use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class ApplePresenter extends FrontendPresenter
 {
@@ -119,7 +119,7 @@ class ApplePresenter extends FrontendPresenter
             $this->redirect('Users:settings');
         } catch (AlreadyLinkedAccountSsoException $e) {
             $this->flashMessage($this->translator->translate('users.frontend.apple.used_account', [
-                'email' => escapehtml($e->getEmail())
+                'email' => EscapeHTML::escape($e->getEmail())
             ]), 'danger');
             $this->redirect('Users:settings');
         }

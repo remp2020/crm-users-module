@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth\Sso;
 
+use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Repositories\ConfigsRepository;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Firebase\JWT\JWK;
@@ -14,7 +15,6 @@ use Nette\Http\Session;
 use Nette\Http\Url;
 use Nette\Security\User;
 use Nette\Utils\Json;
-use function Crm\ApplicationModule\LatteFunctions\escapehtml;
 
 class AppleSignIn
 {
@@ -162,7 +162,7 @@ class AppleSignIn
                 default => 0,
             };
             // Got an error, probably user denied access
-            throw new SsoException('Apple SignIn error: ' . escapehtml($error), $code);
+            throw new SsoException('Apple SignIn error: ' . EscapeHTML::escape($error), $code);
         }
 
         // Check internal state
