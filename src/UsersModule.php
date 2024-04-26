@@ -145,19 +145,13 @@ use Tomaj\Hermes\Dispatcher;
 
 class UsersModule extends CrmModule
 {
-    private $user;
-
-    private $permissions;
-
     public function __construct(
         Container $container,
         Translator $translator,
-        User $user,
-        Permissions $permissions
+        private User $user,
+        private Permissions $permissions
     ) {
         parent::__construct($container, $translator);
-        $this->user = $user;
-        $this->permissions = $permissions;
     }
 
     public function registerAuthenticators(AuthenticatorManagerInterface $authenticatorManager)
@@ -377,6 +371,7 @@ class UsersModule extends CrmModule
             AddressWidget::class,
             100
         );
+
         $widgetManager->registerWidget(
             'frontend.user.address.partial',
             AddressWidget::class,

@@ -117,7 +117,7 @@ class AddressFormFactory
         /** @var AddressFormDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders('users.dataprovider.address_form', AddressFormDataProviderInterface::class);
         foreach ($providers as $sorting => $provider) {
-            $form = $provider->provide(['form' => $form]);
+            $form = $provider->provide(['form' => $form, 'address' => $address]);
         }
 
         $form->addSubmit('send', 'users.frontend.address.submit')
@@ -160,6 +160,13 @@ class AddressFormFactory
         if ($changeRequest) {
             $address = $this->addressChangeRequestsRepository->acceptRequest($changeRequest, true);
         }
+
+        // pass newly created address ID to next formSucceeded handlers via hidden input
+        if (!isset($values->id)) {
+            $form->addHidden('id', $address->id);
+            $form->setValues(['id' => $address->id]);
+        }
+
         $this->address = $address;
     }
 
