@@ -3,15 +3,21 @@
 namespace Crm\UsersModule\Scenarios;
 
 use Crm\ApplicationModule\Models\Criteria\ScenarioConditionModelInterface;
+use Crm\ApplicationModule\Models\Criteria\ScenarioConditionModelRequirementsInterface;
 use Crm\ApplicationModule\Models\Database\Selection;
 use Crm\UsersModule\Repositories\AddressesRepository;
 use Exception;
 
-class AddressScenarioConditionModel implements ScenarioConditionModelInterface
+class AddressScenarioConditionModel implements ScenarioConditionModelInterface, ScenarioConditionModelRequirementsInterface
 {
     public function __construct(
         private readonly AddressesRepository $addressesRepository,
     ) {
+    }
+
+    public function getInputParams(): array
+    {
+        return ['address_id'];
     }
 
     public function getItemQuery($scenarioJobParameters): Selection
