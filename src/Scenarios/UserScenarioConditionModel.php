@@ -5,8 +5,8 @@ namespace Crm\UsersModule\Scenarios;
 use Crm\ApplicationModule\Models\Criteria\ScenarioConditionModelInterface;
 use Crm\ApplicationModule\Models\Criteria\ScenarioConditionModelRequirementsInterface;
 use Crm\ApplicationModule\Models\Database\Selection;
+use Crm\ScenariosModule\Events\ConditionCheckException;
 use Crm\UsersModule\Repositories\UsersRepository;
-use Exception;
 
 class UserScenarioConditionModel implements ScenarioConditionModelInterface, ScenarioConditionModelRequirementsInterface
 {
@@ -23,7 +23,7 @@ class UserScenarioConditionModel implements ScenarioConditionModelInterface, Sce
     public function getItemQuery($scenarioJobParameters): Selection
     {
         if (!isset($scenarioJobParameters->user_id)) {
-            throw new Exception("User scenario conditional model requires 'user_id' job param.");
+            throw new ConditionCheckException("User scenario conditional model requires 'user_id' job param.");
         }
 
         return $this->usersRepository->getTable()->where(['users.id' => $scenarioJobParameters->user_id]);

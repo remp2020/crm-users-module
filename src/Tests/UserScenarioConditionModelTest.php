@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Crm\UsersModule\Tests;
 
 use Crm\ProductsModule\Repositories\OrdersRepository;
+use Crm\ScenariosModule\Events\ConditionCheckException;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Scenarios\UserScenarioConditionModel;
-use Exception;
 
 class UserScenarioConditionModelTest extends BaseTestCase
 {
@@ -47,7 +47,7 @@ class UserScenarioConditionModelTest extends BaseTestCase
 
     public function testItemQueryWithoutMandatoryJobParameter(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ConditionCheckException::class);
         $this->expectExceptionMessage("User scenario conditional model requires 'user_id' job param.");
 
         /** @var UsersRepository $usersRepository */

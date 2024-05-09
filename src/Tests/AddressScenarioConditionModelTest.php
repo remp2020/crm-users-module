@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Crm\UsersModule\Tests;
 
 use Crm\InvoicesModule\Seeders\AddressTypesSeeder;
+use Crm\ScenariosModule\Events\ConditionCheckException;
 use Crm\UsersModule\Repositories\AddressesRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Crm\UsersModule\Scenarios\AddressScenarioConditionModel;
-use Exception;
 
 class AddressScenarioConditionModelTest extends BaseTestCase
 {
@@ -71,7 +71,7 @@ class AddressScenarioConditionModelTest extends BaseTestCase
 
     public function testItemQueryWithoutMandatoryJobParameter(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectException(ConditionCheckException::class);
         $this->expectExceptionMessage("Address scenario conditional model requires 'address_id' job param.");
 
         /** @var AddressesRepository $addressesRepository */
