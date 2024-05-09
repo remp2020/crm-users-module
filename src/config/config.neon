@@ -100,6 +100,7 @@ services:
 	- Crm\UsersModule\Scenarios\IsConfirmedCriteria
 	- Crm\UsersModule\Scenarios\AddressTypeCriteria
 	- Crm\UsersModule\Scenarios\AddressScenarioConditionModel
+	- Crm\UsersModule\Scenarios\UserScenarioConditionModel
 	- Crm\UsersModule\Models\Auth\AutoLogin\AutoLogin
 	- Crm\UsersModule\Models\Auth\UserManager
 	- Crm\UsersModule\Models\Auth\PasswordGenerator

@@ -125,6 +125,7 @@ use Crm\UsersModule\Scenarios\IsConfirmedCriteria;
 use Crm\UsersModule\Scenarios\LocaleCriteria;
 use Crm\UsersModule\Scenarios\UserGroupsCriteria;
 use Crm\UsersModule\Scenarios\UserHasAddressCriteria;
+use Crm\UsersModule\Scenarios\UserScenarioConditionModel;
 use Crm\UsersModule\Scenarios\UserSourceCriteria;
 use Crm\UsersModule\Seeders\ConfigsSeeder;
 use Crm\UsersModule\Seeders\MeasurementsSeeder;
@@ -397,6 +398,10 @@ class UsersModule extends CrmModule
         $scenariosCriteriaStorage->registerConditionModel(
             'address',
             $this->getInstance(AddressScenarioConditionModel::class)
+        );
+        $scenariosCriteriaStorage->registerConditionModel(
+            'user',
+            $this->getInstance(UserScenarioConditionModel::class)
         );
     }
 
