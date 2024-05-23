@@ -301,6 +301,7 @@ Response:
     "status": "ok",
     "user": {
         "id": 1,
+        "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8",
         "email": "admin@example.com",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
         "first_name": "Test",
@@ -359,6 +360,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 9,
+        "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8",
         "email": "admin@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
         "first_name": "Test",
@@ -605,6 +607,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 101,
+        "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8",
         "email": "user@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
         "first_name": null,
@@ -1300,6 +1303,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 9,
+        "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8",
         "email": "user@crm.press",
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
         "public_name": "user@crm.press",
@@ -1541,6 +1545,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 101,
+        "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8",
         "email": "example_user@gmail.com",
         "created_at": "2021-01-01T10:00:00+01:00", // RFC3339 date; user creation date
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date
@@ -1584,6 +1589,7 @@ Success response:
     "status": "ok",
     "user": {
         "id": 101,
+        "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8",
         "email": "example_user@gmail.com",
         "created_at": "2021-01-01T10:00:00+01:00", // RFC3339 date; user creation date
         "confirmed_at": "2021-01-01T10:00:00+01:00", // RFC3339 date or NULL; user confirmation date

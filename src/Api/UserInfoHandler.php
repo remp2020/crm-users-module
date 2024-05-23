@@ -30,6 +30,7 @@ class UserInfoHandler extends ApiHandler
             'status' => 'ok',
             'user' => [
                 'id' => $user->id,
+                'uuid' => $user->uuid,
                 'email' => $user->email,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,

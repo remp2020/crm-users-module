@@ -76,6 +76,7 @@ class AutoLoginTokenLoginApiHandler extends ApiHandler
             'status' => 'ok',
             'user' => [
                 'id' => $identity->id,
+                'uuid' => $identity->uuid,
                 'email' => $identity->data['email'],
                 'confirmed_at' => $identity->data['confirmed_at'] ? $identity->data['confirmed_at']->format(DATE_RFC3339) : null,
                 'public_name' => $identity->data['public_name'],

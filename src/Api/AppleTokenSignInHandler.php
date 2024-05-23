@@ -105,6 +105,7 @@ class AppleTokenSignInHandler extends ApiHandler
             'status' => 'ok',
             'user' => [
                 'id' => $user->id,
+                'uuid' => $user->uuid,
                 'email' => $user->email,
                 'created_at' => $user->created_at->format(\DateTimeInterface::RFC3339),
                 'confirmed_at' => $user->confirmed_at?->format(\DateTimeInterface::RFC3339),
