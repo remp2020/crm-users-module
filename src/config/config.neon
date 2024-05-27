@@ -196,6 +196,7 @@ services:
 	registrationIpRateLimit:
 		factory: Crm\UsersModule\Models\Auth\Rate\RegistrationIpRateLimit
 	- Crm\UsersModule\Models\AdminFilterFormData
+	- Crm\UsersModule\Models\Config
 
 	- Crm\UsersModule\Api\GetDeviceTokenApiHandler
 	- Crm\UsersModule\Repositories\DeviceTokensRepository

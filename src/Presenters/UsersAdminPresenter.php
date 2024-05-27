@@ -18,10 +18,12 @@ use Crm\UsersModule\Forms\UserGroupsFormFactory;
 use Crm\UsersModule\Forms\UserNoteFormFactory;
 use Crm\UsersModule\Models\AdminFilterFormData;
 use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Models\Config;
 use Crm\UsersModule\Models\User\ZipBuilder;
 use Crm\UsersModule\Repositories\AddressesRepository;
 use Crm\UsersModule\Repositories\CantDeleteAddressException;
 use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
+use Crm\UsersModule\Repositories\CountriesRepository;
 use Crm\UsersModule\Repositories\GroupsRepository;
 use Crm\UsersModule\Repositories\UserActionsLogRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
@@ -54,6 +56,8 @@ class UsersAdminPresenter extends AdminPresenter
         private UserActionsLogRepository $userActionsLogRepository,
         private DownloadUserData $downloadUserData,
         private ZipBuilder $zipBuilder,
+        private Config $config,
+        private CountriesRepository $countriesRepository,
     ) {
         parent::__construct();
     }
@@ -81,6 +85,8 @@ class UsersAdminPresenter extends AdminPresenter
 
         $this->template->users = $users;
         $this->template->backLink = $this->storeRequest();
+        $this->template->usersConfig = $this->config;
+        $this->template->defaultCountryIsoCode = $this->countriesRepository->defaultCountry()->iso_code;
     }
 
     /**

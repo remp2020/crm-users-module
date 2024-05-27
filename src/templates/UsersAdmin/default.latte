@@ -63,7 +63,26 @@
             <td>
               <div class="list-group" style="font-size: 0.8em;">
                 <div n:foreach="$u->related('addresses')->where('deleted_at IS NULL') as $address" class="list-group-item" style="padding: 2px 15px;" href="{plink :Users:AddressAdmin:Edit $address->id}">
-                  {$address->address} {$address->number}, {$address->city}
+                  {if $usersConfig->showFullAddress}
+                    {var $hasDifferentCountry = $address->country->iso_code !== $defaultCountryIsoCode}
+                    {var $addressParts = [
+                      trim($address->first_name . ' ' . $address->last_name),
+                      $address->address,
+                      $address->number,
+                      $address->city,
+                      $hasDifferentCountry ? $address->country->iso_code
+                    ]}
+                  {else}
+                    {var $addressParts = [
+                      $address->address,
+                      $address->number,
+                      $address->city,
+                    ]}
+                  {/if}
+
+                  {* This foreach needs to be formatted on a single line due to a formatting bug in Latte, regardless of the usage of the spaceless filter. *}
+                  {foreach array_filter($addressParts) as $addressPart}{$addressPart|trim}{sep}, {/sep}{/foreach}
+
                   <a n:href=":Users:AddressAdmin:Edit $address->id" class="btn btn-xs btn-default" title="{_users.admin.actions.edit}">
                     <i class="fa fa-edit"></i> <span style="font-size: 11px">{$address->typ->title}</span>
                   </a>
