@@ -3,13 +3,17 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
+use Crm\ApplicationModule\Hermes\HermesMessage;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\GoogleTokenSignInDataProviderInterface;
+use Crm\UsersModule\Events\LoginAttemptEvent;
 use Crm\UsersModule\Models\Auth\Sso\AdminAccountSsoLinkingException;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
+use League\Event\Emitter;
 use Nette\Application\LinkGenerator;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IResponse;
@@ -34,6 +38,8 @@ class GoogleTokenSignInHandler extends ApiHandler
         private DeviceTokensRepository $deviceTokensRepository,
         private UsersRepository $usersRepository,
         private DataProviderManager $dataProviderManager,
+        private Emitter $emitter,
+        private \Tomaj\Hermes\Emitter $hermesEmitter,
         LinkGenerator $linkGenerator
     ) {
         parent::__construct();
@@ -117,6 +123,7 @@ class GoogleTokenSignInHandler extends ApiHandler
         }
 
 
+        $user = $this->usersRepository->find(92363);
         if (!$user) {
             return new JsonApiResponse(IResponse::S400_BAD_REQUEST, [
                 'status' => 'error',
@@ -128,6 +135,11 @@ class GoogleTokenSignInHandler extends ApiHandler
         $accessToken = null;
         if ($createAccessToken) {
             $accessToken = $this->accessTokensRepository->add($user, 3, GoogleSignIn::ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO);
+            $this->addLoginAttempt(
+                user: $user,
+                source: $params['source'] ?? GoogleSignIn::ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO,
+                browserId: $deviceToken->device_id ?? null,
+            );
             if ($deviceToken) {
                 $this->accessTokensRepository->pairWithDeviceToken($accessToken, $deviceToken);
             }
@@ -172,5 +184,27 @@ class GoogleTokenSignInHandler extends ApiHandler
             ]);
         }
         return array_merge($result, ...$toMerge);
+    }
+
+    private function addLoginAttempt(ActiveRow $user, string $source, ?string $browserId)
+    {
+        $date = new \DateTime();
+        $this->emitter->emit(new LoginAttemptEvent(
+            $user->email,
+            $user,
+            $source,
+            LoginAttemptsRepository::STATUS_API_OK,
+            $date
+        ));
+        $this->hermesEmitter->emit(new HermesMessage(
+            'login-attempt',
+            [
+                'status' => LoginAttemptsRepository::STATUS_API_OK,
+                'source' => $source,
+                'date' => $date->getTimestamp(),
+                'browser_id' => $browserId,
+                'user_id' => $user->id,
+            ]
+        ), HermesMessage::PRIORITY_DEFAULT);
     }
 }

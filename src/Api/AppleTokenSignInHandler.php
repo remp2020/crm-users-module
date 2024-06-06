@@ -3,10 +3,14 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
+use Crm\ApplicationModule\Hermes\HermesMessage;
+use Crm\UsersModule\Events\LoginAttemptEvent;
 use Crm\UsersModule\Models\Auth\Sso\AppleSignIn;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
+use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
+use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IResponse;
 use Tomaj\NetteApi\Params\PostInputParam;
@@ -15,26 +19,15 @@ use Tomaj\NetteApi\Response\ResponseInterface;
 
 class AppleTokenSignInHandler extends ApiHandler
 {
-    private AppleSignIn $appleSignIn;
-
-    private AccessTokensRepository $accessTokensRepository;
-
-    private DeviceTokensRepository $deviceTokensRepository;
-
-    private UsersRepository $usersRepository;
-
     public function __construct(
-        AppleSignIn $appleSignIn,
-        AccessTokensRepository $accessTokensRepository,
-        DeviceTokensRepository $deviceTokensRepository,
-        UsersRepository $usersRepository
+        private AppleSignIn $appleSignIn,
+        private AccessTokensRepository $accessTokensRepository,
+        private DeviceTokensRepository $deviceTokensRepository,
+        private UsersRepository $usersRepository,
+        private Emitter $emitter,
+        private \Tomaj\Hermes\Emitter $hermesEmitter,
     ) {
         parent::__construct();
-
-        $this->appleSignIn = $appleSignIn;
-        $this->accessTokensRepository = $accessTokensRepository;
-        $this->deviceTokensRepository = $deviceTokensRepository;
-        $this->usersRepository = $usersRepository;
     }
 
     public function params(): array
@@ -44,6 +37,7 @@ class AppleTokenSignInHandler extends ApiHandler
             new PostInputParam('create_access_token'),
             new PostInputParam('device_token'),
             new PostInputParam('locale'),
+            new PostInputParam('source'),
         ];
     }
 
@@ -88,6 +82,11 @@ class AppleTokenSignInHandler extends ApiHandler
         $accessToken = null;
         if ($createAccessToken) {
             $accessToken = $this->accessTokensRepository->add($user, 3, AppleSignIn::ACCESS_TOKEN_SOURCE_WEB_APPLE_SSO);
+            $this->addLoginAttempt(
+                user: $user,
+                source: $params['source'] ?? AppleSignIn::ACCESS_TOKEN_SOURCE_WEB_APPLE_SSO,
+                browserId: $deviceToken->device_id ?? null,
+            );
             if ($deviceToken) {
                 $this->accessTokensRepository->pairWithDeviceToken($accessToken, $deviceToken);
             }
@@ -125,5 +124,27 @@ class AppleTokenSignInHandler extends ApiHandler
         }
 
         return $result;
+    }
+
+    private function addLoginAttempt(ActiveRow $user, string $source, ?string $browserId)
+    {
+        $date = new \DateTime();
+        $this->emitter->emit(new LoginAttemptEvent(
+            $user->email,
+            $user,
+            $source,
+            LoginAttemptsRepository::STATUS_API_OK,
+            $date
+        ));
+        $this->hermesEmitter->emit(new HermesMessage(
+            'login-attempt',
+            [
+                'status' => LoginAttemptsRepository::STATUS_API_OK,
+                'source' => $source,
+                'date' => $date->getTimestamp(),
+                'browser_id' => $browserId,
+                'user_id' => $user->id,
+            ]
+        ), HermesMessage::PRIORITY_DEFAULT);
     }
 }
