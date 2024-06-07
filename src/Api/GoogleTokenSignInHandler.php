@@ -122,8 +122,6 @@ class GoogleTokenSignInHandler extends ApiHandler
             ]);
         }
 
-
-        $user = $this->usersRepository->find(92363);
         if (!$user) {
             return new JsonApiResponse(IResponse::S400_BAD_REQUEST, [
                 'status' => 'error',
