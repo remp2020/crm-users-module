@@ -339,6 +339,12 @@ admin:
             param: Address type
         locale:
             label: Language
+        created_at:
+            label: Created at
+            param: Created at
+            timeframe_param:
+                amount_label: Amount
+                units_label: Unit
 
     user_groups_form:
         user_added: User was added to the group

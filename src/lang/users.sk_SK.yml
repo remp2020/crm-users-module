@@ -339,6 +339,12 @@ admin:
             param: Typ adresy
         locale:
             label: Jazyk
+        created_at:
+            label: Vytvorený
+            param: Vytvorený
+            timeframe_param:
+                amount_label: Počet
+                units_label: Jednotka
 
     user_groups_form:
         user_added: Používateľ bol pridaný do skupiny

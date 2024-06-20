@@ -336,6 +336,12 @@ admin:
         address_type:
             label: Typ adresy
             param: Typ adresy
+        created_at:
+            label: Vytvořený
+            param: Vytvořený
+            timeframe_param:
+                amount_label: Počet
+                units_label: Jednotka
 
     user_groups_form:
         user_added: Uživatel byl přidán do skupiny

@@ -328,6 +328,12 @@ admin:
             param: Adresstyp
         locale:
             label: Sprache
+        created_at:
+            label: Angelegt am
+            param: Angelegt am
+            timeframe_param:
+                amount_label: Menge
+                units_label: Einheit
 
     user_groups_form:
         user_added: Nutzer wurde zur Gruppe hinzugefügt
