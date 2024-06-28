@@ -116,8 +116,8 @@ class UserBuilder extends Builder
 
     public function setPassword($password, $generateHash = true)
     {
+        $this->originalPassword = $password;
         if ($generateHash) {
-            $this->originalPassword = $password;
             $password = $this->passwords->hash($password);
         }
         return $this->set('password', $password);

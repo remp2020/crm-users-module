@@ -22,7 +22,7 @@ class CountriesRepository extends Repository
         $this->setDefaultCountry($defaultCountryISO);
     }
 
-    private function setDefaultCountry(string $defaultCountryISO)
+    final public function setDefaultCountry(string $defaultCountryISO): void
     {
         if (empty(trim($defaultCountryISO))) {
             throw new \Exception("Unable to load default country from empty string.");

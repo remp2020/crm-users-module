@@ -67,7 +67,7 @@ class AddressesRepository extends Repository
         ]);
     }
 
-    final public function address(ActiveRow $user, $type)
+    final public function address(ActiveRow $user, $type): ?ActiveRow
     {
         return $this->getTable()
             ->where(['user_id' => $user->id, 'type' => $type])
@@ -92,12 +92,21 @@ class AddressesRepository extends Repository
             ->fetchAll();
     }
 
-    final public function addressesSelect(ActiveRow $user, $type)
+    final public function addressesSelect(ActiveRow $user, $type): array
     {
         $rows = $this->addresses($user, $type);
         $result = [];
         foreach ($rows as $row) {
-            $result[$row->id] = "[{$row->type}] {$row->first_name} {$row->last_name}, {$row->address} {$row->number}, {$row->zip} {$row->city}";
+            $entries = [
+                "{$row->first_name} {$row->last_name}",
+                "{$row->address} {$row->number}",
+                "{$row->zip} {$row->city}"
+            ];
+            $countryCode = $row->country?->iso_code;
+            if ($countryCode) {
+                $entries[] = $countryCode;
+            }
+            $result[$row->id] = "[{$row->type}] " . implode(", ", $entries);
         }
         return $result;
     }
