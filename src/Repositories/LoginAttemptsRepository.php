@@ -3,7 +3,9 @@
 namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
-use DeviceDetector\DeviceDetector;
+use Crm\UsersModule\Models\DeviceDetector;
+use Nette\Caching\Storage;
+use Nette\Database\Explorer;
 
 class LoginAttemptsRepository extends Repository
 {
@@ -23,6 +25,14 @@ class LoginAttemptsRepository extends Repository
     public const RATE_LIMIT_EXCEEDED = 'rate_limit_exceeded';
 
     protected $tableName = 'login_attempts';
+
+    public function __construct(
+        Explorer $database,
+        Storage $cacheStorage = null,
+        private readonly DeviceDetector $deviceDetector,
+    ) {
+        parent::__construct($database, $cacheStorage);
+    }
 
     final public function okStatuses(): array
     {
@@ -68,14 +78,14 @@ class LoginAttemptsRepository extends Repository
         $device = null;
         $isMobile = null;
         if ($userAgent) {
-            $deviceDetector = new DeviceDetector($userAgent);
-            $deviceDetector->parse();
+            $this->deviceDetector->setUserAgent($userAgent);
+            $this->deviceDetector->parse();
 
-            $isMobile = $deviceDetector->isMobile();
-            $browser = $deviceDetector->getClient('name');
-            $browserVersion = $deviceDetector->getClient('version');
-            $os = $deviceDetector->getOs('name');
-            $device = $deviceDetector->getDeviceName();
+            $isMobile = $this->deviceDetector->isMobile();
+            $browser = $this->deviceDetector->getClient('name');
+            $browserVersion = $this->deviceDetector->getClient('version');
+            $os = $this->deviceDetector->getOs('name');
+            $device = $this->deviceDetector->getDeviceName();
         }
 
         return $this->getTable()->insert([
