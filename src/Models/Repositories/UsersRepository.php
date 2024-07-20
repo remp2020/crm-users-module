@@ -9,6 +9,7 @@ use Crm\ApplicationModule\Repository;
 use Crm\ApplicationModule\Repository\AuditLogRepository;
 use Crm\UsersModule\Events\NewUserEvent;
 use Crm\UsersModule\Events\UserDisabledEvent;
+use Crm\UsersModule\Events\UserEnabledEvent;
 use Crm\UsersModule\Events\UserRegisteredEvent;
 use Crm\UsersModule\Events\UserUpdatedEvent;
 use League\Event\Emitter;
@@ -215,6 +216,8 @@ class UsersRepository extends Repository
         if ($active == 0) {
             $this->accessTokensRepository->removeAllUserTokens($user->id);
             $this->emitter->emit(new UserDisabledEvent($user));
+        } else {
+            $this->emitter->emit(new UserEnabledEvent($user));
         }
         return $user;
     }
