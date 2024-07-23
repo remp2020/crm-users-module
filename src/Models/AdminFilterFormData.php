@@ -106,8 +106,9 @@ class AdminFilterFormData
         foreach (explode(" ", $queryString) as $partialString) {
             $partialQuery = $this->addressesRepository->all()->select('DISTINCT(user_id)')
             ->where(
-                'address LIKE ? OR number LIKE ? OR city LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR user_id IN (?)',
+                'address LIKE ? OR number LIKE ? OR city LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR phone_number LIKE ? OR user_id IN (?)',
                 [
+                    "%{$partialString}%",
                     "%{$partialString}%",
                     "%{$partialString}%",
                     "%{$partialString}%",

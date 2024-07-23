@@ -263,8 +263,8 @@ admin:
             label: Email / Meno
             placeholder: Email / Meno
         address:
-            label: Adresa / Fakturačné údaje
-            placeholder: Adresa / Fakturačné údaje
+            label: Adresa / Fakturačné údaje / Telefón
+            placeholder: Adresa / Fakturačné údaje / Telefón
         group:
             label: Skupina
         source:

@@ -258,8 +258,8 @@ admin:
             label: Szűrő
             placeholder: E-mail cím / Név / Cím
         address:
-            label: Cím / Számla adatok
-            placeholder: Cím / Számla adatok
+            label: Cím / Számla adatok / Telefon
+            placeholder: Cím / Számla adatok / Telefon
         group:
             label: Csoport
         source:

@@ -254,8 +254,8 @@ admin:
 
     admin_filter_form:
         text:
-            label: E-Mail / Name
-            placeholder: E-Mail / Name
+            label: E-Mail / Name / Telefon
+            placeholder: E-Mail / Name / Telefon
         address:
             label: Adresse / Rechnungsdetails
             placeholder: Adresse / Rechnungsdetails

@@ -262,8 +262,8 @@ admin:
             label: Email / Jméno
             placeholder: Email / Jméno
         address:
-            label: Adresa / Fakturační údaje
-            placeholder: Adresa / Fakturační údaje
+            label: Adresa / Fakturační údaje / Telefon
+            placeholder: Adresa / Fakturační údaje / Telefon
         group:
             label: Skupina
         source:

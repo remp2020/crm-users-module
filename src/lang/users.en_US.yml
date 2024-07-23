@@ -260,8 +260,8 @@ admin:
 
     admin_filter_form:
         text:
-            label: Email / Name
-            placeholder: Email / Name
+            label: Email / Name / Phone
+            placeholder: Email / Name / Phone
         address:
             label: Address / Invoice details
             placeholder: Address / Invoice details
