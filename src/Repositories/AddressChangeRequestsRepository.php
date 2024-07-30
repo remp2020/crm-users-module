@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Repositories;
 use Crm\ApplicationModule\Hermes\HermesMessage;
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Events\AddressChangedEvent;
+use Crm\UsersModule\Events\NewAddressChangeRequestEvent;
 use Crm\UsersModule\Events\NewAddressEvent;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
@@ -129,6 +130,8 @@ class AddressChangeRequestsRepository extends Repository
             'old_company_vat_id' => $parentAddress ? $parentAddress->company_vat_id : null,
             'old_phone_number' => $parentAddress ? $parentAddress->phone_number : null,
         ]);
+
+        $this->emitter->emit(new NewAddressChangeRequestEvent($changeRequest));
         return $changeRequest;
     }
 
