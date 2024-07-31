@@ -101,6 +101,7 @@ use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Events\UserChangePasswordRequestEvent;
 use Crm\UsersModule\Events\UserConfirmedEvent;
 use Crm\UsersModule\Events\UserDisabledEvent;
+use Crm\UsersModule\Events\UserEnabledEvent;
 use Crm\UsersModule\Events\UserLastAccessEvent;
 use Crm\UsersModule\Events\UserLastAccessHandler;
 use Crm\UsersModule\Events\UserMetaEvent;
@@ -613,6 +614,7 @@ class UsersModule extends CrmModule
         $eventsStorage->register('user_change_password_request', UserChangePasswordRequestEvent::class);
         $eventsStorage->register('user_confirmed', UserConfirmedEvent::class);
         $eventsStorage->register('user_registered', UserRegisteredEvent::class, true);
+        $eventsStorage->register('user_enabled', UserEnabledEvent::class);
         $eventsStorage->register('user_disabled', UserDisabledEvent::class);
         $eventsStorage->register('user_last_access', UserLastAccessEvent::class);
         $eventsStorage->register('user_meta', UserMetaEvent::class);
