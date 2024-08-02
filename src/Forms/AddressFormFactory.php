@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
+use Crm\ApplicationModule\Forms\Controls\CountriesSelectItemsBuilder;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\UsersModule\DataProviders\AddressFormDataProviderInterface;
 use Crm\UsersModule\Repositories\AddressChangeRequestsRepository;
@@ -22,13 +23,14 @@ class AddressFormFactory
     private $address;
 
     public function __construct(
-        private UsersRepository $userRepository,
-        private AddressesRepository $addressesRepository,
-        private CountriesRepository $countriesRepository,
-        private AddressTypesRepository $addressTypesRepository,
-        private AddressChangeRequestsRepository $addressChangeRequestsRepository,
-        private Translator $translator,
-        private DataProviderManager $dataProviderManager,
+        private readonly UsersRepository $userRepository,
+        private readonly AddressesRepository $addressesRepository,
+        private readonly CountriesRepository $countriesRepository,
+        private readonly AddressTypesRepository $addressTypesRepository,
+        private readonly AddressChangeRequestsRepository $addressChangeRequestsRepository,
+        private readonly Translator $translator,
+        private readonly DataProviderManager $dataProviderManager,
+        private readonly CountriesSelectItemsBuilder $countriesSelectItemsBuilder,
     ) {
     }
 
@@ -91,7 +93,7 @@ class AddressFormFactory
         $form->addText('city', 'users.frontend.address.city.label')
             ->setNullable()
             ->setHtmlAttribute('placeholder', 'users.frontend.address.city.placeholder');
-        $form->addSelect('country_id', 'users.frontend.address.country.label', $this->countriesRepository->getAllPairs());
+        $form->addSelect('country_id', 'users.frontend.address.country.label', $this->countriesSelectItemsBuilder->getAllPairs());
 
         $form->addText('company_id', 'users.frontend.address.company_id.label')
             ->setNullable()
