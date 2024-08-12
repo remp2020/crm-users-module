@@ -137,7 +137,9 @@ class AddressChangeRequestsRepository extends Repository
         ]);
 
         $this->emitter->emit(new NewAddressChangeRequestEvent($changeRequest));
-        return $changeRequest;
+
+        // Reload changes caused by the event
+        return $this->getTable()->where('id', $changeRequest->id)->fetch();
     }
 
     final public function changeStatus(ActiveRow $addressChangeRequest, $status)
