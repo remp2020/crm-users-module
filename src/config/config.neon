@@ -190,6 +190,7 @@ services:
 	- Crm\UsersModule\Seeders\UsersSeeder
 	- Crm\UsersModule\Seeders\SnippetsSeeder
 	- Crm\UsersModule\Seeders\MeasurementsSeeder
+	- Crm\UsersModule\Seeders\AddressTypesTestSeeder
 	- Crm\UsersModule\Components\UserSourceAccesses\UserSourceAccesses
 	- Crm\UsersModule\Components\UserTokens\UserTokens
 	- Crm\UsersModule\Models\Auth\Rate\WrongPasswordRateLimit
