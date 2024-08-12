@@ -33,71 +33,71 @@ class UserGroupsCriteriaTest extends DatabaseTestCase
         return [
             // user in no group
             'userInNoGroup_selectedNoGroup' => [
-                'userIsInGroupName' => [],
+                'userIsInGroupNames' => [],
                 'groupNamesForCriteriaSelection' => [],
                 'expectedResult' => true, // no group selected; filters all users without group
             ],
             'userInNoGroup_selectedOneGroup' => [
-                'userIsInGroupName' => [],
+                'userIsInGroupNames' => [],
                 'groupNamesForCriteriaSelection' => ['student'],
                 'expectedResult' => false,
             ],
             'userInNoGroup_selectedTwoGroup' => [
-                'userIsInGroupName' => [],
+                'userIsInGroupNames' => [],
                 'groupNamesForCriteriaSelection' => ['student', 'crowdfunding'],
                 'expectedResult' => false,
             ],
 
             // user in single group
             'userInSingleGroup_selectedNoGroup' => [
-                'userIsInGroupName' => ['student'],
+                'userIsInGroupNames' => ['student'],
                 'groupNamesForCriteriaSelection' => [],
                 'expectedResult' => false, // no group selected; filters all users without group
             ],
             'userInSingleGroup_selectedSameGroup' => [
-                'userIsInGroupName' => ['student'],
+                'userIsInGroupNames' => ['student'],
                 'groupNamesForCriteriaSelection' => ['student'],
                 'expectedResult' => true,
             ],
             'userInSingleGroup_selectedTwoGroupsOneIsSame' => [
-                'userIsInGroupName' => ['student'],
+                'userIsInGroupNames' => ['student'],
                 'groupNamesForCriteriaSelection' => ['student', 'crowdfunding'],
                 'expectedResult' => true,
             ],
             'userInSingleGroup_selectedDifferentGroup' => [
-                'userIsInGroupName' => ['student'],
+                'userIsInGroupNames' => ['student'],
                 'groupNamesForCriteriaSelection' => ['teacher'],
                 'expectedResult' => false,
             ],
 
             // user in two groups
             'userInTwoGroups_selectedNoGroup' => [
-                'userIsInGroupName' => ['student', 'crowdfunding'],
+                'userIsInGroupNames' => ['student', 'crowdfunding'],
                 'groupNamesForCriteriaSelection' => [],
                 'expectedResult' => false, // no group selected; filters all users without group
             ],
             'userInTwoGroups_selectedOneOfThem' => [
-                'userIsInGroupName' => ['student', 'crowdfunding'],
+                'userIsInGroupNames' => ['student', 'crowdfunding'],
                 'groupNamesForCriteriaSelection' => ['student'],
                 'expectedResult' => true,
             ],
             'userInTwoGroups_selectedDifferentGroup' => [
-                'userIsInGroupName' => ['student', 'crowdfunding'],
+                'userIsInGroupNames' => ['student', 'crowdfunding'],
                 'groupNamesForCriteriaSelection' => ['teacher'],
                 'expectedResult' => false,
             ],
             'userInTwoGroups_selectedTwoOfThem' => [
-                'userIsInGroupName' => ['student', 'crowdfunding'],
+                'userIsInGroupNames' => ['student', 'crowdfunding'],
                 'groupNamesForCriteriaSelection' => ['student', 'crowdfunding'],
                 'expectedResult' => true,
             ],
             'userInTwoGroups_selectedTwoGroupsAndOneIsSame' => [
-                'userIsInGroupName' => ['student', 'crowdfunding'],
+                'userIsInGroupNames' => ['student', 'crowdfunding'],
                 'groupNamesForCriteriaSelection' => ['teacher', 'crowdfunding'],
                 'expectedResult' => true,
             ],
             'userInTwoGroups_selectedTwoDifferentGroups' => [
-                'userIsInGroupName' => ['student', 'crowdfunding'],
+                'userIsInGroupNames' => ['student', 'crowdfunding'],
                 'groupNamesForCriteriaSelection' => ['teacher', 'elections'],
                 'expectedResult' => false,
             ],
