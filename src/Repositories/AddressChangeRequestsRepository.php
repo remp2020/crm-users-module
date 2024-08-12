@@ -7,6 +7,8 @@ use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Events\AddressChangedEvent;
 use Crm\UsersModule\Events\NewAddressChangeRequestEvent;
 use Crm\UsersModule\Events\NewAddressEvent;
+use Crm\UsersModule\Models\AddressChangeRequest\StatusEnum;
+use Exception;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
@@ -15,8 +17,11 @@ use Tomaj\Hermes\Emitter as HermesEmitter;
 
 class AddressChangeRequestsRepository extends Repository
 {
+    /** @deprecated Use \Crm\UsersModule\Models\AddressChangeRequest\StatusEnum::New enum instead. */
     const STATUS_NEW = 'new';
+    /** @deprecated Use \Crm\UsersModule\Models\AddressChangeRequest\StatusEnum::Accepted enum instead. */
     const STATUS_ACCEPTED = 'accepted';
+    /** @deprecated Use \Crm\UsersModule\Models\AddressChangeRequest\StatusEnum::Rejected enum instead. */
     const STATUS_REJECTED = 'rejected';
 
     protected $tableName = 'address_change_requests';
@@ -102,7 +107,7 @@ class AddressChangeRequestsRepository extends Repository
             'type' => $type,
             'user_id' => $user->id,
             'address_id' => $parentAddress ? $parentAddress->id : null,
-            'status' => self::STATUS_NEW,
+            'status' => StatusEnum::New->value,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
             'first_name' => $firstName,
@@ -146,6 +151,32 @@ class AddressChangeRequestsRepository extends Repository
     final public function acceptRequest(ActiveRow $addressChangeRequest, $asAdmin = false)
     {
         $address = $addressChangeRequest->addr;
+        if ($addressChangeRequest->status === StatusEnum::Accepted->value) {
+            if ($address === null) {
+                throw new Exception(sprintf(
+                    'Invalid state. Address change request #%d has already been accepted but address is missing.',
+                    $addressChangeRequest->id,
+                ));
+            }
+
+            return $address;
+        }
+
+        if ($addressChangeRequest->status === StatusEnum::Rejected->value) {
+            throw new Exception(sprintf(
+                'Address change request #%d has already been rejected.',
+                $addressChangeRequest->id,
+            ));
+        }
+
+        if ($addressChangeRequest->status !== StatusEnum::New->value) {
+            throw new Exception(sprintf(
+                'Address change request #%d must be in status "new" to be accepted. Current status: %s',
+                $addressChangeRequest->id,
+                $addressChangeRequest->status,
+            ));
+        }
+
         if ($address) {
             $this->addressesRepository->update($address, [
                 'first_name' => $addressChangeRequest['first_name'],
@@ -195,19 +226,19 @@ class AddressChangeRequestsRepository extends Repository
                 'address_id' => $address->id
             ]);
         }
-        $this->changeStatus($addressChangeRequest, self::STATUS_ACCEPTED);
+        $this->changeStatus($addressChangeRequest, StatusEnum::Accepted->value);
         return $address;
     }
 
     final public function rejectRequest(ActiveRow $addressChangeRequest)
     {
-        return $this->changeStatus($addressChangeRequest, self::STATUS_REJECTED);
+        return $this->changeStatus($addressChangeRequest, StatusEnum::Rejected->value);
     }
 
     final public function allNewRequests()
     {
         return $this->getTable()
-            ->where(['status' => self::STATUS_NEW])
+            ->where(['status' => StatusEnum::New->value])
             ->where('address.deleted_at IS NULL')
             ->order('created_at DESC');
     }
