@@ -9,6 +9,7 @@ use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Crm\UsersModule\DataProviders\CanDeleteAddressDataProviderInterface;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
 class AddressesRepository extends Repository
@@ -80,18 +81,32 @@ class AddressesRepository extends Repository
         return $this->getTable()->where('deleted_at IS NULL');
     }
 
-    final public function addresses(ActiveRow $user, $type = false)
+    final public function userAddresses(ActiveRow $user, string|array $type = null): Selection
+    {
+        $where = ['user_id' => $user->id];
+        if ($type) {
+            if (is_array($type)) {
+                $where['type IN (?)'] = $type;
+            } else {
+                $where['type'] = $type;
+            }
+        }
+        return $this->all()->where($where)->order('updated_at DESC');
+    }
+
+    final public function addresses(ActiveRow $user, $type = false): array
     {
         $where = ['user_id' => $user->id];
         if ($type) {
             $where['type'] = $type;
         }
-        return $this->getTable()
-            ->where($where)
-            ->where('deleted_at IS NULL')
-            ->fetchAll();
+        return $this->all()->where($where)->fetchAll();
     }
 
+    /**
+     * @deprecated
+     * @see \Crm\UsersModule\Models\Address\AddressesLister as replacement
+     */
     final public function addressesSelect(ActiveRow $user, $type): array
     {
         $rows = $this->addresses($user, $type);

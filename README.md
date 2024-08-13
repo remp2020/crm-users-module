@@ -858,6 +858,45 @@ Response:
 
 ---
 
+#### GET `/api/v1/user/addresses`
+
+Lists all user's own addresses. User is identified from provided user token.
+
+##### *Headers:*
+
+| Name | Value | Required | Description |
+| --- | --- | --- | --- |
+| Authorization | Bearer *String* | yes | User token. |
+
+##### *Params:*
+
+| Name | Value | Required | Description |
+| --- |---| --- | --- |
+| type | *String* | no | Type of address - types of addresses are managed by modules (e.g. `InvoiceModule` adds support for `invoice` address type. |
+
+
+##### *Example:*
+
+```shell
+curl -X GET \
+  'http://crm.press/api/v1/users/addresses?type=print' \
+  -H 'Authorization: Bearer XXX' 
+```
+
+Response:
+
+```json5
+{
+    "status": "ok",
+    "addresses": { // Object; map of addresses keyed by addressId, value is address represented by single string
+        "1235": "John Smith, Václavské náměstí 123, Praha 12345, CZ"
+    }
+  
+}
+```
+
+---
+
 #### POST `/api/v1/users/change-address-request`
 
 Creates new address change request for given type of address and user. Change request might still need to be approved.

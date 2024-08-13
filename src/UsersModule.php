@@ -34,6 +34,7 @@ use Crm\UsersModule\Api\EmailValidationApiHandler;
 use Crm\UsersModule\Api\GetDeviceTokenApiHandler;
 use Crm\UsersModule\Api\GoogleTokenSignInHandler;
 use Crm\UsersModule\Api\ListUsersHandler;
+use Crm\UsersModule\Api\UserAddressesHandler;
 use Crm\UsersModule\Api\UserDataHandler;
 use Crm\UsersModule\Api\UserGroupApiHandler;
 use Crm\UsersModule\Api\UserInfoHandler;
@@ -527,6 +528,14 @@ class UsersModule extends CrmModule
                 new ApiIdentifier('1', 'users', 'touch'),
                 UsersTouchApiHandler::class,
                 BearerTokenAuthorization::class
+            )
+        );
+
+        $apiRoutersContainer->attachRouter(
+            new ApiRoute(
+                new ApiIdentifier('1', 'user', 'addresses'),
+                UserAddressesHandler::class,
+                UserTokenAuthorization::class
             )
         );
     }

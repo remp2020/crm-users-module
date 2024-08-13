@@ -109,6 +109,7 @@ services:
 	- Crm\UsersModule\Models\Auth\Permissions
 	- Crm\UsersModule\Models\Builder\UserBuilder
 	- Crm\UsersModule\Models\DeviceDetector
+	- Crm\UsersModule\Models\Address\AddressesLister
 	- Crm\UsersModule\Commands\AddUserCommand
 	- Crm\UsersModule\Commands\GenerateAccessCommand
 	- Crm\UsersModule\Commands\CheckEmailsCommand
@@ -162,6 +163,7 @@ services:
 	- Crm\UsersModule\Api\v2\EmailValidationApiHandler
 	- Crm\UsersModule\Api\DeleteUserApiHandler
 	- Crm\UsersModule\Api\UsersTouchApiHandler
+	- Crm\UsersModule\Api\UserAddressesHandler
 	- Crm\UsersModule\Events\LoginAttemptHandler
 	- Crm\UsersModule\Events\UserUpdatedHandler
 	- Crm\UsersModule\Hermes\UserTokenUsageHandler
