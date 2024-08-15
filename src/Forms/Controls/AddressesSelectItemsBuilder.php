@@ -19,7 +19,7 @@ final class AddressesSelectItemsBuilder
         $rows = $this->addressesRepository->userAddresses($user, $type);
         $result = [];
         foreach ($rows as $row) {
-            $result[] = Address::fromActiveRow($row)->formatSimple();
+            $result[$row->id] = Address::fromActiveRow($row)->formatSimple();
         }
         return $result;
     }
@@ -29,7 +29,7 @@ final class AddressesSelectItemsBuilder
         $rows = $this->addressesRepository->userAddresses($user, $type);
         $result = [];
         foreach ($rows as $row) {
-            $result[] = Address::fromActiveRow($row)->formatSimpleWithType();
+            $result[$row->id] = Address::fromActiveRow($row)->formatSimpleWithType();
         }
         return $result;
     }
