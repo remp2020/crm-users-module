@@ -2,10 +2,13 @@
 
 namespace Crm\UsersModule\ViewObjects;
 
+use Crm\ApplicationModule\Helpers\Arrayable;
+use Crm\ApplicationModule\Helpers\ArrayableTrait;
 use Nette\Database\Table\ActiveRow;
 
-class Country
+class Country implements Arrayable
 {
+    use ArrayableTrait;
     /**
      * We encourage the use of named arguments to avoid future breaking changes in extensibility.
      */
@@ -19,9 +22,9 @@ class Country
     public static function fromActiveRow(ActiveRow $country): self
     {
         return new self(
-            $country->id,
-            $country->name,
-            $country->iso_code,
+            id: $country->id,
+            name: $country->name,
+            isoCode: $country->iso_code,
         );
     }
 }

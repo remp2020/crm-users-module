@@ -109,7 +109,7 @@ services:
 	- Crm\UsersModule\Models\Auth\Permissions
 	- Crm\UsersModule\Models\Builder\UserBuilder
 	- Crm\UsersModule\Models\DeviceDetector
-	- Crm\UsersModule\Models\Address\AddressesLister
+	- Crm\UsersModule\Forms\Controls\AddressesSelectItemsBuilder
 	- Crm\UsersModule\Commands\AddUserCommand
 	- Crm\UsersModule\Commands\GenerateAccessCommand
 	- Crm\UsersModule\Commands\CheckEmailsCommand

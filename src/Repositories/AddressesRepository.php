@@ -87,7 +87,7 @@ class AddressesRepository extends Repository
         return $this->getTable()->where('deleted_at IS NULL');
     }
 
-    final public function userAddresses(ActiveRow $user, string|array $type = null): Selection
+    final public function userAddresses(ActiveRow $user, string|array|null $type = null): Selection
     {
         $where = ['user_id' => $user->id];
         if ($type) {

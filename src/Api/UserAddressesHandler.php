@@ -3,8 +3,9 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\UsersModule\Models\Address\AddressesLister;
 use Crm\UsersModule\Models\Auth\UsersApiAuthorizationInterface;
+use Crm\UsersModule\Repositories\AddressesRepository;
+use Crm\UsersModule\ViewObjects\Address;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IResponse;
 use Tomaj\NetteApi\Params\GetInputParam;
@@ -14,7 +15,7 @@ use Tomaj\NetteApi\Response\ResponseInterface;
 class UserAddressesHandler extends ApiHandler
 {
     public function __construct(
-        private readonly AddressesLister $addressesLister
+        private readonly AddressesRepository $addressesRepository,
     ) {
         parent::__construct();
     }
@@ -22,8 +23,21 @@ class UserAddressesHandler extends ApiHandler
     public function params(): array
     {
         return [
-            new GetInputParam('type')
+            new GetInputParam('type'),
         ];
+    }
+
+    public function getOutputAddresses(ActiveRow $user, ?string $type = null): array
+    {
+        $addressesArray = [];
+        foreach ($this->addressesRepository->userAddresses($user, $type) as $row) {
+            $address = Address::fromActiveRow($row);
+            $addressesArray[$row->id] = [
+                ...$address->toArray(),
+                'address_string' => $address->formatSimple(),
+            ];
+        }
+        return $addressesArray;
     }
 
     public function handle(array $params): ResponseInterface
@@ -42,11 +56,7 @@ class UserAddressesHandler extends ApiHandler
 
         return new JsonApiResponse(IResponse::S200_OK, [
             'status' => 'ok',
-            'addresses' => $this->addressesLister->addressesForSelect(
-                user: $user,
-                types: $params['type'] ?? null,
-                format: AddressesLister::FORMAT_FULL_WITHOUT_TYPE
-            ),
+            'addresses' => $this->getOutputAddresses($user, $params['type'] ?? null),
         ]);
     }
 }

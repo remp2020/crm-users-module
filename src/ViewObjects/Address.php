@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 namespace Crm\UsersModule\ViewObjects;
 
+use Crm\ApplicationModule\Helpers\Arrayable;
+use Crm\ApplicationModule\Helpers\ArrayableTrait;
 use Nette\Database\Table\ActiveRow;
 
-class Address
+class Address implements Arrayable
 {
+    use ArrayableTrait;
+
     /**
      * We encourage the use of named arguments to avoid future breaking changes in extensibility.
      */
@@ -35,20 +39,39 @@ class Address
             : null;
 
         return new self(
-            $address->id,
-            $address->type,
-            $address->first_name,
-            $address->last_name,
-            $address->address,
-            $address->number,
-            $address->city,
-            $address->zip,
-            $country,
-            $address->phone_number,
-            $address->company_name,
-            $address->company_id,
-            $address->company_tax_id,
-            $address->company_vat_id
+            id: $address->id,
+            type: $address->type,
+            firstName: $address->first_name,
+            lastName: $address->last_name,
+            address: $address->address,
+            number: $address->number,
+            city: $address->city,
+            zip: $address->zip,
+            country: $country,
+            phoneNumber: $address->phone_number,
+            companyName: $address->company_name,
+            companyId: $address->company_id,
+            companyTaxId: $address->company_tax_id,
+            companyVatId: $address->company_vat_id,
         );
+    }
+
+    public function formatSimpleWithType(): string
+    {
+        return "[{$this->type}] " . $this->formatSimple();
+    }
+
+    public function formatSimple(): string
+    {
+        $entries = [
+            "{$this->firstName} {$this->lastName}",
+            "{$this->address} {$this->number}",
+            "{$this->zip} {$this->city}",
+        ];
+
+        if ($this->country) {
+            $entries[] = $this->country->isoCode;
+        }
+        return implode(", ", $entries);
     }
 }
