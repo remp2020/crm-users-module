@@ -26,34 +26,14 @@ class AddressChangeRequestsRepository extends Repository
 
     protected $tableName = 'address_change_requests';
 
-    private $usersRepository;
-
-    private $addressesRepository;
-
-    private $countriesRepository;
-
-    private $addressesMetaRepository;
-
-    private $emitter;
-
-    private $hermesEmitter;
-
     public function __construct(
         Explorer $database,
-        UsersRepository $usersRepository,
-        AddressesRepository $addressesRepository,
-        CountriesRepository $countriesRepository,
-        AddressesMetaRepository $addressesMetaRepository,
-        Emitter $emitter,
-        HermesEmitter $hermesEmitter
+        private readonly AddressesRepository $addressesRepository,
+        private readonly AddressesMetaRepository $addressesMetaRepository,
+        private readonly Emitter $emitter,
+        private readonly HermesEmitter $hermesEmitter
     ) {
         parent::__construct($database);
-        $this->usersRepository = $usersRepository;
-        $this->addressesRepository = $addressesRepository;
-        $this->countriesRepository = $countriesRepository;
-        $this->addressesMetaRepository = $addressesMetaRepository;
-        $this->emitter = $emitter;
-        $this->hermesEmitter = $hermesEmitter;
     }
 
     final public function add(
@@ -71,7 +51,7 @@ class AddressChangeRequestsRepository extends Repository
         ?string $companyTaxId,
         ?string $companyVatId,
         ?string $phoneNumber,
-        $type = null
+        ?string $type = null,
     ) {
         $isDifferent = false;
         if (!$parentAddress || ($firstName != $parentAddress->first_name ||
@@ -85,7 +65,8 @@ class AddressChangeRequestsRepository extends Repository
             $companyName !== $parentAddress->company_name ||
             $companyId !== $parentAddress->company_id ||
             $companyTaxId !== $parentAddress->company_tax_id ||
-            $companyVatId !== $parentAddress->company_vat_id)
+            $companyVatId !== $parentAddress->company_vat_id
+            )
         ) {
             $isDifferent = true;
         }
@@ -215,7 +196,7 @@ class AddressChangeRequestsRepository extends Repository
                 $addressChangeRequest->company_name,
                 $addressChangeRequest->company_id,
                 $addressChangeRequest->company_tax_id,
-                $addressChangeRequest->company_vat_id
+                $addressChangeRequest->company_vat_id,
             );
             $this->emitter->emit(new NewAddressEvent($address, $asAdmin));
             $this->hermesEmitter->emit(new HermesMessage('new-address', [

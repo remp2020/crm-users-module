@@ -136,7 +136,7 @@
 
     <div n:foreach="$printAddresses as $printAddress" class="panel panel-default">
       <div class="panel-heading">
-        {$printAddress->typ->title} <small class="text-muted">#{$printAddress->id}</small>
+        {$printAddress->typ->title} <small class="text-muted">#{$printAddress->id}</small> <span n:if="$printAddress->is_default" class="label label-success">{_users.admin.show.default_address}</span>
         <a n:href="RemoveAddress! $printAddress->id" class="pull-right btn-danger btn-xs" style="margin-left: 5px"><i class="fa fa-trash"></i></a>
         <a n:href="AddressAdmin:edit $printAddress->id" class="pull-right btn-default btn-xs"><i class="fa fa-edit"></i></a>
       </div>

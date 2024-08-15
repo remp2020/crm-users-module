@@ -253,6 +253,7 @@ admin:
         company_vat_id: VAT ID
         address: Address
         locale: Display language
+        default_address: Default address
 
     edit:
         title: Edit user

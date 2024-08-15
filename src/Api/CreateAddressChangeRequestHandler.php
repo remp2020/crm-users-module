@@ -16,8 +16,8 @@ use Tomaj\NetteApi\Response\ResponseInterface;
 class CreateAddressChangeRequestHandler extends ApiHandler
 {
     public function __construct(
-        private AddressChangeRequestsRepository $addressChangeRequestsRepository,
         private AddressTypesRepository $addressTypesRepository,
+        private AddressChangeRequestsRepository $addressChangeRequestsRepository,
         private UserManager $userManager,
         private AddressesRepository $addressesRepository,
         private CountriesRepository $countriesRepository
@@ -83,21 +83,21 @@ class CreateAddressChangeRequestHandler extends ApiHandler
         }
 
         $change = $this->addressChangeRequestsRepository->add(
-            $user,
-            $parentAddress,
-            $params['first_name'],
-            $params['last_name'],
-            $params['company_name'],
-            $params['address'],
-            $params['number'],
-            $params['city'],
-            $params['zip'],
-            $params['country_id'] ?? $country->id ?? $this->countriesRepository->defaultCountry()->id,
-            $params['company_id'],
-            $params['company_tax_id'],
-            $params['company_vat_id'],
-            $params['phone_number'],
-            $params['type']
+            user: $user,
+            parentAddress: $parentAddress,
+            firstName: $params['first_name'],
+            lastName: $params['last_name'],
+            companyName: $params['company_name'],
+            address: $params['address'],
+            number: $params['number'],
+            city: $params['city'],
+            zip: $params['zip'],
+            countryId: $params['country_id'] ?? $country->id ?? $this->countriesRepository->defaultCountry()->id,
+            companyId: $params['company_id'],
+            companyTaxId: $params['company_tax_id'],
+            companyVatId: $params['company_vat_id'],
+            phoneNumber: $params['phone_number'],
+            type: $params['type']
         );
 
         $response = new JsonApiResponse(Response::S200_OK, [

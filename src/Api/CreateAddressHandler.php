@@ -21,7 +21,7 @@ class CreateAddressHandler extends ApiHandler
         private AddressChangeRequestsRepository $addressChangeRequestsRepository,
         private AddressTypesRepository $addressTypesRepository,
         private CountriesRepository $countriesRepository,
-        private Emitter $emitter
+        private Emitter $emitter,
     ) {
         parent::__construct();
     }
@@ -68,21 +68,21 @@ class CreateAddressHandler extends ApiHandler
         }
 
         $changeRequest = $this->addressChangeRequestsRepository->add(
-            $user,
-            null,
-            $params['first_name'],
-            $params['last_name'],
-            $params['company_name'],
-            $params['address'],
-            $params['number'],
-            $params['city'],
-            $params['zip'],
-            $country->id ?? $this->countriesRepository->defaultCountry()->id,
-            $params['company_id'],
-            $params['tax_id'],
-            $params['vat_id'],
-            $params['phone_number'],
-            $params['type']
+            user: $user,
+            parentAddress: null,
+            firstName: $params['first_name'],
+            lastName: $params['last_name'],
+            companyName: $params['company_name'],
+            address: $params['address'],
+            number: $params['number'],
+            city: $params['city'],
+            zip: $params['zip'],
+            countryId: $country->id ?? $this->countriesRepository->defaultCountry()->id,
+            companyId: $params['company_id'],
+            companyTaxId: $params['tax_id'],
+            companyVatId: $params['vat_id'],
+            phoneNumber: $params['phone_number'],
+            type: $params['type']
         );
         $address = $this->addressChangeRequestsRepository->acceptRequest($changeRequest);
 

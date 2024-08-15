@@ -71,6 +71,8 @@ frontend:
     address:
         type:
             label: Typ adresy
+        primary:
+            label: Primárna
         first_name:
             label: 'Krstné meno:'
             placeholder: krstné meno
@@ -253,6 +255,7 @@ admin:
         company_vat_id: IČDPH
         address: Adresa
         locale: Jazyk
+        default_address: Predvolená adresa
 
     edit:
         title: Úprava používateľa
@@ -557,6 +560,9 @@ api:
         invalid_credentials: "Zadané heslo sa nezhoduje s našimi záznamami. Prihláste sa, prosím, tak, ako na webe Denníka N."
 
 form:
+    address:
+        error:
+            primary_unique: Nie je možné nastaviť viacero primárnych adries.
     admin_user_group:
         group_id:
             prompt: Vyberte skupinu

@@ -252,6 +252,7 @@ admin:
         company_vat_id: IČDPH
         address: Adresa
         locale: Jazyk
+        default_address: Výchozí adresa
 
     edit:
         title: Úprava uživatele

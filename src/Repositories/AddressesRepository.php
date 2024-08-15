@@ -42,7 +42,7 @@ class AddressesRepository extends Repository
         ?string $companyName = null,
         ?string $companyId = null,
         ?string $companyTaxId = null,
-        ?string $companyVatId = null
+        ?string $companyVatId = null,
     ) {
         $companyId = $companyId ? preg_replace('/\s+/', '', $companyId) : null;
         $companyTaxId = $companyTaxId ? preg_replace('/\s+/', '', $companyTaxId) : null;
@@ -68,12 +68,18 @@ class AddressesRepository extends Repository
         ]);
     }
 
-    final public function address(ActiveRow $user, $type): ?ActiveRow
+    final public function address(ActiveRow $user, string $type, ?bool $isDefault = null): ?ActiveRow
     {
-        return $this->getTable()
+        $selection = $this->getTable()
             ->where(['user_id' => $user->id, 'type' => $type])
             ->where('deleted_at IS NULL')
-            ->order('updated_at DESC')->limit(1)->fetch();
+            ->order('updated_at DESC')->limit(1);
+
+        if (isset($isDefault)) {
+            $selection->where('is_default', $isDefault);
+        }
+
+        return $selection->fetch();
     }
 
     final public function all()
