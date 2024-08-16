@@ -76,7 +76,7 @@ class ResetPasswordFormFactory
         if (!$result) {
             $form['new_password']->addError('users.frontend.reset_password.could_not_set');
         } else {
-            $this->onSuccess->__invoke();
+            $this->onSuccess->__invoke($token);
         }
     }
 }

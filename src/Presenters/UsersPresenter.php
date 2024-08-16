@@ -4,10 +4,12 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Helpers\SecuredAdminAccess;
 use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
+use Crm\ApplicationModule\Models\Database\ActiveRow;
 use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\UsersModule\Events\NotificationEvent;
+use Crm\UsersModule\Events\UserResetPasswordSuccessEvent;
 use Crm\UsersModule\Events\UserSignOutEvent;
 use Crm\UsersModule\Forms\ChangePasswordFormFactory;
 use Crm\UsersModule\Forms\RequestPasswordFormFactory;
@@ -120,8 +122,11 @@ class UsersPresenter extends FrontendPresenter
             $token = $this->params['id'];
         }
         $form = $this->resetPasswordFormFactory->create($token);
-        $this->resetPasswordFormFactory->onSuccess = function () {
+        $this->resetPasswordFormFactory->onSuccess = function (ActiveRow $token) {
             $this->flashMessage($this->translator->translate('users.frontend.reset_password.success'));
+
+            $this->emitter->emit(new UserResetPasswordSuccessEvent($token->user));
+
             $this->redirect(':Users:Sign:In', ['url' => $this->link($this->homeRoute)]);
         };
         return $form;
