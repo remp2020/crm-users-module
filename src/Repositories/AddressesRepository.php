@@ -109,9 +109,11 @@ class AddressesRepository extends Repository
         return $this->all()->where($where)->fetchAll();
     }
 
+
+
     /**
      * @deprecated
-     * @see \Crm\UsersModule\Models\Address\AddressesLister as replacement
+     * @see \Crm\ApplicationModule\Forms\Controls\CountriesSelectItemsBuilder replacement
      */
     final public function addressesSelect(ActiveRow $user, $type): array
     {
