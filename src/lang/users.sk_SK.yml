@@ -229,6 +229,7 @@ admin:
         last_market_at: Naposledy kontaktovaný
         basic_info: Základné info
         email: E-mail
+        phone_number: Telefón
         first_name: Krstné meno
         last_name: Priezvisko
         unconfirmed: Nepotvrdený

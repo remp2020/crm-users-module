@@ -160,6 +160,10 @@
         <b>{_users.admin.show.company_tax_id}:</b> {$invoiceAddress->company_tax_id}<br>
         <b>{_users.admin.show.company_vat_id}:</b> {$invoiceAddress->company_vat_id}<br>
 
+        {if $invoiceAddress->phone_number}
+          <b>{_users.admin.show.phone_number}:</b> {$invoiceAddress->phone_number}<br>
+        {/if}
+
         {capture $address}
           {$invoiceAddress->address|breaklines|noescape} {$invoiceAddress->number}
           <br>

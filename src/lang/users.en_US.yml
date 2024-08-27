@@ -227,6 +227,7 @@ admin:
         last_market_at: Last market at
         basic_info: Basic info
         email: E-mail
+        phone_number: Phone number
         first_name: First name
         last_name: Last name
         unconfirmed: Unconfirmed

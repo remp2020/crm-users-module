@@ -224,6 +224,7 @@ admin:
         last_market_at: Last market at
         basic_info: Általános információk
         email: E-mail cím
+        phone_number: Telefonszám
         first_name: Keresztnév
         last_name: Vezetéknév
         unconfirmed: Nem megerősített

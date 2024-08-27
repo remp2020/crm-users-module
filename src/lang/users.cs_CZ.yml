@@ -226,6 +226,7 @@ admin:
         last_market_at: Naposledy kontaktován
         basic_info: Základní info
         email: E-mail
+        phone_number: Telefon
         first_name: Křestní jméno
         last_name: Příjmení
         unconfirmed: Nepotvrzený

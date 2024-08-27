@@ -223,6 +223,7 @@ admin:
         last_market_at: Zuletzt markiert am
         basic_info: Basisinformationen
         email: E-Mail
+        phone_number: Telefonnummer
         first_name: Vorname
         last_name: Nachname
         unconfirmed: Nicht bestätigt
