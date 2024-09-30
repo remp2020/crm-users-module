@@ -82,7 +82,7 @@
                         <td><small class="text-muted">{$abuser->id}</small></td>
                         <td>
                             <a n:href="UsersAdmin:show $abuser->id">
-                                {$abuser->email|gravatar|noescape}
+                                {$abuser->email|gravatar}
                                 {$abuser->email}
                             </a>
                             {control simpleWidget 'admin.user.abusive.emailcolumn', $abuser->user_row}

@@ -1,5 +1,5 @@
 {block title}
-{$userRow|userLabel|noescape}
+{$userRow|userLabel}
 {/block}
 
 {block #content}
@@ -10,10 +10,10 @@
     <div class="page-header">
       <h1>
         <small>[{$userRow->id}]</small>
-        {$userRow->email|gravatar,50|noescape}
+        {$userRow->email|gravatar,50}
 
         {capture $title}
-          {$userRow|userLabel|noescape}{if $userRow->supporter} - <span class="btn btn-success btn">podporovatel</span>{/if}
+          {$userRow|userLabel}{if $userRow->supporter} - <span class="btn btn-success btn">podporovatel</span>{/if}
           {if $userRow->public_name && $userRow->public_name !== $userRow->email} - {$userRow->public_name}{/if}
         {/capture}
 
@@ -107,7 +107,7 @@
           </span>
         </li>
         <li class="list-group-item">
-          <b>{_users.admin.show.active}:</b> {$userRow->active|activeLabel|noescape}
+          <b>{_users.admin.show.active}:</b> {$userRow->active|activeLabel}
           {if $userRow->active}
             <a n:href="ChangeActivation! $userRow->id" class="btn btn-warning btn-xs"><i class="fa fa-ban"></i> {_users.admin.show.deactivate}</a>
           {else}
