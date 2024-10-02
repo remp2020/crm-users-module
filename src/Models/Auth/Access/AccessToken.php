@@ -41,6 +41,9 @@ class AccessToken
     public function addUserToken($user, Request $request = null, Response $response = null, ?string $source = null)
     {
         $userRow = $this->usersRepository->find($user->id);
+        if (isset($userRow->deleted_at)) {
+            throw new \Exception("Unable to create access token for deleted user ID: [{$user->id}]");
+        }
 
         // remove old token if exists
         if ($request) {
