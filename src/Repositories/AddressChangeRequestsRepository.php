@@ -54,20 +54,21 @@ class AddressChangeRequestsRepository extends Repository
         ?string $type = null,
     ) {
         $isDifferent = false;
-        if (!$parentAddress || ($firstName != $parentAddress->first_name ||
-            $lastName !== $parentAddress->last_name ||
-            $phoneNumber !== $parentAddress->phone_number ||
-            $address !== $parentAddress->address||
-            $number !== $parentAddress->number ||
-            $city !== $parentAddress->city ||
-            $zip !== $parentAddress->zip ||
-            $countryId !== $parentAddress->country_id ||
-            $companyName !== $parentAddress->company_name ||
-            $companyId !== $parentAddress->company_id ||
-            $companyTaxId !== $parentAddress->company_tax_id ||
-            $companyVatId !== $parentAddress->company_vat_id
-            )
-        ) {
+        if ($this->isDifferent(
+            $parentAddress,
+            $firstName,
+            $lastName,
+            $companyName,
+            $address,
+            $number,
+            $city,
+            $zip,
+            $countryId,
+            $companyId,
+            $companyTaxId,
+            $companyVatId,
+            $phoneNumber
+        )) {
             $isDifferent = true;
         }
 
@@ -257,5 +258,65 @@ class AddressChangeRequestsRepository extends Repository
             ->order('updated_at DESC')
             ->limit(1)
             ->fetch();
+    }
+
+    final public function lastNewForAddress(int $addressId): ?ActiveRow
+    {
+        return $this->getTable()
+            ->where([
+                'status' => StatusEnum::New->value,
+                'address_id' => $addressId,
+            ])
+            ->order('updated_at DESC')
+            ->limit(1)
+            ->fetch();
+    }
+
+    final public function rejectAllNewForAddress(int $addressId): int
+    {
+        return $this->getTable()
+            ->where([
+                'status' => StatusEnum::New->value,
+                'address_id' => $addressId,
+            ])
+            ->update([
+                'status' => StatusEnum::Rejected->value,
+                'updated_at' => new DateTime(),
+            ]);
+    }
+
+    final public function isDifferent(
+        $parentAddress,
+        ?string $firstName,
+        ?string $lastName,
+        ?string $companyName,
+        ?string $address,
+        ?string $number,
+        ?string $city,
+        ?string $zip,
+        ?int $countryId,
+        ?string $companyId,
+        ?string $companyTaxId,
+        ?string $companyVatId,
+        ?string $phoneNumber
+    ) : bool {
+        if (!$parentAddress || ($firstName != $parentAddress->first_name ||
+                $lastName !== $parentAddress->last_name ||
+                $phoneNumber !== $parentAddress->phone_number ||
+                $address !== $parentAddress->address||
+                $number !== $parentAddress->number ||
+                $city !== $parentAddress->city ||
+                $zip !== $parentAddress->zip ||
+                $countryId !== $parentAddress->country_id ||
+                $companyName !== $parentAddress->company_name ||
+                $companyId !== $parentAddress->company_id ||
+                $companyTaxId !== $parentAddress->company_tax_id ||
+                $companyVatId !== $parentAddress->company_vat_id
+            )
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
