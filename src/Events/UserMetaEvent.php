@@ -1,36 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crm\UsersModule\Events;
 
-use Crm\UsersModule\Models\User\IUserGetter;
 use League\Event\AbstractEvent;
+use Nette\Database\Table\ActiveRow;
 
-class UserMetaEvent extends AbstractEvent implements IUserGetter
+class UserMetaEvent extends AbstractEvent implements UserEventInterface
 {
-    private $userId;
-
-    private $key;
-
-    private $value;
-
-    public function __construct(int $userId, $key, $value)
-    {
-        $this->userId = $userId;
-        $this->key = $key;
-        $this->value = $value;
+    public function __construct(
+        private ActiveRow $user,
+        private string $key,
+        private string $value,
+    ) {
     }
 
-    public function getUserId(): int
+    public function getUser(): ActiveRow
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

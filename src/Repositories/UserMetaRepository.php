@@ -34,7 +34,7 @@ class UserMetaRepository extends Repository
             $result = $this->getTable()->where(['user_id' => $user, 'key' => $key])
                 ->update(['value' => $value, 'updated_at' => new DateTime(), 'is_public' => $isPublic]);
             if ($result) {
-                $this->emitter->emit(new UserMetaEvent($user->id, $key, $value));
+                $this->emitter->emit(new UserMetaEvent($user, $key, $value));
             }
 
             return $this->getTable()->where(['user_id' => $user, 'key' => $key])->fetch();
@@ -49,7 +49,7 @@ class UserMetaRepository extends Repository
             'updated_at' => new DateTime(),
         ]);
         if ($result) {
-            $this->emitter->emit(new UserMetaEvent($user->id, $key, $value));
+            $this->emitter->emit(new UserMetaEvent($user, $key, $value));
         }
         return $result;
     }

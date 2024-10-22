@@ -19,7 +19,7 @@ class UserUpdatedHandler extends AbstractListener
     public function handle(EventInterface $event)
     {
         if (!($event instanceof UserUpdatedEvent)) {
-            throw new \Exception('cannot handle event, invalid instance received: ' . gettype($event));
+            throw new \Exception('Invalid type of event received, `UserUpdatedEvent` expected, but got ' . gettype($event));
         }
         $updatedUser = $event->getUser();
 
