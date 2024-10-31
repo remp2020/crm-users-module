@@ -26,6 +26,11 @@ class GroupsRepository extends Repository
         return $this->getTable()->where(['name' => $name])->count('*') > 0;
     }
 
+    final public function findByName(string $name): ?ActiveRow
+    {
+        return $this->findBy('name', $name);
+    }
+
     /**
      * @return Selection
      */
