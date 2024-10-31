@@ -12,10 +12,10 @@ class TokenGenerator
      *
      * @param int $bytes
      *
-     * @return string of length bytes * 2 (hexadecimally encoded)
-     * @throws \Exception - if not sufficient entropy is available
+     * @return string of length bytes * 2 (hexadecimal string)
+     * @throws \Exception - if no sufficient entropy is available
      */
-    public static function generate($bytes = 16): string
+    public static function generate(int $bytes = 16): string
     {
         return bin2hex(random_bytes($bytes));
     }
