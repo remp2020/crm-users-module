@@ -10,9 +10,9 @@ use Nette\Database\Table\ActiveRow;
 class UserMetaEvent extends AbstractEvent implements UserEventInterface
 {
     public function __construct(
-        private ActiveRow $user,
-        private string $key,
-        private string $value,
+        private readonly ActiveRow $user,
+        private readonly string $key,
+        private readonly ?string $value,
     ) {
     }
 
@@ -26,7 +26,7 @@ class UserMetaEvent extends AbstractEvent implements UserEventInterface
         return $this->key;
     }
 
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }

@@ -74,10 +74,11 @@ class UserMetaRepository extends Repository
             $selection->where('value = ?', $value);
         }
 
+        $meta = $selection->fetch();
         $result = $selection->delete();
 
         if ($result) {
-            $this->emitter->emit(new UserMetaEvent($userId, $key, null));
+            $this->emitter->emit(new UserMetaEvent($meta->user, $key, null));
         }
         return $result;
     }
