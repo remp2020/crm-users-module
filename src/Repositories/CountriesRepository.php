@@ -3,21 +3,20 @@
 namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Models\ResettableInterface;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
 
-class CountriesRepository extends Repository
+class CountriesRepository extends Repository implements ResettableInterface
 {
     protected $tableName = 'countries';
 
-    private ActiveRow $defaultCountry;
+    private ?ActiveRow $defaultCountry;
 
     private string $defaultCountryISO;
 
-    public function __construct(
-        $defaultCountryISO,
-        Explorer $database
-    ) {
+    public function __construct(string $defaultCountryISO, Explorer $database)
+    {
         parent::__construct($database);
         $this->setDefaultCountry($defaultCountryISO);
     }
@@ -88,5 +87,10 @@ class CountriesRepository extends Repository
     final public function exists($code)
     {
         return $this->getTable()->where('iso_code', $code)->count('*') > 0;
+    }
+
+    public function reset(): void
+    {
+        $this->defaultCountry = null;
     }
 }
