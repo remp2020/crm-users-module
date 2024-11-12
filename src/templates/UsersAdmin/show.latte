@@ -1,5 +1,8 @@
 {block title}
-{$userRow|userLabel}
+  {$userRow->email}
+  {if $userRow->is_institution}
+    - {_users.admin.default.institution}: {$userRow->institution_name|trim}
+  {/if}
 {/block}
 
 {block #content}
@@ -12,12 +15,11 @@
         <small>[{$userRow->id}]</small>
         {$userRow->email|gravatar,50}
 
-        {capture $title}
-          {$userRow|userLabel}{if $userRow->supporter} - <span class="btn btn-success btn">podporovatel</span>{/if}
-          {if $userRow->public_name && $userRow->public_name !== $userRow->email} - {$userRow->public_name}{/if}
-        {/capture}
+        <span>
+          {$userRow|userLabel}
+          {if $userRow->public_name && $userRow->public_name !== $userRow->email} - {$userRow->public_name|trim}{/if}
+        </span>
 
-        <span>{trim($title)}</span>
 		<span n:if="$userRow->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
 
       	<a n:href="edit $userRow->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>

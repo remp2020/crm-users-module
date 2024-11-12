@@ -3,8 +3,9 @@
 namespace Crm\UsersModule\Helpers;
 
 use Latte\ContentType;
+use Latte\Engine;
+use Latte\Loaders\StringLoader;
 use Latte\Runtime\FilterInfo;
-use Nette\Utils\Html;
 
 class GravatarHelper
 {
@@ -20,6 +21,10 @@ class GravatarHelper
             'alt' => $email,
         ];
 
-        return Html::el('img', $data)->render();
+        $template = '<img class="{$class}" alt="{$alt}" src="{$src}"></img>';
+
+        $latte = new Engine();
+        $latte->setLoader(new StringLoader());
+        return $latte->renderToString($template, $data);
     }
 }
