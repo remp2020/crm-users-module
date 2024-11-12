@@ -13,8 +13,6 @@ class UserDataHandler extends ApiHandler
 {
     private $userData;
 
-    private $errorMessage;
-
     public function __construct(
         UserData $userData
     ) {
@@ -30,7 +28,6 @@ class UserDataHandler extends ApiHandler
     {
         $tokenParser = new TokenParser();
         if (!$tokenParser->isOk()) {
-            $this->errorMessage = $tokenParser->errorMessage();
             $response = new JsonApiResponse(Response::S400_BAD_REQUEST, ['status' => 'error', 'message' => $tokenParser->errorMessage()]);
             return $response;
         }

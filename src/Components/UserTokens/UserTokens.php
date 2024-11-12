@@ -6,8 +6,6 @@ use Crm\ApplicationModule\Models\Widget\WidgetInterface;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use Crm\UsersModule\Models\User\UserData;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
-use Crm\UsersModule\Repositories\UsersRepository;
-use League\Event\Emitter;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 
@@ -26,26 +24,18 @@ class UserTokens extends Control implements WidgetInterface
 
     private $userData;
 
-    private $emitter;
-
     private $translator;
-
-    private $usersRepository;
 
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
         AccessToken $accessToken,
-        Emitter $emitter,
         UserData $userData,
         Translator $translator,
-        UsersRepository $usersRepository
     ) {
         $this->accessTokensRepository = $accessTokensRepository;
         $this->accessToken = $accessToken;
-        $this->emitter = $emitter;
         $this->userData = $userData;
         $this->translator = $translator;
-        $this->usersRepository = $usersRepository;
     }
 
     public function header($id = '')

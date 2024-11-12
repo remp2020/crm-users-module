@@ -7,7 +7,6 @@ use Crm\ApiModule\Models\Params\InputParam;
 use Crm\ApiModule\Models\Params\ParamsProcessor;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
-use Nette\Http\Request;
 use Nette\Http\Response;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
@@ -18,13 +17,10 @@ class ListUsersHandler extends ApiHandler
 {
     const PAGE_SIZE = 1000;
 
-    private $request;
-
     private $usersRepository;
 
-    public function __construct(Request $request, UsersRepository $usersRepository)
+    public function __construct(UsersRepository $usersRepository)
     {
-        $this->request = $request;
         $this->usersRepository = $usersRepository;
     }
 
@@ -53,7 +49,7 @@ class ListUsersHandler extends ApiHandler
             return $response;
         }
 
-        $includeDeactivated = filter_var($params['include_deactivated'], FILTER_VALIDATE_BOOLEAN) ?? false;
+        $includeDeactivated = filter_var($params['include_deactivated'], FILTER_VALIDATE_BOOLEAN);
 
         try {
             $userIds = Json::decode($params['user_ids'], Json::FORCE_ARRAY);

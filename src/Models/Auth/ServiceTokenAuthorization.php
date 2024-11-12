@@ -11,8 +11,7 @@ class ServiceTokenAuthorization implements UsersApiAuthorizationInterface
 {
     private $authorizedUsers = [];
 
-    /** @var UsersApiAuthorizationInterface */
-    private $authorizator;
+    private UsersApiAuthorizationInterface $authorizator;
 
     private $bearerTokenAuthorization;
 
@@ -64,7 +63,7 @@ class ServiceTokenAuthorization implements UsersApiAuthorizationInterface
      */
     public function getErrorMessage(): ?string
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         return $this->authorizator->getErrorMessage();
@@ -76,7 +75,7 @@ class ServiceTokenAuthorization implements UsersApiAuthorizationInterface
      */
     public function getAuthorizedData()
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         return $this->authorizator->getAuthorizedData();
@@ -84,7 +83,7 @@ class ServiceTokenAuthorization implements UsersApiAuthorizationInterface
 
     public function getAuthorizedUsers()
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         return $this->authorizedUsers;

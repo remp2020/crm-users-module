@@ -2,20 +2,12 @@
 
 namespace Crm\UsersModule\Segment;
 
-use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
 use Crm\ApplicationModule\Models\Criteria\CriteriaInterface;
 use Crm\SegmentModule\Models\Params\DateTimeParam;
 use Crm\SegmentModule\Models\Params\ParamsBag;
 
 class SourceAccessCriteria implements CriteriaInterface
 {
-    private $userSourceAccessesRepository;
-
-    public function __construct(UserSourceAccessesRepository $userSourceAccessesRepository)
-    {
-        $this->userSourceAccessesRepository = $userSourceAccessesRepository;
-    }
-
     public function label(): string
     {
         return 'Source of web access';

@@ -44,7 +44,7 @@ class AppleTokenSignInHandler extends ApiHandler
     public function handle(array $params): ResponseInterface
     {
         $idToken = $params['id_token'];
-        $createAccessToken = filter_var($params['create_access_token'], FILTER_VALIDATE_BOOLEAN) ?? false;
+        $createAccessToken = filter_var($params['create_access_token'], FILTER_VALIDATE_BOOLEAN);
 
         $deviceToken = null;
         if (!empty($params['device_token'])) {

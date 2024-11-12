@@ -8,8 +8,7 @@ use Nette\Security\Authorizator;
 
 class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface
 {
-    /** @var UsersApiAuthorizationInterface */
-    protected $authorizator = null;
+    protected UsersApiAuthorizationInterface $authorizator;
 
     /** @var UsersApiAuthorizationInterface[] */
     protected $authorizators = [];
@@ -52,7 +51,7 @@ class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTo
 
     public function getErrorMessage(): ?string
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         return $this->authorizator->getErrorMessage();
@@ -60,7 +59,7 @@ class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTo
 
     public function getAuthorizedData()
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         return $this->authorizator->getAuthorizedData();
@@ -68,7 +67,7 @@ class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTo
 
     public function getAuthorizedUsers(): array
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         return $this->authorizator->getAuthorizedUsers();
@@ -76,7 +75,7 @@ class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTo
 
     public function getAccessTokens(): array
     {
-        if (is_null($this->authorizator)) {
+        if (!isset($this->authorizator)) {
             throw new \Exception('Authorize token first - use `authorized` method.');
         }
         if (!$this->authorizator instanceof AccessTokensApiAuthorizationInterface) {

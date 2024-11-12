@@ -4,7 +4,6 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
-use Crm\UsersModule\Api\GetDeviceTokenApiHandler;
 use Crm\UsersModule\Api\UsersLogoutHandler;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Models\Auth\UserTokenAuthorization;
@@ -21,7 +20,6 @@ class UsersLogoutHandlerTest extends DatabaseTestCase
     use ApiTestTrait;
 
     private UsersLogoutHandler $logoutHandler;
-    private GetDeviceTokenApiHandler $getDeviceTokenApiHandler;
     private AccessTokensRepository $accessTokenRepository;
     private DeviceTokensRepository $deviceTokensRepository;
     private UserManager $userManager;
@@ -45,7 +43,6 @@ class UsersLogoutHandlerTest extends DatabaseTestCase
         parent::setUp();
 
         $this->logoutHandler = $this->inject(UsersLogoutHandler::class);
-        $this->getDeviceTokenApiHandler = $this->inject(GetDeviceTokenApiHandler::class);
         $this->accessTokenRepository = $this->getRepository(AccessTokensRepository::class);
         $this->deviceTokensRepository = $this->getRepository(DeviceTokensRepository::class);
         $this->userManager = $this->inject(UserManager::class);

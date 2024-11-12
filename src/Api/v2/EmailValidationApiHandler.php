@@ -62,6 +62,7 @@ class EmailValidationApiHandler extends ApiHandler
         match ($action) {
             EmailValidationApiHandler::VALIDATE => $this->validateEmails($validEmails),
             EmailValidationApiHandler::INVALIDATE => $this->invalidateEmails($validEmails),
+            default => throw new \Exception('Unhandled email validation action: ' . $action),
         };
 
         //TODO:

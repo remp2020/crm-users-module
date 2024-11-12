@@ -62,9 +62,9 @@ class GoogleTokenSignInHandler extends ApiHandler
     public function handle(array $params): ResponseInterface
     {
         $idToken = $params['id_token'];
-        $createAccessToken = filter_var($params['create_access_token'], FILTER_VALIDATE_BOOLEAN) ?? false;
+        $createAccessToken = filter_var($params['create_access_token'], FILTER_VALIDATE_BOOLEAN);
         $gsiAuthCode = $params['gsi_auth_code'] ?? null;
-        $isWeb = filter_var($params['is_web'], FILTER_VALIDATE_BOOLEAN) ?? false;
+        $isWeb = filter_var($params['is_web'], FILTER_VALIDATE_BOOLEAN);
 
         $deviceToken = null;
         if (!empty($params['device_token'])) {

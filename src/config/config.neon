@@ -126,7 +126,6 @@ services:
 	- Crm\UsersModule\Components\MonthUsersStatWidget\MonthUsersStatWidget
 	- Crm\UsersModule\Components\MonthToDateUsersStatWidget\MonthToDateUsersStatWidget
 	- Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget\MonthUsersSmallBarGraphWidget
-	- Crm\UsersModule\Components\SsoWidget\SsoWidget
 	- Crm\UsersModule\Components\Widgets\DetailWidget\DetailWidgetFactoryInterface
 	- Crm\UsersModule\DataProviders\UniversalSearchDataProvider
 	- Crm\UsersModule\DataProviders\UsersClaimUserDataProvider

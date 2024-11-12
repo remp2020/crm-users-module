@@ -68,7 +68,6 @@ use Crm\UsersModule\Components\AutologinTokens\AutologinTokens;
 use Crm\UsersModule\Components\MonthToDateUsersStatWidget\MonthToDateUsersStatWidget;
 use Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget\MonthUsersSmallBarGraphWidget;
 use Crm\UsersModule\Components\MonthUsersStatWidget\MonthUsersStatWidget;
-use Crm\UsersModule\Components\SsoWidget\SsoWidget;
 use Crm\UsersModule\Components\TodayUsersStatWidget\TodayUsersStatWidget;
 use Crm\UsersModule\Components\UserConnectedAccountsListWidget\UserConnectedAccountsListWidget;
 use Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts;
@@ -380,11 +379,6 @@ class UsersModule extends CrmModule
         $widgetManager->registerWidget(
             'frontend.user.address.partial',
             AddressWidget::class,
-            100
-        );
-        $widgetManager->registerWidget(
-            'users.sign_in.top',
-            SsoWidget::class,
             100
         );
     }

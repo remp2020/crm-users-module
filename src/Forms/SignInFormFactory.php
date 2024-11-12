@@ -34,7 +34,7 @@ class SignInFormFactory
             ->setRequired($this->translator->translate('users.frontend.sign_in.password.required'))
             ->setHtmlAttribute('placeholder', $this->translator->translate('users.frontend.sign_in.password.required'));
 
-        if ($username) {
+        if ($email) {
             $password->setHtmlAttribute('autofocus');
         } else {
             $username->setHtmlAttribute('autofocus');
