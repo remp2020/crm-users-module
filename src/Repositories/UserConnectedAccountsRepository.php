@@ -23,7 +23,6 @@ class UserConnectedAccountsRepository extends Repository
         AuditLogRepository $auditLogRepository
     ) {
         parent::__construct($database);
-        $this->database = $database;
         $this->auditLogRepository = $auditLogRepository;
     }
 

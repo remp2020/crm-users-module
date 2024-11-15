@@ -53,7 +53,6 @@ class UsersRepository extends Repository
         Passwords $passwords
     ) {
         parent::__construct($database);
-        $this->database = $database;
         $this->emitter = $emitter;
         $this->auditLogRepository = $auditLogRepository;
         $this->hermesEmitter = $hermesEmmiter;

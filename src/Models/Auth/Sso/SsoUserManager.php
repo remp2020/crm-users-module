@@ -37,7 +37,7 @@ class SsoUserManager
     ): ActiveRow {
         // Transaction may cause hermes event handlers to fail occasionally because the data is not committed into db at the time of event handling.
         // TODO: Return transaction with remp/crm#2218 implementation
-//        $this->dbContext->beginTransaction();
+//        $this->connectedAccountsRepository->getTransaction()->start();
 //        try {
         if ($loggedUserId) {
             $connectedAccount = $this->connectedAccountsRepository->getByExternalId($type, $externalId);
@@ -81,10 +81,10 @@ class SsoUserManager
             );
         }
 //        } catch (\Exception $e) {
-//            $this->dbContext->rollBack();
+//            $this->connectedAccountsRepository->getTransaction()->rollback();
 //            throw $e;
 //        }
-//        $this->dbContext->commit();
+//        $this->connectedAccountsRepository->getTransaction()->commit();
 
         return $user;
     }

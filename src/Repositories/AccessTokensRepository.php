@@ -36,7 +36,6 @@ class AccessTokensRepository extends Repository
         DataProviderManager $dataProviderManager
     ) {
         parent::__construct($database);
-        $this->database = $database;
         $this->emitter = $emitter;
         $this->userMetaRepository = $userMetaRepository;
         $this->dataProviderManager = $dataProviderManager;

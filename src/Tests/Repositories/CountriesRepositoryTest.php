@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Tests\Repositories;
 
+use Crm\ApplicationModule\Database\DatabaseTransaction;
 use Crm\ApplicationModule\Seeders\CountriesSeeder;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Repositories\CountriesRepository;
@@ -41,6 +42,7 @@ class CountriesRepositoryTest extends DatabaseTestCase
         // default country set while initializing repository
         $testCountry = 'CZ';
         $countriesRepository = new CountriesRepository($testCountry, $this->inject(Explorer::class));
+        $countriesRepository->setTransaction($this->inject(DatabaseTransaction::class));
         $country = $countriesRepository->defaultCountry();
         $this->assertEquals($testCountry, $country->iso_code);
     }
@@ -61,6 +63,7 @@ class CountriesRepositoryTest extends DatabaseTestCase
             new \Exception("Unable to load default country from provided ISO code [UNKNOWN].")
         );
         $countriesRepository = new CountriesRepository($testCountry, $this->inject(Explorer::class));
+        $countriesRepository->setTransaction($this->inject(DatabaseTransaction::class));
         $countriesRepository->defaultCountry();
     }
 }
