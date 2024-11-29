@@ -68,7 +68,12 @@ SQL;
             $emailIds = array_values($this->usersRepository->getTable()
                 ->where('users.email LIKE ?', "%{$email}%")
                 ->fetchAssoc('id=id'));
-            $sql .= ' AND user_id IN (' . implode(',', array_map('intval', $emailIds)) . ' )';
+
+            if (count($emailIds)) {
+                $sql .= ' AND user_id IN (' . implode(',', $emailIds) . ' )';
+            } else {
+                $sql .= ' AND 1=0'; // no user was matched
+            }
         }
         $sql .= " ORDER BY user_id, MD5(user_agent)";
 
