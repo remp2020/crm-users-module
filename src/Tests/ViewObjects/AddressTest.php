@@ -40,6 +40,7 @@ class AddressTest extends CrmTestCase
             'company_id' => '12345678',
             'company_tax_id' => '1234567890',
             'company_vat_id' => 'SK1234567890',
+            'is_default' => 1,
         ]);
 
         $address = Address::fromActiveRow($addressRow);
@@ -57,6 +58,7 @@ class AddressTest extends CrmTestCase
         $this->assertSame('12345678', $address->companyId);
         $this->assertSame('1234567890', $address->companyTaxId);
         $this->assertSame('SK1234567890', $address->companyVatId);
+        $this->assertTrue($address->isDefault);
 
         $this->assertNotNull($address->country);
         $this->assertSame(1, $address->country->id);
@@ -81,6 +83,7 @@ class AddressTest extends CrmTestCase
             'company_id' => '12345678',
             'company_tax_id' => '1234567890',
             'company_vat_id' => 'SK1234567890',
+            'is_default' => 1,
         ]);
 
         $address = Address::fromActiveRow($addressRow);

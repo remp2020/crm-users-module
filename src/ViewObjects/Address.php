@@ -29,6 +29,7 @@ class Address implements Arrayable
         public readonly ?string $companyId,
         public readonly ?string $companyTaxId,
         public readonly ?string $companyVatId,
+        public readonly bool $isDefault = false,
     ) {
     }
 
@@ -53,6 +54,7 @@ class Address implements Arrayable
             companyId: $address->company_id,
             companyTaxId: $address->company_tax_id,
             companyVatId: $address->company_vat_id,
+            isDefault: (bool) $address->is_default,
         );
     }
 
