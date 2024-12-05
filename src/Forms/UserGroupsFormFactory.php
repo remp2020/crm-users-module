@@ -62,7 +62,7 @@ class UserGroupsFormFactory
             $factory = $this;
             foreach ($userGroups as $group) {
                 $userGroupsIds[] = $group->id;
-                $button = $form->addSubmit('group_' . $group->id, $group->name);
+                $button = $form->addSubmit('group_' . $group->id);
                 $button->setHtmlAttribute('class', 'btn btn-default btn-blxock btn-sm');
                 $button->getControlPrototype()->setName('button')->setHtml('<i class="fa fa-times"></i> ' . $group->name);
                 $button->onClick[] = function () use ($factory, $group, $user, $form) {
