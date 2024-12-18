@@ -52,6 +52,18 @@ class GoogleSignIn
         $this->googleClient = $googleClient;
     }
 
+    /**
+     * @deprecated Use `getUserUsingIdToken`
+     */
+    public function signInUsingIdToken(
+        string $idToken,
+        string $gsiAccessToken = null,
+        int $loggedUserId = null,
+        string $source = null,
+        ?string $locale = null
+    ): ?ActiveRow {
+        return $this->getUserUsingIdToken($idToken, $gsiAccessToken, $loggedUserId, $source, $locale);
+    }
 
     /**
      * Implements validation of ID token (JWT token) as described in:
@@ -71,7 +83,7 @@ class GoogleSignIn
      * @throws DataProviderException
      * @throws AdminAccountSsoLinkingException
      */
-    public function signInUsingIdToken(
+    public function getUserUsingIdToken(
         string $idToken,
         string $gsiAccessToken = null,
         int $loggedUserId = null,

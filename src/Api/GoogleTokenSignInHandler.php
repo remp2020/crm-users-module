@@ -112,7 +112,7 @@ class GoogleTokenSignInHandler extends ApiHandler
         }
 
         try {
-            $user = $this->googleSignIn->signInUsingIdToken($idToken, $gsiAccessToken, null, $params['source'] ?? null, $params['locale'] ?? null);
+            $user = $this->googleSignIn->getUserUsingIdToken($idToken, $gsiAccessToken, null, $params['source'] ?? null, $params['locale'] ?? null);
         } catch (AdminAccountSsoLinkingException $e) {
             return new JsonApiResponse(IResponse::S403_FORBIDDEN, [
                 'status' => 'error',
