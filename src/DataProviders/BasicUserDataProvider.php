@@ -22,6 +22,18 @@ class BasicUserDataProvider implements UserDataProviderInterface
         return 'basic';
     }
 
+    /**
+     * @return array{}|array{
+     *     id:int,
+     *     email:string,
+     *     created_at: int,
+     *     confirmed_at: ?int,
+     *     hashed_id: string,
+     *     locale: string,
+     *     uuid: string
+     * }
+     *     Returned element `hashed_id` is deprecated and will be removed. Use `uuid` as a unique identifier.
+     */
     public function data($userId): ?array
     {
         $user = $this->usersRepository->find($userId);
@@ -35,8 +47,9 @@ class BasicUserDataProvider implements UserDataProviderInterface
             'email' => $user->email,
             'created_at' => $user->created_at->getTimestamp(),
             'confirmed_at' => $user->confirmed_at ? $user->confirmed_at->getTimestamp() : null,
-            'hashed_id' => UserManager::hashedUserId($user->id),
+            'hashed_id' => UserManager::hashedUserId($user->id), // deprecated, use `uuid` as a unique identifier
             'locale' => $user->locale,
+            'uuid' => $user->uuid,
         ];
     }
 
@@ -51,6 +64,7 @@ class BasicUserDataProvider implements UserDataProviderInterface
         return [
             'email' => $user->email,
             'email_validated_at' => $user->email_validated_at?->format(\DateTimeInterface::RFC3339),
+            'uuid' => $user->uuid,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'public_name' => $user->public_name,
