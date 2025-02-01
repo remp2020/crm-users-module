@@ -21,6 +21,16 @@ class UserData
     ) {
     }
 
+    public function removeDanglingTokens(): void
+    {
+        $this->userDataStorage->hscan(function($accessToken) {
+            $accessTokenRow = $this->accessTokensRepository->findBy('token', $accessToken);
+            if (!$accessTokenRow) {
+                $this->userDataStorage->remove($accessToken);
+            }
+        });
+    }
+
     public function refreshUserTokens($userId): void
     {
         $tokens = $this->accessTokensRepository->allUserTokens($userId)->fetchAll();
