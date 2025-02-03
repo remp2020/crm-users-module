@@ -23,7 +23,7 @@ class UserData
 
     public function removeDanglingTokens(): void
     {
-        $this->userDataStorage->hscan(function($accessToken) {
+        $this->userDataStorage->iterateTokens(function ($accessToken) {
             $accessTokenRow = $this->accessTokensRepository->findBy('token', $accessToken);
             if (!$accessTokenRow) {
                 $this->userDataStorage->remove($accessToken);
