@@ -34,13 +34,14 @@ class UserActionsLogRepository extends Repository
 
     final public function removeOldData(): void
     {
-        $records = $this->getTable()
+        $ids = $this->getTable()
             ->select('user_actions_log.id')
             ->where('user.active = ?', false)
-            ->where('user_actions_log.created_at < ?', DateTime::from($this->getRetentionThreshold()));
+            ->where('user_actions_log.created_at < ?', DateTime::from($this->getRetentionThreshold()))
+            ->fetchPairs('id', 'id');
 
-        if ($records->fetchAll()) {
-            $this->getTable()->where('id IN (?)', $records)->delete();
+        if (count($ids)) {
+            $this->getTable()->where('id IN (?)', $ids)->delete();
         }
     }
 
