@@ -565,7 +565,7 @@ class UsersModule extends CrmModule
             'source',
             'confirmed_at',
             'email_validated_at',
-            'current_sign_it_at',
+            'current_sign_in_at',
             'created_at'
         ]);
     }
