@@ -7,6 +7,7 @@ use Crm\ApplicationModule\Components\PreviousNextPaginator\PreviousNextPaginator
 use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\Models\User\DownloadUserData;
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Components\Widgets\DetailWidget\DetailWidgetFactoryInterface;
 use Crm\UsersModule\DataProviders\FilterUsersFormDataProviderInterface;
 use Crm\UsersModule\Events\AddressRemovedEvent;
@@ -30,7 +31,6 @@ use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\BadRequestException;
 use Nette\Application\Responses\FileResponse;
-use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
 use Tomaj\Form\Renderer\BootstrapRenderer;

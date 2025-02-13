@@ -2,10 +2,10 @@
 
 namespace Crm\UsersModule\Forms;
 
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Repositories\UsersRepository;
-use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;
 use Tomaj\Form\Renderer\BootstrapVerticalRenderer;

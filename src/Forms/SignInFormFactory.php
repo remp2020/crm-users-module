@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Forms;
 
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Models\Auth\Authorizator;
-use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;
 use Nette\Security\User;

@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\DataProviders\RegisterFormDataProviderInterface;
 use Crm\UsersModule\Models\Auth\InvalidEmailException;
 use Crm\UsersModule\Models\Auth\UserManager;
-use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\User;
 use Tomaj\Form\Renderer\BootstrapRenderer;

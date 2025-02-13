@@ -2,8 +2,8 @@
 
 namespace Crm\UsersModule\Forms;
 
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Repositories\GroupsRepository;
-use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 

@@ -2,7 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
-use Nette\Application\UI\Form;
+use Crm\ApplicationModule\UI\Form;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 

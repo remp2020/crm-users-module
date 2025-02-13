@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\DataProviders\UserFormDataProviderInterface;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Models\Builder\UserBuilder;
@@ -12,7 +13,6 @@ use Crm\UsersModule\Repositories\UserAlreadyExistsException;
 use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Locale;
-use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Nette\Security\Passwords;
 use Nette\Utils\ArrayHash;

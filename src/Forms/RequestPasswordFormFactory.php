@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Models\Config\ApplicationConfig;
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Models\Auth\UserManager;
-use Nette\Application\UI\Form;
 use Nette\Forms\Controls\TextInput;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapRenderer;

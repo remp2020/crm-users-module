@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Components\UserMeta;
 
 use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Repositories\UserMetaRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\UI\Control;
-use Nette\Application\UI\Form;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapInlineRenderer;
 
