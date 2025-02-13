@@ -21,7 +21,6 @@ class UserEmailConfirmationsRepository extends Repository
 
     public function confirm(string $token): ?ActiveRow
     {
-        /** @var ActiveRow $emailConfirmationRow */
         $emailConfirmationRow = $this->getTable()->where('token', $token)->order('id DESC')->fetch();
         if (!$emailConfirmationRow) {
             return null;
@@ -31,6 +30,7 @@ class UserEmailConfirmationsRepository extends Repository
             $this->update($emailConfirmationRow, ['confirmed_at' => new DateTime()]);
         }
 
+        /** @var ActiveRow $emailConfirmationRow */
         return $emailConfirmationRow;
     }
 
