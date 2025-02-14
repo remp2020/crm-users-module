@@ -555,8 +555,8 @@ deletion_note:
 
 api:
     users_login_handler:
-        identity_not_found: "Email you entered doesn't match our records. Please log in as you would on Dennik N website."
-        invalid_credentials: "Password you entered doesn't match our records. Please log in as you would on Dennik N website."
+        identity_not_found: "Email you entered doesn't match our records. Please log in as you would on the website."
+        invalid_credentials: "The password you entered doesn't match our records. Please log in as you would on the website."
 
 form:
     admin_user_group:

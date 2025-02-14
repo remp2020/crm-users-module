@@ -474,8 +474,8 @@ month_users_small_bar_graph_widget:
 
 api:
     users_login_handler:
-        identity_not_found: "A megadott e-mail cím nem egyezik az általunk nyilvántartott adatokkal. Kérjük, jelentkezzen be, ahogy a Denník N honlapján tenné."
-        invalid_credentials: "A megadott jelszó nem egyezik az általunk nyilvántartott adatokkal. Kérjük, jelentkezzen be, ahogy a Denník N honlapján tenné."
+        identity_not_found: "A megadott e-mail cím nem egyezik az általunk nyilvántartott adatokkal. Kérjük, jelentkezzen be, ahogy a honlapján tenné."
+        invalid_credentials: "A megadott jelszó nem egyezik az általunk nyilvántartott adatokkal. Kérjük, jelentkezzen be, ahogy a honlapján tenné."
 
 form:
     admin_user_group:
