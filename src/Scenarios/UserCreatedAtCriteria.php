@@ -17,7 +17,7 @@ class UserCreatedAtCriteria implements ScenariosCriteriaInterface
 
     public const KEY = 'user_created_at';
     public const TIMEFRAME_KEY = self::KEY . '_timeframe';
-    public const UNITS = ['days', 'weeks', 'months', 'years'];
+    public const UNITS = ['minutes', 'hours', 'days', 'weeks', 'months', 'years'];
     public const OPERATOR_BEFORE = 'before';
     public const OPERATOR_IN_THE_LAST = 'in the last';
     public const OPERATORS = [self::OPERATOR_IN_THE_LAST, self::OPERATOR_BEFORE];
