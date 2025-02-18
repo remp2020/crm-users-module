@@ -88,7 +88,9 @@ class UserHasAddressCriteriaTest extends DatabaseTestCase
 
                 /** @var AddressTypesRepository $addressTypesRepository */
                 $addressTypesRepository = $this->getRepository(AddressTypesRepository::class);
-                $addressTypesRepository->add($addressTypeCode, $addressTypeCode);
+                if (!$addressTypesRepository->findByType($addressTypeCode)) {
+                    $addressTypesRepository->add($addressTypeCode, $addressTypeCode);
+                }
 
                 /** @var AddressesRepository $addressesRepository */
                 $addressesRepository = $this->getRepository(AddressesRepository::class);
