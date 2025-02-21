@@ -176,6 +176,7 @@ services:
 	- Crm\UsersModule\DataProviders\AutoLoginTokensUserDataProvider
 	- Crm\UsersModule\DataProviders\LoginAttemptsUserDataProvider
 	- Crm\UsersModule\DataProviders\UserMetaUserDataProvider
+	- Crm\UsersModule\DataProviders\UserStatsUserDataProvider
 	- Crm\UsersModule\DataProviders\UserConnectedAccountsDataProvider
 	- Crm\UsersModule\Models\User\ZipBuilder('%tempDir%')
 	- Crm\UsersModule\Models\User\ReachChecker
