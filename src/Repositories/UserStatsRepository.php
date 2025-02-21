@@ -44,4 +44,12 @@ class UserStatsRepository extends Repository
             ->order('key ASC')
             ->fetchPairs('key', 'value');
     }
+
+    final public function deleteAll($user)
+    {
+        if ($user instanceof ActiveRow) {
+            $user = $user->id;
+        }
+        return $this->getTable()->where('user_id', $user)->delete();
+    }
 }
