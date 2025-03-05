@@ -83,7 +83,6 @@ use Crm\UsersModule\DataProviders\LoginAttemptsUserDataProvider;
 use Crm\UsersModule\DataProviders\UniversalSearchDataProvider;
 use Crm\UsersModule\DataProviders\UserConnectedAccountsDataProvider;
 use Crm\UsersModule\DataProviders\UserMetaUserDataProvider;
-use Crm\UsersModule\DataProviders\UserStatsUserDataProvider;
 use Crm\UsersModule\DataProviders\UsersClaimUserDataProvider;
 use Crm\UsersModule\Events\AddressChangedEvent;
 use Crm\UsersModule\Events\AuthenticationHandler;
@@ -541,7 +540,6 @@ class UsersModule extends CrmModule
         $dataRegistrator->addUserDataProvider($this->getInstance(AddressesUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(AutoLoginTokensUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(UserMetaUserDataProvider::class));
-        $dataRegistrator->addUserDataProvider($this->getInstance(UserStatsUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(AdminUserGroupsUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(UserConnectedAccountsDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(LoginAttemptsUserDataProvider::class));
