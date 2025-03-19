@@ -32,7 +32,7 @@ class LoginAttemptsUserDataProvider implements UserDataProviderInterface
 
         $data = [];
         while (true) {
-            $loginAttempts = (clone $query)->where('user_id > ?', $lastId)->fetchAll();
+            $loginAttempts = (clone $query)->where('id > ?', $lastId)->fetchAll();
             if (!count($loginAttempts)) {
                 break;
             }
