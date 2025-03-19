@@ -55,7 +55,7 @@ class AddressesHandler extends ApiHandler
                 'vat_id' => $address->company_vat_id,
                 'first_name' => $address->first_name,
                 'last_name' => $address->last_name,
-                'address' => $address->address,
+                'street' => $address->street, // TODO[crm#2368]: Removing this is breaking change. Should we create v2 instead?
                 'number' => $address->number,
                 'zip' => $address->zip,
                 'city' => $address->city,

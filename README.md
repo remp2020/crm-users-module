@@ -792,7 +792,7 @@ Response:
             "vat_id": "", // String: company vat ID
             "first_name": "Test", // String: first name of address (can be different from user's first name)
             "last_name": "User", // String; last name of address (can be different from user's first name)
-            "address": "10th street", // String: street name
+            "street": "10th street", // String: street name
             "number": "368", // String; street number
             "zip": "81105", // String: zip code
             "city": "Bratislava", // String; city
@@ -919,7 +919,7 @@ via [`users/address`](#post-apiv1usersaddress) API call.
 | first_name | *String* | no | First name. |
 | company_name | *String* | no | Name of the company (if it's corporate address) |
 | last_name | *String* | no | Last name. |
-| address | *String* | no | Street name. |
+| street | *String* | no | Street name. |
 | number | *String* | no | Street number. |
 | zip | *String* | no | ZIP code. |
 | city | *String* | no | City. |
@@ -939,7 +939,7 @@ curl -X POST \
   -H 'Authorization: Bearer XXX' \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'email=user%40user.sk&type=print&first_name=AdrName&last_name=AdrLastName&address=11th%20str.&number=112&zip=81105&city=Bratislava'
+  -d 'email=user%40user.sk&type=print&first_name=AdrName&last_name=AdrLastName&street=11th%20str.&number=112&zip=81105&city=Bratislava'
 ```
 
 Response:

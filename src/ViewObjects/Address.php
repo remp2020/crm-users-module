@@ -19,7 +19,7 @@ class Address implements Arrayable
         public readonly ?string $type,
         public readonly ?string $firstName,
         public readonly ?string $lastName,
-        public readonly ?string $address,
+        public readonly ?string $street,
         public readonly ?string $number,
         public readonly ?string $city,
         public readonly ?string $zip,
@@ -44,7 +44,7 @@ class Address implements Arrayable
             type: $address->type,
             firstName: $address->first_name,
             lastName: $address->last_name,
-            address: $address->address,
+            street: $address->street,
             number: $address->number,
             city: $address->city,
             zip: $address->zip,
@@ -67,7 +67,7 @@ class Address implements Arrayable
     {
         $entries = [
             "{$this->firstName} {$this->lastName}",
-            "{$this->address} {$this->number}",
+            "{$this->street} {$this->number}",
             "{$this->zip} {$this->city}",
         ];
 

@@ -17,9 +17,9 @@
   {$address->phone_number}
   {/if}
 
-  {if $address->address}
+  {if $address->street}
   <br>
-  {$address->address} {$address->number}
+  {$address->street} {$address->number}
   {/if}
 
   {if $address->city}

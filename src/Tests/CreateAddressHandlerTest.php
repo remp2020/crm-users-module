@@ -103,7 +103,7 @@ class CreateAddressHandlerTest extends BaseTestCase
         $_POST['email'] = UsersSeeder::USER_ADMIN;
         $_POST['type'] = 'test';
 
-        $_POST['address'] = 'Vysoka';
+        $_POST['street'] = 'Vysoka';
         $_POST['city'] = 'Poprad';
         $_POST['zip'] = '98745';
         $_POST['country_iso'] = 'AU';

@@ -66,14 +66,14 @@
                     {var $hasDifferentCountry = $address->country->iso_code !== $defaultCountryIsoCode}
                     {var $addressParts = [
                       trim($address->first_name . ' ' . $address->last_name),
-                      trim($address->address . ' ' . $address->number),
+                      trim($address->street . ' ' . $address->number),
                       $address->city,
                       $address->phone_number,
                       $hasDifferentCountry ? $address->country->iso_code
                     ]}
                   {else}
                     {var $addressParts = [
-                      trim($address->address . ' ' . $address->number),
+                      trim($address->street . ' ' . $address->number),
                       $address->city,
                       $address->phone_number
                     ]}

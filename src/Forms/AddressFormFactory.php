@@ -81,9 +81,9 @@ class AddressFormFactory
         $form->addText('phone_number', 'users.frontend.address.phone_number.label')
             ->setNullable()
             ->setHtmlAttribute('placeholder', 'users.frontend.address.phone_number.placeholder');
-        $form->addText('address', 'users.frontend.address.address.label')
+        $form->addText('street', 'users.frontend.address.street.label')
             ->setNullable()
-            ->setHtmlAttribute('placeholder', 'users.frontend.address.address.placeholder');
+            ->setHtmlAttribute('placeholder', 'users.frontend.address.street.placeholder');
         $form->addText('number', 'users.frontend.address.number.label')
             ->setNullable()
             ->setHtmlAttribute('placeholder', 'users.frontend.address.number.placeholder');
@@ -147,7 +147,7 @@ class AddressFormFactory
             firstName: $values->first_name,
             lastName: $values->last_name,
             companyName: $values->company_name,
-            address: $values->address,
+            street: $values->street,
             number: $values->number,
             city: $values->city,
             zip: $values->zip,

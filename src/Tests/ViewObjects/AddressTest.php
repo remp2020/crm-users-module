@@ -30,7 +30,7 @@ class AddressTest extends CrmTestCase
             'type' => 'invoice',
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'address' => 'Main Street',
+            'street' => 'Main Street',
             'number' => '123',
             'city' => 'New York',
             'zip' => '10001',
@@ -49,7 +49,7 @@ class AddressTest extends CrmTestCase
         $this->assertSame('invoice', $address->type);
         $this->assertSame('John', $address->firstName);
         $this->assertSame('Doe', $address->lastName);
-        $this->assertSame('Main Street', $address->address);
+        $this->assertSame('Main Street', $address->street);
         $this->assertSame('123', $address->number);
         $this->assertSame('New York', $address->city);
         $this->assertSame('10001', $address->zip);
@@ -73,7 +73,7 @@ class AddressTest extends CrmTestCase
             'type' => 'invoice',
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'address' => 'Main Street',
+            'street' => 'Main Street',
             'number' => '123',
             'city' => 'New York',
             'zip' => '10001',

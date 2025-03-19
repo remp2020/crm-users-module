@@ -33,7 +33,7 @@ class AddressesRepository extends Repository
         string $type,
         ?string $firstName,
         ?string $lastName,
-        ?string $address,
+        ?string $street,
         ?string $number,
         ?string $city,
         ?string $zip,
@@ -53,7 +53,7 @@ class AddressesRepository extends Repository
             'type' => $type,
             'first_name' => $firstName,
             'last_name' => $lastName,
-            'address' => $address,
+            'street' => $street,
             'number' => $number,
             'city' => $city,
             'zip' => $zip,
@@ -122,7 +122,7 @@ class AddressesRepository extends Repository
         foreach ($rows as $row) {
             $entries = [
                 "{$row->first_name} {$row->last_name}",
-                "{$row->address} {$row->number}",
+                "{$row->street} {$row->number}",
                 "{$row->zip} {$row->city}"
             ];
             $countryCode = $row->country?->iso_code;
@@ -154,7 +154,7 @@ class AddressesRepository extends Repository
         $addressMap = [
             'first_name' => null,
             'last_name' => null,
-            'address' => null,
+            'street' => null,
             'number' => null,
             'city' => null,
             'zip' => null,

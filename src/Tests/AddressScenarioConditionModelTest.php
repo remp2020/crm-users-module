@@ -40,7 +40,7 @@ class AddressScenarioConditionModelTest extends BaseTestCase
             'invoice',
             firstName: 'John',
             lastName: 'Doe',
-            address: 'Main Street',
+            street: 'Main Street',
             number: '123',
             city: 'New York',
             zip: '12345',

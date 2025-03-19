@@ -82,7 +82,7 @@ frontend:
         phone_number:
             label: 'Telefón:'
             placeholder: napríklad 0915 123 456
-        address:
+        street:
             label: 'Ulica:'
             placeholder: napíšte ulicu
         number:

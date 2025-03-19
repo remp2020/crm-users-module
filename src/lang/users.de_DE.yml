@@ -80,7 +80,7 @@ frontend:
         phone_number:
             label: 'Telefonnummer:'
             placeholder: z.B. 0915 123 456
-        address:
+        street:
             label: 'Straße:'
             placeholder: Straßenangabe
         number:

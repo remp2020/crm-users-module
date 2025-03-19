@@ -34,7 +34,7 @@ class CreateAddressHandler extends ApiHandler
 
             (new PostInputParam('first_name')),
             (new PostInputParam('last_name')),
-            (new PostInputParam('address')),
+            (new PostInputParam('street')), // TODO[crm#2368]: Changing this is breaking change. Should we create v2 instead?
             (new PostInputParam('number')),
             (new PostInputParam('zip')),
             (new PostInputParam('city')),
@@ -73,7 +73,7 @@ class CreateAddressHandler extends ApiHandler
             firstName: $params['first_name'],
             lastName: $params['last_name'],
             companyName: $params['company_name'],
-            address: $params['address'],
+            street: $params['street'],
             number: $params['number'],
             city: $params['city'],
             zip: $params['zip'],

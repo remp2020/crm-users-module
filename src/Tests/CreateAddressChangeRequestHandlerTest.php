@@ -130,13 +130,13 @@ class CreateAddressChangeRequestHandlerTest extends DatabaseTestCase
         $_POST['email'] = UsersSeeder::USER_ADMIN;
         $_POST['type'] = 'test';
 
-        $_POST['address'] = 'Vysoka';
+        $_POST['street'] = 'Vysoka';
         $_POST['city'] = 'Poprad';
         $_POST['zip'] = '98745';
         $_POST['country_iso'] = 'AU';
 
         $user = $this->userManager->loadUserByEmail($_POST['email']);
-        $this->addressesRepository->add($user, $_POST['type'], null, null, $_POST['address'], null, $_POST['city'], $_POST['zip'], null, null);
+        $this->addressesRepository->add($user, $_POST['type'], null, null, $_POST['street'], null, $_POST['city'], $_POST['zip'], null, null);
 
         $response = $this->runJsonApi($this->apiHandler);
 

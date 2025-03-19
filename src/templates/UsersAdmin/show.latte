@@ -167,7 +167,7 @@
         {/if}
 
         {capture $address}
-          {$invoiceAddress->address|breaklines|noescape} {$invoiceAddress->number}
+          {$invoiceAddress->street|breaklines|noescape} {$invoiceAddress->number}
           <br>
           {$invoiceAddress->zip} {$invoiceAddress->city}<br>
         {/capture}

@@ -80,7 +80,7 @@ frontend:
         phone_number:
             label: 'Telefon:'
             placeholder: například 605 123 456
-        address:
+        street:
             label: 'Ulice:'
             placeholder: napište ulici
         number:

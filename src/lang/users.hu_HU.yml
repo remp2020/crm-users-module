@@ -80,7 +80,7 @@ frontend:
         phone_number:
             label: 'Telefonszám:'
             placeholder: pl. 0915 123 456
-        address:
+        street:
             label: 'Utca:'
             placeholder: adja meg az utca nevét
         number:

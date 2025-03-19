@@ -42,7 +42,7 @@ class AddressChangeRequestsRepository extends Repository
         ?string $firstName,
         ?string $lastName,
         ?string $companyName,
-        ?string $address,
+        ?string $street,
         ?string $number,
         ?string $city,
         ?string $zip,
@@ -59,7 +59,7 @@ class AddressChangeRequestsRepository extends Repository
             $firstName,
             $lastName,
             $companyName,
-            $address,
+            $street,
             $number,
             $city,
             $zip,
@@ -95,7 +95,7 @@ class AddressChangeRequestsRepository extends Repository
             'first_name' => $firstName,
             'last_name' => $lastName,
             'company_name' => $companyName,
-            'address' => $address,
+            'street' => $street,
             'number' => $number,
             'city' => $city,
             'zip' => $zip,
@@ -107,7 +107,7 @@ class AddressChangeRequestsRepository extends Repository
             'old_first_name' => $parentAddress ? $parentAddress->first_name : null,
             'old_last_name' => $parentAddress ? $parentAddress->last_name : null,
             'old_company_name' => $parentAddress ? $parentAddress->company_name : null,
-            'old_address' => $parentAddress ? $parentAddress->address : null,
+            'old_street' => $parentAddress ? $parentAddress->street : null,
             'old_number' => $parentAddress ? $parentAddress->number : null,
             'old_city' => $parentAddress ? $parentAddress->city : null,
             'old_zip' => $parentAddress ? $parentAddress->zip : null,
@@ -167,7 +167,7 @@ class AddressChangeRequestsRepository extends Repository
                 'last_name' => $addressChangeRequest['last_name'],
                 'company_name' => $addressChangeRequest['company_name'],
                 'phone_number' => $addressChangeRequest['phone_number'],
-                'address' => $addressChangeRequest['address'],
+                'street' => $addressChangeRequest['street'],
                 'number' => $addressChangeRequest['number'],
                 'city' => $addressChangeRequest['city'],
                 'zip' => $addressChangeRequest['zip'],
@@ -188,7 +188,7 @@ class AddressChangeRequestsRepository extends Repository
                 $addressChangeRequest->type,
                 $addressChangeRequest->first_name,
                 $addressChangeRequest->last_name,
-                $addressChangeRequest->address,
+                $addressChangeRequest->street,
                 $addressChangeRequest->number,
                 $addressChangeRequest->city,
                 $addressChangeRequest->zip,
@@ -290,7 +290,7 @@ class AddressChangeRequestsRepository extends Repository
         ?string $firstName,
         ?string $lastName,
         ?string $companyName,
-        ?string $address,
+        ?string $street,
         ?string $number,
         ?string $city,
         ?string $zip,
@@ -303,7 +303,7 @@ class AddressChangeRequestsRepository extends Repository
         if (!$parentAddress || ($firstName != $parentAddress->first_name ||
                 $lastName !== $parentAddress->last_name ||
                 $phoneNumber !== $parentAddress->phone_number ||
-                $address !== $parentAddress->address||
+                $street !== $parentAddress->street||
                 $number !== $parentAddress->number ||
                 $city !== $parentAddress->city ||
                 $zip !== $parentAddress->zip ||
