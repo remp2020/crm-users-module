@@ -5,7 +5,6 @@ namespace Crm\UsersModule\Api;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\IdempotentHandlerInterface;
 use Crm\ApiModule\Models\Params\InputParam;
-use Crm\ApiModule\Models\Params\ParamsProcessor;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Http\Response;
 use Tomaj\NetteApi\Response\JsonApiResponse;
@@ -30,9 +29,6 @@ class UsersConfirmApiHandler extends ApiHandler implements IdempotentHandlerInte
 
     public function handle(array $params): ResponseInterface
     {
-        $paramsProcessor = new ParamsProcessor($this->params());
-        $params = $paramsProcessor->getValues();
-
         $user = $this->userManager->loadUserByEmail($params['email']);
 
         if (!$user) {
@@ -47,9 +43,6 @@ class UsersConfirmApiHandler extends ApiHandler implements IdempotentHandlerInte
 
     public function idempotentHandle(array $params): ResponseInterface
     {
-        $paramsProcessor = new ParamsProcessor($this->params());
-        $params = $paramsProcessor->getValues();
-
         $user = $this->userManager->loadUserByEmail($params['email']);
 
         if (!$user) {

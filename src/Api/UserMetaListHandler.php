@@ -5,7 +5,6 @@ namespace Crm\UsersModule\Api;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\JsonValidationTrait;
 use Crm\ApiModule\Models\Params\InputParam;
-use Crm\ApiModule\Models\Params\ParamsProcessor;
 use Crm\UsersModule\Models\Auth\UsersApiAuthorizationInterface;
 use Crm\UsersModule\Repositories\UserMetaRepository;
 use Nette\Http\Response;
@@ -37,9 +36,6 @@ class UserMetaListHandler extends ApiHandler
         if (!($authorization instanceof UsersApiAuthorizationInterface)) {
             throw new \Exception("Wrong authorization service used. Should be 'ServiceTokenAuthorization'");
         }
-
-        $paramsProcessor = new ParamsProcessor($this->params());
-        $params = $paramsProcessor->getValues();
 
         $key = $params['key'] ?? null;
 

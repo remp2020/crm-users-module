@@ -4,7 +4,6 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Params\InputParam;
-use Crm\ApiModule\Models\Params\ParamsProcessor;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Repositories\GroupsRepository;
 use Crm\UsersModule\Repositories\UserGroupsRepository;
@@ -46,9 +45,6 @@ class UserGroupApiHandler extends ApiHandler
 
     public function handle(array $params): ResponseInterface
     {
-        $paramsProcessor = new ParamsProcessor($this->params());
-        $params = $paramsProcessor->getValues();
-
         $user = $this->userManager->loadUserByEmail($params['email']);
         if (!$user) {
             $result = [
