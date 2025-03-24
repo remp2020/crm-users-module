@@ -31,12 +31,8 @@ class UsersConfirmApiHandler extends ApiHandler implements IdempotentHandlerInte
     public function handle(array $params): ResponseInterface
     {
         $paramsProcessor = new ParamsProcessor($this->params());
-        if ($err = $paramsProcessor->hasError()) {
-            $response = new JsonApiResponse(Response::S400_BAD_REQUEST, ['status' => 'error', 'message' => 'wrong request parameters: ' . $err]);
-            return $response;
-        }
-
         $params = $paramsProcessor->getValues();
+
         $user = $this->userManager->loadUserByEmail($params['email']);
 
         if (!$user) {
@@ -52,12 +48,8 @@ class UsersConfirmApiHandler extends ApiHandler implements IdempotentHandlerInte
     public function idempotentHandle(array $params): ResponseInterface
     {
         $paramsProcessor = new ParamsProcessor($this->params());
-        if ($err = $paramsProcessor->hasError()) {
-            $response = new JsonApiResponse(Response::S400_BAD_REQUEST, ['status' => 'error', 'message' => 'wrong request parameters: ' . $err]);
-            return $response;
-        }
-
         $params = $paramsProcessor->getValues();
+
         $user = $this->userManager->loadUserByEmail($params['email']);
 
         if (!$user) {

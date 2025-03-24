@@ -37,15 +37,6 @@ class GetDeviceTokenApiHandler extends ApiHandler
     public function handle(array $params): ResponseInterface
     {
         $paramsProcessor = new ParamsProcessor($this->params());
-        $error = $paramsProcessor->hasError();
-        if ($error) {
-            $response = new JsonApiResponse(Response::S400_BAD_REQUEST, [
-                'status' => 'error',
-                'message' => 'Wrong input - ' . $error
-            ]);
-            return $response;
-        }
-
         $params = $paramsProcessor->getValues();
 
         $accessToken = null;
