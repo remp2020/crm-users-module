@@ -3,10 +3,10 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
 use Nette\Http\Response;
+use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
 
@@ -27,9 +27,9 @@ class GetDeviceTokenApiHandler extends ApiHandler
     public function params(): array
     {
         return [
-            new InputParam(InputParam::TYPE_POST, 'device_id', InputParam::REQUIRED),
+            (new PostInputParam('device_id'))->setRequired(),
 
-            new InputParam(InputParam::TYPE_POST, 'access_token', InputParam::OPTIONAL),
+            new PostInputParam('access_token'),
         ];
     }
 

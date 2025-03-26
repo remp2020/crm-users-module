@@ -3,12 +3,12 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Repositories\GroupsRepository;
 use Crm\UsersModule\Repositories\UserGroupsRepository;
 use Nette\Http\Request;
 use Nette\Http\Response;
+use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
 
@@ -37,8 +37,8 @@ class UserGroupApiHandler extends ApiHandler
     public function params(): array
     {
         return [
-            new InputParam(InputParam::TYPE_POST, 'email', InputParam::REQUIRED),
-            new InputParam(InputParam::TYPE_POST, 'group_id', InputParam::REQUIRED),
+            (new PostInputParam('email'))->setRequired(),
+            (new PostInputParam('group_id'))->setRequired(),
         ];
     }
 

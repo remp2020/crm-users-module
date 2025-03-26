@@ -3,12 +3,12 @@
 namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
-use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Response;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
+use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
 
@@ -26,9 +26,9 @@ class ListUsersHandler extends ApiHandler
     public function params(): array
     {
         return [
-            new InputParam(InputParam::TYPE_POST, 'user_ids', InputParam::REQUIRED),
-            new InputParam(InputParam::TYPE_POST, 'page', InputParam::REQUIRED),
-            new InputParam(InputParam::TYPE_POST, 'include_deactivated', InputParam::OPTIONAL),
+            (new PostInputParam('user_ids'))->setRequired(),
+            (new PostInputParam('page'))->setRequired(),
+            new PostInputParam('include_deactivated'),
         ];
     }
 

@@ -4,7 +4,6 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\ApiParamsValidatorInterface;
-use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;
 use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
 use Crm\UsersModule\Models\Auth\UserAuthenticator;
@@ -13,6 +12,7 @@ use Crm\UsersModule\Models\Email\EmailValidator;
 use Nette\Http\IResponse;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\Validators;
+use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
 
@@ -41,8 +41,8 @@ class UsersEmailHandler extends ApiHandler implements ApiParamsValidatorInterfac
     public function params(): array
     {
         return [
-            new InputParam(InputParam::TYPE_POST, 'email', InputParam::REQUIRED),
-            new InputParam(InputParam::TYPE_POST, 'password', InputParam::OPTIONAL),
+            (new PostInputParam('email'))->setRequired(),
+            new PostInputParam('password'),
         ];
     }
 

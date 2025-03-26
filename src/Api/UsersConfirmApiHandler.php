@@ -4,9 +4,9 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\IdempotentHandlerInterface;
-use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Http\Response;
+use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
 
@@ -23,7 +23,7 @@ class UsersConfirmApiHandler extends ApiHandler implements IdempotentHandlerInte
     public function params(): array
     {
         return [
-            new InputParam(InputParam::TYPE_POST, 'email', InputParam::REQUIRED),
+            (new PostInputParam('email'))->setRequired(),
         ];
     }
 

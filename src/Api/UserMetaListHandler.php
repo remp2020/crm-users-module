@@ -4,10 +4,10 @@ namespace Crm\UsersModule\Api;
 
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApiModule\Models\Api\JsonValidationTrait;
-use Crm\ApiModule\Models\Params\InputParam;
 use Crm\UsersModule\Models\Auth\UsersApiAuthorizationInterface;
 use Crm\UsersModule\Repositories\UserMetaRepository;
 use Nette\Http\Response;
+use Tomaj\NetteApi\Params\GetInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
 
@@ -26,7 +26,7 @@ class UserMetaListHandler extends ApiHandler
     public function params(): array
     {
         return [
-            new InputParam(InputParam::TYPE_GET, 'key', InputParam::OPTIONAL),
+            new GetInputParam('key'),
         ];
     }
 
