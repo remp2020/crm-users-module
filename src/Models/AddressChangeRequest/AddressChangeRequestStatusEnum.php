@@ -4,7 +4,7 @@ namespace Crm\UsersModule\Models\AddressChangeRequest;
 
 use Crm\ApplicationModule\Helpers\EnumHelper;
 
-enum StatusEnum: string
+enum AddressChangeRequestStatusEnum: string
 {
     use EnumHelper;
 
