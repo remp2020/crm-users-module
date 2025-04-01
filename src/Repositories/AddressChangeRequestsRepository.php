@@ -17,13 +17,6 @@ use Tomaj\Hermes\Emitter as HermesEmitter;
 
 class AddressChangeRequestsRepository extends Repository
 {
-    /** @deprecated Use \Crm\UsersModule\Models\AddressChangeRequest\AddressChangeRequestStatusEnum::New enum instead. */
-    const STATUS_NEW = 'new';
-    /** @deprecated Use \Crm\UsersModule\Models\AddressChangeRequest\AddressChangeRequestStatusEnum::Accepted enum instead. */
-    const STATUS_ACCEPTED = 'accepted';
-    /** @deprecated Use \Crm\UsersModule\Models\AddressChangeRequest\AddressChangeRequestStatusEnum::Rejected enum instead. */
-    const STATUS_REJECTED = 'rejected';
-
     protected $tableName = 'address_change_requests';
 
     public function __construct(
@@ -252,7 +245,7 @@ class AddressChangeRequestsRepository extends Repository
     {
         return $this->getTable()
             ->where([
-                'status' => AddressChangeRequestsRepository::STATUS_ACCEPTED,
+                'status' => AddressChangeRequestStatusEnum::Accepted->value,
                 'address_id' => $addressId,
             ])
             ->order('updated_at DESC')
