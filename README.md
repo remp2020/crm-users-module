@@ -240,10 +240,6 @@ This comes handy in case your login process is handled on other domain (e.g. in 
 
 If you call `UsersRepository::add` directly in your own extension and it's a regular user, make sure you emit `UserRegisteredEvent` at the end of the process.
 
-### UserCreatedEvent
-
-`UserCreatedEvent` used to be an event emitted during user registration. This is now deprecated. Use `UserRegisteredEvent` and possibly `NewUserEvent` instead.
-
 ## API documentation
 
 All examples use `http://crm.press` as a base domain. Please change the host to the one you use
