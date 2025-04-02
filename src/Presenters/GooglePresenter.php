@@ -4,7 +4,6 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
-use Crm\UsersModule\Models\Auth\SignInRedirectValidator;
 use Crm\UsersModule\Models\Auth\Sso\AdminAccountSsoLinkingException;
 use Crm\UsersModule\Models\Auth\Sso\AlreadyLinkedAccountSsoException;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
@@ -21,8 +20,6 @@ class GooglePresenter extends FrontendPresenter
     public function __construct(
         private GoogleSignIn $googleSignIn,
         private RedirectValidator $redirectValidator,
-        // temporary injection to make @deprecated SignInRedirectValidator work, will be removed
-        private SignInRedirectValidator $signInRedirectValidator,
     ) {
         parent::__construct();
     }

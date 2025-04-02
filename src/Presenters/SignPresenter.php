@@ -9,7 +9,6 @@ use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Events\UserSignOutEvent;
 use Crm\UsersModule\Models\Auth\Authorizator;
 use Crm\UsersModule\Models\Auth\InvalidEmailException;
-use Crm\UsersModule\Models\Auth\SignInRedirectValidator;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Nette\Application\Attributes\Persistent;
 use Nette\Security\AuthenticationException;
@@ -30,8 +29,6 @@ class SignPresenter extends FrontendPresenter
         private UserManager $userManager,
         private SnippetRenderer $snippetRenderer,
         private RedirectValidator $redirectValidator,
-        // temporary injection to make @deprecated SignInRedirectValidator work, will be removed
-        private SignInRedirectValidator $signInRedirectValidator
     ) {
         parent::__construct();
     }

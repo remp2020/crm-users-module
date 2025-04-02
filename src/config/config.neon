@@ -70,9 +70,6 @@ services:
 	googleSignIn: Crm\UsersModule\Models\Auth\Sso\GoogleSignIn
 	appleSignIn: Crm\UsersModule\Models\Auth\Sso\AppleSignIn(%sso.apple.client_id%, %sso.apple.trusted_client_ids%)
 
-	signInRedirectValidator:
-		factory: Crm\UsersModule\Models\Auth\SignInRedirectValidator
-
 	userDataLocaleResolver: Crm\UsersModule\Models\Locale\UserDataLocaleResolver
 	translation.localeResolver:
 		setup:

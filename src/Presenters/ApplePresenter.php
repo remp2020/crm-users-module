@@ -5,7 +5,6 @@ namespace Crm\UsersModule\Presenters;
 use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
-use Crm\UsersModule\Models\Auth\SignInRedirectValidator;
 use Crm\UsersModule\Models\Auth\Sso\AlreadyLinkedAccountSsoException;
 use Crm\UsersModule\Models\Auth\Sso\AppleSignIn;
 use Crm\UsersModule\Models\Auth\Sso\SsoException;
@@ -21,8 +20,6 @@ class ApplePresenter extends FrontendPresenter
     public function __construct(
         private AppleSignIn $appleSignIn,
         private RedirectValidator $redirectValidator,
-        // temporary injection to make @deprecated SignInRedirectValidator work, will be removed
-        private SignInRedirectValidator $signInRedirectValidator
     ) {
         parent::__construct();
     }
