@@ -53,19 +53,6 @@ class GoogleSignIn
     }
 
     /**
-     * @deprecated Use `getUserUsingIdToken`
-     */
-    public function signInUsingIdToken(
-        string $idToken,
-        string $gsiAccessToken = null,
-        int $loggedUserId = null,
-        string $source = null,
-        ?string $locale = null
-    ): ?ActiveRow {
-        return $this->getUserUsingIdToken($idToken, $gsiAccessToken, $loggedUserId, $source, $locale);
-    }
-
-    /**
      * Implements validation of ID token (JWT token) as described in:
      * https://developers.google.com/identity/sign-in/web/backend-auth
      *

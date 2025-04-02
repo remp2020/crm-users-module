@@ -68,7 +68,7 @@ class AppleTokenSignInHandler extends ApiHandler
             }
         }
 
-        $user = $this->appleSignIn->signInUsingIdToken($idToken, $params['locale'] ?? null);
+        $user = $this->appleSignIn->getUserUsingIdToken($idToken, $params['locale'] ?? null);
 
         if (!$user) {
             $response = new JsonApiResponse(IResponse::S400_BAD_REQUEST, [

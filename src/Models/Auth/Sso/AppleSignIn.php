@@ -244,7 +244,7 @@ class AppleSignIn
      * @return ActiveRow|null created/matched user
      * @throws \Exception
      */
-    public function signInUsingIdToken(string $idTokenInput, ?string $locale = null): ?ActiveRow
+    public function getUserUsingIdToken(string $idTokenInput, ?string $locale = null): ?ActiveRow
     {
         if (!$this->isEnabled()) {
             throw new \Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
