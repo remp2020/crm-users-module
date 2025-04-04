@@ -262,11 +262,26 @@ admin:
 
     admin_filter_form:
         text:
-            label: Email / Name / Phone
-            placeholder: Email / Name / Phone
-        address:
-            label: Address / Invoice details
-            placeholder: Address / Invoice details
+            label: Email / Name
+            placeholder: "e.g. user@example.com"
+        invoice:
+            label: Company identifier
+            placeholder: "Company ID, Tax ID, Vat ID or company name"
+        street:
+            label: Street
+            placeholder: "e.g. Main"
+        number:
+            label: House number
+            placeholder: "e.g. 123a"
+        city:
+            label: City
+            placeholder: "e.g. London"
+        zip:
+            label: ZIP
+            placeholder: "e.g. 12345"
+        phone:
+            label: Phone number
+            placeholder: "e.g. 0908123123 or +421908123123:"
         group:
             label: Group
         source:

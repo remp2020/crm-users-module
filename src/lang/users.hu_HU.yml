@@ -257,10 +257,25 @@ admin:
     admin_filter_form:
         text:
             label: Szűrő
-            placeholder: E-mail cím / Név / Cím
-        address:
-            label: Cím / Számla adatok / Telefon
-            placeholder: Cím / Számla adatok / Telefon
+            placeholder: E-mail cím / Név
+        invoice:
+            label: Számlázási információk
+            placeholder: IČO (statisztikai számjel), DIČ (adószám), IČ DPH (áfás adószám)
+        street:
+            label: Utca
+            placeholder: utcanév
+        number:
+            label: Házszám
+            placeholder: 123a
+        city:
+            label: Város
+            placeholder: város neve
+        zip:
+            label: Irányítószám
+            placeholder: 12345
+        phone:
+            label: Telefonszám
+            placeholder: 0908123123 vagy +421908123123
         group:
             label: Csoport
         source:

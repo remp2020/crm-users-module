@@ -255,11 +255,26 @@ admin:
 
     admin_filter_form:
         text:
-            label: E-Mail / Name / Telefon
-            placeholder: E-Mail / Name / Telefon
-        address:
-            label: Adresse / Rechnungsdetails
-            placeholder: Adresse / Rechnungsdetails
+            label: E-Mail / Name
+            placeholder: "z.B. user@example.com"
+        invoice:
+            label: Firmenkennung
+            placeholder: "Firmen-ID, Steuer-ID oder Name der Firma"
+        street:
+            label: Straße
+            placeholder: "z.B. Marienstraße"
+        number:
+            label: Hausnummer
+            placeholder: "z.B. 123a"
+        city:
+            label: Stadt
+            placeholder: "z.B. Hanover"
+        zip:
+            label: PLZ
+            placeholder: "z.B. 12345"
+        phone:
+            label: Telefonnummer
+            placeholder: "z.B. 0908123123 oder +421908123123"
         group:
             label: Gruppe
         source:

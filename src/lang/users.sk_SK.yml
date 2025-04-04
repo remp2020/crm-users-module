@@ -265,10 +265,25 @@ admin:
     admin_filter_form:
         text:
             label: Email / Meno
-            placeholder: Email / Meno
-        address:
-            label: Adresa / Fakturačné údaje / Telefón
-            placeholder: Adresa / Fakturačné údaje / Telefón
+            placeholder: "napr. user@example.com"
+        invoice:
+            label: Identifikátor firmy
+            placeholder: "IČO, DIČ, IČDPH alebo názov spoločnosti"
+        street:
+            label: Ulica
+            placeholder: "napr. Kvetinková"
+        number:
+            label: Číslo domu
+            placeholder: "napr. 123a"
+        city:
+            label: Mesto
+            placeholder: "napr. Bratislava"
+        zip:
+            label: PSČ
+            placeholder: "napr. 12345"
+        phone:
+            label: Telefónne číslo
+            placeholder: "napr. 0908123123 alebo +421908123123"
         group:
             label: Skupina
         source:

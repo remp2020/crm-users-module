@@ -239,8 +239,24 @@ class UsersAdminPresenter extends AdminPresenter
         $form->addText('text', $this->translator->translate('users.admin.admin_filter_form.text.label'))
             ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.text.placeholder'))
             ->setHtmlAttribute('autofocus');
-        $form->addText('address', $this->translator->translate('users.admin.admin_filter_form.address.label'))
-            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.address.placeholder'));
+
+        $form->addText('invoice', $this->translator->translate('users.admin.admin_filter_form.invoice.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.invoice.placeholder'));
+
+        $form->addText('phone', $this->translator->translate('users.admin.admin_filter_form.phone.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.phone.placeholder'));
+
+        $form->addText('street', $this->translator->translate('users.admin.admin_filter_form.street.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.street.placeholder'));
+
+        $form->addText('number', $this->translator->translate('users.admin.admin_filter_form.number.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.number.placeholder'));
+
+        $form->addText('city', $this->translator->translate('users.admin.admin_filter_form.city.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.city.placeholder'));
+
+        $form->addText('zip', $this->translator->translate('users.admin.admin_filter_form.zip.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.zip.placeholder'));
 
         $form->setCurrentGroup($collapseGroup);
 

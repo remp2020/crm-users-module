@@ -10,25 +10,16 @@ use Nette\Database\Table\Selection;
 
 class AdminFilterFormData
 {
-    private $formData;
-
-    private $addressesRepository;
-
-    private $dataProviderManager;
-
-    private $usersRepository;
+    private array $formData;
 
     public function __construct(
-        AddressesRepository $addressesRepository,
-        DataProviderManager $dataProviderManager,
-        UsersRepository $usersRepository
+        private readonly AddressesRepository $addressesRepository,
+        private readonly DataProviderManager $dataProviderManager,
+        private readonly UsersRepository $usersRepository
     ) {
-        $this->dataProviderManager = $dataProviderManager;
-        $this->usersRepository = $usersRepository;
-        $this->addressesRepository = $addressesRepository;
     }
 
-    public function parse($formData): void
+    public function parse(array $formData): void
     {
         $this->formData = $formData;
     }
@@ -40,9 +31,7 @@ class AdminFilterFormData
             ->select('users.*')
             ->group('users.id');
 
-        if ($this->getAddress()) {
-            $users = $this->getAddressQuery($users);
-        }
+        $users = $this->getAddressQuery($users);
 
         if ($this->getGroup()) {
             $users->where(':user_groups.group_id', (int)$this->getGroup());
@@ -64,7 +53,12 @@ class AdminFilterFormData
     {
         return [
             'text' => $this->getText(),
-            'address' => $this->getAddress(),
+            'invoice' => $this->getInvoice(),
+            'street' => $this->getStreet(),
+            'number' => $this->getNumber(),
+            'city' => $this->getCity(),
+            'zip' => $this->getZip(),
+            'phone' => $this->getPhone(),
             'group' => $this->getGroup(),
             'source' => $this->getSource()
         ];
@@ -75,9 +69,34 @@ class AdminFilterFormData
         return $this->formData['text'] ?? null;
     }
 
-    private function getAddress()
+    private function getStreet()
     {
-        return $this->formData['address'] ?? null;
+        return $this->formData['street'] ?? null;
+    }
+
+    private function getNumber()
+    {
+        return $this->formData['number'] ?? null;
+    }
+
+    private function getInvoice()
+    {
+        return $this->formData['invoice'] ?? null;
+    }
+
+    private function getCity()
+    {
+        return $this->formData['city'] ?? null;
+    }
+
+    private function getPhone()
+    {
+        return $this->formData['phone'] ?? null;
+    }
+
+    private function getZip()
+    {
+        return $this->formData['zip'] ?? null;
     }
 
     private function getGroup()
@@ -92,33 +111,40 @@ class AdminFilterFormData
 
     private function getAddressQuery(Selection $users): Selection
     {
-        $queryString = $this->getAddress();
+        $addresses = $this->addressesRepository->all()
+            ->select('DISTINCT(user_id)');
 
-        $matchingUsersWithCompany = $this->addressesRepository->all()->select('DISTINCT(user_id)')
-                ->where("company_id = ? OR company_tax_id = ? OR company_vat_id = ? OR company_name LIKE ?", [
-                    "{$queryString}",
-                    "{$queryString}",
-                    "{$queryString}",
-                    "%{$queryString}%"
-                ]);
+        if ($invoice = $this->getInvoice()) {
+            $addresses->where('company_id = ? OR company_tax_id = ? OR company_vat_id = ? OR company_name LIKE ?', [
+                $invoice,
+                $invoice,
+                $invoice,
+                "%{$invoice}%",
+            ]);
+        }
 
+        if ($phone = $this->getPhone()) {
+            $addresses->where('phone_number LIKE ?', "%{$phone}%");
+        }
 
-        foreach (explode(" ", $queryString) as $partialString) {
-            $partialQuery = $this->addressesRepository->all()->select('DISTINCT(user_id)')
-            ->where(
-                'street LIKE ? OR number LIKE ? OR city LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR phone_number LIKE ? OR user_id IN (?)',
-                [
-                    "%{$partialString}%",
-                    "%{$partialString}%",
-                    "%{$partialString}%",
-                    "%{$partialString}%",
-                    "%{$partialString}%",
-                    "%{$partialString}%",
-                    $matchingUsersWithCompany
-                ]
-            );
+        if ($street = $this->getStreet()) {
+            $addresses->where('street LIKE ?', "%{$street}%");
+        }
 
-            $users->where('users.id IN (?)', $partialQuery);
+        if ($number = $this->getNumber()) {
+            $addresses->where('number LIKE ?', "%{$number}%");
+        }
+
+        if ($city = $this->getCity()) {
+            $addresses->where('city LIKE ?', "%{$city}%");
+        }
+
+        if ($zip = $this->getZip()) {
+            $addresses->where('zip LIKE ?', "%{$zip}%");
+        }
+
+        if ($invoice || $phone || $street || $number || $city || $zip) {
+            return $users->where('users.id IN (?)', $addresses);
         }
         return $users;
     }
