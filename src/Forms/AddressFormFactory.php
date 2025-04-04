@@ -47,12 +47,12 @@ class AddressFormFactory
 
         if ($addressId) {
             $defaults = $address->toArray();
-            if (!$defaults['country_id']) {
-                $defaults['country_id'] = $this->countriesRepository->defaultCountry()->id;
+            if (!$defaults['country']) {
+                $defaults['country'] = $this->countriesRepository->defaultCountry()->iso_code;
             }
             $userId = $address->user_id;
         } else {
-            $defaults['country_id'] = $this->countriesRepository->defaultCountry()->id;
+            $defaults['country'] = $this->countriesRepository->defaultCountry()->iso_code;
             $userRow = $this->userRepository->find($userId);
             $defaults['first_name'] = $userRow->first_name;
             $defaults['last_name'] = $userRow->last_name;
@@ -93,7 +93,7 @@ class AddressFormFactory
         $form->addText('city', 'users.frontend.address.city.label')
             ->setNullable()
             ->setHtmlAttribute('placeholder', 'users.frontend.address.city.placeholder');
-        $form->addSelect('country_id', 'users.frontend.address.country.label', $this->countriesSelectItemsBuilder->getAllPairs());
+        $form->addSelect('country', 'users.frontend.address.country.label', $this->countriesSelectItemsBuilder->getAllIsoPairs());
 
         $form->addText('company_id', 'users.frontend.address.company_id.label')
             ->setNullable()
@@ -141,6 +141,8 @@ class AddressFormFactory
             $address = $this->addressesRepository->find($values->id);
         };
 
+        $country = $this->countriesRepository->findByIsoCode($values->country);
+
         $changeRequest = $this->addressChangeRequestsRepository->add(
             user: $user,
             parentAddress: $address,
@@ -151,7 +153,7 @@ class AddressFormFactory
             number: $values->number,
             city: $values->city,
             zip: $values->zip,
-            countryId: $values->country_id,
+            countryId: $country->id,
             companyId: $values->company_id,
             companyTaxId: $values->company_tax_id,
             companyVatId: $values->company_vat_id,
