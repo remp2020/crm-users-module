@@ -47,7 +47,9 @@ class AddressFormFactory
 
         if ($addressId) {
             $defaults = $address->toArray();
-            if (!$defaults['country']) {
+            if ($defaults['country_id']) {
+                $defaults['country'] = $address->country->iso_code;
+            } else {
                 $defaults['country'] = $this->countriesRepository->defaultCountry()->iso_code;
             }
             $userId = $address->user_id;
