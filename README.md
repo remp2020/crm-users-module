@@ -1641,6 +1641,40 @@ Success response:
 }
 ```
 
+#### POST `/api/v1/user/validate-email`
+
+API call validates email against backend email validators.
+
+##### *Params:*
+
+| Name                | Value | Required | Description                           |
+|---------------------|---| --- |---------------------------------------|
+| email               | *String* | yes | Email address that will be validated. |
+
+##### *Example:*
+
+```shell
+curl --location 'http://crm.press:8080/api/v1/users/validate-email' \
+--form 'email="info@example.com"'
+```
+
+Success response (email is valid):
+
+```json5
+{
+  "status": "success"
+}
+```
+
+Error response (email is not valid):
+
+```json5
+{
+  "status": "error",
+  "message": "Email 'info@example.com' is not valid",
+  "code": "invalid_email"
+}
+```
 
 ## Components
 

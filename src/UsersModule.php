@@ -50,6 +50,7 @@ use Crm\UsersModule\Api\UsersLoginHandler;
 use Crm\UsersModule\Api\UsersLogoutHandler;
 use Crm\UsersModule\Api\UsersTouchApiHandler;
 use Crm\UsersModule\Api\UsersUpdateHandler;
+use Crm\UsersModule\Api\ValidateEmailHandler;
 use Crm\UsersModule\Api\v2\EmailValidationApiHandler as EmailValidationApiHandlerV2;
 use Crm\UsersModule\Authenticator\AccessTokenAuthenticator;
 use Crm\UsersModule\Authenticator\AutoLoginAuthenticator;
@@ -423,6 +424,9 @@ class UsersModule extends CrmModule
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(new ApiIdentifier('1', 'users', 'email-check'), UsersEmailCheckHandler::class, BearerTokenAuthorization::class)
+        );
+        $apiRoutersContainer->attachRouter(
+            new ApiRoute(new ApiIdentifier('1', 'users', 'validate-email'), ValidateEmailHandler::class, NoAuthorization::class)
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(new ApiIdentifier('1', 'users', 'create'), UsersCreateHandler::class, BearerTokenAuthorization::class)
