@@ -1,6 +1,5 @@
 <?php
 
-use Cake\Database\Query;
 use Phinx\Migration\AbstractMigration;
 
 class RemoveAddressPhoneNumberColumnsUsers extends AbstractMigration
