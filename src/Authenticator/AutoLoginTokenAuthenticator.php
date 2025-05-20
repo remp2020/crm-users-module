@@ -33,7 +33,7 @@ class AutoLoginTokenAuthenticator extends BaseAuthenticator
         \Tomaj\Hermes\Emitter $hermesEmitter,
         Request $request,
         UsersRepository $usersRepository,
-        AutoLogin $autoLogin
+        AutoLogin $autoLogin,
     ) {
         parent::__construct($emitter, $hermesEmitter, $request);
 

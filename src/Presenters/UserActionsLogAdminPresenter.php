@@ -29,7 +29,7 @@ class UserActionsLogAdminPresenter extends AdminPresenter
 
     public function __construct(
         UserActionsLogRepository $userActionsLogRepository,
-        DataProviderManager $dataProviderManager
+        DataProviderManager $dataProviderManager,
     ) {
         parent::__construct();
         $this->userActionsLogRepository = $userActionsLogRepository;

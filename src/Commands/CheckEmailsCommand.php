@@ -17,7 +17,7 @@ class CheckEmailsCommand extends Command
 
     public function __construct(
         UsersRepository $userRepository,
-        EmailValidator $emailValidator
+        EmailValidator $emailValidator,
     ) {
         parent::__construct();
         $this->userRepository = $userRepository;
@@ -31,7 +31,7 @@ class CheckEmailsCommand extends Command
             ->addArgument(
                 'email',
                 InputArgument::OPTIONAL,
-                'User email'
+                'User email',
             );
     }
 

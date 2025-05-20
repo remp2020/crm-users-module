@@ -29,7 +29,7 @@ class RegisterFormFactory
         UserManager $userManager,
         DataProviderManager $dataProviderManager,
         Translator $translator,
-        User $user
+        User $user,
     ) {
         $this->userManager = $userManager;
         $this->dataProviderManager = $dataProviderManager;

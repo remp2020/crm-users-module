@@ -104,7 +104,7 @@ class ListUsersHandlerTest extends DatabaseTestCase
                 $email,
                 'password',
                 UsersRepository::ROLE_USER,
-                $activated
+                $activated,
             );
         }
         return $user;

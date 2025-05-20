@@ -17,7 +17,7 @@ class UserData
         private UserDataRegistrator $userDataRegistrator,
         private UserDataStorageInterface $userDataStorage,
         private AccessTokensRepository $accessTokensRepository,
-        private AccessToken $accessToken
+        private AccessToken $accessToken,
     ) {
     }
 

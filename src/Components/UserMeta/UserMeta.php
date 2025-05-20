@@ -33,7 +33,7 @@ class UserMeta extends Control implements WidgetInterface
     public function __construct(
         UserMetaRepository $userMetaRepository,
         UsersRepository $usersRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->userMetaRepository = $userMetaRepository;
         $this->usersRepository = $usersRepository;
@@ -101,7 +101,7 @@ class UserMeta extends Control implements WidgetInterface
             $this->userMetaRepository->setMeta(
                 $this->getUser($values['user_id']),
                 [$values['key'] => $values['value']],
-                $values->is_public
+                $values->is_public,
             );
             $this->presenter->flashMessage($this->translator->translate('users.component.user_meta.value_added'));
             $this->presenter->redirect('UsersAdmin:Show', $values['user_id']);

@@ -18,7 +18,7 @@ class UserMetaListHandler extends ApiHandler
     private $userMetaRepository;
 
     public function __construct(
-        UserMetaRepository $userMetaRepository
+        UserMetaRepository $userMetaRepository,
     ) {
         $this->userMetaRepository = $userMetaRepository;
     }

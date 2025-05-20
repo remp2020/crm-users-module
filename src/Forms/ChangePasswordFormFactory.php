@@ -30,7 +30,7 @@ class ChangePasswordFormFactory
         UserManager $userManager,
         Translator $translator,
         UsersRepository $usersRepository,
-        AccessToken $accessToken
+        AccessToken $accessToken,
     ) {
         $this->userManager = $userManager;
         $this->translator = $translator;
@@ -90,7 +90,7 @@ class ChangePasswordFormFactory
         $result = $this->userManager->setNewPassword(
             $this->user->getIdentity()->getId(),
             $values['actual_password'],
-            $values['new_password']
+            $values['new_password'],
         );
 
         if (!$result) {

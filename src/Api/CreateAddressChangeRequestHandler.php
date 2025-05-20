@@ -20,7 +20,7 @@ class CreateAddressChangeRequestHandler extends ApiHandler
         private AddressChangeRequestsRepository $addressChangeRequestsRepository,
         private UserManager $userManager,
         private AddressesRepository $addressesRepository,
-        private CountriesRepository $countriesRepository
+        private CountriesRepository $countriesRepository,
     ) {
         parent::__construct();
     }
@@ -97,7 +97,7 @@ class CreateAddressChangeRequestHandler extends ApiHandler
             companyTaxId: $params['company_tax_id'],
             companyVatId: $params['company_vat_id'],
             phoneNumber: $params['phone_number'],
-            type: $params['type']
+            type: $params['type'],
         );
 
         $response = new JsonApiResponse(Response::S200_OK, [

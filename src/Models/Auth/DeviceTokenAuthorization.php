@@ -30,7 +30,7 @@ class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, Access
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
         DeviceTokensRepository $deviceTokensRepository,
-        Emitter $emitter
+        Emitter $emitter,
     ) {
         $this->accessTokensRepository = $accessTokensRepository;
         $this->deviceTokensRepository = $deviceTokensRepository;
@@ -68,7 +68,7 @@ class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, Access
                 $accessToken->user,
                 $accessDate,
                 $source,
-                Request::getUserAgent()
+                Request::getUserAgent(),
             ));
         }
 

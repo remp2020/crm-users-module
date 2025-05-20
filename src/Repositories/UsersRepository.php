@@ -50,7 +50,7 @@ class UsersRepository extends Repository
         \Tomaj\Hermes\Emitter $hermesEmmiter,
         AccessTokensRepository $accessTokensRepository,
         Translator $translator,
-        Passwords $passwords
+        Passwords $passwords,
     ) {
         parent::__construct($database);
         $this->emitter = $emitter;
@@ -82,7 +82,7 @@ class UsersRepository extends Repository
         $active = true,
         $extId = null,
         $preregistration = false,
-        ?string $locale = null
+        ?string $locale = null,
     ) {
         $user = $this->getByEmail($email);
         if ($user) {
@@ -127,7 +127,7 @@ class UsersRepository extends Repository
                 'users_count',
                 $callable,
                 DateTime::from(CacheRepository::REFRESH_TIME_5_MINUTES),
-                $forceCacheUpdate
+                $forceCacheUpdate,
             );
         }
         return $callable();
@@ -159,8 +159,8 @@ class UsersRepository extends Repository
                             "%{$word}%",
                             "%{$word}%",
                             "%{$word}%",
-                            "%{$word}%"
-                        ]
+                            "%{$word}%",
+                        ],
                     );
             }
         }
@@ -195,7 +195,7 @@ class UsersRepository extends Repository
                     'user_id' => $row->id,
                     'original_email' => $originalEmail,
                     'new_email' => $row->email,
-                ]
+                ],
             ), HermesMessage::PRIORITY_DEFAULT);
         }
         $this->emitter->emit(new UserUpdatedEvent($row));
@@ -230,7 +230,7 @@ class UsersRepository extends Repository
 
         return $this->getTable()->where([
             'created_at > ?' => $startTime,
-            'created_at < ?' => $endTime
+            'created_at < ?' => $endTime,
         ]);
     }
 
@@ -311,7 +311,7 @@ class UsersRepository extends Repository
         $this->emitter->emit(new UserRegisteredEvent($user, $password, $sendEmail));
         $this->hermesEmitter->emit(new HermesMessage('user-registered', [
             'user_id' => $user->id,
-            'password' => $password
+            'password' => $password,
         ]), HermesMessage::PRIORITY_HIGH);
     }
 }

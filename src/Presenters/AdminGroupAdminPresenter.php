@@ -97,7 +97,7 @@ class AdminGroupAdminPresenter extends AdminPresenter
                     'read' => $this->translator->translate('users.admin.admin_group_admin.privileges.read_only'),
                     'none' => $this->translator->translate('users.admin.admin_group_admin.privileges.none'),
                     'custom' => $this->translator->translate('users.admin.admin_group_admin.privileges.custom'),
-                ]
+                ],
             )
             ->setDisabled(['custom']);
 
@@ -130,7 +130,7 @@ class AdminGroupAdminPresenter extends AdminPresenter
                             'read' => $this->translator->translate('users.admin.admin_group_admin.privileges.read_only'),
                             'none' => $this->translator->translate('users.admin.admin_group_admin.privileges.none'),
                             'custom' => $this->translator->translate('users.admin.admin_group_admin.privileges.custom'),
-                        ]
+                        ],
                     )
                     ->setDisabled(['custom'])
                     ->setHtmlAttribute('data-access-module', $module);
@@ -140,7 +140,7 @@ class AdminGroupAdminPresenter extends AdminPresenter
 
                 $accessesPerModule[$module] = ['radio' => [
                     'container' => $allContainer->getName(),
-                    'radio' => $radioList->getName()]
+                    'radio' => $radioList->getName()],
                 ];
             }
 
@@ -152,7 +152,7 @@ class AdminGroupAdminPresenter extends AdminPresenter
             $checkbox = $form
                 ->addCheckbox(
                     'access_' . $access->id,
-                    Html::el('span', ['class' => 'access-resource'])->setHtml($permissionLevel . $permission)
+                    Html::el('span', ['class' => 'access-resource'])->setHtml($permissionLevel . $permission),
                 )
                 ->setHtmlAttribute('data-access-module', $module)
                 ->setHtmlAttribute('data-access-resource', $access->resource)
@@ -160,7 +160,7 @@ class AdminGroupAdminPresenter extends AdminPresenter
 
             $accessesPerModule[$module]['checkboxes'][] = [
                 'name' => $checkbox->getName(),
-                'level' => $access->level
+                'level' => $access->level,
             ];
 
             $formGroup = $module;

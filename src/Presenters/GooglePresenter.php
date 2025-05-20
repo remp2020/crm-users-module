@@ -35,7 +35,7 @@ class GooglePresenter extends FrontendPresenter
             $session->finalUrl,
             $session->referer,
             $session->back,
-            $session->locale
+            $session->locale,
         );
 
         // Final URL destination

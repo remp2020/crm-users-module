@@ -23,7 +23,7 @@ class UsersEmailCheckHandlerTest extends DatabaseTestCase
     {
         return [
             UsersRepository::class,
-            UserMetaRepository::class
+            UserMetaRepository::class,
         ];
     }
 
@@ -45,7 +45,7 @@ class UsersEmailCheckHandlerTest extends DatabaseTestCase
     public function testEmailAvailable(): void
     {
         $_POST = [
-            'email' => 'user@user.sk'
+            'email' => 'user@user.sk',
         ];
         $response = $this->runJsonApi($this->handler);
 
@@ -60,7 +60,7 @@ class UsersEmailCheckHandlerTest extends DatabaseTestCase
     public function testEmailTaken(): void
     {
         $_POST = [
-            'email' => 'user@user.sk'
+            'email' => 'user@user.sk',
         ];
         $user = $this->usersRepository->add('user@user.sk', 'password');
         $response = $this->runJsonApi($this->handler);
@@ -76,7 +76,7 @@ class UsersEmailCheckHandlerTest extends DatabaseTestCase
     public function testEmailUnclaimed(): void
     {
         $_POST = [
-            'email' => 'user@user.sk'
+            'email' => 'user@user.sk',
         ];
         $user = $this->usersRepository->add('user@user.sk', 'password');
         $this->userMetaRepository->add($user, UnclaimedUser::META_KEY, 1);
@@ -94,7 +94,7 @@ class UsersEmailCheckHandlerTest extends DatabaseTestCase
     {
         $email = str_pad('user@user.sk', 300, 'x', STR_PAD_LEFT);
         $_POST = [
-            'email' => $email
+            'email' => $email,
         ];
         $response = $this->runJsonApi($this->handler);
 

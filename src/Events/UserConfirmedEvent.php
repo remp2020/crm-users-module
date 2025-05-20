@@ -9,7 +9,7 @@ class UserConfirmedEvent extends AbstractEvent implements UserEventInterface
 {
     public function __construct(
         private ActiveRow $user,
-        private bool $isConfirmedByAdmin = false
+        private bool $isConfirmedByAdmin = false,
     ) {
     }
 

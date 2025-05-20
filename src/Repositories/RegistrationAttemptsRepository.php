@@ -33,7 +33,7 @@ class RegistrationAttemptsRepository extends Repository
     {
         return $this->getTable()->where([
                 'ip' => $ip,
-                'created_at > ?' => $from
+                'created_at > ?' => $from,
             ])
             ->count('*');
     }

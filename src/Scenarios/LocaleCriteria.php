@@ -19,7 +19,7 @@ class LocaleCriteria implements ScenariosCriteriaInterface
 
     public function __construct(
         UsersRepository $usersRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->translator = $translator;
         $this->usersRepository = $usersRepository;
@@ -38,7 +38,7 @@ class LocaleCriteria implements ScenariosCriteriaInterface
                 $this->translator->translate('users.admin.scenarios.locale.label'),
                 $locales,
                 'or',
-                true
+                true,
             ),
         ];
     }

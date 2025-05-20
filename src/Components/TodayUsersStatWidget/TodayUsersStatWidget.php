@@ -20,7 +20,7 @@ class TodayUsersStatWidget extends BaseLazyWidget
 
     public function __construct(
         LazyWidgetManager $lazyWidgetManager,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         parent::__construct($lazyWidgetManager);
         $this->usersRepository = $usersRepository;
@@ -35,11 +35,11 @@ class TodayUsersStatWidget extends BaseLazyWidget
     {
         $this->template->todayUsers = $this->usersRepository->usersRegisteredBetween(
             DateTime::from('today 00:00'),
-            new DateTime()
+            new DateTime(),
         )->count('*');
         $this->template->yesterdayUsers = $this->usersRepository->usersRegisteredBetween(
             DateTime::from('yesterday 00:00'),
-            DateTime::from('today 00:00')
+            DateTime::from('today 00:00'),
         )->count('*');
         $this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR . $this->templateName);
         $this->template->render();

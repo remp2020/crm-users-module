@@ -144,7 +144,7 @@ class UsersAdminPresenter extends AdminPresenter
             1,
             1,
             'device_count',
-            $user->email
+            $user->email,
         );
         $abusiveInformation = $abusiveInformationSelection->where('users.id = ?', $userId)->fetch();
 
@@ -155,7 +155,7 @@ class UsersAdminPresenter extends AdminPresenter
                 'admin_email' => $this->user->getIdentity()->email,
                 'active_logins' => $abusiveInformation->token_count ?? 0,
                 'active_devices' => $abusiveInformation->device_count ?? 0,
-            ]
+            ],
         );
 
         $this->userManager->logoutUser($user);
@@ -183,7 +183,7 @@ class UsersAdminPresenter extends AdminPresenter
 
         $this->emitter->emit(new NotificationEvent($this->emitter, $user, 'admin_reset_password_with_password', [
             'email' => $user->email,
-            'password' => $password
+            'password' => $password,
         ]));
 
         $this->presenter->flashMessage($this->translator->translate('users.admin.reset_password.success'));
@@ -434,7 +434,7 @@ class UsersAdminPresenter extends AdminPresenter
             1,
             1,
             'device_count',
-            $user->email
+            $user->email,
         );
         $abusiveInformation = $abusiveInformationSelection->where('users.id = ?', $userId)->fetch();
 
@@ -445,7 +445,7 @@ class UsersAdminPresenter extends AdminPresenter
                 'admin_email' => $this->user->getIdentity()->email,
                 'active_logins' => $abusiveInformation->token_count ?? 0,
                 'active_devices' => $abusiveInformation->device_count ?? 0,
-            ]
+            ],
         );
 
         $this->userManager->suspiciousUser($user);

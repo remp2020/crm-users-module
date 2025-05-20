@@ -32,7 +32,7 @@ class UsersLoginHandler extends ApiHandler implements ApiParamsValidatorInterfac
         UserAuthenticator $userAuthenticator,
         AccessTokensRepository $accessTokensRepository,
         DeviceTokensRepository $deviceTokensRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         parent::__construct();
 
@@ -72,7 +72,7 @@ class UsersLoginHandler extends ApiHandler implements ApiParamsValidatorInterfac
                 $response = new JsonApiResponse(Response::S404_NOT_FOUND, [
                     'status' => 'error',
                     'message' => 'Device token doesn\'t exist',
-                    'code' => 'device_token_doesnt_exist'
+                    'code' => 'device_token_doesnt_exist',
                 ]);
                 return $response;
             }

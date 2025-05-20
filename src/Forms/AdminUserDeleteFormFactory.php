@@ -38,7 +38,7 @@ class AdminUserDeleteFormFactory
         UserActionsLogRepository $userActionsLogRepository,
         UsersRepository $usersRepository,
         User $adminUser,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->deleteUserData = $deleteUserData;
         $this->userActionsLogRepository = $userActionsLogRepository;
@@ -66,7 +66,7 @@ class AdminUserDeleteFormFactory
             $cannotBeDeletedReason = $errors ? implode(PHP_EOL, $errors) : '';
             $form->addTextArea('reason', $this->translator->translate('users.admin.delete_user_admin_form.reason.label'))
                 ->setOption('description', Html::el('span', ['class' => 'help-block'])->setHtml(
-                    "<i>System: [{$cannotBeDeletedReason}]</i><br><br>" . $this->translator->translate('users.admin.delete_user_admin_form.reason.required')
+                    "<i>System: [{$cannotBeDeletedReason}]</i><br><br>" . $this->translator->translate('users.admin.delete_user_admin_form.reason.required'),
                 ))
                 ->setHtmlId('reason')
                 ->setRequired($this->translator->translate('users.admin.delete_user_admin_form.reason.required'));

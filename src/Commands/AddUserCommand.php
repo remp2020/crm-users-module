@@ -16,7 +16,7 @@ class AddUserCommand extends Command
     private $userBuilder;
 
     public function __construct(
-        UserBuilder $userBuilder
+        UserBuilder $userBuilder,
     ) {
         parent::__construct();
         $this->userBuilder = $userBuilder;
@@ -32,39 +32,39 @@ class AddUserCommand extends Command
             ->addArgument(
                 'email',
                 InputArgument::REQUIRED,
-                'User email'
+                'User email',
             )
             ->addArgument(
                 'password',
                 InputArgument::REQUIRED,
-                'User password'
+                'User password',
             )
             ->addArgument(
                 'first_name',
                 InputArgument::OPTIONAL,
-                'User firstname'
+                'User firstname',
             )
             ->addArgument(
                 'last_name',
                 InputArgument::OPTIONAL,
-                'User lastname'
+                'User lastname',
             )
             ->addArgument(
                 'public_name',
                 InputArgument::OPTIONAL,
-                'Public name (if not set; email will be used)'
+                'Public name (if not set; email will be used)',
             )
             ->addOption(
                 'admin',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, user will be admin'
+                'If set, user will be admin',
             )
             ->addOption(
                 'inactive',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, user will be inactive'
+                'If set, user will be inactive',
             );
     }
 

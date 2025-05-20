@@ -120,7 +120,7 @@ class UserCreatedAtCriteriaTest extends DatabaseTestCase
         $values = (object)[
             'operator' => $operatorValue,
             'unit' => $unitValue,
-            'selection' => $selectionValue
+            'selection' => $selectionValue,
         ];
         $criteria->addConditions($userSelection, [UserCreatedAtCriteria::TIMEFRAME_KEY => $values], $userRow);
 

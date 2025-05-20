@@ -82,7 +82,7 @@ class CreateAddressHandler extends ApiHandler
             companyTaxId: $params['tax_id'],
             companyVatId: $params['vat_id'],
             phoneNumber: $params['phone_number'],
-            type: $params['type']
+            type: $params['type'],
         );
         $address = $this->addressChangeRequestsRepository->acceptRequest($changeRequest);
 

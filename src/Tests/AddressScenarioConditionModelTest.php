@@ -23,7 +23,7 @@ class AddressScenarioConditionModelTest extends BaseTestCase
     {
         return [
             ...parent::requiredSeeders(),
-            AddressTypesSeeder::class
+            AddressTypesSeeder::class,
         ];
     }
 

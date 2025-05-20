@@ -34,7 +34,7 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
     protected function requiredSeeders(): array
     {
         return [
-            UsersSeeder::class
+            UsersSeeder::class,
         ];
     }
 
@@ -43,7 +43,7 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
         return [
             LoginAttemptsRepository::class,
             UsersRepository::class,
-            UserMetaRepository::class
+            UserMetaRepository::class,
         ];
     }
 
@@ -59,7 +59,7 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
         $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
         $this->lazyEventEmitter->addListener(
             LoginAttemptEvent::class,
-            $this->inject(LoginAttemptHandler::class)
+            $this->inject(LoginAttemptHandler::class),
         );
 
         $this->authenticatorManager = $this->inject(AuthenticatorManagerInterface::class);

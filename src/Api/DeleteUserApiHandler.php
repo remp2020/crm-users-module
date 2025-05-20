@@ -19,7 +19,7 @@ class DeleteUserApiHandler extends ApiHandler
 
     public function __construct(
         DeleteUserData $deleteUserData,
-        Translator  $translator
+        Translator  $translator,
     ) {
         $this->deleteUserData = $deleteUserData;
         $this->translator = $translator;

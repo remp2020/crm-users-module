@@ -35,7 +35,7 @@ class ApplePresenter extends FrontendPresenter
             $session->finalUrl,
             $session->referer,
             $session->locale,
-            $session->back
+            $session->back,
         );
 
         // Final URL destination
@@ -116,7 +116,7 @@ class ApplePresenter extends FrontendPresenter
             $this->redirect('Users:settings');
         } catch (AlreadyLinkedAccountSsoException $e) {
             $this->flashMessage($this->translator->translate('users.frontend.apple.used_account', [
-                'email' => EscapeHTML::escape($e->getEmail())
+                'email' => EscapeHTML::escape($e->getEmail()),
             ]), 'danger');
             $this->redirect('Users:settings');
         }

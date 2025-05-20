@@ -14,7 +14,7 @@ class UserConnectedAccountsDataProvider implements UserDataProviderInterface
 
     public function __construct(
         UserConnectedAccountsRepository $userConnectedAccountsRepository,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         $this->usersRepository = $usersRepository;
         $this->userConnectedAccountsRepository = $userConnectedAccountsRepository;

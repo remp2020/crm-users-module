@@ -25,7 +25,7 @@ class ServiceTokenAuthorization implements UsersApiAuthorizationInterface
         BearerTokenAuthorization $bearerTokenAuthorization,
         UserTokenAuthorization $userTokenAuthorization,
         UsersRepository $usersRepository,
-        IRequest $request
+        IRequest $request,
     ) {
         $this->bearerTokenAuthorization = $bearerTokenAuthorization;
         $this->userTokenAuthorization = $userTokenAuthorization;

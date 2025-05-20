@@ -32,7 +32,7 @@ class RegistrationIpRateLimit
     {
         $this->rules[] = [
             'startTime' => DateTime::from('-' . $interval),
-            'attempts' => $maxAttemptsCount
+            'attempts' => $maxAttemptsCount,
         ];
     }
 }

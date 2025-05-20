@@ -15,7 +15,7 @@ class ReachChecker
 
     public function __construct(
         UnclaimedUser $unclaimedUser,
-        UserMetaRepository $userMetaRepository
+        UserMetaRepository $userMetaRepository,
     ) {
         $this->userMetaRepository = $userMetaRepository;
         $this->unclaimedUser = $unclaimedUser;

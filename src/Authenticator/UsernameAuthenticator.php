@@ -56,7 +56,7 @@ abstract class UsernameAuthenticator extends BaseAuthenticator
         WrongPasswordRateLimit $wrongPasswordRateLimit,
         IpRateLimit $ipRateLimit,
         UnclaimedUser $unclaimedUser,
-        Passwords $passwords
+        Passwords $passwords,
     ) {
         parent::__construct($emitter, $hermesEmitter, $request);
 

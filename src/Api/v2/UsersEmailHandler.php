@@ -26,7 +26,7 @@ class UsersEmailHandler extends ApiHandler
     public function __construct(
         UserManager $userManager,
         EmailValidator $emailValidator,
-        UsersAuthenticator $usersAuthenticator
+        UsersAuthenticator $usersAuthenticator,
     ) {
         $this->userManager = $userManager;
         $this->emailValidator = $emailValidator;
@@ -49,8 +49,8 @@ class UsersEmailHandler extends ApiHandler
                 [
                     'status' => 'error',
                     'message' => 'Invalid email format',
-                    'code' => 'invalid_email'
-                ]
+                    'code' => 'invalid_email',
+                ],
             );
         }
 
@@ -60,7 +60,7 @@ class UsersEmailHandler extends ApiHandler
         try {
             $this->usersAuthenticator->setCredentials([
                 'username' => $params['email'],
-                'password' => $params['password'] ?? ''
+                'password' => $params['password'] ?? '',
             ]);
             $this->usersAuthenticator->authenticate();
             $status = 'taken';
@@ -71,8 +71,8 @@ class UsersEmailHandler extends ApiHandler
                 [
                     'status' => 'error',
                     'message' => 'Rate limit exceeded',
-                    'code' => 'rate_limit_exceeded'
-                ]
+                    'code' => 'rate_limit_exceeded',
+                ],
             );
             return $response;
         } catch (AuthenticationException $authException) {
@@ -86,8 +86,8 @@ class UsersEmailHandler extends ApiHandler
                         [
                             'status' => 'error',
                             'message' => 'Invalid email format',
-                            'code' => 'invalid_email'
-                        ]
+                            'code' => 'invalid_email',
+                        ],
                     );
                     return $response;
                 }

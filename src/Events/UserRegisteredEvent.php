@@ -16,7 +16,7 @@ class UserRegisteredEvent extends AbstractEvent implements UserEventInterface
     public function __construct(
         private ActiveRow $user,
         private string $originalPassword,
-        private bool $sendEmail = false
+        private bool $sendEmail = false,
     ) {
     }
 

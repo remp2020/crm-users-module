@@ -29,7 +29,7 @@ class UserStatsRepository extends Repository
             $this->database->query(
                 'INSERT INTO `user_stats`',
                 $data,
-                'ON DUPLICATE KEY UPDATE `value`= VALUES(`value`), updated_at = VALUES(updated_at)'
+                'ON DUPLICATE KEY UPDATE `value`= VALUES(`value`), updated_at = VALUES(updated_at)',
             );
         }
     }

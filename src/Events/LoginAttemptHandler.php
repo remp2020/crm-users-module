@@ -20,7 +20,7 @@ class LoginAttemptHandler extends AbstractListener
     public function __construct(
         LoginAttemptsRepository $loginAttemptsRepository,
         UsersRepository $usersRepository,
-        Emitter $emitter
+        Emitter $emitter,
     ) {
         $this->loginAttemptsRepository = $loginAttemptsRepository;
         $this->usersRepository = $usersRepository;
@@ -43,7 +43,7 @@ class LoginAttemptHandler extends AbstractListener
             Request::getIp(),
             Request::getUserAgent(),
             $dateTime,
-            $event->getMessage()
+            $event->getMessage(),
         );
 
         if ($this->loginAttemptsRepository->okStatus($event->getStatus())) {
@@ -53,7 +53,7 @@ class LoginAttemptHandler extends AbstractListener
                     $user,
                     $dateTime,
                     $event->getSource(),
-                    Request::getUserAgent()
+                    Request::getUserAgent(),
                 ));
             }
         }

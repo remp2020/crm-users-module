@@ -24,7 +24,7 @@ class CreateAddressHandlerTest extends BaseTestCase
     {
         return [
             CountriesSeeder::class,
-            UsersSeeder::class
+            UsersSeeder::class,
         ];
     }
 

@@ -31,7 +31,7 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
         private UsersRepository $usersRepository,
         private UnclaimedUser $unclaimedUser,
         private RegistrationIpRateLimit $registrationIpRateLimit,
-        private RegistrationAttemptsRepository $registrationAttemptsRepository
+        private RegistrationAttemptsRepository $registrationAttemptsRepository,
     ) {
         parent::__construct();
     }
@@ -114,7 +114,7 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
                 $response = new JsonApiResponse(IResponse::S400_BAD_REQUEST, [
                     'status' => 'error',
                     'message' => 'Device token doesn\'t exist',
-                    'code' => 'device_token_doesnt_exist'
+                    'code' => 'device_token_doesnt_exist',
                 ]);
                 return $response;
             }
@@ -207,7 +207,7 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
             $status,
             Request::getIp(),
             Request::getUserAgent(),
-            new \DateTime()
+            new \DateTime(),
         );
     }
 
@@ -216,7 +216,7 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
         $newslettersSubscribe = filter_var($params['newsletters_subscribe'] ?? null, FILTER_VALIDATE_BOOLEAN);
 
         return array_filter([
-            'newsletters_subscribe' => $newslettersSubscribe
+            'newsletters_subscribe' => $newslettersSubscribe,
         ]);
     }
 

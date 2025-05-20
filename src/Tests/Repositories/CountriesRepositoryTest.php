@@ -51,7 +51,7 @@ class CountriesRepositoryTest extends DatabaseTestCase
     {
         $testCountry = '';
         $this->expectExceptionObject(
-            new \Exception("Unable to load default country from empty string.")
+            new \Exception("Unable to load default country from empty string."),
         );
         $_ = new CountriesRepository($testCountry, $this->inject(Explorer::class));
     }
@@ -60,7 +60,7 @@ class CountriesRepositoryTest extends DatabaseTestCase
     {
         $testCountry = 'UNKNOWN';
         $this->expectExceptionObject(
-            new \Exception("Unable to load default country from provided ISO code [UNKNOWN].")
+            new \Exception("Unable to load default country from provided ISO code [UNKNOWN]."),
         );
         $countriesRepository = new CountriesRepository($testCountry, $this->inject(Explorer::class));
         $countriesRepository->setTransaction($this->inject(DatabaseTransaction::class));

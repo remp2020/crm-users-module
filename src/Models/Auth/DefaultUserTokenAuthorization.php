@@ -30,7 +30,7 @@ class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, A
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
         Emitter $emitter,
-        ApplicationConfig $applicationConfig
+        ApplicationConfig $applicationConfig,
     ) {
         $this->accessTokensRepository = $accessTokensRepository;
         $this->emitter = $emitter;
@@ -62,7 +62,7 @@ class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, A
             $token->user,
             $accessDate,
             $source,
-            Request::getUserAgent()
+            Request::getUserAgent(),
         ));
 
         $this->accessTokens[] = $token;

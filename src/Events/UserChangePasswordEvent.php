@@ -10,7 +10,7 @@ class UserChangePasswordEvent extends AbstractEvent implements UserEventInterfac
     public function __construct(
         private ActiveRow $user,
         private string $newPassword,
-        private bool $notify = true
+        private bool $notify = true,
     ) {
     }
 

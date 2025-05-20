@@ -13,7 +13,7 @@ class DisableUserCommand extends Command
     private $usersRepository;
 
     public function __construct(
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         parent::__construct();
         $this->usersRepository = $usersRepository;
@@ -26,7 +26,7 @@ class DisableUserCommand extends Command
             ->addArgument(
                 'email',
                 InputArgument::REQUIRED,
-                'User email'
+                'User email',
             )
         ;
     }

@@ -31,7 +31,7 @@ class UsersEmailHandler extends ApiHandler implements ApiParamsValidatorInterfac
     public function __construct(
         UserManager $userManager,
         EmailValidator $emailValidator,
-        UsersAuthenticator $usersAuthenticator
+        UsersAuthenticator $usersAuthenticator,
     ) {
         $this->userManager = $userManager;
         $this->emailValidator = $emailValidator;
@@ -54,8 +54,8 @@ class UsersEmailHandler extends ApiHandler implements ApiParamsValidatorInterfac
                 [
                     'status' => 'error',
                     'message' => 'Invalid email format',
-                    'code' => 'invalid_email'
-                ]
+                    'code' => 'invalid_email',
+                ],
             );
         }
 
@@ -66,7 +66,7 @@ class UsersEmailHandler extends ApiHandler implements ApiParamsValidatorInterfac
 
             $this->usersAuthenticator->setCredentials([
                 'username' => $params['email'],
-                'password' => $params['password'] ?? ''
+                'password' => $params['password'] ?? '',
             ]);
             $this->usersAuthenticator->authenticate();
             $status = 'taken';

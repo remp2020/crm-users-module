@@ -51,7 +51,7 @@ final class UsersModuleExtension extends CompilerExtension implements Translatio
 
         // load services from config and register them to Nette\DI Container
         $this->compiler->loadDefinitionsFromConfig(
-            $this->loadFromFile(__DIR__.'/../config/config.neon')['services']
+            $this->loadFromFile(__DIR__.'/../config/config.neon')['services'],
         );
 
         /** @var ServiceDefinition $definition */

@@ -26,7 +26,7 @@ class UserDeleteFormFactory
         UsersRepository $usersRepository,
         DeleteUserData $deleteUserData,
         IAuthenticator $authenticator,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->deleteUserData = $deleteUserData;
         $this->usersRepository = $usersRepository;

@@ -18,7 +18,7 @@ use League\Event\EventInterface;
 class SecureAccessSignInEventHandler extends AbstractListener
 {
     public function __construct(
-        private SecuredAdminAccess $securedAdminAccess
+        private SecuredAdminAccess $securedAdminAccess,
     ) {
     }
 

@@ -33,7 +33,7 @@ class SsoUserManager
         string $type,
         UserBuilder $userBuilder,
         $connectedAccountMeta = null,
-        $loggedUserId = null
+        $loggedUserId = null,
     ): ActiveRow {
         // Transaction may cause hermes event handlers to fail occasionally because the data is not committed into db at the time of event handling.
         // TODO: Return transaction with remp/crm#2218 implementation

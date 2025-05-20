@@ -20,7 +20,7 @@ class UserMetaUpsertHandler extends ApiHandler
 
     public function __construct(
         UserMetaRepository $userMetaRepository,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         $this->userMetaRepository = $userMetaRepository;
         $this->usersRepository = $usersRepository;
@@ -61,7 +61,7 @@ class UserMetaUpsertHandler extends ApiHandler
         $response = new JsonApiResponse(Response::S200_OK, [
             'key' => $userMetaRow->key,
             'value' => $userMetaRow->value,
-            'is_public' => (bool)$userMetaRow->is_public
+            'is_public' => (bool)$userMetaRow->is_public,
         ]);
 
         return $response;

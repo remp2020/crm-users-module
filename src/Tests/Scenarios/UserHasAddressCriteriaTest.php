@@ -37,22 +37,22 @@ class UserHasAddressCriteriaTest extends DatabaseTestCase
             [
                 'hasAddresses' => ['invoice'],
                 'shouldHaveOneOfAddressTypes' => ['invoice'],
-                'expectedResult' => true
+                'expectedResult' => true,
             ],
             [
                 'hasAddresses' => [],
                 'shouldHaveOneOfAddressTypes' => ['invoice'],
-                'expectedResult' => false
+                'expectedResult' => false,
             ],
             [
                 'hasAddresses' => ['print'],
                 'shouldHaveOneOfAddressTypes' => ['print', 'invoice'],
-                'expectedResult' => true
+                'expectedResult' => true,
             ],
             [
                 'hasAddresses' => ['print_friday'],
                 'shouldHaveOneOfAddressTypes' => ['print', 'invoice'],
-                'expectedResult' => false
+                'expectedResult' => false,
             ],
         ];
     }
@@ -104,7 +104,7 @@ class UserHasAddressCriteriaTest extends DatabaseTestCase
                     'Test',
                     'Test',
                     $country->id,
-                    'Test'
+                    'Test',
                 );
             }
         }

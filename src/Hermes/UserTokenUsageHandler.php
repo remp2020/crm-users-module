@@ -21,7 +21,7 @@ class UserTokenUsageHandler implements HandlerInterface
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
         Emitter $emitter,
-        ApplicationConfig $applicationConfig
+        ApplicationConfig $applicationConfig,
     ) {
         $this->accessTokensRepository = $accessTokensRepository;
         $this->emitter = $emitter;
@@ -58,7 +58,7 @@ class UserTokenUsageHandler implements HandlerInterface
             $token->user,
             $accessDate,
             $payload['source'],
-            $payload['user_agent']
+            $payload['user_agent'],
         ));
 
         return true;

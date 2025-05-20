@@ -23,7 +23,7 @@ class UserNoteFormFactory
 
     public function __construct(
         Translator $translator,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         $this->usersRepository = $usersRepository;
         $this->translator = $translator;
@@ -50,11 +50,11 @@ class UserNoteFormFactory
                 ->addRule(
                     Form::MAX_LENGTH,
                     'users.admin.user_note_form.note.validation.maximum',
-                    MysqlAdapter::TEXT_REGULAR
+                    MysqlAdapter::TEXT_REGULAR,
                 );
         $note->getControlPrototype()->addAttributes([
                 'class' => 'autosize',
-                'style' => 'max-height: 400px;'
+                'style' => 'max-height: 400px;',
             ]);
 
         $form->addSubmit('send', 'system.save')

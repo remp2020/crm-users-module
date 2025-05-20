@@ -25,7 +25,7 @@ class UserActionLogAdmin extends Control
 
     public function __construct(
         UserActionsLogRepository $userActionsLogRepository,
-        DataProviderManager $dataProviderManager
+        DataProviderManager $dataProviderManager,
     ) {
         $this->userActionsLogRepository = $userActionsLogRepository;
         $this->dataProviderManager = $dataProviderManager;

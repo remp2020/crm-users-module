@@ -23,7 +23,7 @@ class GenerateAccessCommand extends Command
     public function __construct(
         AdminAccessRepository $adminAccessRepository,
         AdminGroupsAccessRepository $adminGroupsAccessRepository,
-        Container $container
+        Container $container,
     ) {
         parent::__construct();
         $this->adminAccessRepository = $adminAccessRepository;
@@ -39,7 +39,7 @@ class GenerateAccessCommand extends Command
                 'cleanup',
                 null,
                 InputOption::VALUE_NONE,
-                'Use this option to remove orphaned ACL resources (eg. (re)moved presenter / action; uninstalled module).'
+                'Use this option to remove orphaned ACL resources (eg. (re)moved presenter / action; uninstalled module).',
             )
             ->addUsage('--cleanup');
     }
@@ -128,7 +128,7 @@ class GenerateAccessCommand extends Command
                     $output->writeln(
                         " * <error>ACL resource </error><fg=red;bg=white;options=bold> {$resource}:{$action} </><error>" .
                         " has incorrect access level <fg=red;bg=white;options=bold>[{$accessLevel}]</>.</error>\n" .
-                        "   <error>Only read, write and null are allowed. Null will be used instead.</error>"
+                        "   <error>Only read, write and null are allowed. Null will be used instead.</error>",
                     );
                     $accessLevel = null;
                 }

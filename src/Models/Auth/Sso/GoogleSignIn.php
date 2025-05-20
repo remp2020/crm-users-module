@@ -75,7 +75,7 @@ class GoogleSignIn
         string $gsiAccessToken = null,
         int $loggedUserId = null,
         string $source = null,
-        ?string $locale = null
+        ?string $locale = null,
     ): ?ActiveRow {
         if (!$this->isEnabled()) {
             throw new \Exception('Google Sign In is not enabled, please see authentication configuration in your admin panel.');
@@ -114,7 +114,7 @@ class GoogleSignIn
         $userBuilder = $this->ssoUserManager->createUserBuilder(
             $userEmail,
             $source ?? self::USER_SOURCE_GOOGLE_SSO,
-            self::USER_GOOGLE_REGISTRATION_CHANNEL
+            self::USER_GOOGLE_REGISTRATION_CHANNEL,
         );
 
         if ($locale) {
@@ -128,7 +128,7 @@ class GoogleSignIn
             UserConnectedAccountsRepository::TYPE_GOOGLE_SIGN_IN,
             $userBuilder,
             $payload,
-            $loggedUserId
+            $loggedUserId,
         );
     }
 
@@ -164,7 +164,7 @@ class GoogleSignIn
             null,
             null,
             true,
-            'Lax'
+            'Lax',
         );
     }
 
@@ -337,7 +337,7 @@ class GoogleSignIn
         Client $client,
         ?string $locale,
         ?string $referer,
-        ?string $source
+        ?string $source,
     ): ActiveRow {
         // Get user details using access token
         $service = new Oauth2($client);
@@ -370,7 +370,7 @@ class GoogleSignIn
             $userEmail,
             $source ?? self::USER_SOURCE_GOOGLE_SSO,
             self::USER_GOOGLE_REGISTRATION_CHANNEL,
-            $referer
+            $referer,
         );
 
         if ($locale) {
@@ -386,7 +386,7 @@ class GoogleSignIn
             UserConnectedAccountsRepository::TYPE_GOOGLE_SIGN_IN,
             $userBuilder,
             $userInfo->toSimpleObject(),
-            $loggedUserId
+            $loggedUserId,
         );
     }
 }

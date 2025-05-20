@@ -160,7 +160,7 @@ class AddressFormFactory
             companyTaxId: $values->company_tax_id,
             companyVatId: $values->company_vat_id,
             phoneNumber: $values->phone_number,
-            type: $values->type ?? null
+            type: $values->type ?? null,
         );
 
         if ($changeRequest) {

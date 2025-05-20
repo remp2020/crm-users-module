@@ -14,7 +14,7 @@ class AdminUserGroupsUserDataProvider implements UserDataProviderInterface
 
     public function __construct(
         AdminUserGroupsRepository $adminUserGroupsRepository,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         $this->adminUserGroupsRepository = $adminUserGroupsRepository;
         $this->usersRepository = $usersRepository;

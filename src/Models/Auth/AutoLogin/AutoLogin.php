@@ -28,7 +28,7 @@ class AutoLogin
             'token' => $token,
             'valid_from <=' => new DateTime(),
             'valid_to >' => new DateTime(),
-            'used_count < max_count'
+            'used_count < max_count',
         ])->fetch();
     }
 
@@ -45,7 +45,7 @@ class AutoLogin
             $user,
             $validFrom,
             $validTo,
-            $maxCount
+            $maxCount,
         );
     }
 }

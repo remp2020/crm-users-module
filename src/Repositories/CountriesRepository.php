@@ -80,7 +80,7 @@ class CountriesRepository extends Repository implements ResettableInterface
         return $this->insert([
             'iso_code' => $isoCode,
             'name' => $name,
-            'sorting' => $sorting
+            'sorting' => $sorting,
         ]);
     }
 

@@ -21,7 +21,7 @@ class UserMetaDeleteHandler extends ApiHandler
 
     public function __construct(
         UserMetaRepository $userMetaRepository,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         $this->userMetaRepository = $userMetaRepository;
         $this->usersRepository = $usersRepository;

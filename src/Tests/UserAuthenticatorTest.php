@@ -77,19 +77,19 @@ class UserAuthenticatorTest extends DatabaseTestCase
         $authenticatorManager = $this->inject(AuthenticatorManagerInterface::class);
         $authenticatorManager->registerAuthenticator(
             $this->inject(AutoLoginAuthenticator::class),
-            700
+            700,
         );
         $authenticatorManager->registerAuthenticator(
             $this->inject(UsersAuthenticator::class),
-            500
+            500,
         );
         $authenticatorManager->registerAuthenticator(
             $this->inject(AccessTokenAuthenticator::class),
-            200
+            200,
         );
         $authenticatorManager->registerAuthenticator(
             $this->inject(AutoLoginTokenAuthenticator::class),
-            800
+            800,
         );
 
         $this->userAuthenticator = $this->inject(UserAuthenticator::class);

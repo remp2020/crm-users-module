@@ -19,7 +19,7 @@ class UsersLogoutHandler extends ApiHandler
 
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
-        Emitter $emitter
+        Emitter $emitter,
     ) {
         $this->accessTokensRepository = $accessTokensRepository;
         $this->emitter = $emitter;

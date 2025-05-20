@@ -29,7 +29,7 @@ class EmailValidationApiHandler extends ApiHandler
         private Request $request,
         private UsersRepository $usersRepository,
         private UnclaimedUser $unclaimedUser,
-        private UserMetaRepository $userMetaRepository
+        private UserMetaRepository $userMetaRepository,
     ) {
         parent::__construct();
     }
@@ -45,7 +45,7 @@ class EmailValidationApiHandler extends ApiHandler
     {
         $result = $this->validateInput(
             __DIR__ . '/email-validation-api-handler.schema.json',
-            $this->rawPayload()
+            $this->rawPayload(),
         );
         if ($result->hasErrorResponse()) {
             return $result->getErrorResponse();

@@ -25,7 +25,7 @@ class ActiveRegisteredUsersStatWidget extends BaseLazyWidget
     public function __construct(
         LazyWidgetManager $lazyWidgetManager,
         SegmentsRepository $segmentsRepository,
-        SegmentsValuesRepository $segmentsValuesRepository
+        SegmentsValuesRepository $segmentsValuesRepository,
     ) {
         parent::__construct($lazyWidgetManager);
 
@@ -43,7 +43,7 @@ class ActiveRegisteredUsersStatWidget extends BaseLazyWidget
         if ($this->segmentsRepository->exists(self::SEGMENT_CODE)) {
             $this->template->totalPaidSubscribersLink = $this->presenter->link(
                 ':Segment:StoredSegments:show',
-                $this->segmentsRepository->findByCode(self::SEGMENT_CODE)->id
+                $this->segmentsRepository->findByCode(self::SEGMENT_CODE)->id,
             );
         } else {
             throw new \Exception('Trying to render ActiveRegisteredUsersStatWidget with non-existing segment: ' . self::SEGMENT_CODE . '. Did you need to run application:seed command?');

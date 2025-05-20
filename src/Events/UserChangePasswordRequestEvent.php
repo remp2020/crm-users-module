@@ -9,7 +9,7 @@ class UserChangePasswordRequestEvent extends AbstractEvent implements UserEventI
 {
     public function __construct(
         private ActiveRow $user,
-        private string $token
+        private string $token,
     ) {
     }
 

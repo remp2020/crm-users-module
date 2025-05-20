@@ -12,7 +12,7 @@ class UserUpdatedHandler extends AbstractListener
 {
     public function __construct(
         private User $user,
-        private Session $session
+        private Session $session,
     ) {
     }
 

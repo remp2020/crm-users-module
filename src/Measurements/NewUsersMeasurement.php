@@ -45,7 +45,7 @@ class NewUsersMeasurement extends BaseMeasurement
                 $query,
                 [
                     'created_at >=' => $criteria->getFrom(),
-                    'created_at <' => $criteria->getTo()
+                    'created_at <' => $criteria->getTo(),
                 ],
             );
 
@@ -55,7 +55,7 @@ class NewUsersMeasurement extends BaseMeasurement
                     $criteria->getAggregation(),
                     $row->count,
                     DateData::fromRow($row)->getDateTime(),
-                    $group ? $row->{$group} : null
+                    $group ? $row->{$group} : null,
                 );
                 if ($group) {
                     $series->setGroupPoint($group, $point);

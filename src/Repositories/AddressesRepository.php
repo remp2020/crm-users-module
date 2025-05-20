@@ -21,7 +21,7 @@ class AddressesRepository extends Repository
     public function __construct(
         Explorer $database,
         AuditLogRepository $auditLogRepository,
-        DataProviderManager $dataProviderManager
+        DataProviderManager $dataProviderManager,
     ) {
         parent::__construct($database);
         $this->auditLogRepository = $auditLogRepository;
@@ -123,7 +123,7 @@ class AddressesRepository extends Repository
             $entries = [
                 "{$row->first_name} {$row->last_name}",
                 "{$row->street} {$row->number}",
-                "{$row->zip} {$row->city}"
+                "{$row->zip} {$row->city}",
             ];
             $countryCode = $row->country?->iso_code;
             if ($countryCode) {
@@ -187,11 +187,11 @@ class AddressesRepository extends Repository
         /** @var CanDeleteAddressDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders(
             'users.dataprovider.address.can_delete',
-            CanDeleteAddressDataProviderInterface::class
+            CanDeleteAddressDataProviderInterface::class,
         );
         foreach ($providers as $sorting => $provider) {
             $result = $provider->provide([
-                'address' => $address
+                'address' => $address,
             ]);
 
             if (isset($result['canDelete']) && $result['canDelete'] === false) {
@@ -200,7 +200,7 @@ class AddressesRepository extends Repository
         }
 
         return [
-            'canDelete' => true
+            'canDelete' => true,
         ];
     }
 

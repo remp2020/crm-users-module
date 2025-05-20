@@ -12,7 +12,7 @@ class UserLastAccessEvent extends AbstractEvent implements UserEventInterface
         private ActiveRow $user,
         private DateTime $dateTime,
         private $source,
-        private $userAgent
+        private $userAgent,
     ) {
     }
 

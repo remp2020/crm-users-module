@@ -15,7 +15,7 @@ class AdminUserGroupsRepository extends Repository
     public function __construct(
         Explorer $database,
         Storage $cacheStorage = null,
-        AuditLogRepository $auditLogRepository
+        AuditLogRepository $auditLogRepository,
     ) {
         parent::__construct($database, $cacheStorage);
         $this->auditLogRepository = $auditLogRepository;
@@ -36,7 +36,7 @@ class AdminUserGroupsRepository extends Repository
     {
         return $this->getTable()->where([
                 'admin_group_id' => $adminGroup->id,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ])->count('*') > 0;
     }
 
@@ -44,7 +44,7 @@ class AdminUserGroupsRepository extends Repository
     {
         $row = $this->getTable()->where([
             'admin_group_id' => $adminGroup->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ])->fetch();
         if (!$row) {
             return false;

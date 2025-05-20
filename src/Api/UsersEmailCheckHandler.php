@@ -19,7 +19,7 @@ class UsersEmailCheckHandler extends ApiHandler
     public function __construct(
         private UsersRepository $usersRepository,
         private UnclaimedUser $unclaimedUser,
-        ScopeFactoryInterface $scopeFactory = null
+        ScopeFactoryInterface $scopeFactory = null,
     ) {
         parent::__construct($scopeFactory);
     }
@@ -27,7 +27,7 @@ class UsersEmailCheckHandler extends ApiHandler
     public function params(): array
     {
         return [
-            (new PostInputParam('email'))->setRequired()
+            (new PostInputParam('email'))->setRequired(),
         ];
     }
 
@@ -39,8 +39,8 @@ class UsersEmailCheckHandler extends ApiHandler
                 [
                     'status' => self::STATUS_ERROR,
                     'message' => 'Invalid email format',
-                    'code' => 'invalid_email'
-                ]
+                    'code' => 'invalid_email',
+                ],
             );
         }
 
@@ -50,7 +50,7 @@ class UsersEmailCheckHandler extends ApiHandler
 
         $result = [
             'email' => $params['email'],
-            'status' => $taken ? self::STATUS_TAKEN : self::STATUS_AVAILABLE
+            'status' => $taken ? self::STATUS_TAKEN : self::STATUS_AVAILABLE,
         ];
         if ($taken) {
             $result['id'] = $user->id;

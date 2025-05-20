@@ -34,7 +34,7 @@ class UserBuilder extends Builder
         private UsersRepository $usersRepository,
         private UserMetaRepository $userMetaRepository,
         private Translator $translator,
-        private Passwords $passwords
+        private Passwords $passwords,
     ) {
         parent::__construct($database);
     }

@@ -40,7 +40,7 @@ class GoogleTokenSignInHandler extends ApiHandler
         private DataProviderManager $dataProviderManager,
         private Emitter $emitter,
         private \Tomaj\Hermes\Emitter $hermesEmitter,
-        LinkGenerator $linkGenerator
+        LinkGenerator $linkGenerator,
     ) {
         parent::__construct();
         $this->linkGenerator = $linkGenerator;
@@ -72,7 +72,7 @@ class GoogleTokenSignInHandler extends ApiHandler
                 $response = new JsonApiResponse(IResponse::S400_BAD_REQUEST, [
                     'status' => 'error',
                     'code' => 'no_access_token_to_pair_device_token',
-                    'message' => 'There is no access token to pair with device token. Set parameter "create_access_token=true" in your request payload.'
+                    'message' => 'There is no access token to pair with device token. Set parameter "create_access_token=true" in your request payload.',
                 ]);
                 return $response;
             }
@@ -82,7 +82,7 @@ class GoogleTokenSignInHandler extends ApiHandler
                 $response = new JsonApiResponse(IResponse::S404_NOT_FOUND, [
                     'status' => 'error',
                     'message' => 'Device token doesn\'t exist',
-                    'code' => 'device_token_doesnt_exist'
+                    'code' => 'device_token_doesnt_exist',
                 ]);
                 return $response;
             }
@@ -178,7 +178,7 @@ class GoogleTokenSignInHandler extends ApiHandler
         $toMerge = [];
         foreach ($providers as $s => $provider) {
             $toMerge[] = $provider->provide([
-                'user' => $user
+                'user' => $user,
             ]);
         }
         return array_merge($result, ...$toMerge);
@@ -192,7 +192,7 @@ class GoogleTokenSignInHandler extends ApiHandler
             $user,
             $source,
             LoginAttemptsRepository::STATUS_API_OK,
-            $date
+            $date,
         ));
         $this->hermesEmitter->emit(new HermesMessage(
             'login-attempt',
@@ -202,7 +202,7 @@ class GoogleTokenSignInHandler extends ApiHandler
                 'date' => $date->getTimestamp(),
                 'browser_id' => $browserId,
                 'user_id' => $user->id,
-            ]
+            ],
         ), HermesMessage::PRIORITY_DEFAULT);
     }
 }

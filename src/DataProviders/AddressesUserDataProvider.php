@@ -13,7 +13,7 @@ class AddressesUserDataProvider implements UserDataProviderInterface
     private $addressesRepository;
 
     public function __construct(
-        AddressesRepository $addressesRepository
+        AddressesRepository $addressesRepository,
     ) {
         $this->addressesRepository = $addressesRepository;
     }
@@ -39,7 +39,7 @@ class AddressesUserDataProvider implements UserDataProviderInterface
             'company_vat_id' => 'GDPR removal',
             'company_name' => 'GDPR removal',
             'phone_number' => 'GDPR removal',
-            'deleted_at' => $deletedAt
+            'deleted_at' => $deletedAt,
         ];
     }
 

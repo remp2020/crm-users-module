@@ -28,7 +28,7 @@ class UserGroupsFormFactory
         UsersRepository $userRepository,
         GroupsRepository $groupsRepository,
         UserGroupsRepository $userGroupsRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->userRepository = $userRepository;
         $this->groupsRepository = $groupsRepository;

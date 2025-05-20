@@ -20,7 +20,7 @@ class UserSourceAccesses extends BaseLazyWidget
 
     public function __construct(
         LazyWidgetManager $lazyWidgetManager,
-        UserSourceAccessesRepository $userSourceAccessesRepository
+        UserSourceAccessesRepository $userSourceAccessesRepository,
     ) {
         parent::__construct($lazyWidgetManager);
         $this->userSourceAccessesRepository = $userSourceAccessesRepository;

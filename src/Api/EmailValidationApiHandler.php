@@ -19,7 +19,7 @@ class EmailValidationApiHandler extends ApiHandler
     public function __construct(
         private Request $request,
         private UsersRepository $usersRepository,
-        private UnclaimedUser $unclaimedUser
+        private UnclaimedUser $unclaimedUser,
     ) {
         parent::__construct();
     }

@@ -34,7 +34,7 @@ class TestUserTokenAuthorization implements UsersApiAuthorizationInterface, Acce
     public function getAuthorizedData()
     {
         return [
-            'token' => reset($this->tokens)
+            'token' => reset($this->tokens),
         ];
     }
 

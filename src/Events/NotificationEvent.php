@@ -68,7 +68,7 @@ class NotificationEvent extends AbstractEvent
         array $attachments = [],
         \DateTime $scheduleAt = null,
         NotificationContext $notificationContext = null,
-        ?string $locale = null
+        ?string $locale = null,
     ) {
         $this->user         = $user;
         $this->templateCode = $templateCode;

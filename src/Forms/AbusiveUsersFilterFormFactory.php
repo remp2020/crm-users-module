@@ -15,7 +15,7 @@ class AbusiveUsersFilterFormFactory
     public $onCancel;
 
     public function __construct(
-        Translator $translator
+        Translator $translator,
     ) {
         $this->translator = $translator;
     }
@@ -44,13 +44,13 @@ class AbusiveUsersFilterFormFactory
         $form->addSelect(
             'loginCount',
             'users.admin.abusive.number_of_logins',
-            [10 => '10+', 25 => '25+', 50 => '50+', 100 => '100+']
+            [10 => '10+', 25 => '25+', 50 => '50+', 100 => '100+'],
         );
 
         $form->addSelect(
             'deviceCount',
             'users.admin.abusive.number_of_devices',
-            [1 => '1+', 5 => '5+', 10 => '10+', 25 => '25+', 50 => '50+']
+            [1 => '1+', 5 => '5+', 10 => '10+', 25 => '25+', 50 => '50+'],
         );
 
         $form->addSubmit('send', 'users.admin.abusive.submit')

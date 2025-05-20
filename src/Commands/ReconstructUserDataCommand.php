@@ -17,7 +17,7 @@ class ReconstructUserDataCommand extends Command
     public function __construct(
         private UsersRepository $usersRepository,
         private UserData $userData,
-        private SegmentFactoryInterface $segmentFactory
+        private SegmentFactoryInterface $segmentFactory,
     ) {
         parent::__construct();
     }
@@ -30,7 +30,7 @@ class ReconstructUserDataCommand extends Command
                 'user_ids',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                'User IDs to refresh. If not provided, all users are refreshed (if segment is not provided).'
+                'User IDs to refresh. If not provided, all users are refreshed (if segment is not provided).',
             )
             ->addOption(
                 'segment',

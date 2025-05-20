@@ -65,7 +65,7 @@ class AppleSignIn
             null,
             true, // "SameSite: None" has to have "Secure: true"
             true,
-            'None' // Lax cannot be used with POST request (response from Apple is POST)
+            'None', // Lax cannot be used with POST request (response from Apple is POST)
         );
     }
 
@@ -106,7 +106,7 @@ class AppleSignIn
             'response_type' => 'id_token code',
             'scope' => 'email',
             'state' => $state,
-            'nonce' => $nonce
+            'nonce' => $nonce,
         ]);
 
         //save cookie for later verification
@@ -215,7 +215,7 @@ class AppleSignIn
             $userEmail,
             $asiSource ?? self::USER_SOURCE_APPLE_SSO,
             self::USER_APPLE_REGISTRATION_CHANNEL,
-            $referer
+            $referer,
         );
 
         if ($locale) {
@@ -228,7 +228,7 @@ class AppleSignIn
             UserConnectedAccountsRepository::TYPE_APPLE_SIGN_IN,
             $userBuilder,
             null,
-            $loggedUserId
+            $loggedUserId,
         );
     }
 
@@ -275,7 +275,7 @@ class AppleSignIn
         $userBuilder = $this->ssoUserManager->createUserBuilder(
             $userEmail,
             self::USER_SOURCE_APPLE_SSO,
-            self::USER_APPLE_REGISTRATION_CHANNEL
+            self::USER_APPLE_REGISTRATION_CHANNEL,
         );
 
         if ($locale) {
@@ -286,7 +286,7 @@ class AppleSignIn
             $appleUserId,
             $userEmail,
             UserConnectedAccountsRepository::TYPE_APPLE_SIGN_IN,
-            $userBuilder
+            $userBuilder,
         );
     }
 
@@ -348,7 +348,7 @@ class AppleSignIn
             $cookie['domain'],
             true, // "SameSite: None" requires secure to be set to "true"
             $cookie['httponly'],
-            'None'
+            'None',
         );
 
         // If n_token was missing, user would be logged out.
@@ -365,7 +365,7 @@ class AppleSignIn
                 \Crm\ApplicationModule\Models\Request::getDomain(),
                 true, // "SameSite: None" requires secure to be set to "true"
                 $cookie['httponly'],
-                'None'
+                'None',
             );
         }
     }

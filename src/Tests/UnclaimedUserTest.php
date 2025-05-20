@@ -39,14 +39,14 @@ class UnclaimedUserTest extends DatabaseTestCase
             AccessTokensRepository::class,
             DeviceTokensRepository::class,
             UsersRepository::class,
-            UserMetaRepository::class
+            UserMetaRepository::class,
         ];
     }
 
     protected function requiredSeeders(): array
     {
         return [
-            UsersSeeder::class
+            UsersSeeder::class,
         ];
     }
 

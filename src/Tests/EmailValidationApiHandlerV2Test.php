@@ -24,7 +24,7 @@ class EmailValidationApiHandlerV2Test extends DatabaseTestCase
     protected function requiredSeeders(): array
     {
         return [
-            UsersSeeder::class
+            UsersSeeder::class,
         ];
     }
 

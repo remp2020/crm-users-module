@@ -40,7 +40,7 @@ class AccessTokenAuthenticator extends BaseAuthenticator
         Request $request,
         AccessTokensRepository $accessTokensRepository,
         Translator $translator,
-        Session $session
+        Session $session,
     ) {
         parent::__construct($emitter, $hermesEmitter, $request);
         $this->translator = $translator;

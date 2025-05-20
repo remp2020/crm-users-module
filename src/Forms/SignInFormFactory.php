@@ -16,7 +16,7 @@ class SignInFormFactory
     public function __construct(
         protected Translator $translator,
         protected Authorizator $authorizator,
-        protected User $user
+        protected User $user,
     ) {
     }
 

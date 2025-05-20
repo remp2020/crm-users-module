@@ -22,7 +22,7 @@ class AdminUserGroupFormFactory
         private AdminGroupsRepository $adminGroupsRepository,
         private AdminUserGroupsRepository $adminUserGroupsRepository,
         private UsersRepository $usersRepository,
-        private Translator $translator
+        private Translator $translator,
     ) {
     }
 

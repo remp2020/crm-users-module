@@ -14,7 +14,7 @@ class AddressesHandler extends ApiHandler
 {
     public function __construct(
         private UserManager $userManager,
-        private AddressesRepository $addressesRepository
+        private AddressesRepository $addressesRepository,
     ) {
         parent::__construct();
     }

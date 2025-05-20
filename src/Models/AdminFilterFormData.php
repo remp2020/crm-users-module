@@ -15,7 +15,7 @@ class AdminFilterFormData
     public function __construct(
         private readonly AddressesRepository $addressesRepository,
         private readonly DataProviderManager $dataProviderManager,
-        private readonly UsersRepository $usersRepository
+        private readonly UsersRepository $usersRepository,
     ) {
     }
 
@@ -60,7 +60,7 @@ class AdminFilterFormData
             'zip' => $this->getZip(),
             'phone' => $this->getPhone(),
             'group' => $this->getGroup(),
-            'source' => $this->getSource()
+            'source' => $this->getSource(),
         ];
     }
 

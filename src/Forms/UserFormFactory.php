@@ -51,7 +51,7 @@ class UserFormFactory
         AdminUserGroupsRepository $adminUserGroupsRepository,
         Passwords $passwords,
         ChangePasswordsLogsRepository $changePasswordsLogsRepository,
-        Emitter $emitter
+        Emitter $emitter,
     ) {
         $this->userRepository = $userRepository;
         $this->userBuilder = $userBuilder;
@@ -109,7 +109,7 @@ class UserFormFactory
         $form->addSelect(
             'locale',
             $this->translator->translate('users.admin.user_form.locale.label'),
-            $localeOptions
+            $localeOptions,
         )->setDefaultValue($this->translator->getLocale());
         $form->addText('first_name', $this->translator->translate('users.admin.user_form.first_name.label'))
             ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.user_form.first_name.placeholder'));
@@ -201,7 +201,7 @@ class UserFormFactory
                         $user,
                         ChangePasswordsLogsRepository::TYPE_RESET,
                         $oldPasswordHash,
-                        $values['password']
+                        $values['password'],
                     );
 
                     $this->emitter->emit(new UserChangePasswordEvent($user, $newPassword));

@@ -16,7 +16,7 @@ class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTo
     public function __construct(
         protected DefaultUserTokenAuthorization $defaultUserTokenAuthorization,
         protected DeviceTokenAuthorization $deviceTokenAuthorization,
-        protected Emitter $emitter
+        protected Emitter $emitter,
     ) {
     }
 

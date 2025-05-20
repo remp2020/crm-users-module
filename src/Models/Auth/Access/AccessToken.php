@@ -22,7 +22,7 @@ class AccessToken
 
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         $this->accessTokenRepository = $accessTokensRepository;
         $this->usersRepository = $usersRepository;
@@ -65,7 +65,7 @@ class AccessToken
                 \Crm\ApplicationModule\Models\Request::getDomain(),
                 $request->isSecured(),
                 false,
-                $this->sameSiteFlag
+                $this->sameSiteFlag,
             );
         }
 

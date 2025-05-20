@@ -63,7 +63,7 @@ class UserLoginApiHandlerTest extends DatabaseTestCase
         $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
         $this->lazyEventEmitter->addListener(
             UserSignInEvent::class,
-            $this->inject(SignEventHandler::class)
+            $this->inject(SignEventHandler::class),
         );
 
         $this->authenticatorManager = $this->inject(AuthenticatorManagerInterface::class);

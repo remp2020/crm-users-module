@@ -11,7 +11,7 @@ class UserDataLocaleResolver implements ResolverInterface
 {
     public function __construct(
         private UserData $userData,
-        private IRequest $request
+        private IRequest $request,
     ) {
     }
 

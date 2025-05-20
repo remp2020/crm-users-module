@@ -24,7 +24,7 @@ class ReachCheckerTest extends DatabaseTestCase
     {
         return [
             UsersRepository::class,
-            UserMetaRepository::class
+            UserMetaRepository::class,
         ];
     }
 
@@ -52,7 +52,7 @@ class ReachCheckerTest extends DatabaseTestCase
     public function testReachableUser()
     {
         $this->assertTrue(
-            $this->reachChecker->isReachable($this->user)
+            $this->reachChecker->isReachable($this->user),
         );
     }
 
@@ -62,7 +62,7 @@ class ReachCheckerTest extends DatabaseTestCase
             'deleted_at' => new \DateTime(),
         ]);
         $this->assertFalse(
-            $this->reachChecker->isReachable($this->user)
+            $this->reachChecker->isReachable($this->user),
         );
     }
 
@@ -72,7 +72,7 @@ class ReachCheckerTest extends DatabaseTestCase
             'active' => false,
         ]);
         $this->assertFalse(
-            $this->reachChecker->isReachable($this->user)
+            $this->reachChecker->isReachable($this->user),
         );
     }
 
@@ -82,7 +82,7 @@ class ReachCheckerTest extends DatabaseTestCase
         $unclaimedUser = $this->inject(UnclaimedUser::class);
         $user = $unclaimedUser->createUnclaimedUser('unclaimed@example.com');
         $this->assertFalse(
-            $this->reachChecker->isReachable($user)
+            $this->reachChecker->isReachable($user),
         );
     }
 
@@ -90,7 +90,7 @@ class ReachCheckerTest extends DatabaseTestCase
     {
         $this->userMetaRepository->setMeta($this->user, [ReachChecker::USER_META_UNREACHABLE => true]);
         $this->assertFalse(
-            $this->reachChecker->isReachable($this->user)
+            $this->reachChecker->isReachable($this->user),
         );
     }
 }

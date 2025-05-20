@@ -15,7 +15,7 @@ class UsersConfirmApiHandler extends ApiHandler implements IdempotentHandlerInte
     private $userManager;
 
     public function __construct(
-        UserManager $userManager
+        UserManager $userManager,
     ) {
         $this->userManager = $userManager;
     }

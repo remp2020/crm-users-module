@@ -14,7 +14,7 @@ class UsersTouchApiHandler extends ApiHandler
 {
     public function __construct(
         private UsersRepository $usersRepository,
-        private UserData $userData
+        private UserData $userData,
     ) {
         parent::__construct();
     }
@@ -22,7 +22,7 @@ class UsersTouchApiHandler extends ApiHandler
     public function params(): array
     {
         return [
-            (new GetInputParam('id'))->setRequired()
+            (new GetInputParam('id'))->setRequired(),
         ];
     }
 

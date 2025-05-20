@@ -22,7 +22,7 @@ class ResetPasswordFormFactory
     public function __construct(
         UserManager $userManager,
         PasswordResetTokensRepository $passwordResetTokensRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->userManager = $userManager;
         $this->passwordResetTokensRepository = $passwordResetTokensRepository;

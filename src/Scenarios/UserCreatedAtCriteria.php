@@ -35,8 +35,8 @@ class UserCreatedAtCriteria implements ScenariosCriteriaInterface
                 $this->translator->translate('users.admin.scenarios.created_at.timeframe_param.amount_label'),
                 $this->translator->translate('users.admin.scenarios.created_at.timeframe_param.units_label'),
                 array_values(self::OPERATORS),
-                self::UNITS
-            )
+                self::UNITS,
+            ),
         ];
     }
 

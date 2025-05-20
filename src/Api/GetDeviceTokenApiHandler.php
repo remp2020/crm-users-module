@@ -18,7 +18,7 @@ class GetDeviceTokenApiHandler extends ApiHandler
 
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
-        DeviceTokensRepository $deviceTokensRepository
+        DeviceTokensRepository $deviceTokensRepository,
     ) {
         $this->accessTokensRepository = $accessTokensRepository;
         $this->deviceTokensRepository = $deviceTokensRepository;
@@ -41,7 +41,7 @@ class GetDeviceTokenApiHandler extends ApiHandler
             if (!$accessToken) {
                 $response = new JsonApiResponse(Response::S400_BAD_REQUEST, [
                     'status' => 'error',
-                    'message' => 'Access token not valid'
+                    'message' => 'Access token not valid',
                 ]);
                 return $response;
             }
@@ -53,7 +53,7 @@ class GetDeviceTokenApiHandler extends ApiHandler
         }
 
         $response = new JsonApiResponse(Response::S200_OK, [
-            'device_token' => $deviceToken->token
+            'device_token' => $deviceToken->token,
         ]);
         return $response;
     }

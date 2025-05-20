@@ -16,7 +16,7 @@ class UniversalSearchDataProvider implements UniversalSearchDataProviderInterfac
     public function __construct(
         UsersRepository $usersRepository,
         LinkGenerator $linkGenerator,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->usersRepository = $usersRepository;
         $this->linkGenerator = $linkGenerator;
@@ -50,7 +50,7 @@ class UniversalSearchDataProvider implements UniversalSearchDataProviderInterfac
         $result[$this->translator->translate('users.data_provider.universal_search.user_group')][] = [
             'id' => 'user_' . $user->id,
             'text' => $user->email,
-            'url' => $this->linkGenerator->link('Users:UsersAdmin:show', ['id' => $user->id])
+            'url' => $this->linkGenerator->link('Users:UsersAdmin:show', ['id' => $user->id]),
         ];
 
         return $result;

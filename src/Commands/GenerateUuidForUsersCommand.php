@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GenerateUuidForUsersCommand extends Command
 {
     public function __construct(
-        private UsersRepository $usersRepository
+        private UsersRepository $usersRepository,
     ) {
         parent::__construct();
     }

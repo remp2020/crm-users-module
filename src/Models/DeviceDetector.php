@@ -29,7 +29,7 @@ class DeviceDetector
     private MatomoDeviceDetector $deviceDetector;
 
     public function __construct(
-        RedisClientFactory $redisClientFactory
+        RedisClientFactory $redisClientFactory,
     ) {
         $dd = new MatomoDeviceDetector();
         $dd->setCache(
@@ -74,7 +74,7 @@ class DeviceDetector
                     $this->redis->del(self::KEY);
                     return true;
                 }
-            }
+            },
         );
         $this->deviceDetector = $dd;
     }

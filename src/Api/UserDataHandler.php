@@ -14,7 +14,7 @@ class UserDataHandler extends ApiHandler
     private $userData;
 
     public function __construct(
-        UserData $userData
+        UserData $userData,
     ) {
         $this->userData = $userData;
     }

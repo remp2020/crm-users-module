@@ -16,7 +16,7 @@ class AdminGroupsRepository extends Repository
     public function __construct(
         Explorer $database,
         Storage $cacheStorage = null,
-        AuditLogRepository $auditLogRepository
+        AuditLogRepository $auditLogRepository,
     ) {
         parent::__construct($database, $cacheStorage);
         $this->auditLogRepository = $auditLogRepository;

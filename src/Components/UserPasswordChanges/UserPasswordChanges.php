@@ -23,7 +23,7 @@ class UserPasswordChanges extends Control implements WidgetInterface
 
     public function __construct(
         ChangePasswordsLogsRepository $changePasswordsLogsRepository,
-        PasswordResetTokensRepository $passwordResetTokensRepository
+        PasswordResetTokensRepository $passwordResetTokensRepository,
     ) {
         $this->changePasswordsLogsRepository = $changePasswordsLogsRepository;
         $this->passwordResetTokensRepository = $passwordResetTokensRepository;

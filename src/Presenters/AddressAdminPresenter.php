@@ -19,7 +19,7 @@ class AddressAdminPresenter extends AdminPresenter
     public function __construct(
         AddressesRepository $addressesRepository,
         AddressFormFactory $addressFormFactory,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         parent::__construct();
         $this->addressesRepository = $addressesRepository;

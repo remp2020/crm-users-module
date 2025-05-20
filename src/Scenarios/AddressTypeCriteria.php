@@ -19,7 +19,7 @@ class AddressTypeCriteria implements ScenariosCriteriaInterface
 
     public function __construct(
         AddressTypesRepository $addressTypesRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->addressTypesRepository = $addressTypesRepository;
         $this->translator = $translator;
@@ -34,7 +34,7 @@ class AddressTypeCriteria implements ScenariosCriteriaInterface
                 self::KEY,
                 $this->translator->translate('users.admin.scenarios.address_type.param'),
                 $addressTypes,
-                'or'
+                'or',
             ),
         ];
     }
@@ -45,7 +45,7 @@ class AddressTypeCriteria implements ScenariosCriteriaInterface
 
         $selection->where(
             'addresses.id IS NOT NULL AND addresses.type IN (?)',
-            $addressTypes
+            $addressTypes,
         );
         return true;
     }

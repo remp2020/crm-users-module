@@ -24,7 +24,7 @@ class AddressChangeRequestsRepository extends Repository
         private readonly AddressesRepository $addressesRepository,
         private readonly AddressesMetaRepository $addressesMetaRepository,
         private readonly Emitter $emitter,
-        private readonly HermesEmitter $hermesEmitter
+        private readonly HermesEmitter $hermesEmitter,
     ) {
         parent::__construct($database);
     }
@@ -60,7 +60,7 @@ class AddressChangeRequestsRepository extends Repository
             $companyId,
             $companyTaxId,
             $companyVatId,
-            $phoneNumber
+            $phoneNumber,
         )) {
             $isDifferent = true;
         }
@@ -172,7 +172,7 @@ class AddressChangeRequestsRepository extends Repository
             ]);
             $this->emitter->emit(new AddressChangedEvent($address, $asAdmin));
             $this->hermesEmitter->emit(new HermesMessage('address-changed', [
-                'address_id' => $address->id
+                'address_id' => $address->id,
             ]));
         } else {
             /** @var ActiveRow $address */
@@ -194,13 +194,13 @@ class AddressChangeRequestsRepository extends Repository
             );
             $this->emitter->emit(new NewAddressEvent($address, $asAdmin));
             $this->hermesEmitter->emit(new HermesMessage('new-address', [
-                'address_id' => $address->id
+                'address_id' => $address->id,
             ]));
         }
 
         if (!$addressChangeRequest->address_id) {
             $this->update($addressChangeRequest, [
-                'address_id' => $address->id
+                'address_id' => $address->id,
             ]);
         }
         $this->changeStatus($addressChangeRequest, AddressChangeRequestStatusEnum::Accepted->value);
@@ -291,7 +291,7 @@ class AddressChangeRequestsRepository extends Repository
         ?string $companyId,
         ?string $companyTaxId,
         ?string $companyVatId,
-        ?string $phoneNumber
+        ?string $phoneNumber,
     ) : bool {
         if (!$parentAddress || ($firstName != $parentAddress->first_name ||
                 $lastName !== $parentAddress->last_name ||

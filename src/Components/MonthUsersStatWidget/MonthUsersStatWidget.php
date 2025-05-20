@@ -21,7 +21,7 @@ class MonthUsersStatWidget extends BaseLazyWidget
 
     public function __construct(
         LazyWidgetManager $lazyWidgetManager,
-        UsersRepository $usersRepository
+        UsersRepository $usersRepository,
     ) {
         parent::__construct($lazyWidgetManager);
         $this->usersRepository = $usersRepository;
@@ -36,11 +36,11 @@ class MonthUsersStatWidget extends BaseLazyWidget
     {
         $this->template->thisMonthUsers = $this->usersRepository->usersRegisteredBetween(
             DateTime::from(date('Y-m')),
-            new DateTime()
+            new DateTime(),
         )->count('*');
         $this->template->lastMonthUsers = $this->usersRepository->usersRegisteredBetween(
             DateTime::from('first day of -1 month 00:00'),
-            DateTime::from(date('Y-m'))
+            DateTime::from(date('Y-m')),
         )->count('*');
         $this->template->setFile(__DIR__ . DIRECTORY_SEPARATOR . $this->templateName);
         $this->template->render();

@@ -20,7 +20,7 @@ class UserConnectedAccountsRepository extends Repository
 
     public function __construct(
         Explorer $database,
-        AuditLogRepository $auditLogRepository
+        AuditLogRepository $auditLogRepository,
     ) {
         parent::__construct($database);
         $this->auditLogRepository = $auditLogRepository;
@@ -31,7 +31,7 @@ class UserConnectedAccountsRepository extends Repository
         string $type,
         string $externalId,
         ?string $email,
-        $meta = null
+        $meta = null,
     ) {
         return $this->insert([
             'user_id' => $user->id,
@@ -84,7 +84,7 @@ class UserConnectedAccountsRepository extends Repository
         $userAccount = $this->getTable()
             ->where([
                 'user_id' => $user->id,
-                'id' => $id
+                'id' => $id,
             ])
             ->fetch();
 
@@ -107,7 +107,7 @@ class UserConnectedAccountsRepository extends Repository
                 $type,
                 $externalId,
                 $email,
-                $meta
+                $meta,
             );
         }
 

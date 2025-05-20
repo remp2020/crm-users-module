@@ -33,7 +33,7 @@ class AccessTokensRepository extends Repository
         Explorer $database,
         Emitter $emitter,
         UserMetaRepository $userMetaRepository,
-        DataProviderManager $dataProviderManager
+        DataProviderManager $dataProviderManager,
     ) {
         parent::__construct($database);
         $this->emitter = $emitter;
@@ -109,7 +109,7 @@ class AccessTokensRepository extends Repository
         }
 
         $this->update($accessToken, [
-            'device_token_id' => $deviceToken->id
+            'device_token_id' => $deviceToken->id,
         ]);
         $this->emitter->emit(new PairDeviceAccessTokensEvent($deviceToken, $accessToken));
     }
@@ -127,7 +127,7 @@ class AccessTokensRepository extends Repository
             /** @var AccessTokenDataProviderInterface[] $accessTokenDataProviders */
             $accessTokenDataProviders = $this->dataProviderManager->getProviders(
                 'users.dataprovider.access_tokens',
-                AccessTokenDataProviderInterface::class
+                AccessTokenDataProviderInterface::class,
             );
             foreach ($accessTokenDataProviders as $provider) {
                 if (!$provider->canUnpairDeviceToken($accessToken, $deviceToken)) {
@@ -187,7 +187,7 @@ class AccessTokensRepository extends Repository
     {
         return $this->getTable()->where([
             'device_token_id' => $deviceToken->id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ])->count('*') > 0;
     }
 }

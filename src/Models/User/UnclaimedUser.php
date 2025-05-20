@@ -57,7 +57,7 @@ class UnclaimedUser
         UserData $userData,
         Passwords $passwords,
         PasswordGenerator $passwordGenerator,
-        AccessToken $accessToken
+        AccessToken $accessToken,
     ) {
         $this->userManager = $userManager;
         $this->userMetaRepository = $userMetaRepository;
@@ -96,7 +96,7 @@ class UnclaimedUser
             false,
             [self::META_KEY => 1],
             false,
-            $locale
+            $locale,
         );
     }
 
@@ -185,7 +185,7 @@ class UnclaimedUser
         $sendEmail = true,
         $source = null,
         $referer = null,
-        $password = null
+        $password = null,
     ) {
 
         $this->userMetaRepository->removeMeta($user->id, self::META_KEY);

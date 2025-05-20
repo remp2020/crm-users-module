@@ -28,7 +28,7 @@ class UserLoginAttempts extends Control implements WidgetInterface
     public function __construct(
         LoginAttemptsRepository $loginAttemptsRepository,
         UserSourceAccessesRepository $userSourceAccessesRepository,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->loginAttemptsRepository = $loginAttemptsRepository;
         $this->userSourceAccessesRepository = $userSourceAccessesRepository;

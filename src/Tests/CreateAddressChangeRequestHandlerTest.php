@@ -27,7 +27,7 @@ class CreateAddressChangeRequestHandlerTest extends DatabaseTestCase
     {
         return [
             CountriesSeeder::class,
-            UsersSeeder::class
+            UsersSeeder::class,
         ];
     }
 

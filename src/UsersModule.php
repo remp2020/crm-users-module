@@ -155,7 +155,7 @@ class UsersModule extends CrmModule
         Container $container,
         Translator $translator,
         private User $user,
-        private Permissions $permissions
+        private Permissions $permissions,
     ) {
         parent::__construct($container, $translator);
     }
@@ -164,19 +164,19 @@ class UsersModule extends CrmModule
     {
         $authenticatorManager->registerAuthenticator(
             $this->getInstance(AutoLoginAuthenticator::class),
-            700
+            700,
         );
         $authenticatorManager->registerAuthenticator(
             $this->getInstance(UsersAuthenticator::class),
-            500
+            500,
         );
         $authenticatorManager->registerAuthenticator(
             $this->getInstance(AccessTokenAuthenticator::class),
-            200
+            200,
         );
         $authenticatorManager->registerAuthenticator(
             $this->getInstance(AutoLoginTokenAuthenticator::class),
-            800
+            800,
         );
     }
 
@@ -184,7 +184,7 @@ class UsersModule extends CrmModule
     {
         $dispatcher->registerHandler(
             'user-token-usage',
-            $this->getInstance(UserTokenUsageHandler::class)
+            $this->getInstance(UserTokenUsageHandler::class),
         );
     }
 
@@ -215,7 +215,7 @@ class UsersModule extends CrmModule
             $this->translator->translate('users.menu.stats'),
             ':Users:Dashboard:default',
             'fa fa-users',
-            200
+            200,
         );
         $menuContainer->attachMenuItemToForeignModule('#dashboard', $mainMenu, $menuItem);
     }
@@ -253,47 +253,47 @@ class UsersModule extends CrmModule
     {
         $emitter->addListener(
             LoginAttemptEvent::class,
-            LoginAttemptHandler::class
+            LoginAttemptHandler::class,
         );
         $emitter->addListener(
             UserLastAccessEvent::class,
-            UserLastAccessHandler::class
+            UserLastAccessHandler::class,
         );
         $emitter->addListener(
             UserUpdatedEvent::class,
-            RefreshUserDataTokenHandler::class
+            RefreshUserDataTokenHandler::class,
         );
         $emitter->addListener(
             UserUpdatedEvent::class,
-            UserUpdatedHandler::class
+            UserUpdatedHandler::class,
         );
         $emitter->addListener(
             UserMetaEvent::class,
-            RefreshUserDataTokenHandler::class
+            RefreshUserDataTokenHandler::class,
         );
         $emitter->addListener(
             UserSignInEvent::class,
-            SignEventHandler::class
+            SignEventHandler::class,
         );
         $emitter->addListener(
             UserSignOutEvent::class,
-            SignEventHandler::class
+            SignEventHandler::class,
         );
         $emitter->addListener(
             AuthenticationEvent::class,
-            AuthenticationHandler::class
+            AuthenticationHandler::class,
         );
         $emitter->addListener(
             NewAccessTokenEvent::class,
-            NewAccessTokenHandler::class
+            NewAccessTokenHandler::class,
         );
         $emitter->addListener(
             RemovedAccessTokenEvent::class,
-            RemovedAccessTokenHandler::class
+            RemovedAccessTokenHandler::class,
         );
         $emitter->addListener(
             FrontendRequestEvent::class,
-            FrontendRequestAccessTokenAutologinHandler::class
+            FrontendRequestAccessTokenAutologinHandler::class,
         );
     }
 
@@ -313,75 +313,75 @@ class UsersModule extends CrmModule
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
             UserLoginAttempts::class,
-            710
+            710,
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
             UserPasswordChanges::class,
-            1700
+            1700,
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
             AutologinTokens::class,
-            1900
+            1900,
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
             UserMeta::class,
-            960
+            960,
         );
         $widgetManager->registerWidget(
             'admin.user.detail.bottom',
             UserTokens::class,
-            1235
+            1235,
         );
 
         $widgetManager->registerWidget(
             'admin.user.detail.box',
             UserSourceAccesses::class,
-            580
+            580,
         );
         $widgetManager->registerWidget(
             'admin.user.detail.left',
             UserConnectedAccountsListWidget::class,
-            710
+            710,
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.totals',
             ActiveRegisteredUsersStatWidget::class,
-            500
+            500,
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.today',
             TodayUsersStatWidget::class,
-            500
+            500,
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.month',
             MonthUsersStatWidget::class,
-            500
+            500,
         );
         $widgetManager->registerWidget(
             'dashboard.singlestat.mtd',
             MonthToDateUsersStatWidget::class,
-            500
+            500,
         );
         $widgetManager->registerWidget(
             'admin.users.header',
             MonthUsersSmallBarGraphWidget::class,
-            500
+            500,
         );
 
         $widgetManager->registerWidget(
             'admin.user.address.partial',
             AddressWidget::class,
-            100
+            100,
         );
 
         $widgetManager->registerWidget(
             'frontend.user.address.partial',
             AddressWidget::class,
-            100
+            100,
         );
     }
 
@@ -397,145 +397,145 @@ class UsersModule extends CrmModule
 
         $scenariosCriteriaStorage->registerConditionModel(
             'address',
-            $this->getInstance(AddressScenarioConditionModel::class)
+            $this->getInstance(AddressScenarioConditionModel::class),
         );
         $scenariosCriteriaStorage->registerConditionModel(
             'user',
-            $this->getInstance(UserScenarioConditionModel::class)
+            $this->getInstance(UserScenarioConditionModel::class),
         );
     }
 
     public function registerApiCalls(ApiRoutersContainerInterface $apiRoutersContainer)
     {
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user', 'info'), UserInfoHandler::class, UserTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user', 'info'), UserInfoHandler::class, UserTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'login'), UsersLoginHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'login'), UsersLoginHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'logout'), UsersLogoutHandler::class, UserTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'logout'), UsersLogoutHandler::class, UserTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'email'), UsersEmailHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'email'), UsersEmailHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('2', 'users', 'email'), \Crm\UsersModule\Api\v2\UsersEmailHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('2', 'users', 'email'), \Crm\UsersModule\Api\v2\UsersEmailHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'email-check'), UsersEmailCheckHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'email-check'), UsersEmailCheckHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'validate-email'), ValidateEmailHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'validate-email'), ValidateEmailHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'create'), UsersCreateHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'create'), UsersCreateHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'update'), UsersUpdateHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'update'), UsersUpdateHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'add-to-group'), UserGroupApiHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'add-to-group'), UserGroupApiHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'remove-from-group'), UserGroupApiHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'remove-from-group'), UserGroupApiHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'addresses'), AddressesHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'addresses'), AddressesHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'address'), CreateAddressHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'address'), CreateAddressHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'change-address-request'), CreateAddressChangeRequestHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'change-address-request'), CreateAddressChangeRequestHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'list'), ListUsersHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'list'), ListUsersHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'confirm'), UsersConfirmApiHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'confirm'), UsersConfirmApiHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'list'), UserMetaListHandler::class, ServiceTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'list'), UserMetaListHandler::class, ServiceTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'key-users'), UserMetaKeyUsersHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'key-users'), UserMetaKeyUsersHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'delete'), UserMetaDeleteHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'delete'), UserMetaDeleteHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'upsert'), UserMetaUpsertHandler::class, BearerTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user-meta', 'upsert'), UserMetaUpsertHandler::class, BearerTokenAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'autologin-token-login'), AutoLoginTokenLoginApiHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'autologin-token-login'), AutoLoginTokenLoginApiHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'google-token-sign-in'), GoogleTokenSignInHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'google-token-sign-in'), GoogleTokenSignInHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'users', 'apple-token-sign-in'), AppleTokenSignInHandler::class, NoAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'users', 'apple-token-sign-in'), AppleTokenSignInHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('1', 'user', 'delete'), DeleteUserApiHandler::class, UserTokenAuthorization::class)
+            new ApiRoute(new ApiIdentifier('1', 'user', 'delete'), DeleteUserApiHandler::class, UserTokenAuthorization::class),
         );
 
         $apiRoutersContainer->attachRouter(new ApiRoute(
             new ApiIdentifier('1', 'users', 'data'),
             UserDataHandler::class,
-            NoAuthorization::class
+            NoAuthorization::class,
         ));
 
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('1', 'users', 'get-device-token'),
                 GetDeviceTokenApiHandler::class,
-                NoAuthorization::class
-            )
+                NoAuthorization::class,
+            ),
         );
 
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('1', 'users', 'set-email-validated'),
                 EmailValidationApiHandler::class,
-                BearerTokenAuthorization::class
-            )
+                BearerTokenAuthorization::class,
+            ),
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('1', 'users', 'set-email-invalidated'),
                 EmailValidationApiHandler::class,
-                BearerTokenAuthorization::class
-            )
+                BearerTokenAuthorization::class,
+            ),
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('2', 'users', 'set-email-validated'),
                 EmailValidationApiHandlerV2::class,
-                BearerTokenAuthorization::class
-            )
+                BearerTokenAuthorization::class,
+            ),
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('2', 'users', 'set-email-invalidated'),
                 EmailValidationApiHandlerV2::class,
-                BearerTokenAuthorization::class
-            )
+                BearerTokenAuthorization::class,
+            ),
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('1', 'users', 'touch'),
                 UsersTouchApiHandler::class,
-                BearerTokenAuthorization::class
-            )
+                BearerTokenAuthorization::class,
+            ),
         );
 
         $apiRoutersContainer->attachRouter(
             new ApiRoute(
                 new ApiIdentifier('1', 'user', 'addresses'),
                 UserAddressesHandler::class,
-                UserTokenAuthorization::class
-            )
+                UserTokenAuthorization::class,
+            ),
         );
     }
 
@@ -572,7 +572,7 @@ class UsersModule extends CrmModule
             'confirmed_at',
             'email_validated_at',
             'current_sign_in_at',
-            'created_at'
+            'created_at',
         ]);
     }
 
@@ -640,12 +640,12 @@ class UsersModule extends CrmModule
     {
         $dataProviderManager->registerDataProvider(
             'users.dataprovider.claim_unclaimed_user',
-            $this->getInstance(UsersClaimUserDataProvider::class)
+            $this->getInstance(UsersClaimUserDataProvider::class),
         );
 
         $dataProviderManager->registerDataProvider(
             'admin.dataprovider.universal_search',
-            $this->getInstance(UniversalSearchDataProvider::class)
+            $this->getInstance(UniversalSearchDataProvider::class),
         );
     }
 }

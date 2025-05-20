@@ -31,14 +31,14 @@ class UsersClaimUserDataProviderTest extends DatabaseTestCase
     {
         return [
             UsersRepository::class,
-            UserMetaRepository::class
+            UserMetaRepository::class,
         ];
     }
 
     protected function requiredSeeders(): array
     {
         return [
-            UsersSeeder::class
+            UsersSeeder::class,
         ];
     }
 

@@ -57,7 +57,7 @@ class UserManager
         PasswordResetTokensRepository $passwordResetTokensRepository,
         AccessTokensRepository $accessTokensRepository,
         UserMetaRepository $userMetaRepository,
-        Passwords $passwords
+        Passwords $passwords,
     ) {
         $this->usersRepository = $usersRepository;
         $this->passwordGenerator = $passwordGenerator;
@@ -87,7 +87,7 @@ class UserManager
         bool $addToken = true,
         array $userMeta = [],
         bool $emitUserRegisteredEvent = true,
-        string $locale = null
+        string $locale = null,
     ) {
         if ($checkEmail && !$this->emailValidator->isValid($email)) {
             throw new InvalidEmailException($email);
@@ -159,7 +159,7 @@ class UserManager
             $user,
             ChangePasswordsLogsRepository::TYPE_CHANGE,
             $user->password,
-            $hashedPassword
+            $hashedPassword,
         );
 
         $this->usersRepository->update($user, [
@@ -193,7 +193,7 @@ class UserManager
             $user,
             ChangePasswordsLogsRepository::TYPE_RESET,
             $oldPassword,
-            $hashedPassword
+            $hashedPassword,
         );
 
         $this->emitter->emit(new UserChangePasswordEvent($user, $password, $notify));
@@ -229,7 +229,7 @@ class UserManager
             $user,
             ChangePasswordsLogsRepository::TYPE_SUSPICIOUS,
             $oldPassword,
-            $hashedPassword
+            $hashedPassword,
         );
 
         $this->accessTokensRepository->removeAllUserTokens($user->id);

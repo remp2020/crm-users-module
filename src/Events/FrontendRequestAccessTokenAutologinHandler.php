@@ -26,7 +26,7 @@ class FrontendRequestAccessTokenAutologinHandler extends AbstractListener
         User $user,
         Request $httpRequest,
         Response $httpResponse,
-        AccessTokenAuthenticator $accessTokenAuthenticator
+        AccessTokenAuthenticator $accessTokenAuthenticator,
     ) {
         $this->translator = $translator;
         $this->user = $user;
@@ -64,7 +64,7 @@ class FrontendRequestAccessTokenAutologinHandler extends AbstractListener
             if ($e->getCode() === Authenticator::NOT_APPROVED) {
                 $event->addFlashMessages(
                     $this->translator->translate('users.authenticator.access_token.autologin_disabled'),
-                    'notice'
+                    'notice',
                 );
             }
         }

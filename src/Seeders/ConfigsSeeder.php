@@ -23,7 +23,7 @@ class ConfigsSeeder implements ISeeder
     public function __construct(
         ConfigCategoriesRepository $configCategoriesRepository,
         ConfigsRepository $configsRepository,
-        ConfigBuilder $configBuilder
+        ConfigBuilder $configBuilder,
     ) {
         $this->configCategoriesRepository = $configCategoriesRepository;
         $this->configsRepository = $configsRepository;
@@ -41,7 +41,7 @@ class ConfigsSeeder implements ISeeder
             'application.config.not_logged_in_route.name',
             'application.config.not_logged_in_route.description',
             ':Users:Sign:in',
-            280
+            280,
         );
 
         $categoryName = 'users.config.category_authentication';
@@ -61,7 +61,7 @@ class ConfigsSeeder implements ISeeder
             'users.config.google_sign_in_enabled.name',
             '',
             false,
-            10
+            10,
         );
 
         $this->addConfig(
@@ -72,7 +72,7 @@ class ConfigsSeeder implements ISeeder
             'users.config.apple_sign_in_enabled.name',
             '',
             false,
-            10
+            10,
         );
     }
 }

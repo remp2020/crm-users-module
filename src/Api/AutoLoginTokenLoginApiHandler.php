@@ -19,7 +19,7 @@ class AutoLoginTokenLoginApiHandler extends ApiHandler
     public function __construct(
         private AccessTokensRepository $accessTokensRepository,
         private UserAuthenticator $userAuthenticator,
-        private DeviceTokensRepository $deviceTokensRepository
+        private DeviceTokensRepository $deviceTokensRepository,
     ) {
         parent::__construct();
     }
@@ -43,7 +43,7 @@ class AutoLoginTokenLoginApiHandler extends ApiHandler
                 $response = new JsonApiResponse(Response::S404_NOT_FOUND, [
                     'status' => 'error',
                     'error' => 'invalid_device_token',
-                    'message' => "device token doesn't exist: ". $params['device_token']
+                    'message' => "device token doesn't exist: ". $params['device_token'],
                 ]);
                 return $response;
             }
@@ -67,7 +67,7 @@ class AutoLoginTokenLoginApiHandler extends ApiHandler
             $response = new JsonApiResponse($responseCode, [
                 'status' => 'error',
                 'error' => 'auth_failed',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]);
             return $response;
         }
@@ -95,7 +95,7 @@ class AutoLoginTokenLoginApiHandler extends ApiHandler
             $response = new JsonApiResponse(Response::S500_INTERNAL_SERVER_ERROR, [
                 'status' => 'error',
                 'error' => 'missing_access_token',
-                'message' => 'Missing access token for user'
+                'message' => 'Missing access token for user',
             ]);
             return $response;
         }

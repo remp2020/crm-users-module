@@ -21,7 +21,7 @@ class AuthenticationHandler extends AbstractListener
         private AccessTokensRepository $accessTokensRepository,
         private Request $request,
         private Response $response,
-        private Translator $translator
+        private Translator $translator,
     ) {
     }
 

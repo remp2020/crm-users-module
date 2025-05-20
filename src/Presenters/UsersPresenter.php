@@ -70,7 +70,7 @@ class UsersPresenter extends FrontendPresenter
         if (!$this->passwordResetTokensRepository->isAvailable($id)) {
             $this->flashMessage(
                 $this->translator->translate('users.frontend.reset_password.errors.invalid_password_reset_token'),
-                "error"
+                "error",
             );
             $this->redirect('settings');
         }
@@ -88,9 +88,9 @@ class UsersPresenter extends FrontendPresenter
                     ->setHtml(
                         $this->translator->translate(
                             'users.frontend.change_password.actual_password.description',
-                            ['url' => $this->link('EmailReset!')]
-                        )
-                    )
+                            ['url' => $this->link('EmailReset!')],
+                        ),
+                    ),
             );
         $this->changePasswordFormFactory->onSuccess = function ($devicesLogout = false) {
             if ($devicesLogout) {
@@ -240,11 +240,11 @@ class UsersPresenter extends FrontendPresenter
             [
                 'email' => $user->email,
                 'password' => $newPassword,
-            ]
+            ],
         ));
 
         $this->flashMessage($this->translator->translate('users.frontend.change_password.reset_success', [
-            'email' => EscapeHTML::escape($user->email)
+            'email' => EscapeHTML::escape($user->email),
         ]));
         $this->redirect('this');
     }

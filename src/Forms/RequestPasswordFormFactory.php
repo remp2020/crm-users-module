@@ -23,7 +23,7 @@ class RequestPasswordFormFactory
     public function __construct(
         ApplicationConfig $applicationConfig,
         UserManager $userManager,
-        Translator $translator
+        Translator $translator,
     ) {
         $this->applicationConfig = $applicationConfig;
         $this->userManager = $userManager;
@@ -56,8 +56,8 @@ class RequestPasswordFormFactory
                 },
                 $this->translator->translate(
                     'users.frontend.request_password.inactive_user',
-                    ['contactEmail' => $this->applicationConfig->get('contact_email')]
-                )
+                    ['contactEmail' => $this->applicationConfig->get('contact_email')],
+                ),
             );
 
         $form->addSubmit('send', 'users.frontend.request_password.submit');

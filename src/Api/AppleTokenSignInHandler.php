@@ -52,7 +52,7 @@ class AppleTokenSignInHandler extends ApiHandler
                 $response = new JsonApiResponse(IResponse::S400_BAD_REQUEST, [
                     'status' => 'error',
                     'code' => 'no_access_token_to_pair_device_token',
-                    'message' => 'There is no access token to pair with device token. Set parameter "create_access_token=true" in your request payload.'
+                    'message' => 'There is no access token to pair with device token. Set parameter "create_access_token=true" in your request payload.',
                 ]);
                 return $response;
             }
@@ -62,7 +62,7 @@ class AppleTokenSignInHandler extends ApiHandler
                 $response = new JsonApiResponse(IResponse::S404_NOT_FOUND, [
                     'status' => 'error',
                     'message' => 'Device token doesn\'t exist',
-                    'code' => 'device_token_doesnt_exist'
+                    'code' => 'device_token_doesnt_exist',
                 ]);
                 return $response;
             }
@@ -134,7 +134,7 @@ class AppleTokenSignInHandler extends ApiHandler
             $user,
             $source,
             LoginAttemptsRepository::STATUS_API_OK,
-            $date
+            $date,
         ));
         $this->hermesEmitter->emit(new HermesMessage(
             'login-attempt',
@@ -144,7 +144,7 @@ class AppleTokenSignInHandler extends ApiHandler
                 'date' => $date->getTimestamp(),
                 'browser_id' => $browserId,
                 'user_id' => $user->id,
-            ]
+            ],
         ), HermesMessage::PRIORITY_DEFAULT);
     }
 }
