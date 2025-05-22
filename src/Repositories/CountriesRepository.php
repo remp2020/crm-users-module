@@ -31,9 +31,6 @@ class CountriesRepository extends Repository implements ResettableInterface
 
     final public function defaultCountry(): ActiveRow
     {
-        if (!isset($this->defaultCountryISO)) {
-            throw new \Exception("Unable to load default country. Use `setDefaultCountry()`.");
-        }
         if (!isset($this->defaultCountry)) {
             $defaultCountry = $this->findByIsoCode($this->defaultCountryISO);
             if ($defaultCountry === null) {
