@@ -263,9 +263,12 @@ admin:
         anonymized_user_error: Nelze upravit anonymizovaného uživatele
 
     admin_filter_form:
-        text:
-            label: Email / Jméno
+        email:
+            label: ID / Email
             placeholder: "např. user@example.com"
+        name:
+            label: Meno
+            placeholder: "např. Meno Příjmení"
         invoice:
             label: Identifikátor firmy
             placeholder: "IČO, DIČ, IČDPH nebo název firmy"

@@ -27,11 +27,33 @@ class AdminFilterFormData
     public function getFilteredUsers(): Selection
     {
         $users = $this->usersRepository
-            ->all($this->getText())
+            ->all()
             ->select('users.*')
             ->group('users.id');
 
-        $users = $this->getAddressQuery($users);
+        if ($this->getEmail()) {
+            $users->where(
+                'users.email LIKE ? OR users.id = ? OR users.public_name LIKE ?',
+                "%{$this->getEmail()}%",
+                $this->getEmail(),
+                "%{$this->getEmail()}%",
+            );
+        }
+
+        $nameConditions = [];
+        if ($this->getName()) {
+            $names = explode(" ", $this->getName());
+            if (count($names) < 2) {
+                $nameConditions["users.last_name LIKE ? OR users.public_name LIKE ?"] = ["%{$names[0]}%", "%{$names[0]}"];
+            } else {
+                $nameConditions["(users.first_name LIKE ? AND users.last_name LIKE ?) OR users.public_name LIKE ?"] = ["%{$names[0]}%", "%{$names[1]}%", "%{$this->getName()}%"];
+            }
+        }
+
+        $nameAddressConditions = array_filter(array_merge($nameConditions, $this->getAddressQuery()));
+        if ($nameAddressConditions) {
+            $users->whereOr($nameAddressConditions);
+        }
 
         if ($this->getGroup()) {
             $users->where(':user_groups.group_id', (int)$this->getGroup());
@@ -52,7 +74,8 @@ class AdminFilterFormData
     public function getFormValues()
     {
         return [
-            'text' => $this->getText(),
+            'email' => $this->getEmail(),
+            'name' => $this->getName(),
             'invoice' => $this->getInvoice(),
             'street' => $this->getStreet(),
             'number' => $this->getNumber(),
@@ -64,9 +87,14 @@ class AdminFilterFormData
         ];
     }
 
-    private function getText()
+    private function getEmail()
     {
-        return $this->formData['text'] ?? null;
+        return $this->formData['email'] ?? null;
+    }
+
+    private function getName()
+    {
+        return $this->formData['name'] ?? null;
     }
 
     private function getStreet()
@@ -109,7 +137,7 @@ class AdminFilterFormData
         return $this->formData['source'] ?? null;
     }
 
-    private function getAddressQuery(Selection $users): Selection
+    private function getAddressQuery(): ?array
     {
         $addresses = $this->addressesRepository->all()
             ->select('DISTINCT(user_id)');
@@ -121,6 +149,15 @@ class AdminFilterFormData
                 $invoice,
                 "%{$invoice}%",
             ]);
+        }
+
+        if ($name = $this->getName()) {
+            $names = explode(" ", $this->getName());
+            if (count($names) < 2) {
+                $addresses->where("last_name LIKE ?", "%{$names[0]}%");
+            } else {
+                $addresses->where("first_name LIKE ? AND last_name LIKE ?", ["%{$names[0]}%", "%{$names[1]}%"]);
+            }
         }
 
         if ($phone = $this->getPhone()) {
@@ -143,9 +180,10 @@ class AdminFilterFormData
             $addresses->where('zip LIKE ?', "%{$zip}%");
         }
 
-        if ($invoice || $phone || $street || $number || $city || $zip) {
-            return $users->where('users.id IN (?)', $addresses);
+        if ($invoice || $name || $phone || $street || $number || $city || $zip) {
+            return ['users.id IN (?)' => $addresses];
         }
-        return $users;
+
+        return [];
     }
 }

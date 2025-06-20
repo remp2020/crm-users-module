@@ -259,9 +259,12 @@ admin:
         anonymized_user_error: Anonimizált felhasználót nem lehet szerkeszteni
 
     admin_filter_form:
-        text:
-            label: Szűrő
-            placeholder: E-mail cím / Név
+        email:
+            label: ID / Szűrő
+            placeholder: E-mail cím
+        name:
+            label: Név
+            placeholder: Keresztnév Vezetéknév
         invoice:
             label: Számlázási információk
             placeholder: IČO (statisztikai számjel), DIČ (adószám), IČ DPH (áfás adószám)

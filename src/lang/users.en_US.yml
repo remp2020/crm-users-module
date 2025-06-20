@@ -264,9 +264,12 @@ admin:
         anonymized_user_error: Cannot edit anonymized user
 
     admin_filter_form:
-        text:
-            label: Email / Name
+        email:
+            label: ID / Email
             placeholder: "e.g. user@example.com"
+        name:
+            label: Name
+            placeholder: "e.g. Firstname Surname"
         invoice:
             label: Company identifier
             placeholder: "Company ID, Tax ID, Vat ID or company name"

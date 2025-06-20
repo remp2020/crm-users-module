@@ -243,8 +243,12 @@ class UsersAdminPresenter extends AdminPresenter
             ->setOption('id', 'formCollapse');
         $buttonGroup = $form->addGroup('button', false)->setOption('label', null);
 
-        $form->addText('text', $this->translator->translate('users.admin.admin_filter_form.text.label'))
-            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.text.placeholder'))
+        $form->addText('email', $this->translator->translate('users.admin.admin_filter_form.email.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.email.placeholder'))
+            ->setHtmlAttribute('autofocus');
+
+        $form->addText('name', $this->translator->translate('users.admin.admin_filter_form.name.label'))
+            ->setHtmlAttribute('placeholder', $this->translator->translate('users.admin.admin_filter_form.name.placeholder'))
             ->setHtmlAttribute('autofocus');
 
         $form->addText('invoice', $this->translator->translate('users.admin.admin_filter_form.invoice.label'))
