@@ -3,12 +3,22 @@
 namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Repositories\AuditLogRepository;
+use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 
 class AddressesMetaRepository extends Repository
 {
     protected $tableName = 'addresses_meta';
+
+    public function __construct(
+        Explorer $database,
+        AuditLogRepository $auditLogRepository,
+    ) {
+        parent::__construct($database);
+        $this->auditLogRepository = $auditLogRepository;
+    }
 
     /**
      * @param ActiveRow $address
