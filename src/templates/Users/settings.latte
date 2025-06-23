@@ -80,7 +80,7 @@
     }
 </style>
 
-{*PASSWORD CHANGE*}
+{* PASSWORD CHANGE *}
 {if $user->isLoggedIn()}
   <div class="page-header">
     <h1>{_users.frontend.change_password.title}</h1>
@@ -107,7 +107,7 @@
   </div>
 {/if}
 
-{*LINKED ACCOUNT MANAGEMENT *}
+{* LINKED ACCOUNT MANAGEMENT *}
 {if $user->isLoggedIn() && ($googleSignIn || $appleSignIn)}
   <div class="page-header">
     <h1>{_users.frontend.settings.linked_accounts.title}</h1>
@@ -153,10 +153,12 @@
 
       {/if}
     </div>
+
+    {control simpleWidget 'frontend.user.connected_accounts.bottom'}
   </div>
 {/if}
 
-{*SETTINGS*}
+{* SETTINGS *}
 {if $user->isLoggedIn()}
   <div class="page-header">
     <h1 n:block=title>{_users.frontend.settings.title}</h1>

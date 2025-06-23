@@ -31,8 +31,12 @@ class UserConnectedAccountsRepository extends Repository
         string $type,
         string $externalId,
         ?string $email,
-        $meta = null,
+        mixed $meta = null,
     ) {
+        if ($meta && !is_string($meta)) {
+            $meta = Json::encode($meta);
+        }
+
         return $this->insert([
             'user_id' => $user->id,
             'external_id' => $externalId,
@@ -40,7 +44,7 @@ class UserConnectedAccountsRepository extends Repository
             'type' => $type,
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime(),
-            'meta' => $meta ? Json::encode($meta) : null,
+            'meta' => $meta,
         ]);
     }
 
@@ -95,7 +99,7 @@ class UserConnectedAccountsRepository extends Repository
         return $this->delete($userAccount);
     }
 
-    public function connectUser(ActiveRow $user, $type, $externalId, $email, $meta = null)
+    public function connectUser(ActiveRow $user, $type, $externalId, $email, mixed $meta = null)
     {
         $connectedAccount = $this->getForUser($user, $type)
             ->where('external_id', $externalId)

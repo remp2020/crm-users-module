@@ -4,8 +4,10 @@ namespace Crm\UsersModule\Components\UserConnectedAccountsListWidget;
 
 use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
 use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
+use Crm\UsersModule\Events\UnlinkUserConnectedAccountEvent;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
+use League\Event\Emitter;
 use Nette\Localization\Translator;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
@@ -18,6 +20,7 @@ class UserConnectedAccountsListWidget extends BaseLazyWidget
         private UsersRepository $usersRepository,
         private UserConnectedAccountsRepository $userConnectedAccountsRepository,
         private Translator $translator,
+        private Emitter $emitter,
     ) {
         parent::__construct($lazyWidgetManager);
     }
@@ -43,6 +46,8 @@ class UserConnectedAccountsListWidget extends BaseLazyWidget
     {
         $userConnectedAccount = $this->userConnectedAccountsRepository->getTable()->where(['id' => $id])->fetch();
         if ($userConnectedAccount) {
+            $this->emitter->emit(new UnlinkUserConnectedAccountEvent($userConnectedAccount));
+
             // here we do not check for permissions to link/unlink, since we are already in CRM administration
             $this->userConnectedAccountsRepository->removeAccountForUser($userConnectedAccount->user, $id);
             $this->presenter->flashMessage($this->translator->translate('users.admin.user_connected_accounts_list_widget.flash_message'));
