@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
+use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
 
@@ -10,15 +11,15 @@ class UserGroupsRepository extends Repository
 {
     protected $tableName = 'user_groups';
 
-    private $usersRepository;
-
-    private $groupsRepository;
-
-    public function __construct(Explorer $database, UsersRepository $usersRepository, GroupsRepository $groupsRepository)
-    {
+    public function __construct(
+        Explorer $database,
+        AuditLogRepository $auditLogRepository,
+        private readonly UsersRepository $usersRepository,
+        private readonly GroupsRepository $groupsRepository,
+    ) {
         parent::__construct($database);
-        $this->usersRepository = $usersRepository;
-        $this->groupsRepository = $groupsRepository;
+
+        $this->auditLogRepository = $auditLogRepository;
     }
 
     final public function isMember(ActiveRow $groupRow, ActiveRow $userRow)
