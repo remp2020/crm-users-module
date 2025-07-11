@@ -127,6 +127,7 @@ class UserManager
             throw new \Exception("Cannot create user '{$email}' due to following errors: " . Json::encode($this->userBuilder->getErrors()));
         }
 
+        $user = $this->usersRepository->find($user->id); // refresh user to get changes made by event handlers
         return $user;
     }
 
