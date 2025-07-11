@@ -26,7 +26,7 @@ class UserSourceAccesses extends BaseLazyWidget
         $this->userSourceAccessesRepository = $userSourceAccessesRepository;
     }
 
-    public function header($id = '')
+    public function header()
     {
         return 'User Source Access';
     }

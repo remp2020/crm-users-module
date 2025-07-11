@@ -2,10 +2,11 @@
 
 namespace Crm\UsersModule\Components\UserPasswordChanges;
 
-use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\DetailWidgetInterface;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\UsersModule\Repositories\ChangePasswordsLogsRepository;
 use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
-use Nette\Application\UI\Control;
 
 /**
  * This widget fetches user password changes and password change requests
@@ -13,7 +14,7 @@ use Nette\Application\UI\Control;
  *
  * @package Crm\UsersModule\Components
  */
-class UserPasswordChanges extends Control implements WidgetInterface
+class UserPasswordChanges extends BaseLazyWidget implements DetailWidgetInterface
 {
     private $templateName = 'user_password_changes.latte';
 
@@ -22,14 +23,16 @@ class UserPasswordChanges extends Control implements WidgetInterface
     private $passwordResetTokensRepository;
 
     public function __construct(
+        LazyWidgetManager $lazyWidgetManager,
         ChangePasswordsLogsRepository $changePasswordsLogsRepository,
         PasswordResetTokensRepository $passwordResetTokensRepository,
     ) {
+        parent::__construct($lazyWidgetManager);
         $this->changePasswordsLogsRepository = $changePasswordsLogsRepository;
         $this->passwordResetTokensRepository = $passwordResetTokensRepository;
     }
 
-    public function header($id = '')
+    public function header($id = ''): string
     {
         $header = 'Zmeny hesla';
         if ($id) {

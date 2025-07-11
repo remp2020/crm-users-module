@@ -3,9 +3,10 @@
 namespace Crm\UsersModule\Components\UserLoginAttempts;
 
 use Crm\ApiModule\Repositories\UserSourceAccessesRepository;
-use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\DetailWidgetInterface;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
-use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 use Nette\Utils\DateTime;
 
@@ -15,7 +16,7 @@ use Nette\Utils\DateTime;
  *
  * @package Crm\UsersModule\Components
  */
-class UserLoginAttempts extends Control implements WidgetInterface
+class UserLoginAttempts extends BaseLazyWidget implements DetailWidgetInterface
 {
     private $templateName = 'user_login_attempts.latte';
 
@@ -26,16 +27,18 @@ class UserLoginAttempts extends Control implements WidgetInterface
     private $translator;
 
     public function __construct(
+        LazyWidgetManager $lazyWidgetManager,
         LoginAttemptsRepository $loginAttemptsRepository,
         UserSourceAccessesRepository $userSourceAccessesRepository,
         Translator $translator,
     ) {
+        parent::__construct($lazyWidgetManager);
         $this->loginAttemptsRepository = $loginAttemptsRepository;
         $this->userSourceAccessesRepository = $userSourceAccessesRepository;
         $this->translator = $translator;
     }
 
-    public function header($id = '')
+    public function header($id = ''): string
     {
         $header = $this->translator->translate('users.component.user_login_attempts.title');
         if ($id) {

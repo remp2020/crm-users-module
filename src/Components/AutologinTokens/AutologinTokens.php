@@ -2,9 +2,10 @@
 
 namespace Crm\UsersModule\Components\AutologinTokens;
 
-use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\DetailWidgetInterface;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\UsersModule\Repositories\AutoLoginTokensRepository;
-use Nette\Application\UI\Control;
 
 /**
  * This widget fetches autologin tokens for specific user
@@ -12,7 +13,7 @@ use Nette\Application\UI\Control;
  *
  * @package Crm\UsersModule\Components
  */
-class AutologinTokens extends Control implements WidgetInterface
+class AutologinTokens extends BaseLazyWidget implements DetailWidgetInterface
 {
     private $templateName = 'autologin_tokens.latte';
 
@@ -21,12 +22,13 @@ class AutologinTokens extends Control implements WidgetInterface
      */
     public $autoLoginTokensRepository;
 
-    public function __construct(AutoLoginTokensRepository $autoLoginTokensRepository)
+    public function __construct(LazyWidgetManager $lazyWidgetManager, AutoLoginTokensRepository $autoLoginTokensRepository)
     {
+        parent::__construct($lazyWidgetManager);
         $this->autoLoginTokensRepository = $autoLoginTokensRepository;
     }
 
-    public function header($id = '')
+    public function header($id = ''): string
     {
         $header = 'Autologin tokens';
         if ($id) {

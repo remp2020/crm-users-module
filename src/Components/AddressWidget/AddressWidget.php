@@ -13,7 +13,7 @@ class AddressWidget extends BaseLazyWidget
 {
     private $templateName = 'address_widget.latte';
 
-    public function header($id = '')
+    public function header()
     {
         return 'Address';
     }

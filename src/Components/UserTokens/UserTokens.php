@@ -2,11 +2,12 @@
 
 namespace Crm\UsersModule\Components\UserTokens;
 
-use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\DetailWidgetInterface;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use Crm\UsersModule\Models\User\UserData;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
-use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 
 /**
@@ -14,7 +15,7 @@ use Nette\Localization\Translator;
  *
  * @package Crm\UsersModule\Components
  */
-class UserTokens extends Control implements WidgetInterface
+class UserTokens extends BaseLazyWidget implements DetailWidgetInterface
 {
     private $templateName = 'user_tokens.latte';
 
@@ -27,18 +28,20 @@ class UserTokens extends Control implements WidgetInterface
     private $translator;
 
     public function __construct(
+        LazyWidgetManager $lazyWidgetManager,
         AccessTokensRepository $accessTokensRepository,
         AccessToken $accessToken,
         UserData $userData,
         Translator $translator,
     ) {
+        parent::__construct($lazyWidgetManager);
         $this->accessTokensRepository = $accessTokensRepository;
         $this->accessToken = $accessToken;
         $this->userData = $userData;
         $this->translator = $translator;
     }
 
-    public function header($id = '')
+    public function header($id = ''): string
     {
         $header = $this->translator->translate('users.component.user_tokens.header');
         if ($id) {

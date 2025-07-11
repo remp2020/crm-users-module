@@ -2,11 +2,12 @@
 
 namespace Crm\UsersModule\Components\UserMeta;
 
-use Crm\ApplicationModule\Models\Widget\WidgetInterface;
+use Crm\ApplicationModule\Models\Widget\BaseLazyWidget;
+use Crm\ApplicationModule\Models\Widget\DetailWidgetInterface;
+use Crm\ApplicationModule\Models\Widget\LazyWidgetManager;
 use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Repositories\UserMetaRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
-use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 use Tomaj\Form\Renderer\BootstrapInlineRenderer;
 
@@ -16,7 +17,7 @@ use Tomaj\Form\Renderer\BootstrapInlineRenderer;
  *
  * @package Crm\UsersModule\Components
  */
-class UserMeta extends Control implements WidgetInterface
+class UserMeta extends BaseLazyWidget implements DetailWidgetInterface
 {
     private $templateName = 'user_meta.latte';
 
@@ -31,16 +32,18 @@ class UserMeta extends Control implements WidgetInterface
     private $userId;
 
     public function __construct(
+        LazyWidgetManager $lazyWidgetManager,
         UserMetaRepository $userMetaRepository,
         UsersRepository $usersRepository,
         Translator $translator,
     ) {
+        parent::__construct($lazyWidgetManager);
         $this->userMetaRepository = $userMetaRepository;
         $this->usersRepository = $usersRepository;
         $this->translator = $translator;
     }
 
-    public function header($id = '')
+    public function header($id = ''): string
     {
         $header = $this->translator->translate('users.component.user_meta.header');
         if ($id) {
