@@ -85,7 +85,7 @@ class UsersClaimUserDataProviderTest extends DatabaseTestCase
         // empty note
         $this->assertEquals(null, $this->usersRepository->getByEmail(UsersSeeder::USER_ADMIN)->note);
 
-        $this->unclaimedUserObj->update(['note' => 'test']);
+        $this->usersRepository->update($this->unclaimedUserObj, ['note' => 'test']);
         $this->dataProvider->provide(['unclaimedUser' => $this->unclaimedUserObj, 'loggedUser' => $this->loggedUser]);
 
         $this->assertEquals('test', $this->usersRepository->getByEmail($this->loggedUser->email)->note);

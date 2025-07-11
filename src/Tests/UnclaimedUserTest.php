@@ -76,7 +76,7 @@ class UnclaimedUserTest extends DatabaseTestCase
         $user = $this->unclaimedUser->createUnclaimedUser();
 
         $this->assertIsObject($user);
-        $this->assertEquals(ActiveRow::class, get_class($user));
+        $this->assertInstanceOf(ActiveRow::class, $user);
         $this->assertTrue($this->unclaimedUser->isUnclaimedUser($user));
     }
 
@@ -92,7 +92,7 @@ class UnclaimedUserTest extends DatabaseTestCase
         $user = $this->unclaimedUser->createUnclaimedUser($email);
 
         $this->assertIsObject($user);
-        $this->assertEquals(ActiveRow::class, get_class($user));
+        $this->assertInstanceOf(ActiveRow::class, $user);
         $this->assertEquals($email, $user->email);
         $this->assertTrue($this->unclaimedUser->isUnclaimedUser($user));
     }
