@@ -118,6 +118,13 @@ class UsersAdminPresenter extends AdminPresenter
         if (!$user) {
             throw new BadRequestException();
         }
+        
+        // Prevent editing of anonymized users
+        if ($user->deleted_at !== null) {
+            $this->flashMessage($this->translator->translate('users.admin.edit.anonymized_user_error'), 'error');
+            $this->redirect('show', $id);
+        }
+        
         $this->template->userRow = $user;
     }
 

@@ -22,7 +22,8 @@
 
 		<span n:if="$userRow->role === \Crm\UsersModule\Repositories\UsersRepository::ROLE_ADMIN" class="label label-warning">admin</span>
 
-      	<a n:href="edit $userRow->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>
+      	<a n:if="$userRow->deleted_at === null" n:href="edit $userRow->id" class="btn btn-primary btn-lg pull-right"><i class="fa fa-edit"></i> {_users.admin.show.edit}</a>
+      	<span n:if="$userRow->deleted_at !== null" class="btn btn-default btn-lg pull-right btn-disabled disabled"><i class="fa fa-ghost"></i> {_users.admin.show.anonymized_user}</span>
       </h1>
     </div>
   </div>

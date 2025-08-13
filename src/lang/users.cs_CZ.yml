@@ -254,10 +254,13 @@ admin:
         address: Adresa
         locale: Jazyk
         default_address: Výchozí adresa
+        anonymized_user: Anonymizovaný uživatel
+        anonymized_user_tooltip: Tento uživatel byl anonymizován a nelze ho upravovat
 
     edit:
         title: Úprava uživatele
         back_to_detail: zpět na záznam
+        anonymized_user_error: Nelze upravit anonymizovaného uživatele
 
     admin_filter_form:
         text:
@@ -337,6 +340,7 @@ admin:
         submit: Ulož
         user_created: Uživatel byl vytvořen.
         user_updated: Uživatel byl aktualizován.
+        anonymized_user_error: Nelze upravit anonymizovaného uživatele
 
     scenarios:
         user_group:

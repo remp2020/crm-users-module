@@ -250,9 +250,13 @@ admin:
         company_vat_id: Áfa azonosító
         address: Cím
         locale: Nyelv
+        anonymized_user: Anonimizált felhasználó
+        anonymized_user_tooltip: Ez a felhasználó anonimizálásra került és nem szerkeszthető
 
     edit:
+        title: Felhasználó szerkesztése
         back_to_detail: Vissza a részletekhez
+        anonymized_user_error: Anonimizált felhasználót nem lehet szerkeszteni
 
     admin_filter_form:
         text:
@@ -328,6 +332,7 @@ admin:
         submit: Mentés
         user_created: Felhasználó létrehozva.
         user_updated: Felhasználó frissítve.
+        anonymized_user_error: Anonimizált felhasználót nem lehet szerkeszteni
 
     user_groups_form:
         user_added: Felhasználó hozzáadva a csoporthoz

@@ -257,10 +257,12 @@ admin:
         address: Adresa
         locale: Jazyk
         default_address: Predvolená adresa
+        anonymized_user: Anonymizovaný používateľ
 
     edit:
         title: Úprava používateľa
         back_to_detail: späť na záznam
+        anonymized_user_error: Nemožno upraviť anonymizovaného používateľa
 
     admin_filter_form:
         text:
@@ -340,6 +342,7 @@ admin:
         submit: Ulož
         user_created: Používateľ bol vytvorený.
         user_updated: Používateľ bol aktualizovaný.
+        anonymized_user_error: Nemožno upraviť anonymizovaného používateľa
 
     scenarios:
         user_group:

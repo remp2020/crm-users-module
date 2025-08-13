@@ -255,10 +255,13 @@ admin:
         address: Address
         locale: Display language
         default_address: Default address
+        anonymized_user: Anonymized user
+        anonymized_user_tooltip: This user was anonymized and cannot be edited
 
     edit:
         title: Edit user
         back_to_detail: back to detail
+        anonymized_user_error: Cannot edit anonymized user
 
     admin_filter_form:
         text:
@@ -338,6 +341,7 @@ admin:
         submit: Save
         user_created: User was created.
         user_updated: User was updated.
+        anonymized_user_error: Cannot edit anonymized user
 
     scenarios:
         user_group:

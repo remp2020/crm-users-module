@@ -248,10 +248,13 @@ admin:
         company_tax_id: Steuernummer
         company_vat_id: Umsatzsteuer-ID
         address: Adresse
+        anonymized_user: Anonymisierter Nutzer
+        anonymized_user_tooltip: Dieser Nutzer wurde anonymisiert und kann nicht bearbeitet werden
 
     edit:
         title: Nutzer bearbeiten
         back_to_detail: Zurück zur Detailansicht
+        anonymized_user_error: Anonymisierter Nutzer kann nicht bearbeitet werden
 
     admin_filter_form:
         text:
@@ -329,6 +332,7 @@ admin:
         submit: Speichern
         user_created: Nutzer wurde angelegt.
         user_updated: Nutzer wurde aktualisiert.
+        anonymized_user_error: Anonymisierter Nutzer kann nicht bearbeitet werden
 
     scenarios:
         user_has_address_criteria:

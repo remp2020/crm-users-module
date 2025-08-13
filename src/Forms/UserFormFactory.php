@@ -179,6 +179,14 @@ class UserFormFactory
             $userId = $values['user_id'];
             unset($values['user_id']);
 
+            $user = $this->userRepository->find($userId);
+            
+            // Prevent editing of anonymized users
+            if ($user->deleted_at !== null) {
+                $form->addError($this->translator->translate('users.admin.user_form.anonymized_user_error'));
+                return;
+            }
+
             try {
                 $newPassword = null;
                 if (isset($values['password'])) {
@@ -190,7 +198,6 @@ class UserFormFactory
                     }
                 }
 
-                $user = $this->userRepository->find($userId);
                 $oldPasswordHash = $user->password;
                 $this->userRepository->update($user, $values);
                 if ($values['role'] === UsersRepository::ROLE_USER) {
