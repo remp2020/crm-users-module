@@ -7,38 +7,32 @@ use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\DataProviders\RegisterFormDataProviderInterface;
 use Crm\UsersModule\Models\Auth\InvalidEmailException;
 use Crm\UsersModule\Models\Auth\UserManager;
+use Crm\UsersModule\Models\User\UnclaimedUser;
 use Nette\Localization\Translator;
 use Nette\Security\User;
 use Tomaj\Form\Renderer\BootstrapRenderer;
 
 class RegisterFormFactory
 {
-    private $userManager;
-
-    private $dataProviderManager;
-
-    private $user;
-
-    private $translator;
+    private ?string $source = null;
 
     public $onUserExists;
 
     public $onUserRegistered;
 
     public function __construct(
-        UserManager $userManager,
-        DataProviderManager $dataProviderManager,
-        Translator $translator,
-        User $user,
+        private readonly UserManager $userManager,
+        private readonly DataProviderManager $dataProviderManager,
+        private readonly Translator $translator,
+        private readonly UnclaimedUser $unclaimedUser,
+        private readonly User $user,
     ) {
-        $this->userManager = $userManager;
-        $this->dataProviderManager = $dataProviderManager;
-        $this->user = $user;
-        $this->translator = $translator;
     }
 
-    public function create()
+    public function create(?string $source = null): Form
     {
+        $this->source = $source;
+
         $form = new Form();
         $form->setTranslator($this->translator);
         $form->setRenderer(new BootstrapRenderer());
@@ -60,11 +54,19 @@ class RegisterFormFactory
         return $form;
     }
 
-    public function formSucceeded(Form $form, $values)
+    public function formSucceeded(Form $form, $values): void
     {
-        if ($this->userManager->loadUserByEmail($values->email)) {
+        $user = $this->userManager->loadUserByEmail($values->email);
+        if ($user) {
+            $isClaimedUser = false;
+            if ($this->unclaimedUser->isUnclaimedUser($user)) {
+                $isClaimedUser = (bool) $this->unclaimedUser->makeUnclaimedUserRegistered(
+                    user: $user,
+                    source: $this->source,
+                );
+            }
             if ($this->onUserExists) {
-                ($this->onUserExists)($form, $values);
+                ($this->onUserExists)($form, $values, $isClaimedUser);
             }
             $form->addError('users.frontend.sign_up.error.already_registered');
             return;
