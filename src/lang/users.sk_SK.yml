@@ -228,6 +228,7 @@ admin:
         suspicious: Podozrivé konto
         last_market_at: Naposledy kontaktovaný
         basic_info: Základné info
+        address_delete_confirm: Naozaj chcete vymazať túto adresu?
         email: E-mail
         phone_number: Telefón
         first_name: Krstné meno
@@ -703,6 +704,10 @@ model:
             email_taken: Email %email% je už registrovaný
             password_short: Heslo musí byť dlhé aspoň %length% znakov
             public_name_missing: Nebolo zadané verejné meno
+
+components:
+    user_address_list_widget:
+        load_more: Načítať ďalšie adresy
 
 data_provider:
     universal_search:

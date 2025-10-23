@@ -136,62 +136,6 @@
   <div class="col-md-3">
     {control simpleWidget 'admin.user.detail.center', $userRow->id}
 
-    {if count($printAddresses) == 0}
-      <p class="well text-muted text-center">{_users.admin.show.no_print_address}</p>
-    {/if}
-
-    <div n:foreach="$printAddresses as $printAddress" class="panel panel-default">
-      <div class="panel-heading">
-        {$printAddress->typ->title} <small class="text-muted">#{$printAddress->id}</small> <span n:if="$printAddress->is_default" class="label label-success">{_users.admin.show.default_address}</span>
-        <a n:href="RemoveAddress! $printAddress->id" class="pull-right btn-danger btn-xs" style="margin-left: 5px"><i class="fa fa-trash"></i></a>
-        <a n:href="AddressAdmin:edit $printAddress->id" class="pull-right btn-default btn-xs"><i class="fa fa-edit"></i></a>
-      </div>
-      <div class="panel-body">
-        {control simpleWidget 'admin.user.address.partial', $printAddress}
-      </div>
-      <div class="panel-footer"><small class="text-muted">{_users.admin.show.address_last_change} {$printAddress->updated_at|userDate}</small></div>
-    </div>
-
-    <div n:if="$invoiceAddress" class="panel panel-warning">
-      <div class="panel-heading">
-        {_users.admin.show.invoice_address} <small class="text-muted">#{$invoiceAddress->id}</small>
-        <a n:href="RemoveAddress! $invoiceAddress->id" class="pull-right btn-danger btn-xs" style="margin-left: 5px"><i class="fa fa-trash"></i></a>
-        <a n:href="AddressAdmin:edit $invoiceAddress->id" class="pull-right btn-default btn-xs"><i class="fa fa-edit"></i></a>
-      </div>
-      <div class="panel-body">
-        {if $invoiceAddress->company_name}
-          {$invoiceAddress->company_name|breaklines}<br>
-        {/if}
-        <b>{_users.admin.show.company_id}:</b> {$invoiceAddress->company_id}<br>
-        <b>{_users.admin.show.company_tax_id}:</b> {$invoiceAddress->company_tax_id}<br>
-        <b>{_users.admin.show.company_vat_id}:</b> {$invoiceAddress->company_vat_id}<br>
-
-        {if $invoiceAddress->phone_number}
-          <b>{_users.admin.show.phone_number}:</b> {$invoiceAddress->phone_number}<br>
-        {/if}
-
-        {capture $address}
-          {$invoiceAddress->street|breaklines|noescape} {$invoiceAddress->number}
-          <br>
-          {$invoiceAddress->zip} {$invoiceAddress->city}<br>
-        {/capture}
-        {if trim(strip_tags($address))}
-          <b>{_users.admin.show.address}:</b>
-          {$address}
-        {/if}
-
-        {if $invoiceAddress->country_id}
-          {$invoiceAddress->country->name}
-        {/if}
-        <span n:if="$userRow->disable_auto_invoice" class="label label-danger">{_users.admin.show.disabled_auto_invoice}</span>
-      </div>
-      <div class="panel-footer"><small class="text-muted">{_users.admin.show.address_last_change} {$invoiceAddress->updated_at|userDate}</small></div>
-    </div>
-
-    <p class="text-center">
-      <a n:href="AddressAdmin:new userId => $userRow->id" class="btn btn-xs btn-default"><i class="fa fa-plus"></i> {_users.admin.show.add_address}</a>
-    </p>
-
   </div>
 
   <div class="col-md-2">
@@ -249,7 +193,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 <script>
   $.nette.ext("modals", {

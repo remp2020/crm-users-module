@@ -1,0 +1,257 @@
+<style>
+    .address-widget .list-group-item {
+        margin-bottom: 15px;
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        border: 1px solid #ebebeb;
+    }
+
+    .address-widget .list-group-item.is-default {
+        border-left-width: 4px;
+        border-left-color: #5cb85c;
+        padding-left: 12px;
+    }
+
+    .address-widget .address-icon {
+        flex-shrink: 0;
+        width: 16px;
+        text-align: center;
+        align-self: baseline;
+    }
+
+    .address-widget .address-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .address-widget .address-title {
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+    }
+
+    .address-widget .address-title small {
+        opacity: 0.7;
+    }
+
+    .address-widget .dropdown {
+        flex-shrink: 0;
+        align-self: flex-start;
+    }
+
+    .address-widget .dropdown-toggle {
+        border: none;
+        background: transparent;
+        padding: 4px 8px;
+        color: inherit;
+    }
+
+    .address-widget .dropdown-toggle:hover,
+    .address-widget .dropdown-toggle:focus,
+    .address-widget .dropdown-toggle.active {
+        background-color: rgba(0, 0, 0, 0.05);
+        outline: none;
+    }
+
+    .address-widget .dropdown-menu a.text-danger {
+        color: #d9534f;
+    }
+
+    .address-widget .dropdown-menu a.text-danger:hover,
+    .address-widget .dropdown-menu a.text-danger:focus {
+        color: #c9302c;
+        background-color: #f2dede;
+    }
+</style>
+
+{define addressItem, $address}
+    <div class="list-group-item{if $address->is_default} is-default{/if}">
+        {var $icon = $iconMapping[$address->type] ?? $iconMapping['default'] ?? 'fa-envelope'}
+        <i class="fas {$icon} address-icon" title="{$address->typ->title}"></i>
+        <div class="address-content">
+            <div class="address-title">
+                <strong>{$address->typ->title}</strong><small>#{$address->id}</small>
+            </div>
+            <div class="address-body">
+                {if $address}
+                    {var $name = trim($address->first_name . ' ' . $address->last_name)}
+                    {var $street = trim($address->street . ' ' . $address->number)}
+                    {var $city = trim($address->zip . ' ' . $address->city)}
+
+                    {var $addressParts = []}
+                    {if $name}
+                        {var $addressParts[] = '<strong>' . $name . '</strong>'}
+                    {/if}
+                    {if $address->company_name}
+                        {var $addressParts[] = $address->company_name}
+                    {/if}
+                    {if $address->phone_number}
+                        {var $addressParts[] = $address->phone_number}
+                    {/if}
+                    {if $street}
+                        {var $addressParts[] = $street}
+                    {/if}
+                    {if $city}
+                        {var $addressParts[] = $city}
+                    {/if}
+                    {if $address->country?->iso_code}
+                        {var $addressParts[] = $address->country->iso_code}
+                    {/if}
+
+                    {$addressParts|implode:', '|noescape}
+                {/if}
+                <br>
+                <small>
+                    {if $address->company_id}
+                        <strong>{_users.admin.show.company_id}:</strong> {$address->company_id}{if $address->company_tax_id || $address->company_vat_id}, {/if}
+                    {/if}
+                    {if $address->company_tax_id}
+                        <strong>{_users.admin.show.company_tax_id}:</strong> {$address->company_tax_id}{if $address->company_vat_id}, {/if}
+                    {/if}
+                    {if $address->company_vat_id}
+                        <strong>{_users.admin.show.company_vat_id}:</strong> {$address->company_vat_id}
+                    {/if}
+                </small>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button type="button" class="btn btn-link btn-xs dropdown-toggle" data-dropdown-id="address-{$address->id}">
+                <i class="fas fa-ellipsis-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" id="dropdown-address-{$address->id}">
+                <li>
+                    <a href="{plink :Users:AddressAdmin:edit, $address->id}">
+                        <i class="fas fa-pen-to-square fa-fw"></i>
+                        {_users.admin.actions.edit}
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="{$presenter->link('RemoveAddress!', $address->id)}"
+                       class="text-danger"
+                       onclick="return confirmAndCloseDropdown('{_users.admin.show.address_delete_confirm}')"
+                    >
+                        <i class="fas fa-trash-can fa-fw"></i>&nbsp;{_users.admin.actions.delete}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{/define}
+
+<div class="panel panel-default">
+    <div class="panel-heading">{$control->header()}</div>
+    <div class="panel-body">
+        <div class="list-group address-widget">
+            {foreach $addresses as $address}
+                {include addressItem, $address}
+            {/foreach}
+            
+            {snippet additionalAddresses}
+                {if isset($additionalAddresses)}
+                    {foreach $additionalAddresses as $address}
+                        {include addressItem, $address}
+                    {/foreach}
+                {/if}
+            {/snippet}
+        </div>
+
+        {snippet loadMoreButton}
+            {if $hasMoreAddresses}
+                <p class="text-center">
+                    <a href="{link LoadMoreAddresses!, userId => $userId}" class="btn btn-sm btn-link ajax">
+                        <i class="fas fa-chevron-down"></i>&nbsp;{_users.components.user_address_list_widget.load_more}
+                    </a>
+                </p>
+            {/if}
+        {/snippet}
+
+        <p class="text-center">
+            {if $userId}
+                <a href="{plink :Users:AddressAdmin:new, userId => $userId}" class="btn btn-sm btn-default">
+                    <i class="fas fa-plus"></i>&nbsp;{_users.admin.show.add_address}
+                </a>
+            {/if}
+        </p>
+    </div>
+</div>
+
+<script>
+    const closeAllDropdowns = () => {
+        document.querySelectorAll('.dropdown-menu.show')
+            .forEach(menu => menu.classList.remove('show'));
+        document.querySelectorAll('.address-widget .dropdown-toggle.active')
+            .forEach(btn => btn.classList.remove('active'));
+    };
+
+    const toggleDropdown = (button) => {
+        const dropdownId = button.dataset.dropdownId;
+        if (!dropdownId) {
+            return;
+        }
+
+        const dropdown = document.getElementById('dropdown-' + dropdownId);
+        if (!dropdown) {
+            return;
+        }
+
+        const isOpen = dropdown.classList.contains('show');
+
+        closeAllDropdowns();
+
+        if (!isOpen) {
+            dropdown.classList.add('show');
+            button.classList.add('active');
+        } else {
+            button.blur();
+        }
+    };
+
+    const handleClick = (e) => {
+        const toggleButton = e.target.closest('.address-widget .dropdown-toggle');
+
+        if (toggleButton) {
+            toggleDropdown(toggleButton);
+            return;
+        }
+
+        if (!e.target.closest('.address-widget .actions')) {
+            closeAllDropdowns();
+        }
+    };
+
+    const handleKeydown = (event) => {
+        if (event.key === 'Escape') {
+            const openDropdowns = document.querySelectorAll('.dropdown-menu.show');
+            if (openDropdowns.length > 0) {
+                event.preventDefault();
+                event.stopPropagation();
+                closeAllDropdowns();
+
+                const focusedToggle = document.querySelector('.address-widget .dropdown-toggle:focus');
+                if (focusedToggle) {
+                    focusedToggle.blur();
+                }
+            }
+        }
+    };
+
+    const confirmAndCloseDropdown = (message) => {
+        const userConfirmed = confirm(message);
+        if (!userConfirmed) {
+            closeAllDropdowns();
+        }
+        return userConfirmed;
+    };
+
+    if (!window.addressDropdownsInitialized) {
+        window.addressDropdownsInitialized = true;
+        window.confirmAndCloseDropdown = confirmAndCloseDropdown;
+
+        document.addEventListener('click', handleClick);
+        document.addEventListener('keydown', handleKeydown);
+    }
+</script>

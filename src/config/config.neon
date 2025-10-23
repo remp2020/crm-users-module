@@ -114,6 +114,11 @@ services:
 	- Crm\UsersModule\Commands\ReconstructUserDataCommand
 	- Crm\UsersModule\Commands\GenerateUuidForUsersCommand
 	- Crm\UsersModule\Components\AddressWidget\AddressWidget
+	- Crm\UsersModule\Components\UserAddressListWidget\UserAddressListWidget
+	userAddressListConfig:
+		factory: Crm\UsersModule\Components\UserAddressListWidget\UserAddressListConfig
+		setup:
+			- addIconMapping(default, fa-envelope)
 	- Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts
 	- Crm\UsersModule\Components\UserPasswordChanges\UserPasswordChanges
 	- Crm\UsersModule\Components\AutologinTokens\AutologinTokens

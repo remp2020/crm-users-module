@@ -226,6 +226,7 @@ admin:
         suspicious: Suspicious account
         last_market_at: Last market at
         basic_info: Basic info
+        address_delete_confirm: Do you really want to delete this address?
         email: E-mail
         phone_number: Phone number
         first_name: First name
@@ -698,6 +699,10 @@ model:
             email_taken: Email %email% is already taken
             password_short: Password must be at least %length% characters long
             public_name_missing: Public name missing
+
+components:
+    user_address_list_widget:
+        load_more: Load more addresses
 
 data_provider:
     universal_search:

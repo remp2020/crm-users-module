@@ -225,6 +225,7 @@ admin:
         suspicious: Podezřelé konto
         last_market_at: Naposledy kontaktován
         basic_info: Základní info
+        address_delete_confirm: Opravdu chcete smazat tuto adresu?
         email: E-mail
         phone_number: Telefon
         first_name: Křestní jméno
@@ -670,6 +671,10 @@ model:
             email_taken: Email %email% je již registrován
             password_short: Heslo musí mít alespoň %length% znaků
             public_name_missing: Nebylo zadáno veřejné jméno
+
+components:
+    user_address_list_widget:
+        load_more: Načíst další adresy
 
 data_provider:
     universal_search:

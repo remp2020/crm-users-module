@@ -100,10 +100,6 @@ class UsersAdminPresenter extends AdminPresenter
         }
         $this->template->userRow = $user;
         $this->template->translator = $this->translator;
-        $this->template->invoiceAddress = $this->addressesRepository->address($user, 'invoice');
-        $this->template->printAddresses = array_filter($this->addressesRepository->addresses($user), function ($item) {
-            return $item->type != 'invoice';
-        });
 
         $this->template->lastSuspicious = $this->changePasswordsLogsRepository->lastUserLog($user->id, ChangePasswordsLogsRepository::TYPE_SUSPICIOUS);
         $this->template->canEditRoles = $this->getUser()->isAllowed('Users:AdminGroupAdmin', 'edit');

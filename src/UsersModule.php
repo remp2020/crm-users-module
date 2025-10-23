@@ -70,6 +70,7 @@ use Crm\UsersModule\Components\MonthToDateUsersStatWidget\MonthToDateUsersStatWi
 use Crm\UsersModule\Components\MonthUsersSmallBarGraphWidget\MonthUsersSmallBarGraphWidget;
 use Crm\UsersModule\Components\MonthUsersStatWidget\MonthUsersStatWidget;
 use Crm\UsersModule\Components\TodayUsersStatWidget\TodayUsersStatWidget;
+use Crm\UsersModule\Components\UserAddressListWidget\UserAddressListWidget;
 use Crm\UsersModule\Components\UserConnectedAccountsListWidget\UserConnectedAccountsListWidget;
 use Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts;
 use Crm\UsersModule\Components\UserMeta\UserMeta;
@@ -347,6 +348,10 @@ class UsersModule extends CrmModule
             710,
         );
         $widgetManager->registerWidget(
+            'admin.user.detail.center',
+            UserAddressListWidget::class,
+        );
+        $widgetManager->registerWidget(
             'dashboard.singlestat.totals',
             ActiveRegisteredUsersStatWidget::class,
             500,
@@ -420,7 +425,7 @@ class UsersModule extends CrmModule
             new ApiRoute(new ApiIdentifier('1', 'users', 'email'), UsersEmailHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
-            new ApiRoute(new ApiIdentifier('2', 'users', 'email'), \Crm\UsersModule\Api\v2\UsersEmailHandler::class, NoAuthorization::class),
+            new ApiRoute(new ApiIdentifier('2', 'users', 'email'), Api\v2\UsersEmailHandler::class, NoAuthorization::class),
         );
         $apiRoutersContainer->attachRouter(
             new ApiRoute(new ApiIdentifier('1', 'users', 'email-check'), UsersEmailCheckHandler::class, BearerTokenAuthorization::class),

@@ -1758,6 +1758,52 @@ Admin user detail listing component.
 
 [How to use](https://github.com/remp2020/crm-users-module/blob/0683e04c95027043d1d30f1d0aa868d9270e7aaf/src/presenters/UserActionsLogAdminPresenter.php#L49)
 
+**UserAddressListWidget**
+
+Admin user detail address listing widget with configurable icons and AJAX "Load more" functionality.
+
+![alt text](docs/user_address_list.png "UserAddressListWidget")
+
+[Source code](https://github.com/remp2020/crm-users-module/blob/master/src/Components/UserAddressListWidget/UserAddressListWidget.php)
+
+[How to use](https://github.com/remp2020/crm-users-module/blob/master/src/UsersModule.php#L352)
+
+<details>
+<summary>Configuration example</summary>
+
+Configure address type icons and visibility in your module's `config.neon`:
+
+**InvoicesModule:**
+```neon
+userAddressListConfig:
+    setup:
+        - addIconMapping(invoice, fa-file-lines)
+        - addAlwaysVisibleTypes(invoice)
+```
+
+**PrintModule:**
+```neon
+userAddressListConfig:
+    setup:
+        - addIconMapping(print, fa-truck)
+        - addAlwaysVisibleTypes(print)
+```
+
+**UsersModule:**
+```neon
+userAddressListConfig:
+    factory: Crm\UsersModule\Components\UserAddressListWidget\UserAddressListConfig
+    setup:
+        - addIconMapping(default, fa-envelope)
+```
+
+**Available methods:**
+- `addIconMapping(string $addressType, string $faIcon)` - Add icon mapping for specific address type.
+- `setAlwaysVisibleTypes(string ...$types)` - Set always visible types (replaces existing).
+- `addAlwaysVisibleTypes(string ...$addressTypes)` - Add types to always visible list.
+
+</details>
+
 **UserLoginAttempts**
 
 Admin user detail listing component.
