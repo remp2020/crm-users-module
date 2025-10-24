@@ -378,12 +378,6 @@ class UsersModule extends CrmModule
         );
 
         $widgetManager->registerWidget(
-            'admin.user.address.partial',
-            AddressWidget::class,
-            100,
-        );
-
-        $widgetManager->registerWidget(
             'frontend.user.address.partial',
             AddressWidget::class,
             100,

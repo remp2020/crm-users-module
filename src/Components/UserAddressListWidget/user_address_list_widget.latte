@@ -25,6 +25,14 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+        min-width: 0;
+    }
+
+    .address-widget .address-widgets {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+        flex-wrap: wrap;
     }
 
     .address-widget .address-title {
@@ -115,6 +123,9 @@
                         <strong>{_users.admin.show.company_vat_id}:</strong> {$address->company_vat_id}
                     {/if}
                 </small>
+                <div class="address-widgets">
+                    {control simpleWidget 'admin.user.address.partial', $address}
+                </div>
             </div>
         </div>
         <div class="dropdown">
