@@ -9,6 +9,7 @@ use Crm\UsersModule\Repositories\AddressesRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\BadRequestException;
+use Nette\Database\Table\ActiveRow;
 use Nette\Localization\Translator;
 
 class UserAddressListWidget extends BaseLazyWidget implements WidgetInterface
@@ -51,15 +52,13 @@ class UserAddressListWidget extends BaseLazyWidget implements WidgetInterface
             throw new BadRequestException('User not found.');
         }
 
-        $defaultAddresses = $this->addressesRepository->userAddresses($user, $this->config->getAlwaysVisibleTypes())
-            ->fetchAll();
-
+        $visibleAddresses = $this->getInitiallyShownAddresses($user);
         $allAddresses = $this->addressesRepository->addresses($user);
-        $hasMoreAddresses = count($allAddresses) > count($defaultAddresses);
+        $hasMoreAddresses = count($allAddresses) > count($visibleAddresses);
 
-        $this->template->addresses = $defaultAddresses;
+        $this->template->addresses = $visibleAddresses;
         $this->template->additionalAddresses = $this->additionalAddresses;
-        $this->template->hasMoreAddresses = $hasMoreAddresses && empty($this->additionalAddresses);
+        $this->template->hasMoreAddresses = $hasMoreAddresses && $this->additionalAddresses === [];
         $this->template->userId = $this->userId;
         $this->template->iconMapping = $this->config->getIconMapping();
 
@@ -76,20 +75,61 @@ class UserAddressListWidget extends BaseLazyWidget implements WidgetInterface
             throw new BadRequestException('User not found.');
         }
 
+        $initiallyShownAddresses = $this->getInitiallyShownAddresses($user);
         $allAddresses = $this->addressesRepository->addresses($user);
+
+        $shownIds = array_map(fn ($address) => $address->id, $initiallyShownAddresses);
 
         $additionalAddresses = [];
         foreach ($allAddresses as $address) {
-            if (!in_array($address->type, $this->config->getAlwaysVisibleTypes(), true)) {
+            if (!in_array($address->id, $shownIds, true)) {
                 $additionalAddresses[] = $address;
             }
         }
 
-        $this->additionalAddresses = $additionalAddresses;
+        $this->additionalAddresses = $this->sortAddresses($additionalAddresses);
 
         if ($this->presenter->isAjax()) {
             $this->redrawControl('additionalAddresses');
             $this->redrawControl('loadMoreButton');
         }
+    }
+
+    private function getInitiallyShownAddresses(ActiveRow $user): array
+    {
+        $alwaysVisibleAddresses = $this->addressesRepository
+            ->userAddresses($user, $this->config->getAlwaysVisibleTypes())
+            ->fetchAll();
+
+        $visibleAddresses = $this->sortAddresses($alwaysVisibleAddresses);
+
+        if ($visibleAddresses === []) {
+            $allAddresses = $this->addressesRepository->addresses($user);
+            if ($allAddresses !== []) {
+                $sortedAll = $this->sortAddresses($allAddresses);
+                $visibleAddresses = array_slice($sortedAll, 0, 3);
+            }
+        }
+
+        return $visibleAddresses;
+    }
+
+    private function sortAddresses(array $addresses): array
+    {
+        usort($addresses, function ($a, $b) {
+            // First, sort by type
+            if ($a->type !== $b->type) {
+                return $a->type <=> $b->type;
+            }
+
+            // Within same type, sort by is_default (default addresses first)
+            if ($a->is_default !== $b->is_default) {
+                return $b->is_default <=> $a->is_default;
+            }
+
+            // Within same type and default status, sort by created_at (newest first)
+            return $b->created_at <=> $a->created_at;
+        });
+        return $addresses;
     }
 }
