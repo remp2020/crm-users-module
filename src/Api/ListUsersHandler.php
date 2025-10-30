@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Api;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
+use Nette\Http\IResponse;
 use Nette\Http\Response;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
@@ -29,6 +30,7 @@ class ListUsersHandler extends ApiHandler
             (new PostInputParam('user_ids'))->setRequired(),
             (new PostInputParam('page'))->setRequired(),
             new PostInputParam('include_deactivated'),
+            new PostInputParam('with_uuid'),
         ];
     }
 
@@ -46,16 +48,21 @@ class ListUsersHandler extends ApiHandler
         }
 
         $includeDeactivated = filter_var($params['include_deactivated'], FILTER_VALIDATE_BOOLEAN);
+        $withUuid = filter_var($params['with_uuid'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
         try {
-            $userIds = Json::decode($params['user_ids'], Json::FORCE_ARRAY);
+            $userIds = Json::decode($params['user_ids'], forceArrays: true);
         } catch (JsonException $e) {
-            $response = new JsonApiResponse(Response::S400_BAD_REQUEST, ['status' => 'error', 'message' => 'user_ids should be valid JSON array']);
-            return $response;
+            return new JsonApiResponse(IResponse::S400_BadRequest, ['status' => 'error', 'message' => 'user_ids should be valid JSON array']);
+        }
+
+        $selectFields = 'id, email';
+        if ($withUuid) {
+            $selectFields .= ', uuid';
         }
 
         $query = $this->usersRepository->all()
-            ->select('id, email')
+            ->select($selectFields)
             ->where('deleted_at IS NULL') // never list anonymized users
             ->order('id ASC');
 
@@ -76,15 +83,19 @@ class ListUsersHandler extends ApiHandler
         $resultArr = [];
         /** @var ActiveRow $user */
         foreach ($users as $user) {
-            $resultArr[$user->id] = [
+            $userData = [
                 'id' => $user->id,
                 'email' => $user->email,
             ];
+            if ($withUuid) {
+                $userData['uuid'] = $user->uuid;
+            }
+            $resultArr[$user->id] = $userData;
         }
 
         $result = [
             'status' => 'ok',
-            'page' => intval($params['page']),
+            'page' => (int)$params['page'],
             'totalPages' => $totalPages,
             'totalCount' => $count,
             'users' => $resultArr,

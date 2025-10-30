@@ -982,6 +982,7 @@ Anonymized users are excluded from list. Deactivated users can be included by us
 | user_ids | *String* | yes | JSON-encoded array of requested user IDs. |
 | page | *Integer* | yes | Page number to retrieve (starting with 1). |
 | include_deactivated | *Boolean* | no | Flag indicating that deactivated users should be listed too. Doesn't affect anonymized users - they are always excluded. |
+| with_uuid | *Boolean* | no | Flag indicating that user UUID should be included in response. |
 
 
 ##### *Example:*
@@ -1006,10 +1007,12 @@ Response:
     "users": { // Object; map of users keyed by userId with value object containing user data
         "9": {
             "id": 9, // Integer; ID of user
+            "uuid": "35e6b53c-340c-4dc3-ad36-f81b2b1f00a8", // String; UUID of user (only if with_uuid=true)
             "email": "admin@crm.press" // String; email of user
         },
         "10": {
             "id": 10,
+            "uuid": "d8f5c2a1-4b3e-4d2c-8e9f-1a2b3c4d5e6f", // String; UUID of user (only if with_uuid=true)
             "email": "user@crm.press"
         }
     }
