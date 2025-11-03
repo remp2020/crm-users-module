@@ -55,9 +55,6 @@ class AddressFormFactory
             $userId = $address->user_id;
         } else {
             $defaults['country'] = $this->countriesRepository->defaultCountry()->iso_code;
-            $userRow = $this->userRepository->find($userId);
-            $defaults['first_name'] = $userRow->first_name;
-            $defaults['last_name'] = $userRow->last_name;
         }
 
         $type = $form->addSelect('type', 'users.frontend.address.type.label', $this->addressTypesRepository->getPairs());
