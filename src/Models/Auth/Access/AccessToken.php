@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth\Access;
 
+use Crm\ApplicationModule\Models\Request as ApplicationRequest;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Http\IRequest;
@@ -12,20 +13,15 @@ class AccessToken
 {
     private $version = 3;
 
-    private $accessTokenRepository;
-
-    private $usersRepository;
-
     protected $cookieName = 'n_token';
 
     private $sameSiteFlag = 'Lax';
 
     public function __construct(
-        AccessTokensRepository $accessTokensRepository,
-        UsersRepository $usersRepository,
+        private readonly AccessTokensRepository $accessTokensRepository,
+        private readonly UsersRepository $usersRepository,
+        private readonly ApplicationRequest $applicationRequest,
     ) {
-        $this->accessTokenRepository = $accessTokensRepository;
-        $this->usersRepository = $usersRepository;
     }
 
     /**
@@ -48,21 +44,21 @@ class AccessToken
         // remove old token if exists
         if ($request) {
             $cookieToken = $request->getCookie($this->cookieName);
-            $token = $this->accessTokenRepository->loadToken($cookieToken);
+            $token = $this->accessTokensRepository->loadToken($cookieToken);
             if ($token && $token->user_id == $userRow->id) {
-                $this->accessTokenRepository->remove($token->token);
+                $this->accessTokensRepository->remove($token->token);
             }
         }
 
-        $token = $this->accessTokenRepository->add($userRow, $this->version, $source);
+        $token = $this->accessTokensRepository->add($userRow, $this->version, $source);
 
-        if ($response && !\Crm\ApplicationModule\Models\Request::isApi()) {
+        if ($response && !ApplicationRequest::isApi()) {
             $response->setCookie(
                 $this->cookieName,
                 $token->token,
                 strtotime('+10 years'),
                 '/',
-                \Crm\ApplicationModule\Models\Request::getDomain(),
+                $this->applicationRequest->getCookieDomain(),
                 $request->isSecured(),
                 false,
                 $this->sameSiteFlag,
@@ -75,13 +71,13 @@ class AccessToken
     public function deleteActualUserToken($user, Request $request, Response $response)
     {
         $cookieToken = $request->getCookie($this->cookieName);
-        $token = $this->accessTokenRepository->loadToken($cookieToken);
+        $token = $this->accessTokensRepository->loadToken($cookieToken);
         if ($token && $token->user_id == $user->id) {
-            $this->accessTokenRepository->remove($token->token);
+            $this->accessTokensRepository->remove($token->token);
         }
 
-        $response->deleteCookie($this->cookieName, '/', \Crm\ApplicationModule\Models\Request::getDomain());
-        $response->deleteCookie('n_version', '/', \Crm\ApplicationModule\Models\Request::getDomain());
+        $response->deleteCookie($this->cookieName, '/', $this->applicationRequest->getCookieDomain());
+        $response->deleteCookie('n_version', '/', $this->applicationRequest->getCookieDomain());
     }
 
     public function getToken(IRequest $request)
