@@ -31,14 +31,15 @@
     .address-widget .address-widgets {
         display: flex;
         gap: 6px;
-        margin-top: 6px;
         flex-wrap: wrap;
     }
 
     .address-widget .address-title {
-        display: flex;
-        align-items: baseline;
-        gap: 4px;
+        line-height: 1em;
+    }
+
+    .address-widget .address-body {
+        line-height: 1.2em;
     }
 
     .address-widget .address-title small {
@@ -81,7 +82,8 @@
         <i class="fas {$icon} address-icon" title="{$address->typ->title}"></i>
         <div class="address-content">
             <div class="address-title">
-                <strong>{$address->typ->title}</strong><small>#{$address->id}</small>
+                <strong>{$address->typ->title}</strong> <small>#{$address->id}</small><br>
+                <small class="text-muted">{_users.admin.show.address_last_change} {$address->updated_at|userDate}</small>
             </div>
             <div class="address-body">
                 {if $address}
@@ -123,9 +125,9 @@
                         <strong>{_users.admin.show.company_vat_id}:</strong> {$address->company_vat_id}
                     {/if}
                 </small>
-                <div class="address-widgets">
-                    {control simpleWidget 'admin.user.address.partial', $address}
-                </div>
+            </div>
+            <div class="address-widgets">
+                {control simpleWidget 'admin.user.address.partial', $address}
             </div>
         </div>
         <div class="dropdown">
