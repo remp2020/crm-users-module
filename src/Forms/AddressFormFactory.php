@@ -68,7 +68,7 @@ class AddressFormFactory
             ->setOption('id', 'first_name');
         $form->addText('last_name', 'users.frontend.address.last_name.label')
             ->setNullable()
-            ->setHtmlAttribute('placeholder', 'users.frontend.address.first_name.placeholder')
+            ->setHtmlAttribute('placeholder', 'users.frontend.address.last_name.placeholder')
             ->setOption('id', 'last_name');
 
         $form->addTextArea('company_name', 'users.frontend.address.company_name.label', null, 1)
