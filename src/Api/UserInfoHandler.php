@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Api;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\ApplicationModule\Models\User\UserDataStorageInterface;
 use Crm\UsersModule\Models\Auth\AccessTokensApiAuthorizationInterface;
+use Crm\UsersModule\Models\Auth\UsersApiAuthorizationInterface;
 use Nette\Http\IResponse;
 use Nette\Http\Response;
 use Nette\Utils\Json;
@@ -27,16 +28,8 @@ class UserInfoHandler extends ApiHandler
     public function handle(array $params): ResponseInterface
     {
         $authorization = $this->getAuthorization();
-        $data = $authorization->getAuthorizedData();
-        if (!isset($data['token']) || !isset($data['token']->user) || empty($data['token']->user)) {
-            return new JsonApiResponse(IResponse::S403_Forbidden, [
-                'status' => 'error',
-                'error' => 'no_authorization',
-                'message' => 'Cannot authorize user',
-            ]);
-        }
-
         $userData = null;
+
         if ($authorization instanceof AccessTokensApiAuthorizationInterface) {
             // Cache-based approach
             foreach ($authorization->getAccessTokens() as $accessToken) {
@@ -67,21 +60,31 @@ class UserInfoHandler extends ApiHandler
             }
         }
 
-        if (!$userData) {
+        if (!$userData && $authorization instanceof UsersApiAuthorizationInterface) {
             // DB-based approach
-            $userRow = $data['token']->user;
+            foreach ($authorization->getAuthorizedUsers() as $userRow) {
+                $userData['user'] = [
+                    'id' => $userRow->id,
+                    'uuid' => $userRow->uuid,
+                    'email' => $userRow->email,
+                    'confirmed_at' => $userRow->confirmed_at ? $userRow->confirmed_at->format(DATE_RFC3339) : null,
+                ];
+                $userData['user_meta'] = new \stdClass();
 
-            $userData['user'] = [
-                'id' => $userRow->id,
-                'uuid' => $userRow->uuid,
-                'email' => $userRow->email,
-                'confirmed_at' => $userRow->confirmed_at ? $userRow->confirmed_at->format(DATE_RFC3339) : null,
-            ];
-            $userData['user_meta'] = new \stdClass();
+                foreach ($userRow->related('user_meta')->where('is_public', 1) as $userMeta) {
+                    $userData['user_meta']->{$userMeta->key} = $userMeta->value;
+                }
 
-            foreach ($userRow->related('user_meta')->where('is_public', 1) as $userMeta) {
-                $userData['user_meta']->{$userMeta->key} = $userMeta->value;
+                break;
             }
+        }
+
+        if (!$userData) {
+            return new JsonApiResponse(IResponse::S403_Forbidden, [
+                'status' => 'error',
+                'error' => 'no_authorization',
+                'message' => 'Cannot authorize user',
+            ]);
         }
 
         // required result
@@ -90,13 +93,6 @@ class UserInfoHandler extends ApiHandler
             'user' => $userData['user'],
             'user_meta' => $userData['user_meta'],
         ];
-
-        // additional custom data added by authorizators for other sources
-        if (isset($data['token']->authSource) && !empty($data['token']->authSource) && is_string($data['token']->authSource)) {
-            $authSource = $data['token']->authSource;
-            $result['source'] = $authSource;
-            $result[$authSource] = $data['token']->$authSource;
-        }
 
         $response = new JsonApiResponse(Response::S200_OK, $result);
         return $response;
