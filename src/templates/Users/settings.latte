@@ -200,7 +200,10 @@
           </div>
 
           <div class="row form-group">
-            {var $confirm = LR\Filters::escapeHtmlText(call_user_func($this->filters->translate, "users.frontend.settings.account_delete.confirm"))}
+            {capture $message}
+                {_"users.frontend.settings.account_delete.confirm"}
+            {/capture}
+            {var $confirm = LR\Filters::escapeHtmlText($message)}
             <div class="col-md-4">{input send, class => 'btn btn-warning', onclick => "return confirm('" . $confirm . "')"}</div>
           </div>
         {/form}
