@@ -7,10 +7,10 @@ services:
 		setup:
 			- addValidator(Crm\UsersModule\Models\Email\RegexpValidator())
 			- addValidator(Crm\UsersModule\Models\Email\StaticDomainFileValidator())
-	filterLoader:
+	nette.latteFactory:
 		setup:
-			- register('gravatar', [Crm\UsersModule\Helpers\GravatarHelper(), process])
-			- register('userLabel', [Crm\UsersModule\Helpers\UserLabelHelper(), process])
+			- addFilter('gravatar', [Crm\UsersModule\Helpers\GravatarHelper(), process])
+			- addFilter('userLabel', [Crm\UsersModule\Helpers\UserLabelHelper(), process])
 
 	measurementManager:
 		setup:
