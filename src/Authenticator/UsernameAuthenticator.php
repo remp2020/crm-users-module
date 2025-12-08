@@ -126,8 +126,6 @@ abstract class UsernameAuthenticator extends BaseAuthenticator
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_OK);
         }
 
-        $this->usersRepository->addSignIn($user);
-
         return $user;
     }
 

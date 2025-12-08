@@ -5,7 +5,6 @@ namespace Crm\UsersModule\Authenticator;
 use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Models\Authenticator\BaseAuthenticator;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
-use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
@@ -20,9 +19,6 @@ use Nette\Http\Request;
  */
 class AutoLoginAuthenticator extends BaseAuthenticator
 {
-    /** @var UsersRepository */
-    private $usersRepository;
-
     /** @var ActiveRow */
     private $user = null;
 
@@ -33,11 +29,8 @@ class AutoLoginAuthenticator extends BaseAuthenticator
         Emitter $emitter,
         \Tomaj\Hermes\Emitter $hermesEmitter,
         Request $request,
-        UsersRepository $usersRepository,
     ) {
         parent::__construct($emitter, $hermesEmitter, $request);
-
-        $this->usersRepository = $usersRepository;
     }
 
     public function authenticate()
@@ -47,7 +40,6 @@ class AutoLoginAuthenticator extends BaseAuthenticator
         }
 
         $this->addAttempt($this->user->email, $this->user, $this->source, LoginAttemptsRepository::STATUS_LOGIN_AFTER_SIGN_UP);
-        $this->usersRepository->addSignIn($this->user);
 
         return $this->user;
     }
