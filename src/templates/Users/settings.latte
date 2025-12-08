@@ -203,8 +203,7 @@
             {capture $message}
                 {_"users.frontend.settings.account_delete.confirm"}
             {/capture}
-            {var $confirm = LR\Filters::escapeHtmlText($message)}
-            <div class="col-md-4">{input send, class => 'btn btn-warning', onclick => "return confirm('" . $confirm . "')"}</div>
+            <div class="col-md-4">{input send, class => 'btn btn-warning', onclick => "return confirm('" . $message . "')"}</div>
           </div>
         {/form}
       {else}
