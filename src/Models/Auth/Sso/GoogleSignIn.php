@@ -377,7 +377,7 @@ class GoogleSignIn
             $userBuilder->setLocale($locale);
         }
 
-        $loggedUserId = $this->user->isLoggedIn() ? $this->user->getId() : null;
+        $loggedUserId = $this->user->isLoggedIn() ? (int) $this->user->getId() : null;
 
         // Match google user to CRM user
         return $this->ssoUserManager->matchOrCreateUser(
