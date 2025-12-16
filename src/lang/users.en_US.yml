@@ -257,8 +257,6 @@ admin:
         locale: Display language
         default_address: Default address
         anonymized_user: Anonymized user
-        anonymized_user_tooltip: This user was anonymized and cannot be edited
-
     edit:
         title: Edit user
         back_to_detail: back to detail

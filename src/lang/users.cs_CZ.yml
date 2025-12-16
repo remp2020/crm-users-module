@@ -256,8 +256,6 @@ admin:
         locale: Jazyk
         default_address: Výchozí adresa
         anonymized_user: Anonymizovaný uživatel
-        anonymized_user_tooltip: Tento uživatel byl anonymizován a nelze ho upravovat
-
     edit:
         title: Úprava uživatele
         back_to_detail: zpět na záznam

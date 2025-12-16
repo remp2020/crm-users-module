@@ -251,8 +251,6 @@ admin:
         address: Cím
         locale: Nyelv
         anonymized_user: Anonimizált felhasználó
-        anonymized_user_tooltip: Ez a felhasználó anonimizálásra került és nem szerkeszthető
-
     edit:
         title: Felhasználó szerkesztése
         back_to_detail: Vissza a részletekhez
@@ -279,7 +277,7 @@ admin:
             placeholder: város neve
         zip:
             label: Irányítószám
-            placeholder: 12345
+            placeholder: '12345'
         phone:
             label: Telefonszám
             placeholder: 0908123123 vagy +421908123123
