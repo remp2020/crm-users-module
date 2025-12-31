@@ -41,7 +41,7 @@ class ReconstructUserDataCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Reconstructing user data');
         $output->writeln('');

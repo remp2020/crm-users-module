@@ -24,7 +24,7 @@ class UpdateLoginAttemptsCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $limit = 100;
         $updated = 0;

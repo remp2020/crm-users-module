@@ -35,7 +35,7 @@ class CheckEmailsCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getArgument('email')) {
             $this->checkEmail($output, $input->getArgument('email'));

@@ -44,7 +44,7 @@ class GenerateAccessCommand extends Command
             ->addUsage('--cleanup');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $generatedACL = [];
         foreach ($this->container->findByType('Crm\AdminModule\Presenters\AdminPresenter') as $adminServiceName) {
