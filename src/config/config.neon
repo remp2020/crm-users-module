@@ -113,6 +113,7 @@ services:
 	- Crm\UsersModule\Commands\DisableUserCommand
 	- Crm\UsersModule\Commands\ReconstructUserDataCommand
 	- Crm\UsersModule\Commands\GenerateUuidForUsersCommand
+	- Crm\UsersModule\Commands\FlagSuspiciousUserCommand
 	- Crm\UsersModule\Components\AddressWidget\AddressWidget
 	- Crm\UsersModule\Components\UserAddressListWidget\UserAddressListWidget
 	userAddressListConfig:

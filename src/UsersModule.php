@@ -59,6 +59,7 @@ use Crm\UsersModule\Authenticator\UsersAuthenticator;
 use Crm\UsersModule\Commands\AddUserCommand;
 use Crm\UsersModule\Commands\CheckEmailsCommand;
 use Crm\UsersModule\Commands\DisableUserCommand;
+use Crm\UsersModule\Commands\FlagSuspiciousUserCommand;
 use Crm\UsersModule\Commands\GenerateAccessCommand;
 use Crm\UsersModule\Commands\GenerateUuidForUsersCommand;
 use Crm\UsersModule\Commands\ReconstructUserDataCommand;
@@ -307,6 +308,7 @@ class UsersModule extends CrmModule
         $commandsContainer->registerCommand($this->getInstance(DisableUserCommand::class));
         $commandsContainer->registerCommand($this->getInstance(ReconstructUserDataCommand::class));
         $commandsContainer->registerCommand($this->getInstance(GenerateUuidForUsersCommand::class));
+        $commandsContainer->registerCommand($this->getInstance(FlagSuspiciousUserCommand::class));
     }
 
     public function registerLazyWidgets(LazyWidgetManagerInterface $widgetManager)
