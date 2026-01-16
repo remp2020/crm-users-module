@@ -4,10 +4,13 @@ namespace Crm\UsersModule\Authenticator;
 
 use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Models\Authenticator\BaseAuthenticator;
+use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
+use Nette\Localization\Translator;
+use Nette\Security\AuthenticationException;
 
 /**
  * AutoLoginAuthenticator is used to login user after sign up.
@@ -29,6 +32,7 @@ class AutoLoginAuthenticator extends BaseAuthenticator
         Emitter $emitter,
         \Tomaj\Hermes\Emitter $hermesEmitter,
         Request $request,
+        private readonly Translator $translator,
     ) {
         parent::__construct($emitter, $hermesEmitter, $request);
     }
@@ -37,6 +41,22 @@ class AutoLoginAuthenticator extends BaseAuthenticator
     {
         if ($this->user === null || $this->autoLogin !== true) {
             return false;
+        }
+
+        if (!$this->user->active) {
+            $inactiveAccountMessage = $this->translator->translate('users.authenticator.inactive_account');
+
+            $this->addAttempt(
+                $this->user->email,
+                $this->user,
+                $this->source,
+                LoginAttemptsRepository::STATUS_INACTIVE_USER,
+                $inactiveAccountMessage,
+            );
+            throw new AuthenticationException(
+                $inactiveAccountMessage,
+                UserAuthenticator::IDENTITY_NOT_FOUND,
+            );
         }
 
         $this->addAttempt($this->user->email, $this->user, $this->source, LoginAttemptsRepository::STATUS_LOGIN_AFTER_SIGN_UP);

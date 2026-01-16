@@ -10,6 +10,7 @@ use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\Models\Auth\Sso\SsoException;
 use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
+use Nette\Security\AuthenticationException;
 use Nette\Utils\Json;
 use Tracy\Debugger;
 
@@ -117,6 +118,9 @@ class GooglePresenter extends FrontendPresenter
         } catch (AdminAccountSsoLinkingException $e) {
             $this->flashMessage($this->translator->translate('users.frontend.google.link_disabled_for_admin'), 'error');
             $this->redirect('Users:settings');
+        } catch (AuthenticationException $e) {
+            $this->flashMessage($e->getMessage(), 'warning');
+            $this->redirect('Sign:in');
         }
 
         $back = $session->back;
@@ -175,6 +179,9 @@ class GooglePresenter extends FrontendPresenter
                 'email' => $e->getEmail(),
             ]), 'error');
             $this->redirect('Users:settings');
+        } catch (AuthenticationException $e) {
+            $this->flashMessage($e->getMessage(), 'warning');
+            $this->redirect('Sign:in');
         }
 
         if ($back) {

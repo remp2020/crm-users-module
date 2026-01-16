@@ -10,6 +10,7 @@ use Crm\UsersModule\Models\Auth\Sso\AppleSignIn;
 use Crm\UsersModule\Models\Auth\Sso\SsoException;
 use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
+use Nette\Security\AuthenticationException;
 use Nette\Utils\Json;
 use Tracy\Debugger;
 
@@ -119,6 +120,9 @@ class ApplePresenter extends FrontendPresenter
                 'email' => EscapeHTML::escape($e->getEmail()),
             ]), 'danger');
             $this->redirect('Users:settings');
+        } catch (AuthenticationException $e) {
+            $this->flashMessage($e->getMessage(), 'warning');
+            $this->redirect('Sign:in');
         }
 
         $finalUrl = $session->finalUrl;

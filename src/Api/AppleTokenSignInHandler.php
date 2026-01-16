@@ -71,12 +71,19 @@ class AppleTokenSignInHandler extends ApiHandler
         $user = $this->appleSignIn->getUserUsingIdToken($idToken, $params['locale'] ?? null);
 
         if (!$user) {
-            $response = new JsonApiResponse(IResponse::S400_BAD_REQUEST, [
+            return new JsonApiResponse(IResponse::S400_BadRequest, [
                 'status' => 'error',
                 'code' => 'error_verifying_id_token',
                 'message' => 'Unable to verify ID token',
             ]);
-            return $response;
+        }
+
+        if (!$user->active) {
+            return new JsonApiResponse(IResponse::S403_Forbidden, [
+                'status' => 'error',
+                'code' => 'inactive_account',
+                'message' => 'Account is inactive.',
+            ]);
         }
 
         $accessToken = null;
