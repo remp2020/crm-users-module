@@ -6,7 +6,7 @@ use Nette\Utils\Random;
 
 class PasswordGenerator
 {
-    public function generatePassword($passwordLength = 8)
+    public function generatePassword($passwordLength = 16)
     {
         return Random::generate(
             length: $passwordLength,
