@@ -49,7 +49,7 @@ frontend:
             label: 'Current password:'
             required: Please enter your current password
             placeholder: current password
-            description: "If you don't remember your old password, <a href=\"%url%\" class=\"link\">click here</a> and we'll send you new password to your email address."
+            description: "If you forgot your old password, <a href=\"%url%\" class=\"link\">click here</a> and we'll send a new password to your email address."
             confirm: "Are you sure you want to reset password?"
         new_password:
             label: 'New password:'
@@ -151,7 +151,7 @@ frontend:
         title: System settings
         personal_data:
             title: Personal data
-            info: "You can download and browse all personal data system stores."
+            info: Download and browse all personal data our system stores.
             download: Download
         devices_logout:
             title: Device management
@@ -160,7 +160,7 @@ frontend:
             success: "You have been signed out of other devices."
         account_delete:
             title: Delete account
-            info: 'If you wish to permanently delete user account, please enter your password and press "Delete account". <strong>This action is irrevertible</strong>.'
+            info: 'If you wish to permanently delete your user account, please enter your password and press "Delete account". <strong>This action is irrevertible</strong>.'
             password:
                 label: 'Password:'
                 required: Password needs to be entered
