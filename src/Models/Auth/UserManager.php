@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Crm\UsersModule\Models\Auth;
 
 use Crm\ApplicationModule\Application\EnvironmentConfig;
+use Crm\ApplicationModule\Hermes\HermesMessage;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Events\UserChangePasswordRequestEvent;
 use Crm\UsersModule\Events\UserConfirmedEvent;
@@ -23,52 +25,23 @@ use Nette\Security\User;
 use Nette\Utils\DateTime;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
+use Tomaj\Hermes\Emitter as HermesEmitter;
 
 class UserManager
 {
-    private UsersRepository $usersRepository;
-
-    private PasswordGenerator $passwordGenerator;
-
-    private ChangePasswordsLogsRepository $changePasswordsLogsRepository;
-
-    private UserBuilder $userBuilder;
-
-    private Emitter $emitter;
-
-    private EmailValidator $emailValidator;
-
-    private AccessTokensRepository $accessTokensRepository;
-
-    private PasswordResetTokensRepository $passwordResetTokensRepository;
-
-    private UserMetaRepository $userMetaRepository;
-
-    /** @var Passwords */
-    private $passwords;
-
     public function __construct(
-        UsersRepository $usersRepository,
-        PasswordGenerator $passwordGenerator,
-        Emitter $emitter,
-        ChangePasswordsLogsRepository $changePasswordsLogsRepository,
-        UserBuilder $userBuilder,
-        EmailValidator $emailValidator,
-        PasswordResetTokensRepository $passwordResetTokensRepository,
-        AccessTokensRepository $accessTokensRepository,
-        UserMetaRepository $userMetaRepository,
-        Passwords $passwords,
+        private readonly UsersRepository $usersRepository,
+        private readonly PasswordGenerator $passwordGenerator,
+        private readonly Emitter $emitter,
+        private readonly ChangePasswordsLogsRepository $changePasswordsLogsRepository,
+        private readonly UserBuilder $userBuilder,
+        private readonly EmailValidator $emailValidator,
+        private readonly PasswordResetTokensRepository $passwordResetTokensRepository,
+        private readonly AccessTokensRepository $accessTokensRepository,
+        private readonly UserMetaRepository $userMetaRepository,
+        private readonly Passwords $passwords,
+        private readonly HermesEmitter $hermesEmitter,
     ) {
-        $this->usersRepository = $usersRepository;
-        $this->passwordGenerator = $passwordGenerator;
-        $this->emitter = $emitter;
-        $this->changePasswordsLogsRepository = $changePasswordsLogsRepository;
-        $this->userBuilder = $userBuilder;
-        $this->emailValidator = $emailValidator;
-        $this->passwordResetTokensRepository = $passwordResetTokensRepository;
-        $this->accessTokensRepository = $accessTokensRepository;
-        $this->userMetaRepository = $userMetaRepository;
-        $this->passwords = $passwords;
     }
 
     /**
@@ -271,6 +244,10 @@ class UserManager
         if ($byAdmin) {
             $this->userMetaRepository->add($user, 'confirmed_by_admin', true);
         }
+        $this->hermesEmitter->emit(new HermesMessage(
+            type: 'user-confirmed',
+            payload: ['user_id' => $user->id, 'by_admin' => $byAdmin],
+        ));
     }
 
     public function setEmailValidated($user, ?DateTime $validated)
@@ -296,6 +273,6 @@ class UserManager
         if (!$crmKey) {
             throw new \Exception("Unable to generate hashed user ID using empty 'CRM_KEY' value, please set it up in .env file using 'application:generate_key' command.");
         }
-        return hash_hmac('sha256', $userId, $crmKey);
+        return hash_hmac('sha256', (string) $userId, $crmKey);
     }
 }
