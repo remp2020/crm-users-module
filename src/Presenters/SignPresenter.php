@@ -126,7 +126,8 @@ class SignPresenter extends FrontendPresenter
             $this->restoreRequest($this->getParameter('back'));
         }
 
-        $this->redirect('in');
+        $redirectRoute = $this->applicationConfig->get('not_logged_in_route') ?? 'in';
+        $this->redirect($redirectRoute);
     }
 
     public function renderUp()
