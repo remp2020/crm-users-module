@@ -17,7 +17,7 @@ frontend:
         username:
             label: 'E-mail:'
             required: Please enter your email
-            placeholder: e.g. moj@email.sk
+            placeholder: Enter your email address
         password:
             label: 'Password:'
             required: Please enter your password.
@@ -30,7 +30,7 @@ frontend:
         username:
             label: 'E-mail:'
             required: Please enter your email
-            placeholder: E.g. moj@email.sk
+            placeholder: Enter your email address
         password:
             label: 'Password:'
             required: Please enter your password.
