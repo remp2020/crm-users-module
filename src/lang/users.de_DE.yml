@@ -514,6 +514,7 @@ admin:
 
 authenticator:
     identity_not_found: Unzulässige E-Mail-Adresse.
+    no_password: Kein Passwort angegeben.
     invalid_credentials: Unzulässiges Passwort.
     inactive_account: Konto wurde deaktiviert.
     rate_limit_exceeded: Zuviele Anmeldeversuche. Bitte später noch einmal versuchen.

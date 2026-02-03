@@ -529,6 +529,7 @@ admin:
 
 authenticator:
     identity_not_found: Nesprávné jméno.
+    no_password: Nebylo zadáno heslo.
     invalid_credentials: Heslo je nesprávné.
     inactive_account: Účet je neaktivní.
     rate_limit_exceeded: Příliš mnoho pokusů o přihlášení. Zkuste to později.

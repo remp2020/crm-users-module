@@ -142,7 +142,7 @@ class UsersEmailHandlerV2Test extends DatabaseTestCase
         $this->assertEquals($email, $payload['email']);
         $this->assertEquals($user->id, $payload['id']);
         $this->assertEquals(null, $payload['password']);
-        $this->assertEquals(LoginAttemptsRepository::STATUS_WRONG_PASS, $lastAttempt->status);
+        $this->assertEquals(LoginAttemptsRepository::STATUS_EMAIL_CHECK, $lastAttempt->status);
     }
 
     public function testClaimedUserInvalidPassword()

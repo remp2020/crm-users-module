@@ -474,6 +474,7 @@ admin:
 
 authenticator:
     identity_not_found: Helytelen név.
+    no_password: Nem adott meg jelszót.
     invalid_credentials: Helytelen jelszó.
     inactive_account: A fiók inaktív.
     rate_limit_exceeded: Túl sok sikertelen bejelentkezési próbálkozás. Próbálja újra később.

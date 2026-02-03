@@ -554,6 +554,7 @@ measurements:
 
 authenticator:
     identity_not_found: Nesprávne meno.
+    no_password: Nebolo zadané heslo.
     invalid_credentials: Heslo je nesprávne.
     inactive_account: Konto je neaktívne.
     rate_limit_exceeded: Príliš veľa pokusov o prihlásenie. Skúste to neskôr.

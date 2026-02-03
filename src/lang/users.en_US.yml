@@ -551,6 +551,7 @@ measurements:
 
 authenticator:
     identity_not_found: Invalid email.
+    no_password: No password provided.
     invalid_credentials: Invalid password.
     inactive_account: Account is disabled.
     rate_limit_exceeded: Too many unsuccessful login attempts. Try it later.

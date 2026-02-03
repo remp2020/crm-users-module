@@ -17,20 +17,12 @@ use Tomaj\NetteApi\Response\ResponseInterface;
 
 class UsersEmailHandler extends ApiHandler
 {
-    private UserManager $userManager;
-
-    private EmailValidator $emailValidator;
-
-    private UsersAuthenticator $usersAuthenticator;
-
     public function __construct(
-        UserManager $userManager,
-        EmailValidator $emailValidator,
-        UsersAuthenticator $usersAuthenticator,
+        private readonly UserManager $userManager,
+        private readonly EmailValidator $emailValidator,
+        private readonly UsersAuthenticator $usersAuthenticator,
     ) {
-        $this->userManager = $userManager;
-        $this->emailValidator = $emailValidator;
-        $this->usersAuthenticator = $usersAuthenticator;
+        parent::__construct();
     }
 
     public function params(): array
@@ -45,7 +37,7 @@ class UsersEmailHandler extends ApiHandler
     {
         if (strlen($params['email']) > 255) {
             return new JsonApiResponse(
-                IResponse::S422_UNPROCESSABLE_ENTITY,
+                IResponse::S422_UnprocessableEntity,
                 [
                     'status' => 'error',
                     'message' => 'Invalid email format',
@@ -67,7 +59,7 @@ class UsersEmailHandler extends ApiHandler
             $passwordStatus = true;
         } catch (RateLimitException $e) {
             $response = new JsonApiResponse(
-                IResponse::S429_TOO_MANY_REQUESTS,
+                IResponse::S429_TooManyRequests,
                 [
                     'status' => 'error',
                     'message' => 'Rate limit exceeded',
@@ -82,7 +74,7 @@ class UsersEmailHandler extends ApiHandler
                 // Validate email format only if user email does not exist in our DB, since external services may be slow
                 if (!Validators::isEmail($params['email']) || !$this->emailValidator->isValid($params['email'])) {
                     $response = new JsonApiResponse(
-                        IResponse::S422_UNPROCESSABLE_ENTITY,
+                        IResponse::S422_UnprocessableEntity,
                         [
                             'status' => 'error',
                             'message' => 'Invalid email format',
@@ -95,7 +87,7 @@ class UsersEmailHandler extends ApiHandler
                 $status = 'taken';
                 $passwordStatus = isset($params['password']) ? false : null;
                 if ($passwordStatus === false) {
-                    $responseCode = IResponse::S401_UNAUTHORIZED;
+                    $responseCode = IResponse::S401_Unauthorized;
                 }
             } elseif ($authException->getCode() ===  UserAuthenticator::NOT_APPROVED) {
                 $user = null;

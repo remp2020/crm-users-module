@@ -100,7 +100,7 @@ abstract class UsernameAuthenticator extends BaseAuthenticator
         $user = $this->usersRepository->getByEmail($this->username);
 
         if (!$user) {
-            $this->addAttempt($this->username, null, $this->source, LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL, 'Nesprávne meno.');
+            $this->addAttempt($this->username, null, $this->source, LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL, 'Invalid username/email.');
             throw new AuthenticationException($this->translator->translate('users.authenticator.identity_not_found'), UserAuthenticator::IDENTITY_NOT_FOUND);
         } elseif ($this->unclaimedUser->isUnclaimedUser($user)) {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_UNCLAIMED_USER, 'Account is unclaimed.');
@@ -108,11 +108,14 @@ abstract class UsernameAuthenticator extends BaseAuthenticator
         } elseif ($this->wrongPasswordRateLimit->reachLimit($user)) {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::RATE_LIMIT_EXCEEDED, 'Rate limit exceeded.');
             throw new RateLimitException($this->translator->translate('users.authenticator.rate_limit_exceeded'), UserAuthenticator::FAILURE);
+        } elseif ($this->password === '') {
+            $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_EMAIL_CHECK, 'No/empty password.');
+            throw new AuthenticationException($this->translator->translate('users.authenticator.no_password'), UserAuthenticator::INVALID_CREDENTIAL);
         } elseif (!$this->checkPassword($this->password, $user[UserAuthenticator::COLUMN_PASSWORD_HASH])) {
-            $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_WRONG_PASS, 'Heslo je nesprávne.');
+            $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_WRONG_PASS, 'Incorrect credentials.');
             throw new AuthenticationException($this->translator->translate('users.authenticator.invalid_credentials'), UserAuthenticator::INVALID_CREDENTIAL);
         } elseif (!$user->active) {
-            $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_INACTIVE_USER, 'Konto je neaktívne.');
+            $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_INACTIVE_USER, 'Inactive account.');
             throw new AuthenticationException($this->translator->translate('users.authenticator.inactive_account'), UserAuthenticator::IDENTITY_NOT_FOUND);
         } elseif ($this->passwords->needsRehash($user[UserAuthenticator::COLUMN_PASSWORD_HASH])) {
             $this->usersRepository->update($user, [
