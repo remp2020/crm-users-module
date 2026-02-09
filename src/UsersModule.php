@@ -624,8 +624,8 @@ class UsersModule extends CrmModule
         $eventsStorage->register('removed_access_token', RemovedAccessTokenEvent::class);
         $eventsStorage->register('user_change_password', UserChangePasswordEvent::class);
         $eventsStorage->register('user_change_password_request', UserChangePasswordRequestEvent::class);
-        $eventsStorage->register('user_confirmed', UserConfirmedEvent::class);
         $eventsStorage->register('user_registered', UserRegisteredEvent::class, true);
+        $eventsStorage->register('user_confirmed', UserConfirmedEvent::class, true);
         $eventsStorage->register('user_enabled', UserEnabledEvent::class);
         $eventsStorage->register('user_disabled', UserDisabledEvent::class);
         $eventsStorage->register('user_last_access', UserLastAccessEvent::class);
