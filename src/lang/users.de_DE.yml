@@ -107,6 +107,8 @@ frontend:
             label: 'Umsatzsteuer-ID:'
             placeholder: z.B. DE012345678
         submit: Speichern
+        submit_without_version: 'Speichern (ohne neue Version)'
+        submit_without_version_tooltip: 'Aktualisiert die aktuelle Version der Adresse, ohne eine neue Adressänderungsanfrage oder einen Änderungsdatensatz zu erstellen.'
     request_password:
         title: Probleme beim Anmelden
         info: "Wenn Sie sich nicht mehr an Ihr Passwort erinnern, senden wir Ihnen an Ihre E-Mail-Adresse einen Link, um das Passwort zurückzusetzen."

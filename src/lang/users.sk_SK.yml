@@ -109,6 +109,8 @@ frontend:
             label: 'IČDPH:'
             placeholder: napríklad SK2359023591
         submit: Ulož
+        submit_without_version: 'Ulož (bez novej verzie)'
+        submit_without_version_tooltip: 'Aktualizuje aktuálnu verziu adresy, nevytvorí novú žiadosť o zmenu adresy ani záznam o zmene.'
     request_password:
         title: Problém s prihlásením
         info: "Ak si nepamätáte vaše heslo, na e-mail ktorým ste sa registrovali vám pošleme postup ako si ho môžete zmeniť."

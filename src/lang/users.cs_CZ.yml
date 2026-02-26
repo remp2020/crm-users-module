@@ -107,6 +107,8 @@ frontend:
             label: 'Registrační číslo DPH:'
             placeholder: například CZ92385982
         submit: Ulož
+        submit_without_version: 'Ulož (bez nové verze)'
+        submit_without_version_tooltip: 'Aktualizuje aktuální verzi adresy, nevytvoří novou žádost o změnu adresy ani záznam o změně.'
     request_password:
         title: Problém s přihlášením
         info: "Zapomněli jste heslo? Na e-mail, kterým jste se registrovali, vám můžeme poslat postup, jak si ho můžete změnit."

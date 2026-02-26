@@ -84,7 +84,7 @@ services:
 	- Crm\UsersModule\Forms\GroupFormFactory
 	- Crm\UsersModule\Forms\AdminGroupFormFactory
 	- Crm\UsersModule\Forms\AdminUserGroupFormFactory
-	- Crm\UsersModule\Forms\AddressFormFactory
+	addressFormFactory: Crm\UsersModule\Forms\AddressFormFactory
 	- Crm\UsersModule\Forms\UserDeleteFormFactory
 	- Crm\UsersModule\Forms\AdminUserDeleteFormFactory
 	- Crm\UsersModule\Forms\RegisterFormFactory

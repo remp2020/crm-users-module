@@ -107,6 +107,8 @@ frontend:
             label: 'VAT ID:'
             placeholder: e.g. SK2359023591
         submit: Save
+        submit_without_version: 'Save (without new version)'
+        submit_without_version_tooltip: 'Updates the current version of the address without creating a new address change request or change record.'
     request_password:
         title: Trouble logging in
         info: "If you don't remember your password, we'll send a special link to your email which you can use to reset the password."

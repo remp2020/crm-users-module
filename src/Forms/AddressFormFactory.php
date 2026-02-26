@@ -22,6 +22,8 @@ class AddressFormFactory
 
     private $address;
 
+    private bool $allowSaveWithoutVersion = false;
+
     public function __construct(
         private readonly UsersRepository $userRepository,
         private readonly AddressesRepository $addressesRepository,
@@ -32,6 +34,11 @@ class AddressFormFactory
         private readonly DataProviderManager $dataProviderManager,
         private readonly CountriesSelectItemsBuilder $countriesSelectItemsBuilder,
     ) {
+    }
+
+    public function allowSaveWithoutVersion(): void
+    {
+        $this->allowSaveWithoutVersion = true;
     }
 
     public function create($addressId, $userId): Form
@@ -126,6 +133,15 @@ class AddressFormFactory
             ->setName('button')
             ->setHtml('<i class="fa fa-save"></i> ' . $this->translator->translate('users.frontend.address.submit'));
 
+        if ($this->allowSaveWithoutVersion && $address) {
+            $form->addSubmit('save_without_version', 'users.frontend.address.submit_without_version')
+                ->setHtmlAttribute('class', 'btn btn-default')
+                ->setHtmlAttribute('title', $this->translator->translate('users.frontend.address.submit_without_version_tooltip'))
+                ->getControlPrototype()
+                ->setName('button')
+                ->setHtml('<i class="fa fa-edit"></i> ' . $this->translator->translate('users.frontend.address.submit_without_version'));
+        }
+
         $form->onSuccess[] = [$this, 'formSucceededAfterProviders'];
 
         return $form;
@@ -138,9 +154,15 @@ class AddressFormFactory
 
         if (isset($values->id)) {
             $address = $this->addressesRepository->find($values->id);
-        };
+        }
 
         $country = $this->countriesRepository->findByIsoCode($values->country);
+
+        $saveWithoutVersionButton = $form->getComponent('save_without_version', false);
+        if ($saveWithoutVersionButton && $saveWithoutVersionButton->isSubmittedBy()) {
+            $this->saveWithoutVersion($address, $values, $country->id);
+            return;
+        }
 
         $changeRequest = $this->addressChangeRequestsRepository->add(
             user: $user,
@@ -180,5 +202,25 @@ class AddressFormFactory
         } else {
             $this->onSave->__invoke($form, $this->address);
         }
+    }
+
+    private function saveWithoutVersion($address, $values, int $countryId): void
+    {
+        $addressData = [
+            'first_name' => $values->first_name,
+            'last_name' => $values->last_name,
+            'company_name' => $values->company_name,
+            'phone_number' => $values->phone_number,
+            'street' => $values->street,
+            'number' => $values->number,
+            'city' => $values->city,
+            'zip' => $values->zip,
+            'country_id' => $countryId,
+            'company_id' => $values->company_id,
+            'company_tax_id' => $values->company_tax_id,
+            'company_vat_id' => $values->company_vat_id,
+        ];
+
+        $this->address = $this->addressChangeRequestsRepository->updateWithoutNewVersion($address, $addressData);
     }
 }

@@ -107,6 +107,8 @@ frontend:
             label: 'IČ DPH (áfás adószám):'
             placeholder: pl. SK2359023591
         submit: Mentés
+        submit_without_version: 'Mentés (új verzió nélkül)'
+        submit_without_version_tooltip: 'Frissíti a cím aktuális verzióját új címváltoztatási kérelem vagy változási bejegyzés létrehozása nélkül.'
     request_password:
         title: Probléma a bejelentkezéssel
         info: "Ha nem emlékszik a jelszavára, az e-mail címre, amellyel regisztrált, elküldjük a jelszóváltoztatáshoz szükséges teendőket."

@@ -253,6 +253,29 @@ class AddressChangeRequestsRepository extends Repository
             ->fetch();
     }
 
+    final public function updateWithoutNewVersion(ActiveRow $address, array $addressData): ActiveRow
+    {
+        return $this->getTransaction()->wrap(function () use ($address, $addressData): ActiveRow {
+            $this->addressesRepository->update($address, $addressData);
+            $address = $this->addressesRepository->find($address->id);
+
+            $lastChangeRequest = $this->lastAcceptedForAddress($address->id);
+            if ($lastChangeRequest) {
+                $this->update($lastChangeRequest, [
+                    ...$addressData,
+                    'updated_at' => new DateTime(),
+                ]);
+            }
+
+            $this->emitter->emit(new AddressChangedEvent($address, true));
+            $this->hermesEmitter->emit(new HermesMessage('address-changed', [
+                'address_id' => $address->id,
+            ]));
+
+            return $address;
+        });
+    }
+
     final public function lastNewForAddress(int $addressId): ?ActiveRow
     {
         return $this->getTable()
