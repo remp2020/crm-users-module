@@ -84,7 +84,7 @@ class UsersPresenter extends FrontendPresenter
         $form['actual_password']
             ->setOption(
                 'description',
-                Html::el('span', ['class' => 'help-block', 'onclick' => "return confirm('$confirmReset')"])
+                Html::el('span', ['class' => 'change-password actual_password help-block', 'onclick' => "return confirm('$confirmReset')"])
                     ->setHtml(
                         $this->translator->translate(
                             'users.frontend.change_password.actual_password.description',
