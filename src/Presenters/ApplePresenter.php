@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Presenters;
 
 use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
 use Crm\UsersModule\Models\Auth\Sso\AlreadyLinkedAccountSsoException;
@@ -100,11 +101,11 @@ class ApplePresenter extends FrontendPresenter
 
             if (!$this->getUser()->isLoggedIn()) {
                 // AutoLogin will log in user - create access token and set user flag (in session) to authenticated
-                $this->getUser()->login([
+                $this->getUser()->login(new LoginCredentials([
                     'user' => $user,
                     'autoLogin' => true,
                     'source' => AppleSignIn::ACCESS_TOKEN_SOURCE_WEB_APPLE_SSO,
-                ]);
+                ]));
             }
         } catch (SsoException $e) {
             if ($e->getCode() === SsoException::CODE_CANCELLED) {

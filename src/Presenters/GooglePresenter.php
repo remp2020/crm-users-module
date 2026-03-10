@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Presenters;
 
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
 use Crm\UsersModule\Models\Auth\Sso\AdminAccountSsoLinkingException;
@@ -100,11 +101,11 @@ class GooglePresenter extends FrontendPresenter
 
             if (!$this->getUser()->isLoggedIn()) {
                 // AutoLogin will log in user - create access token and set user flag (in session) to authenticated
-                $this->getUser()->login([
+                $this->getUser()->login(new LoginCredentials([
                     'user' => $user,
                     'autoLogin' => true,
                     'source' => GoogleSignIn::ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO,
-                ]);
+                ]));
             }
         } catch (SsoException $e) {
             Debugger::log($e, Debugger::WARNING);
@@ -164,11 +165,11 @@ class GooglePresenter extends FrontendPresenter
 
             if (!$this->getUser()->isLoggedIn()) {
                 // AutoLogin will log in user - create access token and set user flag (in session) to authenticated
-                $this->getUser()->login([
+                $this->getUser()->login(new LoginCredentials([
                     'user' => $user,
                     'autoLogin' => true,
                     'source' => GoogleSignIn::ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO,
-                ]);
+                ]));
             }
         } catch (SsoException $e) {
             Debugger::log($e, Debugger::WARNING);

@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Events;
 
 use Crm\ApplicationModule\Events\FrontendRequestEvent;
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\UsersModule\Authenticator\AccessTokenAuthenticator;
 use League\Event\AbstractListener;
 use League\Event\EventInterface;
@@ -54,14 +55,14 @@ class FrontendRequestAccessTokenAutologinHandler extends AbstractListener
         }
 
         try {
-            $this->user->login(['accessToken' => $accessToken]);
+            $this->user->login(new LoginCredentials(['accessToken' => $accessToken]));
             // Do not refresh POST/PUT requests (otherwise data will get lost)
             if (!in_array($this->httpRequest->getMethod(), ['POST', 'PUT'], true) && $this->user->isLoggedIn()) {
                 $this->httpResponse->addHeader('Refresh', 0);
                 exit;
             }
         } catch (AuthenticationException $e) {
-            if ($e->getCode() === Authenticator::NOT_APPROVED) {
+            if ($e->getCode() === Authenticator::NotApproved) {
                 $event->addFlashMessages(
                     $this->translator->translate('users.authenticator.access_token.autologin_disabled'),
                     'notice',

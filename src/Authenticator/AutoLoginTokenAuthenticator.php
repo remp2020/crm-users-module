@@ -5,13 +5,13 @@ namespace Crm\UsersModule\Authenticator;
 use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Models\Authenticator\BaseAuthenticator;
 use Crm\UsersModule\Models\Auth\AutoLogin\AutoLogin;
-use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authenticator;
 
 /**
  * AutoLoginTokenAuthenticator authenticates user based on autologinToken.
@@ -69,29 +69,29 @@ class AutoLoginTokenAuthenticator extends BaseAuthenticator
             $user = $this->usersRepository->find($tokenRow->user_id);
             if (!$user) {
                 $this->addAttempt($tokenRow->email, null, $this->source, LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL);
-                throw new AuthenticationException('Invalid token', UserAuthenticator::IDENTITY_NOT_FOUND);
+                throw new AuthenticationException('Invalid token', Authenticator::IdentityNotFound);
             }
 
             if ($user->role === UsersRepository::ROLE_ADMIN) {
-                throw new AuthenticationException('Autologin for this account is disabled', UserAuthenticator::NOT_APPROVED);
+                throw new AuthenticationException('Autologin for this account is disabled', Authenticator::NotApproved);
             }
 
             $actualDate = new \DateTime();
             if (!($tokenRow->valid_from < $actualDate && $tokenRow->valid_to > $actualDate)) {
                 $this->addAttempt($user->email, $user, $this->source, LoginAttemptsRepository::STATUS_TOKEN_DATE_EXPIRED);
-                throw new AuthenticationException('Invalid token', UserAuthenticator::IDENTITY_NOT_FOUND);
+                throw new AuthenticationException('Invalid token', Authenticator::IdentityNotFound);
             }
 
             if ($tokenRow->used_count >= $tokenRow->max_count) {
                 $this->addAttempt($user->email, $user, $this->source, LoginAttemptsRepository::STATUS_TOKEN_COUNT_EXPIRED);
-                throw new AuthenticationException('Token reached max users count', UserAuthenticator::IDENTITY_NOT_FOUND);
+                throw new AuthenticationException('Token reached max users count', Authenticator::IdentityNotFound);
             }
 
             $this->autoLogin->incrementTokenUse($tokenRow);
             $this->addAttempt($user->email, $user, $this->source, LoginAttemptsRepository::STATUS_TOKEN_OK);
             return $user;
         } else {
-            throw new AuthenticationException('Invalid token', UserAuthenticator::IDENTITY_NOT_FOUND);
+            throw new AuthenticationException('Invalid token', Authenticator::IdentityNotFound);
         }
     }
 }

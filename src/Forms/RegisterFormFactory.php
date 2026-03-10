@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\DataProviders\RegisterFormDataProviderInterface;
@@ -79,7 +80,7 @@ class RegisterFormFactory
             return;
         }
 
-        $this->user->login(['user' => $user, 'autoLogin' => true]);
+        $this->user->login(new LoginCredentials(['user' => $user, 'autoLogin' => true]));
 
         /** @var RegisterFormDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders('users.dataprovider.register_form', RegisterFormDataProviderInterface::class);

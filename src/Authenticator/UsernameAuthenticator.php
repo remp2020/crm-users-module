@@ -16,6 +16,7 @@ use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authenticator;
 use Nette\Security\Passwords;
 
 /**
@@ -94,29 +95,29 @@ abstract class UsernameAuthenticator extends BaseAuthenticator
     {
         if ($this->ipRateLimit->reachLimit(\Crm\ApplicationModule\Models\Request::getIp())) {
             $this->addAttempt($this->username, null, $this->source, LoginAttemptsRepository::RATE_LIMIT_EXCEEDED, 'Rate limit exceeded.');
-            throw new RateLimitException($this->translator->translate('users.authenticator.rate_limit_exceeded'), UserAuthenticator::FAILURE);
+            throw new RateLimitException($this->translator->translate('users.authenticator.rate_limit_exceeded'), Authenticator::Failure);
         }
 
         $user = $this->usersRepository->getByEmail($this->username);
 
         if (!$user) {
             $this->addAttempt($this->username, null, $this->source, LoginAttemptsRepository::STATUS_NOT_FOUND_EMAIL, 'Invalid username/email.');
-            throw new AuthenticationException($this->translator->translate('users.authenticator.identity_not_found'), UserAuthenticator::IDENTITY_NOT_FOUND);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.identity_not_found'), Authenticator::IdentityNotFound);
         } elseif ($this->unclaimedUser->isUnclaimedUser($user)) {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_UNCLAIMED_USER, 'Account is unclaimed.');
-            throw new AuthenticationException($this->translator->translate('users.authenticator.unclaimed_user'), UserAuthenticator::NOT_APPROVED);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.unclaimed_user'), Authenticator::NotApproved);
         } elseif ($this->wrongPasswordRateLimit->reachLimit($user)) {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::RATE_LIMIT_EXCEEDED, 'Rate limit exceeded.');
-            throw new RateLimitException($this->translator->translate('users.authenticator.rate_limit_exceeded'), UserAuthenticator::FAILURE);
+            throw new RateLimitException($this->translator->translate('users.authenticator.rate_limit_exceeded'), Authenticator::Failure);
         } elseif ($this->password === '') {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_EMAIL_CHECK, 'No/empty password.');
-            throw new AuthenticationException($this->translator->translate('users.authenticator.no_password'), UserAuthenticator::INVALID_CREDENTIAL);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.no_password'), Authenticator::InvalidCredential);
         } elseif (!$this->checkPassword($this->password, $user[UserAuthenticator::COLUMN_PASSWORD_HASH])) {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_WRONG_PASS, 'Incorrect credentials.');
-            throw new AuthenticationException($this->translator->translate('users.authenticator.invalid_credentials'), UserAuthenticator::INVALID_CREDENTIAL);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.invalid_credentials'), Authenticator::InvalidCredential);
         } elseif (!$user->active) {
             $this->addAttempt($this->username, $user, $this->source, LoginAttemptsRepository::STATUS_INACTIVE_USER, 'Inactive account.');
-            throw new AuthenticationException($this->translator->translate('users.authenticator.inactive_account'), UserAuthenticator::IDENTITY_NOT_FOUND);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.inactive_account'), Authenticator::IdentityNotFound);
         } elseif ($this->passwords->needsRehash($user[UserAuthenticator::COLUMN_PASSWORD_HASH])) {
             $this->usersRepository->update($user, [
                 UserAuthenticator::COLUMN_PASSWORD_HASH => $this->passwords->hash($this->password),

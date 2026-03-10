@@ -117,7 +117,7 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
     public function testUsernamePasswordApi()
     {
-        $userIdentity = $this->userAuthenticator->authenticate([
+        $userIdentity = $this->userAuthenticator->authenticateCredentials([
             'username' => $this->testUserEmail,
             'password' => $this->testUserPassword,
             'source' => "api.test.test",
@@ -132,7 +132,7 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
     public function testUsernamePassword()
     {
-        $userIdentity = $this->userAuthenticator->authenticate([
+        $userIdentity = $this->userAuthenticator->authenticateCredentials([
             'username' => $this->testUserEmail,
             'password' => $this->testUserPassword,
         ]);
@@ -143,9 +143,9 @@ class UserAuthenticatorTest extends DatabaseTestCase
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage($this->translator->translate('users.authenticator.identity_not_found'));
-        $this->expectExceptionCode(Authenticator::IDENTITY_NOT_FOUND);
+        $this->expectExceptionCode(Authenticator::IdentityNotFound);
 
-        $this->userAuthenticator->authenticate([
+        $this->userAuthenticator->authenticateCredentials([
             'username' => 'incorrect+' . $this->testUserEmail,
             'password' => $this->testUserPassword,
         ]);
@@ -155,9 +155,9 @@ class UserAuthenticatorTest extends DatabaseTestCase
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage($this->translator->translate('users.authenticator.invalid_credentials'));
-        $this->expectExceptionCode(Authenticator::INVALID_CREDENTIAL);
+        $this->expectExceptionCode(Authenticator::InvalidCredential);
 
-        $this->userAuthenticator->authenticate([
+        $this->userAuthenticator->authenticateCredentials([
             'username' => $this->testUserEmail,
             'password' => 'incorrect+'.$this->testUserPassword,
         ]);
@@ -171,9 +171,9 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage($this->translator->translate('users.authenticator.inactive_account'));
-        $this->expectExceptionCode(Authenticator::IDENTITY_NOT_FOUND);
+        $this->expectExceptionCode(Authenticator::IdentityNotFound);
 
-        $this->userAuthenticator->authenticate([
+        $this->userAuthenticator->authenticateCredentials([
             'username' => $testInactiveEmail,
             'password' => $testInactivePassword,
         ]);
@@ -187,9 +187,9 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage($this->translator->translate('users.authenticator.unclaimed_user'));
-        $this->expectExceptionCode(Authenticator::NOT_APPROVED);
+        $this->expectExceptionCode(Authenticator::NotApproved);
 
-        $this->userAuthenticator->authenticate([
+        $this->userAuthenticator->authenticateCredentials([
             'username' => $testUnclaimedEmail,
             'password' => $testUnclaimedPassword,
         ]);
@@ -202,7 +202,7 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
     public function testAutoLogin()
     {
-        $userIdentity = $this->userAuthenticator->authenticate([
+        $userIdentity = $this->userAuthenticator->authenticateCredentials([
             'user' => $this->user,
             'autoLogin' => true,
         ]);
@@ -212,9 +212,9 @@ class UserAuthenticatorTest extends DatabaseTestCase
     public function testAutoLoginFalseFlag()
     {
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionCode(Authenticator::IDENTITY_NOT_FOUND);
+        $this->expectExceptionCode(Authenticator::IdentityNotFound);
 
-        $userIdentity = $this->userAuthenticator->authenticate([
+        $userIdentity = $this->userAuthenticator->authenticateCredentials([
             'user' => $this->user,
             'autoLogin' => false,
         ]);
@@ -228,7 +228,7 @@ class UserAuthenticatorTest extends DatabaseTestCase
     {
         $token = $this->accessTokenRepository->add($this->getUser(), $this->accessTokenLastVersion);
 
-        $userIdentity = $this->userAuthenticator->authenticate(['accessToken' => $token->token]);
+        $userIdentity = $this->userAuthenticator->authenticateCredentials(['accessToken' => $token->token]);
         $this->assertEquals(($userIdentity->getData())["email"], $this->testUserEmail);
     }
 
@@ -238,18 +238,18 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage($this->translator->translate('users.authenticator.access_token.autologin_disabled'));
-        $this->expectExceptionCode(Authenticator::NOT_APPROVED);
+        $this->expectExceptionCode(Authenticator::NotApproved);
 
-        $this->userAuthenticator->authenticate(['accessToken' => $token->token]);
+        $this->userAuthenticator->authenticateCredentials(['accessToken' => $token->token]);
     }
 
     public function testAccessTokenInvalid()
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage($this->translator->translate('users.authenticator.access_token.invalid_token'));
-        $this->expectExceptionCode(Authenticator::FAILURE);
+        $this->expectExceptionCode(Authenticator::Failure);
 
-        $this->userAuthenticator->authenticate(['accessToken' => "invalid_token"]);
+        $this->userAuthenticator->authenticateCredentials(['accessToken' => "invalid_token"]);
     }
 
 

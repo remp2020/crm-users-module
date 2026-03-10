@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Presenters;
 
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\Models\Snippet\SnippetRenderer;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
@@ -101,7 +102,7 @@ class SignPresenter extends FrontendPresenter
         }
 
         try {
-            $this->getUser()->login(['username' => $values->username, 'password' => $values->password]);
+            $this->getUser()->login(new LoginCredentials(['username' => $values->username, 'password' => $values->password]));
 
             $this->getUser()->setAuthorizator($this->authorizator);
 
@@ -187,7 +188,7 @@ class SignPresenter extends FrontendPresenter
 
         if ($values->password) {
             try {
-                $this->getUser()->login(['username' => $values->username, 'password' => $values->password]);
+                $this->getUser()->login(new LoginCredentials(['username' => $values->username, 'password' => $values->password]));
             } catch (AuthenticationException $exp) {
                 $form->addError($exp->getMessage());
                 return;
@@ -201,7 +202,7 @@ class SignPresenter extends FrontendPresenter
                 $form->addError('users.frontend.sign_up.error.invalid_email');
                 return;
             }
-            $this->getUser()->login(['user' => $user, 'autoLogin' => true]);
+            $this->getUser()->login(new LoginCredentials(['user' => $user, 'autoLogin' => true]));
         }
 
         $this->redirect('signInCallback', $referer);

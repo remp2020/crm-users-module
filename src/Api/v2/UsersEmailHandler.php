@@ -5,11 +5,11 @@ namespace Crm\UsersModule\Api\v2;
 use Crm\ApiModule\Models\Api\ApiHandler;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;
 use Crm\UsersModule\Models\Auth\Rate\RateLimitException;
-use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Models\Email\EmailValidator;
 use Nette\Http\IResponse;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authenticator;
 use Nette\Utils\Validators;
 use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
@@ -68,7 +68,7 @@ class UsersEmailHandler extends ApiHandler
             );
             return $response;
         } catch (AuthenticationException $authException) {
-            if ($authException->getCode() === UserAuthenticator::IDENTITY_NOT_FOUND) {
+            if ($authException->getCode() === Authenticator::IdentityNotFound) {
                 $status = 'available';
 
                 // Validate email format only if user email does not exist in our DB, since external services may be slow
@@ -83,13 +83,13 @@ class UsersEmailHandler extends ApiHandler
                     );
                     return $response;
                 }
-            } elseif ($authException->getCode() === UserAuthenticator::INVALID_CREDENTIAL) {
+            } elseif ($authException->getCode() === Authenticator::InvalidCredential) {
                 $status = 'taken';
                 $passwordStatus = isset($params['password']) ? false : null;
                 if ($passwordStatus === false) {
                     $responseCode = IResponse::S401_Unauthorized;
                 }
-            } elseif ($authException->getCode() ===  UserAuthenticator::NOT_APPROVED) {
+            } elseif ($authException->getCode() ===  Authenticator::NotApproved) {
                 $user = null;
                 $status = 'available';
                 $responseCode = IResponse::S200_OK;

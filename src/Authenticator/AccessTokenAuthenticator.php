@@ -76,15 +76,15 @@ class AccessTokenAuthenticator extends BaseAuthenticator
     {
         $tokenRow = $this->accessTokensRepository->loadToken($this->accessToken);
         if (!$tokenRow) {
-            throw new AuthenticationException($this->translator->translate('users.authenticator.access_token.invalid_token'), Authenticator::FAILURE);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.access_token.invalid_token'), Authenticator::Failure);
         }
         $user = $tokenRow->user;
         if (!$user) {
-            throw new AuthenticationException($this->translator->translate('users.authenticator.access_token.invalid_token'), Authenticator::IDENTITY_NOT_FOUND);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.access_token.invalid_token'), Authenticator::IdentityNotFound);
         }
         if ($user->role === UsersRepository::ROLE_ADMIN) {
             $this->setDisabledForToken();
-            throw new AuthenticationException($this->translator->translate('users.authenticator.access_token.autologin_disabled'), Authenticator::NOT_APPROVED);
+            throw new AuthenticationException($this->translator->translate('users.authenticator.access_token.autologin_disabled'), Authenticator::NotApproved);
         }
 
         $this->addAttempt($user->email, $user, $this->source, LoginAttemptsRepository::STATUS_ACCESS_TOKEN_OK);

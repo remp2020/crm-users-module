@@ -11,12 +11,11 @@ use Crm\UsersModule\Repositories\UsersRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Security\AuthenticationException;
-use Nette\Security\IAuthenticator;
-use Nette\Security\IIdentity;
+use Nette\Security\Authenticator;
 use Nette\Security\SimpleIdentity;
 use Nette\SmartObject;
 
-class UserAuthenticator implements IAuthenticator
+class UserAuthenticator
 {
     use SmartObject;
 
@@ -30,22 +29,12 @@ class UserAuthenticator implements IAuthenticator
     }
 
     /**
-     * Performs an authentication.
+     * Runs the authenticator chain with the given credential array.
      *
-     * @return SimpleIdentity
      * @throws AuthenticationException
      */
-    public function authenticate(array $credentials): IIdentity
+    public function authenticateCredentials(array $credentials): SimpleIdentity
     {
-
-        // Dirty hack so we can use in both User->Authenticator->authenticate() and \Nette\Security\User->login() methods
-        // arrays with named keys instead of anonymous arrays.
-        // Eg. $userAuthenticator->authenticate(['username' => $username, 'alwaysLogin' => true]); instead of
-        // $userAuthenticator->authenticate([$username, null, null, null, true]);
-        if (count($credentials) == 1 && isset($credentials[0]) && is_array($credentials[0])) {
-            $credentials = $credentials[0];
-        }
-
         $user = false;
         $source = null;
         $regenerateToken = null;
@@ -84,7 +73,7 @@ class UserAuthenticator implements IAuthenticator
             throw $exception;
         }
         if ($user === false) {
-            throw new AuthenticationException('', UserAuthenticator::IDENTITY_NOT_FOUND);
+            throw new AuthenticationException('', Authenticator::IdentityNotFound);
         }
         $this->emitter->emit(new UserSignInEvent($user, $source, $regenerateToken ?? true));
 

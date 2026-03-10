@@ -8,6 +8,7 @@ use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
 use Nette\Http\Response;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authenticator;
 use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
@@ -54,13 +55,13 @@ class AutoLoginTokenLoginApiHandler extends ApiHandler
             if (isset($params['source']) && $params['source'] !== 'api') {
                 $source .= '+' . $params['source'];
             }
-            $identity = $this->userAuthenticator->authenticate([
+            $identity = $this->userAuthenticator->authenticateCredentials([
                 'autologin_token' => $params['autologin_token'],
                 'source' => $source,
             ]);
         } catch (AuthenticationException $e) {
             $responseCode = Response::S401_UNAUTHORIZED;
-            if ($e->getCode() === UserAuthenticator::NOT_APPROVED) {
+            if ($e->getCode() === Authenticator::NotApproved) {
                 $responseCode = Response::S403_FORBIDDEN;
             }
 

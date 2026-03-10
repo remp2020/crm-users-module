@@ -4,34 +4,22 @@ namespace Crm\UsersModule\Forms;
 
 use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\ApplicationModule\UI\Form;
+use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;
-use Nette\Security\IAuthenticator;
 
 class UserDeleteFormFactory
 {
-    private $deleteUserData;
-
-    private $usersRepository;
-
-    private $authenticator;
-
-    private $translator;
-
     /* callback function */
     public $onSuccess;
 
     public function __construct(
-        UsersRepository $usersRepository,
-        DeleteUserData $deleteUserData,
-        IAuthenticator $authenticator,
-        Translator $translator,
+        private UsersRepository $usersRepository,
+        private DeleteUserData $deleteUserData,
+        private UserAuthenticator $userAuthenticator,
+        private Translator $translator,
     ) {
-        $this->deleteUserData = $deleteUserData;
-        $this->usersRepository = $usersRepository;
-        $this->authenticator = $authenticator;
-        $this->translator = $translator;
     }
 
     /**
@@ -67,14 +55,17 @@ class UserDeleteFormFactory
         }
 
         $user = $this->usersRepository->find($values->user_id);
+        if (!$user) {
+            throw new \RuntimeException("User [{$values->user_id}] not found");
+        }
         try {
-            $this->authenticator->authenticate(['username' => $user->email, 'password' => $values->password]);
+            $this->userAuthenticator->authenticateCredentials([$user->email, $values->password]);
         } catch (AuthenticationException $e) {
             $form->addError($this->translator->translate('users.frontend.settings.account_delete.invalid_password'));
             return;
         }
 
-        list($canBeDeleted, $_) = $this->deleteUserData->canBeDeleted($values->user_id);
+        [$canBeDeleted, $_] = $this->deleteUserData->canBeDeleted($values->user_id);
         if (!$canBeDeleted) {
             $form->addError($this->translator->translate('users.frontend.settings.account_delete.cannot_delete'));
             return;

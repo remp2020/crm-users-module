@@ -11,6 +11,7 @@ use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Http\Response;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authenticator;
 use Tomaj\NetteApi\Params\PostInputParam;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 use Tomaj\NetteApi\Response\ResponseInterface;
@@ -83,7 +84,7 @@ class UsersLoginHandler extends ApiHandler implements ApiParamsValidatorInterfac
             if (isset($params['source']) && $params['source'] !== 'api') {
                 $source .= '+' . $params['source'];
             }
-            $identity = $this->userAuthenticator->authenticate([
+            $identity = $this->userAuthenticator->authenticateCredentials([
                 'username' => $params['email'],
                 'password' => $params['password'],
                 'source' => $source,
@@ -91,10 +92,10 @@ class UsersLoginHandler extends ApiHandler implements ApiParamsValidatorInterfac
         } catch (AuthenticationException $authException) {
             $message = $authException->getMessage();
             $code = 'auth_failed';
-            if (in_array($authException->getCode(), [UserAuthenticator::IDENTITY_NOT_FOUND, UserAuthenticator::NOT_APPROVED], true)) {
+            if (in_array($authException->getCode(), [Authenticator::IdentityNotFound, Authenticator::NotApproved], true)) {
                 $message = $this->translator->translate('users.api.users_login_handler.identity_not_found');
                 $code = 'identity_not_found';
-            } elseif ($authException->getCode() === UserAuthenticator::INVALID_CREDENTIAL) {
+            } elseif ($authException->getCode() === Authenticator::InvalidCredential) {
                 $message = $this->translator->translate('users.api.users_login_handler.invalid_credentials');
                 $code = 'invalid_credential';
             }

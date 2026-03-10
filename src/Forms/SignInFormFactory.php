@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Forms;
 
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Models\Auth\Authorizator;
 use Nette\Localization\Translator;
@@ -62,7 +63,7 @@ class SignInFormFactory
         }
 
         try {
-            $this->user->login(['username' => $values->username, 'password' => $values->password]);
+            $this->user->login(new LoginCredentials(['username' => $values->username, 'password' => $values->password]));
             $this->user->setAuthorizator($this->authorizator);
             ($this->onAuthenticated)($form, $values, $this->user);
         } catch (AuthenticationException $e) {

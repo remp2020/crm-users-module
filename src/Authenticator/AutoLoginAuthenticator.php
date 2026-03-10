@@ -4,13 +4,13 @@ namespace Crm\UsersModule\Authenticator;
 
 use Crm\ApplicationModule\Models\Authenticator\AuthenticatorInterface;
 use Crm\ApplicationModule\Models\Authenticator\BaseAuthenticator;
-use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Repositories\LoginAttemptsRepository;
 use League\Event\Emitter;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
 use Nette\Localization\Translator;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authenticator;
 
 /**
  * AutoLoginAuthenticator is used to login user after sign up.
@@ -55,7 +55,7 @@ class AutoLoginAuthenticator extends BaseAuthenticator
             );
             throw new AuthenticationException(
                 $inactiveAccountMessage,
-                UserAuthenticator::IDENTITY_NOT_FOUND,
+                Authenticator::IdentityNotFound,
             );
         }
 
