@@ -34,7 +34,7 @@ class UsersUpdateHandler extends ApiHandler
         ChangePasswordsLogsRepository $changePasswordsLogsRepository,
         Emitter $emitter,
         Passwords $passwords,
-        ScopeFactoryInterface $scopeFactory = null,
+        ?ScopeFactoryInterface $scopeFactory = null,
     ) {
         parent::__construct($scopeFactory);
         $this->usersRepository = $usersRepository;

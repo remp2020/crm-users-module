@@ -19,7 +19,7 @@ class UsersEmailCheckHandler extends ApiHandler
     public function __construct(
         private UsersRepository $usersRepository,
         private UnclaimedUser $unclaimedUser,
-        ScopeFactoryInterface $scopeFactory = null,
+        ?ScopeFactoryInterface $scopeFactory = null,
     ) {
         parent::__construct($scopeFactory);
     }

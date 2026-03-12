@@ -72,9 +72,9 @@ class GoogleSignIn
      */
     public function getUserUsingIdToken(
         string $idToken,
-        string $gsiAccessToken = null,
-        int $loggedUserId = null,
-        string $source = null,
+        ?string $gsiAccessToken = null,
+        ?int $loggedUserId = null,
+        ?string $source = null,
         ?string $locale = null,
     ): ?ActiveRow {
         if (!$this->isEnabled()) {
@@ -187,7 +187,7 @@ class GoogleSignIn
      * @return string
      * @throws SsoException
      */
-    public function signInRedirect(string $redirectUri, string $source = null): string
+    public function signInRedirect(string $redirectUri, ?string $source = null): string
     {
         if (!$this->isEnabled()) {
             throw new \Exception('Google Sign In is not enabled, please see authentication configuration in your admin panel.');

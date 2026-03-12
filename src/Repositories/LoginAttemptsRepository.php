@@ -29,8 +29,8 @@ class LoginAttemptsRepository extends Repository
 
     public function __construct(
         Explorer $database,
-        Storage $cacheStorage = null,
         private readonly DeviceDetector $deviceDetector,
+        ?Storage $cacheStorage = null,
     ) {
         parent::__construct($database, $cacheStorage);
     }

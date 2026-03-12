@@ -60,7 +60,7 @@ class UserManager
         bool $addToken = true,
         array $userMeta = [],
         bool $emitUserRegisteredEvent = true,
-        string $locale = null,
+        ?string $locale = null,
     ) {
         if ($checkEmail && !$this->emailValidator->isValid($email)) {
             throw new InvalidEmailException($email);

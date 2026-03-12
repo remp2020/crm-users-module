@@ -260,7 +260,7 @@ class UsersPresenter extends FrontendPresenter
         $this->template->email = $email;
     }
 
-    public function renderEmailConfirm(string $token, string $redirectUrl = null)
+    public function renderEmailConfirm(string $token, ?string $redirectUrl = null)
     {
         $userEmailConfirmation = $this->userEmailConfirmationsRepository->confirm($token);
         if ($userEmailConfirmation) {

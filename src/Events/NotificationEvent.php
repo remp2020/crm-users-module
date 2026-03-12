@@ -64,10 +64,10 @@ class NotificationEvent extends AbstractEvent
         ?ActiveRow $user,
         string $templateCode,
         array $params = [],
-        string $context = null,
+        ?string $context = null,
         array $attachments = [],
-        \DateTime $scheduleAt = null,
-        NotificationContext $notificationContext = null,
+        ?\DateTime $scheduleAt = null,
+        ?NotificationContext $notificationContext = null,
         ?string $locale = null,
     ) {
         $this->user         = $user;

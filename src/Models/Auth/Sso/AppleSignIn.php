@@ -91,7 +91,7 @@ class AppleSignIn
      * @return string
      * @throws \Exception
      */
-    public function signInRedirect(string $redirectUri, string $source = null): string
+    public function signInRedirect(string $redirectUri, ?string $source = null): string
     {
         if (!$this->isEnabled()) {
             throw new \Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');

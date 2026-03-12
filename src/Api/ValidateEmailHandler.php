@@ -15,7 +15,7 @@ class ValidateEmailHandler extends ApiHandler
 {
     public function __construct(
         private readonly EmailValidator $emailValidator,
-        ScopeFactoryInterface $scopeFactory = null,
+        ?ScopeFactoryInterface $scopeFactory = null,
     ) {
         parent::__construct($scopeFactory);
     }

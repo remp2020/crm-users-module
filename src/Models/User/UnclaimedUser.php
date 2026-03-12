@@ -80,7 +80,7 @@ class UnclaimedUser
      * @throws JsonException
      * @throws UserAlreadyExistsException
      */
-    public function createUnclaimedUser(string $email = null, string $source = 'unknown', string $locale = null): ActiveRow
+    public function createUnclaimedUser(?string $email = null, string $source = 'unknown', ?string $locale = null): ActiveRow
     {
         if ($email === null) {
             $email = $this->generateUnclaimedUserEmail();

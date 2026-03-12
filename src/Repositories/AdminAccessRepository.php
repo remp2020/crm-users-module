@@ -14,7 +14,7 @@ class AdminAccessRepository extends Repository
     /**
      * @return bool|int|ActiveRow
      */
-    final public function add(string $resource, string $action, string $type, string $level = null)
+    final public function add(string $resource, string $action, string $type, ?string $level = null)
     {
         $now = new DateTime();
         return $this->insert([

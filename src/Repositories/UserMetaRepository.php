@@ -17,7 +17,7 @@ class UserMetaRepository extends Repository
 
     protected $tableName = 'user_meta';
 
-    public function __construct(Explorer $database, Emitter $emitter, Storage $cacheStorage = null)
+    public function __construct(Explorer $database, Emitter $emitter, ?Storage $cacheStorage = null)
     {
         parent::__construct($database, $cacheStorage);
         $this->emitter = $emitter;

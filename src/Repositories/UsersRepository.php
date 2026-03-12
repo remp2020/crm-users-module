@@ -222,7 +222,7 @@ class UsersRepository extends Repository
         return $user;
     }
 
-    final public function getUsersRegisteredBetween(DateTime $startTime, DateTime $endTime = null)
+    final public function getUsersRegisteredBetween(DateTime $startTime, ?DateTime $endTime = null)
     {
         if (!$endTime) {
             $endTime = new DateTime();
