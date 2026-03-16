@@ -248,7 +248,7 @@ class AddressChangeRequestsRepository extends Repository
                 'status' => AddressChangeRequestStatusEnum::Accepted->value,
                 'address_id' => $addressId,
             ])
-            ->order('updated_at DESC')
+            ->order('updated_at DESC, id DESC')
             ->limit(1)
             ->fetch();
     }
