@@ -109,7 +109,7 @@
           <b>{_users.admin.show.created_at}:</b>
           <span class="text-muted">
             {$userRow->created_at|userDate}
-            <small n:if="$userRow->created_at != $userRow->modified_at">({_users.admin.show.modified_at} {$userRow->modified_at|userDate})</small>
+            <small n:if="$userRow->created_at != $userRow->updated_at">({_users.admin.show.updated_at} {$userRow->updated_at|userDate})</small>
           </span>
         </li>
         <li class="list-group-item">

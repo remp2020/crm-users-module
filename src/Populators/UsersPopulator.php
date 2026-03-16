@@ -43,7 +43,7 @@ class UsersPopulator extends AbstractPopulator
                 'active' => $this->faker->boolean(5) ? 0 : 1,
                 'current_sign_in_at' => $this->faker->dateTimeBetween('-4 months'),
                 'created_at' => $this->faker->dateTimeBetween('-4 months'),
-                'modified_at' => $this->faker->dateTimeBetween('-4 months'),
+                'updated_at' => $this->faker->dateTimeBetween('-4 months'),
                 'current_sign_in_ip' => $this->faker->boolean(5) ? null : $this->faker->ipv4,
                 'invoice' => random_int(1, 4) == 3 ? true : false,
                 'note' => random_int(1, 4) == 3 ? $this->faker->sentence : null,

@@ -237,7 +237,7 @@ admin:
         last_name: Priezvisko
         unconfirmed: Nepotvrdený
         created_at: Vytvorený
-        modified_at: upravený
+        updated_at: upravený
         active: Aktívny
         deactivate: Deaktivuj
         deactivate_alert: "Naozaj chcete deaktivovať konto '%email%' ?"
@@ -647,7 +647,7 @@ component:
         key: Kľúč
         value: Hodnota
         created_at: Vytvorené
-        modified_at: Upravené
+        updated_at: Upravené
         actions: Akcie
         public: Verejné
 

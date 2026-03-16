@@ -235,7 +235,7 @@ admin:
         last_name: Last name
         unconfirmed: Unconfirmed
         created_at: Created at
-        modified_at: Updated at
+        updated_at: Updated at
         active: Active
         deactivate: Deactivate
         deactivate_alert: "Are you sure you want to deactivate account '%email%' ?"
@@ -640,7 +640,7 @@ component:
         key: Key
         value: Value
         created_at: Created at
-        modified_at: Updated at
+        updated_at: Updated at
         actions: Actions
         public: Public
 

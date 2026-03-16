@@ -104,7 +104,7 @@ class DashboardPresenter extends AdminPresenter
         $graphDataItem = new GraphDataItem();
         $graphDataItem->setCriteria((new Criteria())
             ->setTableName('users')
-            ->setTimeField('modified_at')
+            ->setTimeField('updated_at')
             ->setWhere("AND active = 0 AND confirmed_at IS NULL")
             ->setValueField('COUNT(*)')
             ->setStart(DateTime::from($this->dateFrom))

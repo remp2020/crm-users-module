@@ -101,7 +101,7 @@ class UsersRepository extends Repository
             'password' => $this->passwords->hash($password),
             'role' => $role,
             'created_at' => new \DateTime(),
-            'modified_at' => new \DateTime(),
+            'updated_at' => new \DateTime(),
             'active' => (int)$active,
             'ext_id' => $extId,
             'uuid' => Uuid::uuid4(),
@@ -185,7 +185,7 @@ class UsersRepository extends Repository
             $data['email_validated_at'] = null;
         }
 
-        $data['modified_at'] = new \DateTime();
+        $data['updated_at'] = new \DateTime();
         $result = parent::update($row, $data);
 
         if ($emailChanged) {
@@ -211,7 +211,7 @@ class UsersRepository extends Repository
         }
         parent::update($user, [
             'active' => $active,
-            'modified_at' => new \DateTime(),
+            'updated_at' => new \DateTime(),
         ]);
         if ($active) {
             $this->emitter->emit(new UserEnabledEvent($user));

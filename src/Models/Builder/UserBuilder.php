@@ -65,7 +65,7 @@ class UserBuilder extends Builder
     protected function setDefaults()
     {
         $this->set('created_at', new \DateTime());
-        $this->set('modified_at', new \DateTime());
+        $this->set('updated_at', new \DateTime());
         $this->set('active', true);
         $this->set('first_name', null);
         $this->set('last_name', null);
