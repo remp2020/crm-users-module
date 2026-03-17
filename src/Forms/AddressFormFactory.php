@@ -134,12 +134,19 @@ class AddressFormFactory
             ->setHtml('<i class="fa fa-save"></i> ' . $this->translator->translate('users.frontend.address.submit'));
 
         if ($this->allowSaveWithoutVersion && $address) {
-            $form->addSubmit('save_without_version', 'users.frontend.address.submit_without_version')
-                ->setHtmlAttribute('class', 'btn btn-default')
-                ->setHtmlAttribute('title', $this->translator->translate('users.frontend.address.submit_without_version_tooltip'))
-                ->getControlPrototype()
-                ->setName('button')
-                ->setHtml('<i class="fa fa-edit"></i> ' . $this->translator->translate('users.frontend.address.submit_without_version'));
+            $activeChangeRequest = $address?->related('address_change_requests')
+                ->order('updated_at DESC')
+                ->limit(1)
+                ->fetch();
+
+            if ($activeChangeRequest !== null) {
+                $form->addSubmit('save_without_version', 'users.frontend.address.submit_without_version')
+                    ->setHtmlAttribute('class', 'btn btn-default')
+                    ->setHtmlAttribute('title', $this->translator->translate('users.frontend.address.submit_without_version_tooltip'))
+                    ->getControlPrototype()
+                    ->setName('button')
+                    ->setHtml('<i class="fa fa-edit"></i> ' . $this->translator->translate('users.frontend.address.submit_without_version'));
+            }
         }
 
         $form->onSuccess[] = [$this, 'formSucceededAfterProviders'];
