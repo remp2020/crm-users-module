@@ -59,7 +59,10 @@ class UserDeleteFormFactory
             throw new \RuntimeException("User [{$values->user_id}] not found");
         }
         try {
-            $this->userAuthenticator->authenticateCredentials([$user->email, $values->password]);
+            $this->userAuthenticator->authenticateCredentials([
+                'username' => $user->email,
+                'password' => $values->password,
+            ]);
         } catch (AuthenticationException $e) {
             $form->addError($this->translator->translate('users.frontend.settings.account_delete.invalid_password'));
             return;
