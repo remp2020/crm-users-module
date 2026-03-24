@@ -109,31 +109,6 @@ class AddressesRepository extends Repository
         return $this->all()->where($where)->fetchAll();
     }
 
-
-
-    /**
-     * @deprecated
-     * @see \Crm\ApplicationModule\Forms\Controls\CountriesSelectItemsBuilder replacement
-     */
-    final public function addressesSelect(ActiveRow $user, $type): array
-    {
-        $rows = $this->addresses($user, $type);
-        $result = [];
-        foreach ($rows as $row) {
-            $entries = [
-                "{$row->first_name} {$row->last_name}",
-                "{$row->street} {$row->number}",
-                "{$row->zip} {$row->city}",
-            ];
-            $countryCode = $row->country?->iso_code;
-            if ($countryCode) {
-                $entries[] = $countryCode;
-            }
-            $result[$row->id] = "[{$row->type}] " . implode(", ", $entries);
-        }
-        return $result;
-    }
-
     final public function update(ActiveRow &$row, $data)
     {
         $data['updated_at'] = new DateTime();
