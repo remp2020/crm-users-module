@@ -12,6 +12,7 @@ use Exception;
 use League\Event\Emitter;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 use Tomaj\Hermes\Emitter as HermesEmitter;
 
@@ -29,6 +30,9 @@ class AddressChangeRequestsRepository extends Repository
         parent::__construct($database);
     }
 
+    /**
+     * @return ActiveRow|bool Returns false if there is no difference in addresses and no change request was created.
+     */
     final public function add(
         ActiveRow $user,
         $parentAddress,
@@ -45,7 +49,7 @@ class AddressChangeRequestsRepository extends Repository
         ?string $companyVatId,
         ?string $phoneNumber,
         ?string $type = null,
-    ) {
+    ): ActiveRow|bool {
         $isDifferent = false;
         if ($this->isDifferent(
             $parentAddress,
@@ -117,7 +121,7 @@ class AddressChangeRequestsRepository extends Repository
         return $this->getTable()->where('id', $changeRequest->id)->fetch();
     }
 
-    final public function changeStatus(ActiveRow $addressChangeRequest, $status)
+    final public function changeStatus(ActiveRow $addressChangeRequest, $status): bool
     {
         return $this->update($addressChangeRequest, [
             'updated_at' => new \DateTime(),
@@ -125,7 +129,7 @@ class AddressChangeRequestsRepository extends Repository
         ]);
     }
 
-    final public function acceptRequest(ActiveRow $addressChangeRequest, $asAdmin = false)
+    final public function acceptRequest(ActiveRow $addressChangeRequest, $asAdmin = false): ActiveRow
     {
         $address = $addressChangeRequest->addr;
         if ($addressChangeRequest->status === AddressChangeRequestStatusEnum::Accepted->value) {
@@ -207,12 +211,12 @@ class AddressChangeRequestsRepository extends Repository
         return $address;
     }
 
-    final public function rejectRequest(ActiveRow $addressChangeRequest)
+    final public function rejectRequest(ActiveRow $addressChangeRequest): bool
     {
         return $this->changeStatus($addressChangeRequest, AddressChangeRequestStatusEnum::Rejected->value);
     }
 
-    final public function allNewRequests()
+    final public function allNewRequests(): Selection
     {
         return $this->getTable()
             ->where(['status' => AddressChangeRequestStatusEnum::New->value])
@@ -220,19 +224,19 @@ class AddressChangeRequestsRepository extends Repository
             ->order('created_at DESC');
     }
 
-    final public function all()
+    final public function all(): Selection
     {
         return $this->getTable()
             ->where('address.deleted_at IS NULL')
             ->order('created_at DESC');
     }
 
-    final public function userRequests($userId)
+    final public function userRequests($userId): Selection
     {
         return $this->all()->where('address_change_requests.user_id', $userId);
     }
 
-    final public function deleteAll($userId)
+    final public function deleteAll($userId): void
     {
         foreach ($this->userRequests($userId) as $addressChange) {
             $this->addressesMetaRepository->deleteByAddressChangeRequestId($addressChange->id);
@@ -241,7 +245,7 @@ class AddressChangeRequestsRepository extends Repository
         }
     }
 
-    final public function lastAcceptedForAddress($addressId)
+    final public function lastAcceptedForAddress($addressId): ?ActiveRow
     {
         return $this->getTable()
             ->where([

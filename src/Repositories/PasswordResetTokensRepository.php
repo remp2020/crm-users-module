@@ -4,6 +4,7 @@ namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 use Ramsey\Uuid\Uuid;
 
@@ -11,7 +12,7 @@ class PasswordResetTokensRepository extends Repository
 {
     protected $tableName = 'password_reset_tokens';
 
-    final public function add(ActiveRow $user, $source = null, $expire = '+5 hours')
+    final public function add(ActiveRow $user, $source = null, $expire = '+5 hours'): ActiveRow
     {
         return $this->insert([
             'user_id' => $user->id,
@@ -22,7 +23,7 @@ class PasswordResetTokensRepository extends Repository
         ]);
     }
 
-    final public function loadAvailableToken($token)
+    final public function loadAvailableToken($token): ?ActiveRow
     {
         return $this->getTable()->where([
             'token' => $token,
@@ -31,7 +32,7 @@ class PasswordResetTokensRepository extends Repository
         ])->fetch();
     }
 
-    final public function isAvailable($token)
+    final public function isAvailable($token): bool
     {
         if (!$token) {
             return false;
@@ -44,12 +45,12 @@ class PasswordResetTokensRepository extends Repository
         ])->count('*') > 0;
     }
 
-    final public function markUsed($token)
+    final public function markUsed($token): int
     {
         return $this->getTable()->where(['token' => $token])->update(['used_at' => new DateTime()]);
     }
 
-    final public function userTokens($userId)
+    final public function userTokens($userId): Selection
     {
         return $this->getTable()->where(['user_id' => $userId])->order('created_at DESC');
     }

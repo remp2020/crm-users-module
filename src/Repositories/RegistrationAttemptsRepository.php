@@ -3,6 +3,7 @@
 namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
+use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
 
 class RegistrationAttemptsRepository extends Repository
@@ -13,10 +14,10 @@ class RegistrationAttemptsRepository extends Repository
     public const STATUS_TAKEN_EMAIL = 'taken_email';
     public const STATUS_DEVICE_TOKEN_NOT_FOUND = 'device_token_not_found';
     public const STATUS_RATE_LIMIT_EXCEEDED = 'rate_limit_exceeded';
-    
+
     protected $tableName = 'registration_attempts';
 
-    final public function insertAttempt($email, $userId, $source, $status, $ip, $userAgent, $dateTime)
+    final public function insertAttempt($email, $userId, $source, $status, $ip, $userAgent, $dateTime): ActiveRow
     {
         return $this->getTable()->insert([
             'email' => $email,

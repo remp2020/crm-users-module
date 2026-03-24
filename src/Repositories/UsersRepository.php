@@ -62,15 +62,12 @@ class UsersRepository extends Repository
         $this->passwords = $passwords;
     }
 
-    /**
-     * @inheritDoc
-     */
-    final public function getByEmail($email): ?ActiveRow
+    final public function getByEmail(string $email): ?ActiveRow
     {
         return $this->getTable()->select('*')->where(['email' => $email])->fetch();
     }
 
-    final public function getByExternalId($extId)
+    final public function getByExternalId($extId): ?ActiveRow
     {
         return $this->getTable()->where(['ext_id' => $extId])->fetch();
     }
@@ -83,7 +80,7 @@ class UsersRepository extends Repository
         $extId = null,
         $preregistration = false,
         ?string $locale = null,
-    ) {
+    ): ActiveRow {
         $user = $this->getByEmail($email);
         if ($user) {
             throw new UserAlreadyExistsException("Email '$email' je už registrovaný");
@@ -133,7 +130,7 @@ class UsersRepository extends Repository
         return $callable();
     }
 
-    final public function addSignIn($user)
+    final public function addSignIn($user): int
     {
         return $this->getTable()->where(['id' => $user->id])->update([
             'current_sign_in_at' => new \DateTime(),
@@ -143,9 +140,8 @@ class UsersRepository extends Repository
 
     /**
      * @param string $text
-     * @return Selection
      */
-    final public function all($text = '')
+    final public function all($text = ''): Selection
     {
         $table = $this->getTable()->where(['deleted_at' => null])->order('users.id DESC');
 
@@ -168,7 +164,7 @@ class UsersRepository extends Repository
         return $table;
     }
 
-    final public function update(ActiveRow &$row, $data)
+    final public function update(ActiveRow &$row, $data): bool
     {
         $email = $data['email'] ?? null;
         if ($email !== null) {
@@ -203,7 +199,7 @@ class UsersRepository extends Repository
         return $result;
     }
 
-    final public function toggleActivation($user)
+    final public function toggleActivation($user): ActiveRow
     {
         $active = 1;
         if ($user->active) {
@@ -222,7 +218,7 @@ class UsersRepository extends Repository
         return $user;
     }
 
-    final public function getUsersRegisteredBetween(DateTime $startTime, ?DateTime $endTime = null)
+    final public function getUsersRegisteredBetween(DateTime $startTime, ?DateTime $endTime = null): Selection
     {
         if (!$endTime) {
             $endTime = new DateTime();
@@ -234,12 +230,12 @@ class UsersRepository extends Repository
         ]);
     }
 
-    final public function usersWithoutPassword()
+    final public function usersWithoutPassword(): Selection
     {
         return $this->getTable()->where(['password' => '']);
     }
 
-    final public function getAbusiveUsers(DateTime $start, DateTime $end, $tokenCount = 10, $deviceCount = 1, $sortBy = 'device_count', $email = null)
+    final public function getAbusiveUsers(DateTime $start, DateTime $end, $tokenCount = 10, $deviceCount = 1, $sortBy = 'device_count', $email = null): Selection
     {
         if (!in_array($sortBy, ['device_count', 'token_count'], true)) {
             $sortBy = 'device_count';
@@ -258,12 +254,15 @@ class UsersRepository extends Repository
         return $selection;
     }
 
-    final public function getNoConfirmed(DateTime $toTime)
+    final public function getNoConfirmed(DateTime $toTime): Selection
     {
         return $this->getTable()->where(['created_at <= ?' => $toTime, 'confirmed_at' => null]);
     }
 
-    final public function getUserSources()
+    /**
+     * @return array<string, string>
+     */
+    final public function getUserSources(): array
     {
         return $this->getTable()->select('distinct(source)')->fetchPairs('source', 'source');
     }
@@ -271,9 +270,8 @@ class UsersRepository extends Repository
     /**
      * @param DateTime $from
      * @param DateTime $to
-     * @return Selection
      */
-    final public function usersRegisteredBetween(DateTime $from, DateTime $to)
+    final public function usersRegisteredBetween(DateTime $from, DateTime $to): Selection
     {
         return $this->getTable()->where([
             'created_at > ?' => $from,
@@ -281,7 +279,7 @@ class UsersRepository extends Repository
         ]);
     }
 
-    final public function isRole($userId, $role)
+    final public function isRole($userId, $role): bool
     {
         return $this->getTable()->where([
             'id' => $userId,

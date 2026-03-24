@@ -43,7 +43,7 @@ class AddressesRepository extends Repository
         ?string $companyId = null,
         ?string $companyTaxId = null,
         ?string $companyVatId = null,
-    ) {
+    ): ActiveRow {
         $companyId = $companyId ? preg_replace('/\s+/', '', $companyId) : null;
         $companyTaxId = $companyTaxId ? preg_replace('/\s+/', '', $companyTaxId) : null;
         $companyVatId = $companyVatId ? preg_replace('/\s+/', '', $companyVatId) : null;
@@ -82,7 +82,7 @@ class AddressesRepository extends Repository
         return $selection->fetch();
     }
 
-    final public function all()
+    final public function all(): Selection
     {
         return $this->getTable()->where('deleted_at IS NULL');
     }
@@ -100,6 +100,9 @@ class AddressesRepository extends Repository
         return $this->all()->where($where)->order('updated_at DESC');
     }
 
+    /**
+     * @return ActiveRow[]
+     */
     final public function addresses(ActiveRow $user, $type = false): array
     {
         $where = ['user_id' => $user->id];
@@ -109,7 +112,7 @@ class AddressesRepository extends Repository
         return $this->all()->where($where)->fetchAll();
     }
 
-    final public function update(ActiveRow &$row, $data)
+    final public function update(ActiveRow &$row, $data): bool
     {
         $data['updated_at'] = new DateTime();
         if (isset($data['company_id'])) {
@@ -124,7 +127,7 @@ class AddressesRepository extends Repository
         return parent::update($row, $data);
     }
 
-    final public function findByAddress($address, $type, $userId)
+    final public function findByAddress($address, $type, $userId): ?ActiveRow
     {
         $addressMap = [
             'first_name' => null,
@@ -154,10 +157,10 @@ class AddressesRepository extends Repository
 
     /**
      * @param ActiveRow $address
-     * @return array
+     * @return array<string, mixed>
      * @throws DataProviderException
      */
-    public function canDelete(ActiveRow $address)
+    public function canDelete(ActiveRow $address): array
     {
         /** @var CanDeleteAddressDataProviderInterface[] $providers */
         $providers = $this->dataProviderManager->getProviders(
@@ -184,7 +187,7 @@ class AddressesRepository extends Repository
      * @param bool $force
      * @throws \Exception
      */
-    public function softDelete(ActiveRow $address, $force = false)
+    public function softDelete(ActiveRow $address, $force = false): void
     {
         if (!$force) {
             $check = $this->canDelete($address);

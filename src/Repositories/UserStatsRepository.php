@@ -34,6 +34,9 @@ class UserStatsRepository extends Repository
         }
     }
 
+    /**
+     * @return array<string, string>
+     */
     final public function userStats($user): array
     {
         if ($user instanceof ActiveRow) {
@@ -45,7 +48,7 @@ class UserStatsRepository extends Repository
             ->fetchPairs('key', 'value');
     }
 
-    final public function deleteAll($user)
+    final public function deleteAll($user): int
     {
         if ($user instanceof ActiveRow) {
             $user = $user->id;

@@ -6,6 +6,7 @@ use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 
 class UserGroupsRepository extends Repository
 {
@@ -22,12 +23,12 @@ class UserGroupsRepository extends Repository
         $this->auditLogRepository = $auditLogRepository;
     }
 
-    final public function isMember(ActiveRow $groupRow, ActiveRow $userRow)
+    final public function isMember(ActiveRow $groupRow, ActiveRow $userRow): bool
     {
         return $this->row($groupRow, $userRow)->count('*') > 0;
     }
 
-    final public function addToGroup(ActiveRow $groupRow, ActiveRow $userRow)
+    final public function addToGroup(ActiveRow $groupRow, ActiveRow $userRow): bool
     {
         if ($this->isMember($groupRow, $userRow)) {
             return false;
@@ -42,7 +43,7 @@ class UserGroupsRepository extends Repository
         return true;
     }
 
-    final public function removeFromGroup(ActiveRow $groupRow, ActiveRow $userRow)
+    final public function removeFromGroup(ActiveRow $groupRow, ActiveRow $userRow): bool
     {
         if (!$this->isMember($groupRow, $userRow)) {
             return false;
@@ -53,21 +54,21 @@ class UserGroupsRepository extends Repository
         return true;
     }
 
-    final public function userGroups(ActiveRow $userRow)
+    final public function userGroups(ActiveRow $userRow): Selection
     {
         return $this->groupsRepository->getTable()->where([
             ':user_groups.user_id' => $userRow->id,
         ])->order(':user_groups.created_at');
     }
 
-    final public function groupMembers(ActiveRow $groupRow)
+    final public function groupMembers(ActiveRow $groupRow): Selection
     {
         return $this->usersRepository->getTable()->where([
             ':user_groups.group_id' => $groupRow->id,
         ])->order(':user_groups.created_at');
     }
 
-    private function row(ActiveRow $groupRow, ActiveRow $userRow)
+    private function row(ActiveRow $groupRow, ActiveRow $userRow): Selection
     {
         return $this->getTable()->where(['user_id' => $userRow->id, 'group_id' => $groupRow->id]);
     }

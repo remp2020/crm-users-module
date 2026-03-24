@@ -41,12 +41,12 @@ class AccessTokensRepository extends Repository
         $this->dataProviderManager = $dataProviderManager;
     }
 
-    final public function all($limit = 500)
+    final public function all($limit = 500): Selection
     {
         return $this->getTable()->order('created_at DESC')->limit($limit);
     }
 
-    final public function add(ActiveRow $user, int $version = 3, ?string $source = null)
+    final public function add(ActiveRow $user, int $version = 3, ?string $source = null): ActiveRow
     {
         $token = TokenGenerator::generate();
 
@@ -65,7 +65,7 @@ class AccessTokensRepository extends Repository
         return $row;
     }
 
-    final public function remove($token)
+    final public function remove($token): bool
     {
         $tokenRow = $this->loadToken($token);
         if (!$tokenRow) {
@@ -77,17 +77,17 @@ class AccessTokensRepository extends Repository
         return $result;
     }
 
-    final public function loadToken($token)
+    final public function loadToken($token): ?ActiveRow
     {
         return $this->getTable()->where(['token' => $token])->fetch();
     }
 
-    final public function allUserTokens($userId)
+    final public function allUserTokens($userId): Selection
     {
         return $this->getTable()->where(['user_id' => $userId])->order('created_at DESC');
     }
 
-    final public function allUserTokensBySource($userId, ?string $source)
+    final public function allUserTokensBySource($userId, ?string $source): Selection
     {
         return $this->allUserTokens($userId)->where(['source' => $source]);
     }
@@ -97,12 +97,15 @@ class AccessTokensRepository extends Repository
         return $this->getTable()->where('device_token_id', $deviceToken->id);
     }
 
-    final public function findAllByDeviceToken(ActiveRow $deviceToken)
+    /**
+     * @return ActiveRow[]
+     */
+    final public function findAllByDeviceToken(ActiveRow $deviceToken): array
     {
         return $this->allByDeviceToken($deviceToken)->fetchAll();
     }
 
-    final public function pairWithDeviceToken($accessToken, $deviceToken)
+    final public function pairWithDeviceToken($accessToken, $deviceToken): void
     {
         if (!$this->userMetaRepository->userMetaValueByKey($accessToken->user, UnclaimedUser::META_KEY)) {
             $this->unpairDeviceToken($deviceToken, $accessToken->user);
@@ -114,7 +117,7 @@ class AccessTokensRepository extends Repository
         $this->emitter->emit(new PairDeviceAccessTokensEvent($deviceToken, $accessToken));
     }
 
-    final public function unpairDeviceToken($deviceToken, $user = null)
+    final public function unpairDeviceToken($deviceToken, $user = null): void
     {
         $accessTokens = $this->allByDeviceToken($deviceToken);
 
@@ -145,7 +148,7 @@ class AccessTokensRepository extends Repository
         }
     }
 
-    final public function removeAllUserTokens($userId, array $exceptTokens = [])
+    final public function removeAllUserTokens($userId, array $exceptTokens = []): int
     {
         $tokens = $this->getTable()->where(['user_id' => $userId]);
 
@@ -162,7 +165,7 @@ class AccessTokensRepository extends Repository
         return $removed;
     }
 
-    final public function removeNotUsedTokens(DateTime $usedBefore)
+    final public function removeNotUsedTokens(DateTime $usedBefore): int
     {
         $tokens = $this->getTable()->where('last_used_at < ', $usedBefore);
         $removed = 0;
@@ -173,7 +176,10 @@ class AccessTokensRepository extends Repository
         return $removed;
     }
 
-    final public function getVersionStats()
+    /**
+     * @return array<int, int>
+     */
+    final public function getVersionStats(): array
     {
         $result = [];
         $stats = $this->getTable()->select('COUNT(*) AS counts, version')->group('version');

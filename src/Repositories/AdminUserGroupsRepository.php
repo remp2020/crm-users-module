@@ -21,7 +21,7 @@ class AdminUserGroupsRepository extends Repository
         $this->auditLogRepository = $auditLogRepository;
     }
 
-    public function add(ActiveRow $adminGroup, ActiveRow $user)
+    public function add(ActiveRow $adminGroup, ActiveRow $user): ActiveRow
     {
         $now = new \DateTime();
         return $this->insert([
@@ -32,7 +32,7 @@ class AdminUserGroupsRepository extends Repository
         ]);
     }
 
-    public function exists(ActiveRow $adminGroup, ActiveRow $user)
+    public function exists(ActiveRow $adminGroup, ActiveRow $user): bool
     {
         return $this->getTable()->where([
                 'admin_group_id' => $adminGroup->id,

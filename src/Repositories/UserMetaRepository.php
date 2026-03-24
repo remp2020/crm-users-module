@@ -23,12 +23,12 @@ class UserMetaRepository extends Repository
         $this->emitter = $emitter;
     }
 
-    final public function exists(ActiveRow $user, $key)
+    final public function exists(ActiveRow $user, $key): bool
     {
         return $this->getTable()->where(['user_id' => $user->id, 'key' => $key])->count('*') > 0;
     }
 
-    final public function add(ActiveRow $user, $key, $value, ?DateTime $createdAt = null, $isPublic = false)
+    final public function add(ActiveRow $user, $key, $value, ?DateTime $createdAt = null, $isPublic = false): ActiveRow
     {
         if ($this->exists($user, $key)) {
             $result = $this->getTable()->where(['user_id' => $user, 'key' => $key])
@@ -54,20 +54,20 @@ class UserMetaRepository extends Repository
         return $result;
     }
 
-    final public function update(ActiveRow &$row, $data)
+    final public function update(ActiveRow &$row, $data): bool
     {
         $data['updated_at'] = new DateTime();
         return parent::update($row, $data);
     }
 
-    final public function setMeta(ActiveRow $user, array $metas, $isPublic = false)
+    final public function setMeta(ActiveRow $user, array $metas, $isPublic = false): void
     {
         foreach ($metas as $key => $value) {
             $this->add($user, $key, $value, null, $isPublic);
         }
     }
 
-    final public function removeMeta($userId, $key, $value = null)
+    final public function removeMeta($userId, $key, $value = null): int
     {
         $selection = $this->getTable()->where(['user_id' => $userId, 'key' => $key]);
         if ($value !== null) {
@@ -83,7 +83,10 @@ class UserMetaRepository extends Repository
         return $result;
     }
 
-    final public function userMeta($user)
+    /**
+     * @return array<string, string>
+     */
+    final public function userMeta($user): array
     {
         return $this->userMetaRows($user)->fetchPairs('key', 'value');
     }
@@ -100,7 +103,7 @@ class UserMetaRepository extends Repository
         return $value;
     }
 
-    final public function userMetaRows($user)
+    final public function userMetaRows($user): Selection
     {
         if ($user instanceof ActiveRow) {
             $user = $user->id;

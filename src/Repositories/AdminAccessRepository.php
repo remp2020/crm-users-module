@@ -11,10 +11,7 @@ class AdminAccessRepository extends Repository
 {
     protected $tableName = 'admin_access';
 
-    /**
-     * @return bool|int|ActiveRow
-     */
-    final public function add(string $resource, string $action, string $type, ?string $level = null)
+    final public function add(string $resource, string $action, string $type, ?string $level = null): ActiveRow
     {
         $now = new DateTime();
         return $this->insert([

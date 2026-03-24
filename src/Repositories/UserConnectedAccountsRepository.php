@@ -32,7 +32,7 @@ class UserConnectedAccountsRepository extends Repository
         string $externalId,
         ?string $email,
         mixed $meta = null,
-    ) {
+    ): ActiveRow {
         if ($meta && !is_string($meta)) {
             $meta = Json::encode($meta);
         }
@@ -48,7 +48,7 @@ class UserConnectedAccountsRepository extends Repository
         ]);
     }
 
-    final public function getByExternalId(string $type, string $externalId)
+    final public function getByExternalId(string $type, string $externalId): ?ActiveRow
     {
         return $this->getTable()->where([
             'external_id' => $externalId,
@@ -99,7 +99,7 @@ class UserConnectedAccountsRepository extends Repository
         return $this->delete($userAccount);
     }
 
-    public function connectUser(ActiveRow $user, $type, $externalId, $email, mixed $meta = null)
+    public function connectUser(ActiveRow $user, $type, $externalId, $email, mixed $meta = null): ActiveRow
     {
         $connectedAccount = $this->getForUser($user, $type)
             ->where('external_id', $externalId)

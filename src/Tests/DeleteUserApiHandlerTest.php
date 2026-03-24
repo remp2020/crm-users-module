@@ -4,13 +4,13 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Models\Response\EmptyResponse;
 use Crm\ApiModule\Tests\ApiTestTrait;
-use Crm\ApplicationModule\Models\Database\ActiveRow;
 use Crm\ApplicationModule\Models\User\UserDataProviderInterface;
 use Crm\ApplicationModule\Models\User\UserDataRegistrator;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\DeleteUserApiHandler;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
+use Nette\Database\Table\ActiveRow;
 use Tomaj\NetteApi\Response\JsonApiResponse;
 
 class DeleteUserApiHandlerTest extends DatabaseTestCase

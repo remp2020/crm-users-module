@@ -4,6 +4,8 @@ namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Models\Database\RetentionData;
+use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
 class UserActionsLogRepository extends Repository
@@ -12,7 +14,7 @@ class UserActionsLogRepository extends Repository
 
     protected $tableName = 'user_actions_log';
 
-    final public function add($userId, $action, $params = [])
+    final public function add($userId, $action, $params = []): ActiveRow
     {
         return $this->insert([
             'user_id' => $userId,
@@ -22,12 +24,12 @@ class UserActionsLogRepository extends Repository
         ]);
     }
 
-    final public function all()
+    final public function all(): Selection
     {
         return $this->getTable()->order('created_at DESC');
     }
 
-    final public function totalCounts()
+    final public function totalCounts(): Selection
     {
         return $this->getTable()->group('action')->select('action, COUNT(*) AS count');
     }
@@ -45,7 +47,10 @@ class UserActionsLogRepository extends Repository
         }
     }
 
-    final public function availableSubscriptionTypes()
+    /**
+     * @return array<string|null>
+     */
+    final public function availableSubscriptionTypes(): array
     {
         return $this->getTable()->select("DISTINCT(JSON_EXTRACT(params, \"$.subscription_type_id\")) AS subscription_type_id")->fetchPairs(null, 'subscription_type_id');
     }
