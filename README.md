@@ -1,7 +1,5 @@
 # CRM Users Module
 
-[![Translation status @ Weblate](https://hosted.weblate.org/widgets/remp-crm/-/users-module/svg-badge.svg)](https://hosted.weblate.org/projects/remp-crm/users-module/)
-
 This documentation describes API handlers and CLI commands provided by this module for
 others to use. It expects your application is based on the [CRM skeleton](https://github.com/remp2020/crm-skeleton)
 provided by us.
