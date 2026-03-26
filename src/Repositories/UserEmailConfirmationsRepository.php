@@ -2,16 +2,16 @@
 
 namespace Crm\UsersModule\Repositories;
 
+use Crm\ApplicationModule\Models\Database\ActiveRow;
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Models\Auth\Access\TokenGenerator;
-use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
 
 class UserEmailConfirmationsRepository extends Repository
 {
     protected $tableName = 'user_email_confirmations';
 
-    public function generate(int $userId): ActiveRow
+    public function generate(int $userId)
     {
         return $this->insert([
             'user_id' => $userId,
@@ -34,7 +34,7 @@ class UserEmailConfirmationsRepository extends Repository
         return $emailConfirmationRow;
     }
 
-    public function isConfirmed(int $userId): bool
+    public function isConfirmed(int $userId):bool
     {
         return $this->getTable()
             ->where('user_id', $userId)

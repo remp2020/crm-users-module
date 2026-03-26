@@ -4,8 +4,6 @@ namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Models\Database\RetentionData;
-use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
 class ChangePasswordsLogsRepository extends Repository
@@ -20,7 +18,7 @@ class ChangePasswordsLogsRepository extends Repository
 
     protected $tableName = 'change_passwords_logs';
 
-    final public function add($user, $type, $oldPassword, $newPassword): ActiveRow
+    final public function add($user, $type, $oldPassword, $newPassword)
     {
         return $this->insert([
             'user_id' => $user->id,
@@ -31,22 +29,22 @@ class ChangePasswordsLogsRepository extends Repository
         ]);
     }
 
-    final public function totalUserLogs($userId): int
+    final public function totalUserLogs($userId)
     {
         return $this->userLogs($userId)->count('*');
     }
 
-    final public function lastUserLogs($userId): Selection
+    final public function lastUserLogs($userId)
     {
         return $this->userLogs($userId)->order('created_at DESC')->limit(100);
     }
 
-    final public function lastUserLog($userId, $type): ?ActiveRow
+    final public function lastUserLog($userId, $type)
     {
         return $this->userLogs($userId)->where(['type' => $type])->order('created_at DESC')->limit(1)->fetch();
     }
 
-    private function userLogs($userId): Selection
+    private function userLogs($userId)
     {
         return $this->getTable()->where(['user_id' => $userId]);
     }

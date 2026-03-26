@@ -21,7 +21,7 @@ class AdminGroupsAccessRepository extends Repository
         $this->auditLogRepository = $auditLogRepository;
     }
 
-    final public function add(ActiveRow $adminGroup, ActiveRow $adminAccess): ActiveRow
+    final public function add(ActiveRow $adminGroup, ActiveRow $adminAccess)
     {
         return $this->insert([
             'admin_group_id' => $adminGroup->id,

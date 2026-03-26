@@ -5,7 +5,6 @@ namespace Crm\UsersModule\Repositories;
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Models\Database\RetentionData;
 use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 
 class AutoLoginTokensRepository extends Repository
 {
@@ -13,7 +12,7 @@ class AutoLoginTokensRepository extends Repository
 
     use RetentionData;
 
-    final public function add($token, ActiveRow $user, $validFrom, $validTo, $maxCount = 1): ActiveRow
+    final public function add($token, ActiveRow $user, $validFrom, $validTo, $maxCount = 1)
     {
         return $this->insert([
             'token' => $token,
@@ -27,12 +26,12 @@ class AutoLoginTokensRepository extends Repository
         ]);
     }
 
-    final public function userTokens($userId): Selection
+    final public function userTokens($userId)
     {
         return $this->getTable()->where('user_id', $userId)->order('valid_to DESC');
     }
 
-    final public function deleteAll($userId): int
+    final public function deleteAll($userId)
     {
         return $this->getTable()->where('user_id', $userId)->delete();
     }

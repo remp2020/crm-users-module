@@ -4,20 +4,19 @@ namespace Crm\UsersModule\Repositories;
 
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Models\Auth\Access\TokenGenerator;
-use Nette\Database\Table\ActiveRow;
 use Nette\Utils\DateTime;
 
 class DeviceTokensRepository extends Repository
 {
     protected $tableName = 'device_tokens';
 
-    final public function generate(string $deviceId): ActiveRow
+    final public function generate(string $deviceId)
     {
         $token = TokenGenerator::generate();
         return $this->add($deviceId, $token);
     }
 
-    final public function add(string $deviceId, string $deviceToken): ActiveRow
+    final public function add(string $deviceId, string $deviceToken)
     {
         return $this->insert([
             'device_id' => $deviceId,
@@ -27,12 +26,12 @@ class DeviceTokensRepository extends Repository
         ]);
     }
 
-    final public function findByToken(string $token): ?ActiveRow
+    final public function findByToken(string $token)
     {
         return $this->getTable()->where('token', $token)->fetch();
     }
 
-    final public function findByDeviceId(string $deviceId): ?ActiveRow
+    final public function findByDeviceId(string $deviceId)
     {
         return $this->getTable()->where('device_id', $deviceId)->fetch();
     }

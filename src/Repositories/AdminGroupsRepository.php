@@ -7,7 +7,6 @@ use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Nette\Caching\Storage;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
 class AdminGroupsRepository extends Repository
@@ -23,7 +22,7 @@ class AdminGroupsRepository extends Repository
         $this->auditLogRepository = $auditLogRepository;
     }
 
-    final public function add($name, $sorting = 100): ActiveRow
+    final public function add($name, $sorting = 100)
     {
         return $this->insert([
             'name' => $name,
@@ -33,18 +32,18 @@ class AdminGroupsRepository extends Repository
         ]);
     }
 
-    final public function update(ActiveRow &$row, $data): bool
+    final public function update(ActiveRow &$row, $data)
     {
         $data['updated_at'] = new DateTime();
         return parent::update($row, $data);
     }
 
-    final public function findByName($name): ?ActiveRow
+    final public function findByName($name)
     {
         return $this->getTable()->where(['name' => $name])->limit(1)->fetch();
     }
 
-    final public function all(): Selection
+    final public function all()
     {
         return $this->getTable()->order('sorting ASC');
     }

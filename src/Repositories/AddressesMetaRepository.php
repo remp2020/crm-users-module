@@ -26,9 +26,10 @@ class AddressesMetaRepository extends Repository
      * @param string $key
      * @param string $value
      * @param bool $override
+     * @return ActiveRow
      * @throws \Exception
      */
-    final public function add(ActiveRow $address, ?ActiveRow $addressChangeRequest, $key, $value, $override = true): ActiveRow
+    final public function add(ActiveRow $address, ?ActiveRow $addressChangeRequest, $key, $value, $override = true)
     {
         if ($override && $this->exists($address, $addressChangeRequest, $key)) {
             $meta = $this->getTable()->where([
@@ -56,12 +57,17 @@ class AddressesMetaRepository extends Repository
         ]);
     }
 
-    final public function all(): Selection
+    final public function all()
     {
         return $this->getTable()->where('address.deleted_at IS NULL');
     }
 
-    final public function values(ActiveRow $address, ?ActiveRow $addressChangeRequest, ...$keys): Selection
+    /**
+     * @param ActiveRow $address
+     * @param array $keys
+     * @return Selection
+     */
+    final public function values(ActiveRow $address, ?ActiveRow $addressChangeRequest, ...$keys)
     {
         $values = $this->getTable()->where([
             'address_id' => $address->id,
@@ -77,8 +83,9 @@ class AddressesMetaRepository extends Repository
      * @param ActiveRow $address
      * @param ActiveRow|null $addressChangeRequest
      * @param string $key
+     * @return bool
      */
-    final public function exists(ActiveRow $address, ?ActiveRow $addressChangeRequest, $key): bool
+    final public function exists(ActiveRow $address, ?ActiveRow $addressChangeRequest, $key)
     {
         return $this->getTable()->where([
                 'address_id' => $address->id,
@@ -91,8 +98,9 @@ class AddressesMetaRepository extends Repository
      * @param ActiveRow $address
      * @param ActiveRow|null $addressChangeRequest
      * @param string $key
+     * @return int
      */
-    final public function remove(ActiveRow $address, ?ActiveRow $addressChangeRequest, $key): int
+    final public function remove(ActiveRow $address, ?ActiveRow $addressChangeRequest, $key)
     {
         return $this->getTable()->where([
             'address_id' => $address->id,
@@ -101,7 +109,7 @@ class AddressesMetaRepository extends Repository
         ])->delete();
     }
 
-    final public function deleteByAddressChangeRequestId($addressChangeRequestId): void
+    final public function deleteByAddressChangeRequestId($addressChangeRequestId)
     {
         $records = $this->getTable()->where('address_change_request_id = ?', $addressChangeRequestId);
         foreach ($records as $record) {

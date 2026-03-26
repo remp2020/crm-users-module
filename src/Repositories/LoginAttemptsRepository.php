@@ -6,8 +6,6 @@ use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\UsersModule\Models\DeviceDetector;
 use Nette\Caching\Storage;
 use Nette\Database\Explorer;
-use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 
 class LoginAttemptsRepository extends Repository
 {
@@ -37,9 +35,6 @@ class LoginAttemptsRepository extends Repository
         parent::__construct($database, $cacheStorage);
     }
 
-    /**
-     * @return string[]
-     */
     final public function okStatuses(): array
     {
         return [
@@ -51,9 +46,6 @@ class LoginAttemptsRepository extends Repository
         ];
     }
 
-    /**
-     * @return string[]
-     */
     final public function statuses(): array
     {
         return [
@@ -79,7 +71,7 @@ class LoginAttemptsRepository extends Repository
         return in_array($status, $this->okStatuses(), true);
     }
 
-    final public function insertAttempt($email, $userId, $source, $status, $ip, $userAgent, $dateTime, $message = null): ActiveRow
+    final public function insertAttempt($email, $userId, $source, $status, $ip, $userAgent, $dateTime, $message = null)
     {
         $browser = null;
         $browserVersion = null;
@@ -114,37 +106,37 @@ class LoginAttemptsRepository extends Repository
         ]);
     }
 
-    final public function all(): Selection
+    final public function all()
     {
         return $this->getTable()->order('id ASC');
     }
 
-    final public function totalUserAttempts($userId): int
+    final public function totalUserAttempts($userId)
     {
         return $this->getTable()->where(['user_id' => $userId])->count('*');
     }
 
-    final public function lastUserAttempt($userId, $count = 100): Selection
+    final public function lastUserAttempt($userId, $count = 100)
     {
         return $this->getTable()->where(['user_id' => $userId])->order('created_at DESC')->limit($count);
     }
 
-    final public function userIps($userId): Selection
+    final public function userIps($userId)
     {
         return $this->getTable()->where(['user_id' => $userId])->group('ip');
     }
 
-    final public function userAgents($userId): Selection
+    final public function userAgents($userId)
     {
         return $this->getTable()->where(['user_id' => $userId])->group('user_agent');
     }
 
-    final public function lastIpAttempts($ip, $count): Selection
+    final public function lastIpAttempts($ip, $count)
     {
         return $this->getTable()->where(['ip' => $ip])->order('created_at DESC')->limit($count);
     }
 
-    final public function deleteAll($userId): int
+    final public function deleteAll($userId)
     {
         return $this->getTable()->where('user_id', $userId)->delete();
     }

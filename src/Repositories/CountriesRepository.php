@@ -6,7 +6,6 @@ use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Models\ResettableInterface;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
 
 class CountriesRepository extends Repository implements ResettableInterface
 {
@@ -42,47 +41,38 @@ class CountriesRepository extends Repository implements ResettableInterface
         return $this->defaultCountry;
     }
 
-    final public function all(): Selection
+    final public function all()
     {
         return $this->getTable()->order('-sorting DESC, name');
     }
 
-    /**
-     * @return array<int, string>
-     */
-    final public function getAllPairs(): array
+    final public function getAllPairs()
     {
         return $this->all()->fetchPairs('id', 'name');
     }
 
-    /**
-     * @return array<int, string>
-     */
-    final public function getAllIsoPairs(): array
+    final public function getAllIsoPairs()
     {
         return $this->all()->fetchPairs('id', 'iso_code');
     }
 
-    /**
-     * @return array<int, string>
-     */
-    final public function getDefaultCountryPair(): array
+    final public function getDefaultCountryPair()
     {
         $default = $this->defaultCountry();
         return [$default->id => $default->name];
     }
 
-    final public function findByName($countryName): ?ActiveRow
+    final public function findByName($countryName)
     {
         return $this->findBy('name', $countryName);
     }
 
-    final public function findByIsoCode($isoCode): ?ActiveRow
+    final public function findByIsoCode($isoCode)
     {
         return $this->findBy('iso_code', $isoCode);
     }
 
-    final public function add(string $isoCode, string $name, ?int $sorting): ActiveRow
+    final public function add(string $isoCode, string $name, ?int $sorting)
     {
         return $this->insert([
             'iso_code' => $isoCode,
@@ -91,7 +81,7 @@ class CountriesRepository extends Repository implements ResettableInterface
         ]);
     }
 
-    final public function exists($code): bool
+    final public function exists($code)
     {
         return $this->getTable()->where('iso_code', $code)->count('*') > 0;
     }
