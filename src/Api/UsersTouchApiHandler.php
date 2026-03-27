@@ -31,7 +31,7 @@ class UsersTouchApiHandler extends ApiHandler
         $userId = $params['id'];
         $user = $this->usersRepository->find($userId);
 
-        if (!$user || ($user && $user->deleted_at)) {
+        if (!$user || $user->deleted_at) {
             return new JsonApiResponse(IResponse::S404_NotFound, [
                 'status' => 'error',
                 'code' => 'user_not_found',
