@@ -9,8 +9,7 @@ use Tracy\Debugger;
 
 class Permissions
 {
-    /** @var Permission  */
-    private $acl;
+    private ?Permission $acl = null;
 
     /** @var AdminGroupsRepository  */
     private $adminGroupsRepository;

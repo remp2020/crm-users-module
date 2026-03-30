@@ -38,10 +38,10 @@ class UserAuthenticatorTest extends DatabaseTestCase
     /** @var string $accessTokenLastVersion */
     private $accessTokenLastVersion;
 
-    /** @var ActiveRow $user */
+    /** @var ActiveRow|null $user */
     private $user;
 
-    /** @var ActiveRow $admin */
+    /** @var ActiveRow|null $admin */
     private $admin;
 
     /** @var UnclaimedUser $unclaimedUser */

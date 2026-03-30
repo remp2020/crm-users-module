@@ -25,9 +25,6 @@ class UserLastAccessHandler extends AbstractListener
 
         $source = $this->getSource($event->getSource(), $event->getUserAgent());
         $user = $event->getUser();
-        if (!$user) {
-            return;
-        }
 
         $usersTokenTimeStatsEnabled = $this->applicationConfig->get('api_user_token_tracking');
         if ($usersTokenTimeStatsEnabled) {
