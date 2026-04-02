@@ -104,6 +104,7 @@ class BasicUserDataProvider implements UserDataProviderInterface
             'current_sign_in_ip' => 'GDPR Removal',
             'referer' => 'GDPR Removal',
             'institution_name' => 'GDPR Removal',
+            'role' => UsersRepository::ROLE_USER,
 
             // deactivate & mark as deleted
             'active' => false,
