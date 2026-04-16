@@ -9,6 +9,7 @@ use Crm\ApplicationModule\Repositories\ConfigsRepository;
 use Crm\UsersModule\DataProviders\GoogleSignInDataProviderInterface;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Google\Client;
+use Google\Service\Exception;
 use Google\Service\Oauth2;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\Request;
@@ -44,7 +45,7 @@ class GoogleSignIn
 
     public function isEnabled(): bool
     {
-        return (boolean) ($this->configsRepository->loadByName('google_sign_in_enabled')->value ?? false);
+        return (bool) ($this->configsRepository->loadByName('google_sign_in_enabled')->value ?? false);
     }
 
     public function setGoogleClient(Client $googleClient): void
@@ -343,7 +344,7 @@ class GoogleSignIn
         $service = new Oauth2($client);
         try {
             $userInfo = $service->userinfo->get();
-        } catch (\Google\Service\Exception $e) {
+        } catch (Exception $e) {
             throw new SsoException('Google SignIn error: unable to retrieve user info', $e->getCode(), $e);
         }
 

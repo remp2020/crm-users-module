@@ -6,6 +6,7 @@ use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Models\Request as ApplicationRequest;
 use Crm\ApplicationModule\Repositories\ConfigsRepository;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
+use Exception;
 use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
@@ -16,6 +17,7 @@ use Nette\Http\Session;
 use Nette\Http\Url;
 use Nette\Security\User;
 use Nette\Utils\Json;
+use stdClass;
 
 class AppleSignIn
 {
@@ -54,7 +56,7 @@ class AppleSignIn
 
     public function isEnabled(): bool
     {
-        return (boolean)($this->configsRepository->loadByName('apple_sign_in_enabled')->value ?? false);
+        return (bool)($this->configsRepository->loadByName('apple_sign_in_enabled')->value ?? false);
     }
 
     private function setLoginCookie(string $key, $value)
@@ -89,12 +91,12 @@ class AppleSignIn
      * @param string|null $source
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function signInRedirect(string $redirectUri, ?string $source = null): string
     {
         if (!$this->isEnabled()) {
-            throw new \Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
+            throw new Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
         }
 
         $state = bin2hex(random_bytes(128 / 8));
@@ -154,7 +156,7 @@ class AppleSignIn
         $this->deleteLoginCookies(self::COOKIE_ASI_STATE, self::COOKIE_ASI_USER_ID, self::COOKIE_ASI_SOURCE, self::COOKIE_ASI_NONCE);
 
         if (!$this->isEnabled()) {
-            throw new \Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
+            throw new Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
         }
 
         $error = $this->request->getPost('error');
@@ -188,7 +190,7 @@ class AppleSignIn
 
         try {
             $idToken = $this->decodeIdToken($encodedIdToken);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new SsoException('Apple SignIn error: unable to verify id token');
         }
 
@@ -244,21 +246,21 @@ class AppleSignIn
      * @param string|null $locale if user is created, this locale will be set as a default user locale
      *
      * @return ActiveRow|null created/matched user
-     * @throws \Exception
+     * @throws Exception
      */
     public function getUserUsingIdToken(string $idTokenInput, ?string $locale = null): ?ActiveRow
     {
         if (!$this->isEnabled()) {
-            throw new \Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
+            throw new Exception('Apple Sign In is not enabled, please see authentication configuration in your admin panel.');
         }
 
         if (!$this->clientId) {
-            throw new \Exception("Apple Sign In Client ID not configured, please configure 'users.sso.apple' parameter based on the README file.");
+            throw new Exception("Apple Sign In Client ID not configured, please configure 'users.sso.apple' parameter based on the README file.");
         }
 
         try {
             $idToken = $this->decodeIdToken($idTokenInput);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return null;
         }
 
@@ -292,7 +294,7 @@ class AppleSignIn
         );
     }
 
-    private function decodeIdToken($idToken): \stdClass
+    private function decodeIdToken($idToken): stdClass
     {
         $client = new Client();
         $response = $client->get('https://appleid.apple.com/auth/keys');
