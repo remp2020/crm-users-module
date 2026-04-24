@@ -34,6 +34,12 @@ class UniversalSearchDataProvider implements UniversalSearchDataProviderInterfac
                 $result = $this->addUserToGroup($user, $result);
             }
         }
+        if (strlen($term) === 36) {
+            $user = $this->usersRepository->findBy('uuid', $term);
+            if ($user) {
+                $result = $this->addUserToGroup($user, $result);
+            }
+        }
         if (strlen($term) >= 3) {
             $users = $this->usersRepository->getTable()->where('email LIKE ?', "{$term}%")
                 ->limit(15)->fetchAll();
