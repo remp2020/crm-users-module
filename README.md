@@ -585,6 +585,7 @@ When the user is registered, he/she is automatically logged in and user token is
 | unclaimed                | *Boolean* | no       | Flag whether to create unclaimed user. If not provided, standard user will be created.                                                        |
 | newsletters_subscribe    | *Boolean* | no       | Flag whether to subscribe registered user to newsletters.                                                                                     |
 | locale                   | *String*  | no       | User locale.                                                                                                                                  |
+| redirect_url             | *String*  | no       | URL stored in user meta (`registration_redirect_url`) after registration, intended for use in post-registration flows such as email confirmation redirects.                                                  |
 
 
 ##### *Example:*

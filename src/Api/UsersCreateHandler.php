@@ -10,10 +10,12 @@ use Crm\UsersModule\Models\Auth\InvalidEmailException;
 use Crm\UsersModule\Models\Auth\Rate\RegistrationIpRateLimit;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Models\User\UnclaimedUser;
+use Crm\UsersModule\Models\User\UserMetaEnum;
 use Crm\UsersModule\Repositories\AccessTokensRepository;
 use Crm\UsersModule\Repositories\DeviceTokensRepository;
 use Crm\UsersModule\Repositories\RegistrationAttemptsRepository;
 use Crm\UsersModule\Repositories\UserAlreadyExistsException;
+use Crm\UsersModule\Repositories\UserMetaRepository;
 use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Http\IResponse;
@@ -32,6 +34,7 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
         private UnclaimedUser $unclaimedUser,
         private RegistrationIpRateLimit $registrationIpRateLimit,
         private RegistrationAttemptsRepository $registrationAttemptsRepository,
+        private UserMetaRepository $userMetaRepository,
     ) {
         parent::__construct();
     }
@@ -53,6 +56,7 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
             new PostInputParam('unclaimed'),
             new PostInputParam('newsletters_subscribe'),
             new PostInputParam('locale'),
+            new PostInputParam('redirect_url'),
         ];
     }
 
@@ -160,6 +164,10 @@ class UsersCreateHandler extends ApiHandler implements ApiParamsValidatorInterfa
         }
 
         $this->usersRepository->update($user, $userData);
+
+        if (!empty($params['redirect_url'])) {
+            $this->userMetaRepository->add($user, UserMetaEnum::RegistrationRedirectUrl->value, $params['redirect_url']);
+        }
 
         $lastToken = $this->accessTokensRepository->allUserTokens($user->id)->limit(1)->fetch() ?: null;
         if ($lastToken && $deviceToken) {
