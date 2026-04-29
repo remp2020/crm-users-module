@@ -4,10 +4,12 @@ namespace Crm\UsersModule\Presenters;
 
 use Crm\AdminModule\Helpers\SecuredAdminAccess;
 use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
+use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\Models\Database\ActiveRow;
 use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
+use Crm\ApplicationModule\Router\RedirectValidator;
 use Crm\UsersModule\Events\NotificationEvent;
 use Crm\UsersModule\Events\UserResetPasswordSuccessEvent;
 use Crm\UsersModule\Events\UserSignOutEvent;
@@ -46,6 +48,7 @@ class UsersPresenter extends FrontendPresenter
         private AppleSignIn $appleSignIn,
         private UserConnectedAccountsRepository $userConnectedAccountsRepository,
         private SecuredAdminAccess $securedAdminAccess,
+        private RedirectValidator $redirectValidator,
     ) {
         parent::__construct();
     }
@@ -260,15 +263,22 @@ class UsersPresenter extends FrontendPresenter
         $this->template->email = $email;
     }
 
-    public function renderEmailConfirm(string $token, ?string $redirectUrl = null)
+    public function renderEmailConfirm(string $token, ?string $redirectUrl = null, ?string $autologinToken = null)
     {
         $userEmailConfirmation = $this->userEmailConfirmationsRepository->confirm($token);
         if ($userEmailConfirmation) {
             $this->userManager->setEmailValidated($userEmailConfirmation->user, $userEmailConfirmation->confirmed_at);
             $this->userManager->confirmUser($userEmailConfirmation->user);
 
-            if ($redirectUrl) {
-                $this->redirectUrl(rawurldecode($redirectUrl));
+            if (!$this->user->isLoggedIn() && $autologinToken) {
+                $this->getUser()->login(new LoginCredentials([
+                    'autologin_token' => $autologinToken,
+                ]));
+            }
+
+            $redirectUrl = $redirectUrl ? rawurldecode($redirectUrl) : null;
+            if ($redirectUrl && $this->redirectValidator->isAllowed($redirectUrl)) {
+                $this->redirectUrl($redirectUrl);
             }
         }
 
