@@ -27,6 +27,7 @@ use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Crm\UsersModule\Repositories\UserEmailConfirmationsRepository;
 use Nette\Application\Responses\FileResponse;
 use Nette\Forms\Form;
+use Nette\Security\AuthenticationException;
 use Nette\Utils\Html;
 use Nette\Utils\Json;
 
@@ -271,9 +272,13 @@ class UsersPresenter extends FrontendPresenter
             $this->userManager->confirmUser($userEmailConfirmation->user);
 
             if (!$this->user->isLoggedIn() && $autologinToken) {
-                $this->getUser()->login(new LoginCredentials([
-                    'autologin_token' => $autologinToken,
-                ]));
+                try {
+                    $this->getUser()->login(new LoginCredentials([
+                        'autologin_token' => $autologinToken,
+                    ]));
+                } catch (AuthenticationException $e) {
+                    // invalid token; continue without logging in
+                }
             }
 
             $redirectUrl = $redirectUrl ? rawurldecode($redirectUrl) : null;
