@@ -22,7 +22,7 @@ class DetailWidget extends BaseLazyWidget
         $subWidgets = [];
         $subWidgetsTitles = [];
         foreach ($widgets as $sorting => $widget) {
-            if (!isset($this->components[$widget->identifier()])) {
+            if (!isset($this->getComponents()[$widget->identifier()])) {
                 $this->addComponent($widget, $widget->identifier());
             }
             if ($sorting < 1000) {

@@ -49,7 +49,7 @@
             {input deviceCount, class => 'form-control'}
         </div>
 
-        <div n:foreach="$form['additional']->components as $component" class="form-group">
+        <div n:foreach="$form['additional']->getComponents() as $component" class="form-group">
             {label $component /}
             {input $component}
         </div>
