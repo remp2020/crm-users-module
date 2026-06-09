@@ -101,6 +101,7 @@ use Crm\UsersModule\Events\RefreshUserDataTokenHandler;
 use Crm\UsersModule\Events\RemovedAccessTokenEvent;
 use Crm\UsersModule\Events\RemovedAccessTokenHandler;
 use Crm\UsersModule\Events\SignEventHandler;
+use Crm\UsersModule\Events\SsoUserConfirmationHandler;
 use Crm\UsersModule\Events\UserChangePasswordEvent;
 use Crm\UsersModule\Events\UserChangePasswordRequestEvent;
 use Crm\UsersModule\Events\UserConfirmedEvent;
@@ -296,6 +297,11 @@ class UsersModule extends CrmModule
         $emitter->addListener(
             FrontendRequestEvent::class,
             FrontendRequestAccessTokenAutologinHandler::class,
+        );
+        $emitter->addListener(
+            UserRegisteredEvent::class,
+            SsoUserConfirmationHandler::class,
+            LazyEventEmitter::P_LOW,
         );
     }
 

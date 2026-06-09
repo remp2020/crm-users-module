@@ -132,6 +132,7 @@ services:
 	- Crm\UsersModule\Components\Widgets\DetailWidget\DetailWidgetFactoryInterface
 	- Crm\UsersModule\DataProviders\UniversalSearchDataProvider
 	- Crm\UsersModule\DataProviders\UsersClaimUserDataProvider
+	- Crm\UsersModule\Events\SsoUserConfirmationHandler
 	- Crm\UsersModule\Events\UserLastAccessHandler
 	- Crm\UsersModule\Events\SignEventHandler
 	- Crm\UsersModule\Events\AuthenticationHandler
