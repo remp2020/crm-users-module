@@ -160,7 +160,7 @@ class GoogleSignIn
         $this->response->setCookie(
             $key,
             $value,
-            strtotime('+10 minutes'),
+            new \DateTimeImmutable('+10 minutes'),
             '/',
             null,
             null,

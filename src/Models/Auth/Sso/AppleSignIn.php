@@ -64,7 +64,7 @@ class AppleSignIn
         $this->response->setCookie(
             $key,
             $value,
-            strtotime('+10 minutes'),
+            new \DateTimeImmutable('+10 minutes'),
             '/',
             null,
             true, // "SameSite: None" has to have "Secure: true"
@@ -347,7 +347,7 @@ class AppleSignIn
         $this->response->setCookie(
             $this->session->getName(),
             $this->session->getId(),
-            strtotime('+5 minutes'), // this is short-lived session cookie
+            new \DateTimeImmutable('+5 minutes'), // this is short-lived session cookie
             $url->getPath(), // valid only for callback path
             $cookie['domain'],
             true, // "SameSite: None" requires secure to be set to "true"
@@ -364,7 +364,7 @@ class AppleSignIn
             $this->response->setCookie(
                 'n_token',
                 $cookieToken,
-                strtotime('+5 minutes'), // this is short-lived cookie
+                new \DateTimeImmutable('+5 minutes'), // this is short-lived cookie
                 $url->getPath(), // valid only for callback path
                 $this->applicationRequest->getCookieDomain(),
                 true, // "SameSite: None" requires secure to be set to "true"
