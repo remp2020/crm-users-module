@@ -56,7 +56,7 @@ class AccessToken
             $response->setCookie(
                 $this->cookieName,
                 $token->token,
-                strtotime('+10 years'),
+                new \DateTimeImmutable('+10 years'),
                 '/',
                 $this->applicationRequest->getCookieDomain(),
                 $request->isSecured(),
