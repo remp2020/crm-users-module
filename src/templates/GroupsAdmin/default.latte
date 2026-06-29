@@ -2,7 +2,7 @@
 
 {block #content}
 
-{var $totalGroups = $groups->count('*')}
+{var $totalGroups = count($groups)}
 
  <div class="row">
 
@@ -30,11 +30,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr n:foreach="$groups as $group">
+          <tr n:foreach="$groups as $item">
+            {var $group = $item->row}
             <td>
               <a n:href="show $group->id">{$group->name}</a>
             </td>
-            <td><a n:href="UsersAdmin:default formData => [group => $group->id]">{$group->related('user_groups')->count('*')}</a></td>
+            <td><a n:href="UsersAdmin:default formData => [group => $group->id]">{$item->memberCount}</a></td>
             <td><small>{$group->sorting}</small></td>
             <td>
               {$group->created_at|userDate}
@@ -43,7 +44,7 @@
               <p class="text-nowrap">
                 <a n:href="show $group->id" class="btn btn-sm btn-info" title="{_users.admin.actions.show}"><i class="fa fa-eye"></i> </a>
                 <a n:href="edit $group->id" class="btn btn-sm btn-primary" title="{_users.admin.actions.edit}"><i class="fa fa-edit"></i> </a>
-                <a n:if="$group->related('user_groups')->count('*') === 0" n:href="delete! $group->id" class="btn btn-sm btn-danger" title="{_users.admin.actions.delete}"><i class="fa fa-trash"></i></a>
+                <a n:if="$item->memberCount === 0" n:href="delete! $group->id" class="btn btn-sm btn-danger" title="{_users.admin.actions.delete}"><i class="fa fa-trash"></i></a>
               </p>
             </td>
           </tr>

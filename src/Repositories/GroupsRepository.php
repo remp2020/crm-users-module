@@ -16,19 +16,29 @@ class GroupsRepository extends Repository
         return $this->insert([
             'name' => $groupName,
             'sorting' => $sorting,
-            'created_at' => new \DateTime(),
-            'updated_at' => new \DateTime(),
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime(),
         ]);
     }
 
     final public function exists($name)
     {
-        return $this->getTable()->where(['name' => $name])->count('*') > 0;
+        return $this->findByName($name) !== null;
     }
 
     final public function findByName(string $name): ?ActiveRow
     {
-        return $this->findBy('name', $name);
+        return $this->getTable()
+            ->where('name', $name)
+            ->where('deleted_at IS NULL')
+            ->fetch();
+    }
+
+    final public function find($id): ?\Crm\ApplicationModule\Models\Database\ActiveRow
+    {
+        /** @var \Crm\ApplicationModule\Models\Database\ActiveRow $result */
+        $result = $this->getTable()->where(['id' => $id, 'deleted_at' => null])->fetch();
+        return $result;
     }
 
     /**
@@ -36,7 +46,16 @@ class GroupsRepository extends Repository
      */
     final public function all()
     {
-        return $this->getTable()->order('sorting');
+        return $this->getTable()
+            ->where('deleted_at IS NULL')
+            ->order('sorting');
+    }
+
+    final public function softDelete(ActiveRow $group)
+    {
+        return $this->update($group, [
+            'deleted_at' => new DateTime(),
+        ]);
     }
 
     final public function update(ActiveRow &$row, $data)

@@ -56,8 +56,10 @@ class AdminFilterFormData
         }
 
         if ($this->getGroup()) {
-            $users->where(':user_groups.group_id', (int)$this->getGroup());
+            $users->where(':user_groups.group_id', (int)$this->getGroup())
+                ->where(':user_groups.deleted_at IS NULL');
         }
+
         if ($this->getSource()) {
             $users->where('users.source', $this->getSource());
         }

@@ -5,6 +5,7 @@ namespace Crm\UsersModule\Presenters;
 use Crm\AdminModule\Presenters\AdminPresenter;
 use Crm\UsersModule\Forms\GroupFormFactory;
 use Crm\UsersModule\Repositories\GroupsRepository;
+use Crm\UsersModule\Repositories\UserGroupsRepository;
 use Nette\DI\Attributes\Inject;
 
 class GroupsAdminPresenter extends AdminPresenter
@@ -15,12 +16,23 @@ class GroupsAdminPresenter extends AdminPresenter
     #[Inject]
     public GroupFormFactory $groupFormFactory;
 
+    #[Inject]
+    public UserGroupsRepository $userGroupsRepository;
+
     /**
      * @admin-access-level read
      */
     public function renderDefault()
     {
-        $this->template->groups = $this->groupsRepository->all();
+        $groups = [];
+        foreach ($this->groupsRepository->all() as $group) {
+            $groups[] = (object) [
+                'row' => $group,
+                'memberCount' => $this->userGroupsRepository->groupMembers($group)->count('*'),
+            ];
+        }
+
+        $this->template->groups = $groups;
     }
 
     /**
@@ -35,7 +47,11 @@ class GroupsAdminPresenter extends AdminPresenter
      */
     public function renderEdit($id)
     {
-        $this->template->group = $this->groupsRepository->find($id);
+        $group = $this->groupsRepository->find($id);
+        if (!$group) {
+            $this->error();
+        }
+        $this->template->group = $group;
     }
 
     /**
@@ -43,7 +59,12 @@ class GroupsAdminPresenter extends AdminPresenter
      */
     public function renderShow($id)
     {
-        $this->template->group = $this->groupsRepository->find($id);
+        $group = $this->groupsRepository->find($id);
+        if (!$group) {
+            $this->error();
+        }
+        $this->template->group = $group;
+        $this->template->memberCount = $this->userGroupsRepository->groupMembers($group)->count('*');
     }
 
     /**
@@ -52,10 +73,15 @@ class GroupsAdminPresenter extends AdminPresenter
     public function handleDelete($id)
     {
         $row = $this->groupsRepository->find($id);
-
-        if (!is_null($row)) {
-            $this->groupsRepository->delete($row);
+        if (is_null($row)) {
+            return;
         }
+
+        if ($this->userGroupsRepository->groupMembers($row)->count('*') > 0) {
+            return;
+        }
+
+        $this->groupsRepository->softDelete($row);
     }
 
     public function createComponentGroupForm()

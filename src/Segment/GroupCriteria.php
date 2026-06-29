@@ -35,7 +35,7 @@ class GroupCriteria implements CriteriaInterface
 
     public function join(ParamsBag $params): string
     {
-        return "SELECT DISTINCT(user_id) AS id FROM user_groups WHERE group_id IN ({$params->numberArray('group_id')->escapedString()})";
+        return "SELECT DISTINCT(user_id) AS id FROM user_groups WHERE group_id IN ({$params->numberArray('group_id')->escapedString()}) AND deleted_at IS NULL";
     }
 
     public function title(ParamsBag $params): string

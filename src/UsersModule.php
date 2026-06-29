@@ -85,6 +85,7 @@ use Crm\UsersModule\DataProviders\BasicUserDataProvider;
 use Crm\UsersModule\DataProviders\LoginAttemptsUserDataProvider;
 use Crm\UsersModule\DataProviders\UniversalSearchDataProvider;
 use Crm\UsersModule\DataProviders\UserConnectedAccountsDataProvider;
+use Crm\UsersModule\DataProviders\UserGroupsUserDataProvider;
 use Crm\UsersModule\DataProviders\UserMetaUserDataProvider;
 use Crm\UsersModule\DataProviders\UserStatsUserDataProvider;
 use Crm\UsersModule\DataProviders\UsersClaimUserDataProvider;
@@ -554,6 +555,7 @@ class UsersModule extends CrmModule
         $dataRegistrator->addUserDataProvider($this->getInstance(UserMetaUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(UserStatsUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(AdminUserGroupsUserDataProvider::class));
+        $dataRegistrator->addUserDataProvider($this->getInstance(UserGroupsUserDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(UserConnectedAccountsDataProvider::class));
         $dataRegistrator->addUserDataProvider($this->getInstance(LoginAttemptsUserDataProvider::class));
     }

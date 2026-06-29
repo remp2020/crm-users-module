@@ -33,6 +33,19 @@ class UserGroupsRepository extends Repository
             return false;
         }
 
+        $softDeleted = $this->getTable()
+            ->where(['user_id' => $userRow->id, 'group_id' => $groupRow->id])
+            ->where('deleted_at IS NOT NULL')
+            ->fetch();
+
+        if ($softDeleted) {
+            $this->update($softDeleted, [
+                'deleted_at' => null,
+                'created_at' => new \DateTime(),
+            ]);
+            return true;
+        }
+
         $this->insert([
             'group_id' => $groupRow->id,
             'user_id' => $userRow->id,
@@ -44,31 +57,43 @@ class UserGroupsRepository extends Repository
 
     final public function removeFromGroup(ActiveRow $groupRow, ActiveRow $userRow)
     {
-        if (!$this->isMember($groupRow, $userRow)) {
+        $row = $this->row($groupRow, $userRow)->fetch();
+        if (!$row) {
             return false;
         }
 
-        $this->row($groupRow, $userRow)->delete();
+        $this->update($row, ['deleted_at' => new \DateTime()]);
 
         return true;
     }
 
+    final public function removeGroupsForUser(ActiveRow $userRow): int
+    {
+        return $this->getTable()
+            ->where(['user_id' => $userRow->id])
+            ->delete();
+    }
+
     final public function userGroups(ActiveRow $userRow)
     {
-        return $this->groupsRepository->getTable()->where([
-            ':user_groups.user_id' => $userRow->id,
-        ])->order(':user_groups.created_at');
+        return $this->groupsRepository->getTable()
+            ->where([':user_groups.user_id' => $userRow->id])
+            ->where(':user_groups.deleted_at IS NULL')
+            ->order(':user_groups.created_at');
     }
 
     final public function groupMembers(ActiveRow $groupRow)
     {
-        return $this->usersRepository->getTable()->where([
-            ':user_groups.group_id' => $groupRow->id,
-        ])->order(':user_groups.created_at');
+        return $this->usersRepository->getTable()
+            ->where([':user_groups.group_id' => $groupRow->id])
+            ->where(':user_groups.deleted_at IS NULL')
+            ->order(':user_groups.created_at');
     }
 
     private function row(ActiveRow $groupRow, ActiveRow $userRow)
     {
-        return $this->getTable()->where(['user_id' => $userRow->id, 'group_id' => $groupRow->id]);
+        return $this->getTable()
+            ->where(['user_id' => $userRow->id, 'group_id' => $groupRow->id])
+            ->where('deleted_at IS NULL');
     }
 }

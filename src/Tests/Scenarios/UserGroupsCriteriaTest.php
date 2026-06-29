@@ -127,6 +127,62 @@ class UserGroupsCriteriaTest extends DatabaseTestCase
         }
     }
 
+    public function testSoftDeletedMembershipTreatedAsNoGroup(): void
+    {
+        // user once joined 'student' but was removed (soft-deleted) → should match the "no group" branch
+        /** @var UserManager $userManager */
+        $userManager = $this->inject(UserManager::class);
+        $userRow = $userManager->addNewUser('softdeleted@test.sk');
+
+        /** @var GroupsRepository $groupsRepository */
+        $groupsRepository = $this->getRepository(GroupsRepository::class);
+        /** @var UserGroupsRepository $userGroupsRepository */
+        $userGroupsRepository = $this->getRepository(UserGroupsRepository::class);
+
+        $group = $groupsRepository->add('student');
+        $userGroupsRepository->addToGroup($group, $userRow);
+        $userGroupsRepository->removeFromGroup($group, $userRow);
+
+        /** @var UsersRepository $usersRepository */
+        $usersRepository = $this->getRepository(UsersRepository::class);
+        $userSelection = $usersRepository->getTable()->where('email = ?', $userRow->email);
+
+        /** @var UserGroupsCriteria $criteria */
+        $criteria = $this->inject(UserGroupsCriteria::class);
+        $values = (object)['selection' => []];
+        $criteria->addConditions($userSelection, [UserGroupsCriteria::KEY => $values], $userRow);
+
+        $this->assertNotNull($userSelection->fetch(), 'User with only soft-deleted membership should match "no group" criterion');
+    }
+
+    public function testSoftDeletedMembershipDoesNotMatchSelectedGroup(): void
+    {
+        // user was removed from 'student' → criterion selecting 'student' should not match
+        /** @var UserManager $userManager */
+        $userManager = $this->inject(UserManager::class);
+        $userRow = $userManager->addNewUser('removed@test.sk');
+
+        /** @var GroupsRepository $groupsRepository */
+        $groupsRepository = $this->getRepository(GroupsRepository::class);
+        /** @var UserGroupsRepository $userGroupsRepository */
+        $userGroupsRepository = $this->getRepository(UserGroupsRepository::class);
+
+        $group = $groupsRepository->add('student');
+        $userGroupsRepository->addToGroup($group, $userRow);
+        $userGroupsRepository->removeFromGroup($group, $userRow);
+
+        /** @var UsersRepository $usersRepository */
+        $usersRepository = $this->getRepository(UsersRepository::class);
+        $userSelection = $usersRepository->getTable()->where('email = ?', $userRow->email);
+
+        /** @var UserGroupsCriteria $criteria */
+        $criteria = $this->inject(UserGroupsCriteria::class);
+        $values = (object)['selection' => [$group->id => $group->name]];
+        $criteria->addConditions($userSelection, [UserGroupsCriteria::KEY => $values], $userRow);
+
+        $this->assertNull($userSelection->fetch(), 'Soft-deleted membership must not match the selected group');
+    }
+
     private function prepareData(array $userIsInGroupNames, array $groupNamesForCriteriaSelection): array
     {
         // prepare user and user selection for scenario criteria

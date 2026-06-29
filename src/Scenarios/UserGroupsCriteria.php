@@ -47,10 +47,15 @@ class UserGroupsCriteria implements ScenariosCriteriaInterface
         $values = $paramValues[self::KEY];
 
         if (empty($values->selection)) {
-            // if no group is selected, criteria returns only users without group
-            $selection->where(':user_groups.group_id IS NULL');
+            // if no group is selected, criteria returns only users without any active group membership
+            $selection->where('users.id NOT IN (
+                SELECT user_id FROM user_groups WHERE deleted_at IS NULL
+            )');
         } else {
-            $selection->where(':user_groups.group_id IN (?)', array_keys($values->selection));
+            $selection->where('users.id IN (
+                SELECT user_id FROM user_groups
+                WHERE deleted_at IS NULL AND group_id IN (?)
+            )', array_keys($values->selection));
         }
 
         return true;
