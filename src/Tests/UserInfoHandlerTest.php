@@ -4,8 +4,8 @@ namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
 use Crm\ApplicationModule\Models\Database\ActiveRowFactory;
-use Crm\ApplicationModule\Models\User\RedisUserDataStorage;
 use Crm\ApplicationModule\Models\User\UserDataRegistrator;
+use Crm\ApplicationModule\Models\User\UserDataStorageInterface;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\UserInfoHandler;
 use Crm\UsersModule\DataProviders\BasicUserDataProvider;
@@ -29,7 +29,7 @@ class UserInfoHandlerTest extends DatabaseTestCase
     private UsersRepository $usersRepository;
     private AccessTokensRepository $accessTokensRepository;
     private UserMetaRepository $userMetaRepository;
-    private RedisUserDataStorage $userDataStorage;
+    private UserDataStorageInterface $userDataStorage;
     private ActiveRowFactory $activeRowFactory;
 
     protected function requiredRepositories(): array
@@ -55,7 +55,7 @@ class UserInfoHandlerTest extends DatabaseTestCase
         $this->usersRepository = $this->getRepository(UsersRepository::class);
         $this->accessTokensRepository = $this->getRepository(AccessTokensRepository::class);
         $this->userMetaRepository = $this->getRepository(UserMetaRepository::class);
-        $this->userDataStorage = $this->inject(RedisUserDataStorage::class);
+        $this->userDataStorage = $this->inject(UserDataStorageInterface::class);
         $this->activeRowFactory = $this->inject(ActiveRowFactory::class);
     }
 

@@ -3,8 +3,8 @@
 namespace Crm\UsersModule\Tests;
 
 use Crm\ApiModule\Tests\ApiTestTrait;
-use Crm\ApplicationModule\Models\User\RedisUserDataStorage;
 use Crm\ApplicationModule\Models\User\UserDataRegistrator;
+use Crm\ApplicationModule\Models\User\UserDataStorageInterface;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Api\UsersTouchApiHandler;
 use Crm\UsersModule\DataProviders\BasicUserDataProvider;
@@ -68,8 +68,8 @@ class UsersTouchApiHandlerTest extends DatabaseTestCase
         /** @var UserData $userData */
         $userData = $this->inject(UserData::class);
 
-        /** @var RedisUserDataStorage $userDataStorage */
-        $userDataStorage = $this->inject(RedisUserDataStorage::class);
+        /** @var UserDataStorageInterface $userDataStorage */
+        $userDataStorage = $this->inject(UserDataStorageInterface::class);
 
         /** @var UserDataRegistrator $userDataRegistrator */
         $userDataRegistrator = $this->inject(UserDataRegistrator::class);
