@@ -81,6 +81,7 @@
 </style>
 
 {* PASSWORD CHANGE *}
+<div id="user-password-container">
 {if $user->isLoggedIn()}
   <div class="page-header">
     <h1>{_users.frontend.change_password.title}</h1>
@@ -106,6 +107,7 @@
     {control requestPasswordForm}
   </div>
 {/if}
+</div>
 
 {* LINKED ACCOUNT MANAGEMENT *}
 {if $user->isLoggedIn() && ($googleSignIn || $appleSignIn)}
