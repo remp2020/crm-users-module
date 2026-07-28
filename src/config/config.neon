@@ -202,7 +202,8 @@ services:
 	- Crm\UsersModule\Components\UserSourceAccesses\UserSourceAccesses
 	- Crm\UsersModule\Components\UserTokens\UserTokens
 	- Crm\UsersModule\Models\Auth\Rate\WrongPasswordRateLimit
-	- Crm\UsersModule\Models\Auth\Rate\IpRateLimit
+	ipRateLimit:
+		factory: Crm\UsersModule\Models\Auth\Rate\IpRateLimit
 	registrationIpRateLimit:
 		factory: Crm\UsersModule\Models\Auth\Rate\RegistrationIpRateLimit
 	- Crm\UsersModule\Models\AdminFilterFormData
