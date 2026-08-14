@@ -46,6 +46,11 @@ class AddressChangeRequestsRepository extends Repository
         ?string $phoneNumber,
         ?string $type = null,
     ) {
+        // normalize values before comparison
+        $companyId = $companyId ? preg_replace('/\s+/', '', $companyId) : null;
+        $companyTaxId = $companyTaxId ? preg_replace('/\s+/', '', $companyTaxId) : null;
+        $companyVatId = $companyVatId ? preg_replace('/\s+/', '', $companyVatId) : null;
+
         $isDifferent = false;
         if ($this->isDifferent(
             $parentAddress,
@@ -72,10 +77,6 @@ class AddressChangeRequestsRepository extends Repository
         if ($parentAddress) {
             $type = $parentAddress->type;
         }
-
-        $companyId = $companyId ? preg_replace('/\s+/', '', $companyId) : null;
-        $companyTaxId = $companyTaxId ? preg_replace('/\s+/', '', $companyTaxId) : null;
-        $companyVatId = $companyVatId ? preg_replace('/\s+/', '', $companyVatId) : null;
 
         /** @var ActiveRow $changeRequest */
         $changeRequest = $this->insert([
