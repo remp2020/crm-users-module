@@ -98,7 +98,12 @@ users:
 	    google:
 	        client_id: CLIENT_ID
 	        client_secret: CLIENT_SECRET
+	        prompt: select_account # optional, a GoogleSignInPromptEnum value or null; select_account by default
 ```
+
+`prompt` is passed to Google's authorization request; allowed values are the `GoogleSignInPromptEnum` cases
+(`select_account`, `consent`, `none`) and `null`, which omits the parameter altogether. Read more about prompt
+parameter here: https://developers.google.com/identity/openid-connect/openid-connect#prompt.
 
 Last step is to **enable** Google Sign-In in CRM settings in `/admin/config-admin/` Authentication section.
 

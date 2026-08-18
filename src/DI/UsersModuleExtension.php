@@ -3,6 +3,8 @@
 namespace Crm\UsersModule\DI;
 
 use Contributte\Translation\DI\TranslationProviderInterface;
+use Crm\UsersModule\Models\Auth\Sso\GoogleSignInConfig;
+use Crm\UsersModule\Models\Auth\Sso\GoogleSignInPromptEnum;
 use Crm\UsersModule\Models\Config;
 use Nette\Application\IPresenterFactory;
 use Nette\DI\CompilerExtension;
@@ -23,6 +25,12 @@ final class UsersModuleExtension extends CompilerExtension implements Translatio
                 'google' => Expect::structure([
                     'client_id' => Expect::string()->nullable()->dynamic(),
                     'client_secret' => Expect::string()->nullable()->dynamic(),
+                    'prompt' => Expect::anyOf(...GoogleSignInPromptEnum::values())
+                        ->nullable()
+                        ->default(GoogleSignInPromptEnum::SelectAccount)
+                        ->transform(fn (?string $prompt) => $prompt === null
+                            ? null
+                            : GoogleSignInPromptEnum::from($prompt)),
                 ]),
                 'apple' => Expect::structure([
                     'client_id' => Expect::string()->dynamic(),
@@ -58,6 +66,15 @@ final class UsersModuleExtension extends CompilerExtension implements Translatio
         foreach ($builder->findByType(Config::class) as $definition) {
             $definition->setFactory($definition->getType(), [
                 $this->config->show_full_address,
+            ]);
+        }
+
+        /** @var ServiceDefinition $definition */
+        foreach ($builder->findByType(GoogleSignInConfig::class) as $definition) {
+            $definition->setFactory($definition->getType(), [
+                $this->config->sso->google->client_id,
+                $this->config->sso->google->client_secret,
+                $this->config->sso->google->prompt,
             ]);
         }
     }

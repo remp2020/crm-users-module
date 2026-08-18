@@ -9,8 +9,10 @@ use Crm\UsersModule\Models\Auth\Sso\AdminAccountSsoLinkingException;
 use Crm\UsersModule\Models\Auth\Sso\AlreadyLinkedAccountSsoException;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
 use Crm\UsersModule\Models\Auth\Sso\SsoException;
+use Crm\UsersModule\Models\Auth\Sso\StaleSsoCallbackException;
 use Nette\Application\BadRequestException;
 use Nette\Http\IResponse;
+use Nette\Http\SessionSection;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\Json;
 use Tracy\Debugger;
@@ -107,6 +109,19 @@ class GooglePresenter extends FrontendPresenter
                     'source' => GoogleSignIn::ACCESS_TOKEN_SOURCE_WEB_GOOGLE_SSO,
                 ]));
             }
+        } catch (StaleSsoCallbackException $e) {
+            if (!$e->isExpected()) {
+                Debugger::log($e, Debugger::WARNING);
+            }
+
+            // Browser re-ran an authorization request of a sign-in that is already done; there is nothing
+            // for the user to act on, so finish where the original flow would have ended.
+            if ($e->isAlreadyCompleted() && $this->getUser()->isLoggedIn()) {
+                $this->finishCallback($session);
+            }
+
+            $this->flashMessage($this->translator->translate('users.frontend.google.fail'), 'error');
+            $this->redirect('Users:settings');
         } catch (SsoException $e) {
             Debugger::log($e, Debugger::WARNING);
             $this->flashMessage($this->translator->translate('users.frontend.google.fail'), 'error');
@@ -124,6 +139,11 @@ class GooglePresenter extends FrontendPresenter
             $this->redirect('Sign:in');
         }
 
+        $this->finishCallback($session);
+    }
+
+    private function finishCallback(SessionSection $session): void
+    {
         $back = $session->back;
         $finalUrl = $session->finalUrl;
 

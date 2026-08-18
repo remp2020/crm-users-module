@@ -24,6 +24,7 @@ class GoogleSignIn
     private const COOKIE_GSI_STATE = 'gsi_state';
     private const COOKIE_GSI_SOURCE = 'gsi_source';
     private const COOKIE_GSI_USER_ID = 'gsi_user_id';
+    private const LOGIN_COOKIE_EXPIRATION = '+10 minutes';
 
     // Default scopes MUST be included for OpenID Connect.
     private const DEFAULT_SCOPES =  [
@@ -40,6 +41,7 @@ class GoogleSignIn
         private DataProviderManager $dataProviderManager,
         private Response $response,
         private Request $request,
+        private SsoStateStore $ssoStateStore,
     ) {
     }
 
@@ -160,7 +162,7 @@ class GoogleSignIn
         $this->response->setCookie(
             $key,
             $value,
-            new \DateTimeImmutable('+10 minutes'),
+            new \DateTimeImmutable(self::LOGIN_COOKIE_EXPIRATION),
             '/',
             null,
             null,
@@ -205,6 +207,9 @@ class GoogleSignIn
         // https://github.com/googleapis/google-api-php-client/blob/master/docs/oauth-web.md#Step-1-Set-authorization-parameters
         $client->setScopes(self::DEFAULT_SCOPES);
         $client->setAccessType('online'); //without refresh-token (alternative is 'offline', with refresh token)
+        if ($this->googleSignInConfig->prompt !== null) {
+            $client->setPrompt($this->googleSignInConfig->prompt->value);
+        }
 
         // State is created according to documentation
         // https://developers.google.com/identity/protocols/oauth2/openid-connect#createxsrftoken
@@ -225,6 +230,8 @@ class GoogleSignIn
             $this->deleteLoginCookies(self::COOKIE_GSI_USER_ID);
         }
 
+        $this->ssoStateStore->issue(SsoStateStore::PROVIDER_GOOGLE, $state, $userId ? (int) $userId : null);
+
         return $client->createAuthUrl();
     }
 
@@ -242,6 +249,7 @@ class GoogleSignIn
      *
      * @return ActiveRow user row
      * @throws AlreadyLinkedAccountSsoException if connected account is used
+     * @throws StaleSsoCallbackException if the flow this callback belongs to is no longer in progress
      * @throws SsoException if authentication fails
      * @throws DataProviderException
      * @throws AdminAccountSsoLinkingException
@@ -251,9 +259,6 @@ class GoogleSignIn
         $gsiState = $this->request->getCookie(self::COOKIE_GSI_STATE);
         $gsiUserId = $this->request->getCookie(self::COOKIE_GSI_USER_ID);
         $gsiSource = $this->request->getCookie(self::COOKIE_GSI_SOURCE);
-
-        // Currently OAUTH variables are not deleted right after sign-in, but let to expire in 10 minutes
-        //$this->deleteLoginCookies(self::COOKIE_GSI_STATE, self::COOKIE_GSI_USER_ID, self::COOKIE_GSI_SOURCE);
 
         if (!$this->isEnabled()) {
             throw new \Exception('Google Sign In is not enabled, please see authentication configuration in your admin panel.');
@@ -273,15 +278,29 @@ class GoogleSignIn
         // Check internal state
         $requestState = $this->request->getQuery('state');
         if (empty($requestState) || ($requestState !== $gsiState)) {
-            // State is invalid, possible CSRF attack in progress
-            throw new SsoException("Google SignIn error: invalid state (current state: [{$requestState}], cookie state: [{$gsiState}]).");
+            $message = "Google SignIn error: invalid state (current state: [{$requestState}], cookie state: [{$gsiState}]).";
+
+            // No state cookie at all means we cannot tell whether the flow ever ran in this browser; a cookie
+            // holding a different value is a genuine mismatch, i.e. possible CSRF attack in progress.
+            if (!empty($requestState) && $gsiState === null) {
+                throw $this->staleCallbackException($message, $requestState);
+            }
+
+            throw new SsoException($message);
         }
 
         // Check user state
         $loggedUserId = $this->user->isLoggedIn() ? $this->user->getId() : null;
         if ((string) $loggedUserId !== (string) $gsiUserId) {
-            // State is invalid, possible user change between login request and callback
-            throw new SsoException('Google SignIn error: invalid user state (current userId: '. $loggedUserId . ', cookie userId: ' . $gsiUserId . ')');
+            $message = 'Google SignIn error: invalid user state (current userId: '. $loggedUserId . ', cookie userId: ' . $gsiUserId . ')';
+
+            // The flow started anonymously and someone is logged in by now - typically because this very flow
+            // has already been completed once. A change between two known users stays a genuine mismatch.
+            if (empty($gsiUserId) && $loggedUserId !== null) {
+                throw $this->staleCallbackException($message, $requestState);
+            }
+
+            throw new SsoException($message);
         }
 
         // Get OAuth access token
@@ -290,7 +309,45 @@ class GoogleSignIn
         $client->setAccessType('online');
         $client->fetchAccessTokenWithAuthCode($code);
 
-        return $this->matchUserUsingGoogleClientWithAuthToken($client, $locale, $referer, $gsiSource);
+        $user = $this->matchUserUsingGoogleClientWithAuthToken($client, $locale, $referer, $gsiSource);
+
+        // Deleted only once the sign-in succeeded, so that a failed token exchange stays retryable.
+        $this->deleteLoginCookies(self::COOKIE_GSI_STATE, self::COOKIE_GSI_USER_ID, self::COOKIE_GSI_SOURCE);
+        $this->ssoStateStore->markConsumed(SsoStateStore::PROVIDER_GOOGLE, $requestState);
+
+        return $user;
+    }
+
+    private function staleCallbackException(string $message, string $requestState): StaleSsoCallbackException
+    {
+        $record = $this->ssoStateStore->get(SsoStateStore::PROVIDER_GOOGLE, $requestState);
+
+        if ($record === null) {
+            $reason = StaleSsoCallbackException::REASON_UNKNOWN_STATE;
+        } elseif (!empty($record['consumed_at'])) {
+            $reason = StaleSsoCallbackException::REASON_REPLAYED;
+        } else {
+            $reason = StaleSsoCallbackException::REASON_EXPIRED;
+        }
+
+        return new StaleSsoCallbackException($message, $reason, [
+            'state_issued_at' => $record['issued_at'] ?? null,
+            'state_consumed_at' => $record['consumed_at'] ?? null,
+            'state_user_id' => $record['user_id'] ?? null,
+            'logged_in' => $this->user->isLoggedIn(),
+            'cookies_received' => array_keys($this->request->getCookies()),
+            'query' => [
+                'prompt' => $this->request->getQuery('prompt'),
+                'iss' => $this->request->getQuery('iss'),
+                'authuser' => $this->request->getQuery('authuser'),
+            ],
+            'headers' => [
+                'sec-fetch-site' => $this->request->getHeader('sec-fetch-site'),
+                'sec-fetch-mode' => $this->request->getHeader('sec-fetch-mode'),
+                'sec-fetch-dest' => $this->request->getHeader('sec-fetch-dest'),
+                'sec-purpose' => $this->request->getHeader('sec-purpose'),
+            ],
+        ]);
     }
 
     public function signInUsingCode(string $code, ?string $referer = null, ?string $locale = null, ?string $source = null): ActiveRow
