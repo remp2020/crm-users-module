@@ -177,7 +177,7 @@ class UserGroupsCriteriaTest extends DatabaseTestCase
 
         /** @var UserGroupsCriteria $criteria */
         $criteria = $this->inject(UserGroupsCriteria::class);
-        $values = (object)['selection' => [$group->id => $group->name]];
+        $values = (object)['selection' => [$group->id]];
         $criteria->addConditions($userSelection, [UserGroupsCriteria::KEY => $values], $userRow);
 
         $this->assertNull($userSelection->fetch(), 'Soft-deleted membership must not match the selected group');
@@ -209,7 +209,7 @@ class UserGroupsCriteriaTest extends DatabaseTestCase
             if ($groupRow === null) {
                 $groupRow = $groupsRepository->add($groupName);
             }
-            $groupsForCriteriaSelection[$groupRow->id] = $groupRow->name;
+            $groupsForCriteriaSelection[] = $groupRow->id;
         }
 
         // prepare user selection for criterion

@@ -55,7 +55,7 @@ class UserGroupsCriteria implements ScenariosCriteriaInterface
             $selection->where('users.id IN (
                 SELECT user_id FROM user_groups
                 WHERE deleted_at IS NULL AND group_id IN (?)
-            )', array_keys($values->selection));
+            )', $values->selection);
         }
 
         return true;
