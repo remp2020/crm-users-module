@@ -17,6 +17,7 @@ class LoginAttemptsRepository extends Repository
     public const STATUS_EMAIL_CHECK = 'email_check';
     public const STATUS_WRONG_PASS = 'wrong_pass';
     public const STATUS_INACTIVE_USER = 'inactive_user';
+    public const STATUS_LOGIN_TYPE_DISABLED_FOR_ADMIN = 'login_type_disabled_for_admin';
     public const STATUS_TOKEN_DATE_EXPIRED = 'token_date_expired';
     public const STATUS_TOKEN_NOT_FOUND = 'token_not_found';
     public const STATUS_TOKEN_COUNT_EXPIRED = 'token_count_expired';
@@ -63,6 +64,7 @@ class LoginAttemptsRepository extends Repository
             self::STATUS_ACCESS_TOKEN_OK,
             self::STATUS_LOGIN_AFTER_SIGN_UP,
             self::RATE_LIMIT_EXCEEDED,
+            self::STATUS_LOGIN_TYPE_DISABLED_FOR_ADMIN,
         ];
     }
 
