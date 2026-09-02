@@ -40,18 +40,14 @@ class UserCreatedAtCriteria implements ScenariosCriteriaInterface
         ];
     }
 
-    /**
-     * @throws \Exception
-     */
     public function addConditions(Selection $selection, array $paramValues, ActiveRow $criterionItemRow): bool
     {
         $timeframe = $this->getTimeframe($paramValues, self::UNITS, self::OPERATORS, self::TIMEFRAME_KEY);
-        if (!$timeframe) {
-            return false;
-        }
 
-        $operator = $timeframe['operator'] === self::OPERATOR_BEFORE ? '<=' : '>=';
-        $selection->where("users.created_at {$operator} ?", $timeframe['limit']);
+        if ($timeframe !== null) {
+            $operator = $timeframe['operator'] === self::OPERATOR_BEFORE ? '<=' : '>=';
+            $selection->where("users.created_at {$operator} ?", $timeframe['limit']);
+        }
 
         return true;
     }

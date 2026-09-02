@@ -127,6 +127,21 @@ class UserCreatedAtCriteriaTest extends DatabaseTestCase
         $this->assertEquals($expectedCount, $userSelection->count());
     }
 
+    public function testEmptyTimeframeMeansNoTimeRestriction(): void
+    {
+        [$userSelection, $userRow] = $this->prepareData();
+
+        $criteria = $this->inject(UserCreatedAtCriteria::class);
+        $result = $criteria->addConditions(
+            $userSelection,
+            [UserCreatedAtCriteria::TIMEFRAME_KEY => (object) []],
+            $userRow,
+        );
+
+        $this->assertTrue($result);
+        $this->assertEquals(1, $userSelection->count());
+    }
+
     private function prepareData(): array
     {
         /** @var UserManager $userManager */
