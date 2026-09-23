@@ -102,9 +102,9 @@ class AccessTokensRepository extends Repository
         return $this->allByDeviceToken($deviceToken)->fetchAll();
     }
 
-    final public function pairWithDeviceToken($accessToken, $deviceToken)
+    final public function pairWithDeviceToken($accessToken, $deviceToken, bool $unpairOtherUsers = true)
     {
-        if (!$this->userMetaRepository->userMetaValueByKey($accessToken->user, UnclaimedUser::META_KEY)) {
+        if ($unpairOtherUsers && !$this->userMetaRepository->userMetaValueByKey($accessToken->user, UnclaimedUser::META_KEY)) {
             $this->unpairDeviceToken($deviceToken, $accessToken->user);
         }
 
