@@ -315,7 +315,7 @@ class UsersAdminPresenter extends AdminPresenter
 
     public function adminFilterSubmitted($form, $values)
     {
-        $this->redirect($this->action, ['formData' => array_map(function ($item) {
+        $this->redirect($this->getAction(), ['formData' => array_map(function ($item) {
             if ($item === '' || $item === []) {
                 return null;
             }
@@ -402,7 +402,7 @@ class UsersAdminPresenter extends AdminPresenter
 
     protected function createComponentAdminUserDeleteForm()
     {
-        $userId = $this->request->getPost('user_id') ?? $this->getParameter('id');
+        $userId = $this->getRequest()->getPost('user_id') ?? $this->getParameter('id');
 
         $user = $this->usersRepository->find($userId);
         if ($user === null) {

@@ -63,8 +63,8 @@ class LoginAttemptsAdminPresenter extends AdminPresenter
     {
         $loginAttempts = $this->loginAttemptsRepository->getTable()->order('created_at DESC');
 
-        if ($this->request->getParameter('status')) {
-            $loginAttempts->where('status IN ?', $this->request->getParameter('status'));
+        if ($this->getRequest()->getParameter('status')) {
+            $loginAttempts->where('status IN ?', $this->getRequest()->getParameter('status'));
         }
         if ($this->email) {
             $loginAttempts->where('email LIKE ?', "%{$this->email}%");
@@ -119,8 +119,8 @@ class LoginAttemptsAdminPresenter extends AdminPresenter
             'created_at_to' => $this->created_at_to,
             'email' => $this->email,
             'user_agent' => $this->user_agent,
-            'status' => $this->request->getParameter('status'),
-            'source' => $this->request->getParameter('source'),
+            'status' => $this->getRequest()->getParameter('status'),
+            'source' => $this->getRequest()->getParameter('source'),
         ]);
 
         $form->onSuccess[] = [$this, 'adminFilterSubmitted'];

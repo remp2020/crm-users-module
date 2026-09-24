@@ -44,7 +44,7 @@ class DashboardPresenter extends AdminPresenter
         $form->onSuccess[] = function ($form, $values) {
             $this->dateFrom = $values['date_from'];
             $this->dateTo = $values['date_to'];
-            $this->redirect($this->action);
+            $this->redirect($this->getAction());
         };
         return $form;
     }

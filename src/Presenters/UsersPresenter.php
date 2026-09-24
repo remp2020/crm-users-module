@@ -112,7 +112,7 @@ class UsersPresenter extends FrontendPresenter
     {
         $form = $this->requestPasswordFormFactory->create();
         $this->requestPasswordFormFactory->onSuccess = function (string $email) {
-            $sessionSection = $this->session->getSection('request_password_success');
+            $sessionSection = $this->getSession()->getSection('request_password_success');
             $sessionSection->email = $email;
             $this->redirect('requestPasswordSuccessInfo');
         };
@@ -255,7 +255,7 @@ class UsersPresenter extends FrontendPresenter
 
     public function renderRequestPasswordSuccessInfo()
     {
-        $sessionSection = $this->session->getSection('request_password_success');
+        $sessionSection = $this->getSession()->getSection('request_password_success');
         $email = $sessionSection->email;
         unset($sessionSection->email);
         if (!$email) {

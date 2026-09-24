@@ -191,7 +191,7 @@ SQL;
 
         $this->abusiveUsersFilterFormFactory->onCancel = function () use ($form) {
             $emptyDefaults = array_fill_keys(array_keys((array) $form->getComponents()), null);
-            $this->redirect($this->action, $emptyDefaults);
+            $this->redirect($this->getAction(), $emptyDefaults);
         };
 
         $form->onSuccess[] = [$this, 'adminFilterSubmitted'];
