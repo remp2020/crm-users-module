@@ -89,7 +89,7 @@ class UserAddressListWidget extends BaseLazyWidget implements WidgetInterface
 
         $this->additionalAddresses = $this->sortAddresses($additionalAddresses);
 
-        if ($this->presenter->isAjax()) {
+        if ($this->getPresenter()->isAjax()) {
             $this->redrawControl('additionalAddresses');
             $this->redrawControl('loadMoreButton');
         }

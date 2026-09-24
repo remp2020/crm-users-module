@@ -93,15 +93,15 @@ class UserTokens extends BaseLazyWidget implements DetailWidgetInterface
     {
         $tokenRow = $this->accessTokensRepository->findBy('token', $token);
         $this->accessTokensRepository->remove($token);
-        $this->presenter->flashMessage($this->translator->translate('users.component.user_tokens.token_deleted'));
-        $this->presenter->redirect('UsersAdmin:Show', $tokenRow->user_id);
+        $this->getPresenter()->flashMessage($this->translator->translate('users.component.user_tokens.token_deleted'));
+        $this->getPresenter()->redirect('UsersAdmin:Show', $tokenRow->user_id);
     }
 
     public function handleRemoveAllAccessToken($userId)
     {
         $this->accessTokensRepository->removeAllUserTokens($userId);
-        $this->presenter->flashMessage($this->translator->translate('users.component.user_tokens.all_tokens_deleted'));
-        $this->presenter->redirect('UsersAdmin:Show', $userId);
+        $this->getPresenter()->flashMessage($this->translator->translate('users.component.user_tokens.all_tokens_deleted'));
+        $this->getPresenter()->redirect('UsersAdmin:Show', $userId);
     }
 
     private $totalCount = null;

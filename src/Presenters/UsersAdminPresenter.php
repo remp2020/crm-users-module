@@ -163,7 +163,7 @@ class UsersAdminPresenter extends AdminPresenter
 
         $this->userManager->logoutUser($user);
 
-        $this->presenter->flashMessage($this->translator->translate('users.admin.logout_user.all_devices'));
+        $this->getPresenter()->flashMessage($this->translator->translate('users.admin.logout_user.all_devices'));
         $this->redirect('show', $userId);
     }
 
@@ -189,7 +189,7 @@ class UsersAdminPresenter extends AdminPresenter
             'password' => $password,
         ]));
 
-        $this->presenter->flashMessage($this->translator->translate('users.admin.reset_password.success'));
+        $this->getPresenter()->flashMessage($this->translator->translate('users.admin.reset_password.success'));
         $this->redirect('show', $userId);
     }
 
@@ -204,7 +204,7 @@ class UsersAdminPresenter extends AdminPresenter
         }
 
         $this->userManager->confirmUser($user, new DateTime(), true);
-        $this->presenter->flashMessage($this->translator->translate('users.admin.confirm.success'));
+        $this->getPresenter()->flashMessage($this->translator->translate('users.admin.confirm.success'));
     }
 
     public function createComponentUserForm()

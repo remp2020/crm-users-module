@@ -80,8 +80,8 @@ class UserMeta extends BaseLazyWidget implements DetailWidgetInterface
     public function handleDelete($id, $key)
     {
         $this->userMetaRepository->removeMeta($id, $key);
-        $this->presenter->flashMessage($this->translator->translate('users.component.user_meta.value_removed'));
-        $this->presenter->redirect('UsersAdmin:Show', $id);
+        $this->getPresenter()->flashMessage($this->translator->translate('users.component.user_meta.value_removed'));
+        $this->getPresenter()->redirect('UsersAdmin:Show', $id);
     }
 
     protected function createComponentMetaForm()
@@ -106,8 +106,8 @@ class UserMeta extends BaseLazyWidget implements DetailWidgetInterface
                 [$values['key'] => $values['value']],
                 $values->is_public,
             );
-            $this->presenter->flashMessage($this->translator->translate('users.component.user_meta.value_added'));
-            $this->presenter->redirect('UsersAdmin:Show', $values['user_id']);
+            $this->getPresenter()->flashMessage($this->translator->translate('users.component.user_meta.value_added'));
+            $this->getPresenter()->redirect('UsersAdmin:Show', $values['user_id']);
         };
 
         return $form;

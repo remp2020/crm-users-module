@@ -41,7 +41,7 @@ class ActiveRegisteredUsersStatWidget extends BaseLazyWidget
     public function render()
     {
         if ($this->segmentsRepository->exists(self::SEGMENT_CODE)) {
-            $this->template->totalPaidSubscribersLink = $this->presenter->link(
+            $this->template->totalPaidSubscribersLink = $this->getPresenter()->link(
                 ':Segment:StoredSegments:show',
                 $this->segmentsRepository->findByCode(self::SEGMENT_CODE)->id,
             );
