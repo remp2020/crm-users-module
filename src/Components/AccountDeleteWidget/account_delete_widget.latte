@@ -1,0 +1,22 @@
+<h4>{_users.frontend.settings.account_delete.title}</h4>
+<div class="row">
+  <div class="col-md-12">
+    {if $canBeDeleted}
+
+      <p>{_users.frontend.settings.account_delete.info|noescape}</p>
+
+      {form userDeleteForm}
+        <div class="row form-group">
+          <div class="col-md-4">{label password /}{input password, class => 'form-control text'}</div>
+        </div>
+
+        <div class="row form-group">
+          {var $message = ('users.frontend.settings.account_delete.confirm'|translate|escapeJs)}
+          <div class="col-md-4">{input send, class => 'btn btn-warning', onclick => 'return confirm(' . $message . ')'}</div>
+        </div>
+      {/form}
+    {else}
+      {control snippet 'remove-active-user'}
+    {/if}
+  </div>
+</div>

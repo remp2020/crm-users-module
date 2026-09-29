@@ -115,6 +115,7 @@ services:
 	- Crm\UsersModule\Commands\ReconstructUserDataCommand
 	- Crm\UsersModule\Commands\GenerateUuidForUsersCommand
 	- Crm\UsersModule\Commands\FlagSuspiciousUserCommand
+	- Crm\UsersModule\Components\AccountDeleteWidget\AccountDeleteWidget
 	- Crm\UsersModule\Components\AddressWidget\AddressWidget
 	- Crm\UsersModule\Components\UserAddressListWidget\UserAddressListWidget
 	userAddressListConfig:

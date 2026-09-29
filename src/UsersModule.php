@@ -64,6 +64,7 @@ use Crm\UsersModule\Commands\GenerateAccessCommand;
 use Crm\UsersModule\Commands\GenerateUuidForUsersCommand;
 use Crm\UsersModule\Commands\ReconstructUserDataCommand;
 use Crm\UsersModule\Commands\UpdateLoginAttemptsCommand;
+use Crm\UsersModule\Components\AccountDeleteWidget\AccountDeleteWidget;
 use Crm\UsersModule\Components\ActiveRegisteredUsersStatWidget\ActiveRegisteredUsersStatWidget;
 use Crm\UsersModule\Components\AddressWidget\AddressWidget;
 use Crm\UsersModule\Components\AutologinTokens\AutologinTokens;
@@ -389,6 +390,12 @@ class UsersModule extends CrmModule
         $widgetManager->registerWidget(
             'frontend.user.address.partial',
             AddressWidget::class,
+            100,
+        );
+
+        $widgetManager->registerWidget(
+            'frontend.user.settings.account_delete',
+            AccountDeleteWidget::class,
             100,
         );
     }

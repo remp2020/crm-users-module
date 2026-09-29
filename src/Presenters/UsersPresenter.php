@@ -6,7 +6,6 @@ use Crm\AdminModule\Helpers\SecuredAdminAccess;
 use Crm\ApplicationModule\LatteFunctions\EscapeHTML;
 use Crm\ApplicationModule\Models\Authenticator\LoginCredentials;
 use Crm\ApplicationModule\Models\Database\ActiveRow;
-use Crm\ApplicationModule\Models\User\DeleteUserData;
 use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\Presenters\FrontendPresenter;
 use Crm\ApplicationModule\Router\RedirectValidator;
@@ -16,7 +15,6 @@ use Crm\UsersModule\Events\UserSignOutEvent;
 use Crm\UsersModule\Forms\ChangePasswordFormFactory;
 use Crm\UsersModule\Forms\RequestPasswordFormFactory;
 use Crm\UsersModule\Forms\ResetPasswordFormFactory;
-use Crm\UsersModule\Forms\UserDeleteFormFactory;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
 use Crm\UsersModule\Models\Auth\Sso\AppleSignIn;
 use Crm\UsersModule\Models\Auth\Sso\GoogleSignIn;
@@ -26,7 +24,6 @@ use Crm\UsersModule\Repositories\PasswordResetTokensRepository;
 use Crm\UsersModule\Repositories\UserConnectedAccountsRepository;
 use Crm\UsersModule\Repositories\UserEmailConfirmationsRepository;
 use Nette\Application\Responses\FileResponse;
-use Nette\Forms\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\Html;
 use Nette\Utils\Json;
@@ -36,12 +33,10 @@ class UsersPresenter extends FrontendPresenter
     public function __construct(
         private ChangePasswordFormFactory $changePasswordFormFactory,
         private DownloadUserData $downloadUserData,
-        private DeleteUserData $deleteUserData,
         private RequestPasswordFormFactory $requestPasswordFormFactory,
         private ResetPasswordFormFactory $resetPasswordFormFactory,
         private PasswordResetTokensRepository $passwordResetTokensRepository,
         private ZipBuilder $zipBuilder,
-        private UserDeleteFormFactory $userDeleteFormFactory,
         private UserManager $userManager,
         private AccessToken $accessToken,
         private UserEmailConfirmationsRepository $userEmailConfirmationsRepository,
@@ -138,10 +133,7 @@ class UsersPresenter extends FrontendPresenter
 
     public function renderSettings()
     {
-        $this->template->canBeDeleted = false;
         if ($this->getUser()->isLoggedIn()) {
-            [$this->template->canBeDeleted, $_] = $this->deleteUserData->canBeDeleted($this->getUser()->getId());
-
             $userRow = $this->usersRepository->find($this->getUser()->getId());
 
             if (!$userRow) {
@@ -213,22 +205,6 @@ class UsersPresenter extends FrontendPresenter
         }
 
         $this->redirect('this');
-    }
-
-    public function createComponentUserDeleteForm()
-    {
-        $form = $this->userDeleteFormFactory->create($this->getUser()->getId());
-        $form->onError[] = function (Form $form) {
-            $this->flashMessage($form->getErrors()[0], 'error');
-        };
-
-        $this->userDeleteFormFactory->onSuccess = function () {
-            $this->getUser()->logout(true);
-            $this->flashMessage($this->translator->translate('users.frontend.settings.account_delete.success'));
-            $this->redirect(':Users:Sign:In');
-        };
-
-        return $form;
     }
 
     public function handleEmailReset()
