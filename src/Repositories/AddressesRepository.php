@@ -7,6 +7,8 @@ use Crm\ApplicationModule\Models\DataProvider\DataProviderManager;
 use Crm\ApplicationModule\Models\Database\Repository;
 use Crm\ApplicationModule\Repositories\AuditLogRepository;
 use Crm\UsersModule\DataProviders\CanDeleteAddressDataProviderInterface;
+use Crm\UsersModule\Events\AddressRemovedEvent;
+use League\Event\Emitter;
 use Nette\Database\Explorer;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
@@ -22,6 +24,7 @@ class AddressesRepository extends Repository
         Explorer $database,
         AuditLogRepository $auditLogRepository,
         DataProviderManager $dataProviderManager,
+        private readonly Emitter $emitter,
     ) {
         parent::__construct($database);
         $this->auditLogRepository = $auditLogRepository;
@@ -197,5 +200,7 @@ class AddressesRepository extends Repository
             'deleted_at' => new \DateTime(),
             'updated_at' => new \DateTime(),
         ]);
+
+        $this->emitter->emit(new AddressRemovedEvent($address));
     }
 }

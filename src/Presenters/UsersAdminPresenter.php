@@ -10,7 +10,6 @@ use Crm\ApplicationModule\Models\User\DownloadUserData;
 use Crm\ApplicationModule\UI\Form;
 use Crm\UsersModule\Components\Widgets\DetailWidget\DetailWidgetFactoryInterface;
 use Crm\UsersModule\DataProviders\FilterUsersFormDataProviderInterface;
-use Crm\UsersModule\Events\AddressRemovedEvent;
 use Crm\UsersModule\Events\NotificationEvent;
 use Crm\UsersModule\Forms\AdminUserDeleteFormFactory;
 use Crm\UsersModule\Forms\AdminUserGroupFormFactory;
@@ -502,7 +501,6 @@ class UsersAdminPresenter extends AdminPresenter
             $this->flashMessage($exception->getMessage(), 'error');
             $this->redirect('this');
         }
-        $this->emitter->emit(new AddressRemovedEvent($address));
     }
 
     /**
