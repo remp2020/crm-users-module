@@ -41,6 +41,11 @@ class AddressFormFactory
         $this->allowSaveWithoutVersion = true;
     }
 
+    public function disableSaveWithoutVersion(): void
+    {
+        $this->allowSaveWithoutVersion = false;
+    }
+
     public function create($addressId, $userId): Form
     {
         $form = new Form;
