@@ -73,6 +73,7 @@ class AutoLoginTokenAuthenticator extends BaseAuthenticator
             }
 
             if ($user->role === UsersRepository::ROLE_ADMIN) {
+                $this->addAttempt($user->email, $user, $this->source, LoginAttemptsRepository::STATUS_LOGIN_TYPE_DISABLED_FOR_ADMIN);
                 throw new AuthenticationException('Autologin for this account is disabled', Authenticator::NotApproved);
             }
 

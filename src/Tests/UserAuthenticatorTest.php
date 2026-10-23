@@ -4,12 +4,16 @@ namespace Crm\UsersModule\Tests;
 
 use Contributte\Translation\Translator;
 use Crm\ApplicationModule\Models\Authenticator\AuthenticatorManagerInterface;
+use Crm\ApplicationModule\Models\Event\LazyEventEmitter;
 use Crm\ApplicationModule\Tests\DatabaseTestCase;
 use Crm\UsersModule\Authenticator\AccessTokenAuthenticator;
 use Crm\UsersModule\Authenticator\AutoLoginAuthenticator;
 use Crm\UsersModule\Authenticator\AutoLoginTokenAuthenticator;
 use Crm\UsersModule\Authenticator\UsersAuthenticator;
+use Crm\UsersModule\Events\LoginAttemptEvent;
+use Crm\UsersModule\Events\LoginAttemptHandler;
 use Crm\UsersModule\Models\Auth\Access\AccessToken;
+use Crm\UsersModule\Models\Auth\AutoLogin\AutoLogin;
 use Crm\UsersModule\Models\Auth\UserAuthenticator;
 use Crm\UsersModule\Models\Auth\UserManager;
 use Crm\UsersModule\Models\User\UnclaimedUser;
@@ -20,6 +24,7 @@ use Crm\UsersModule\Repositories\UsersRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Authenticator;
+use Nette\Utils\DateTime;
 
 class UserAuthenticatorTest extends DatabaseTestCase
 {
@@ -34,6 +39,12 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
     /** @var AccessTokensRepository $accessTokenRepository */
     private $accessTokenRepository;
+
+    private LoginAttemptsRepository $loginAttemptsRepository;
+
+    private AutoLogin $autoLogin;
+
+    private LazyEventEmitter $lazyEventEmitter;
 
     /** @var string $accessTokenLastVersion */
     private $accessTokenLastVersion;
@@ -98,6 +109,14 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
         $this->usersRepository = $this->getRepository(UsersRepository::class);
         $this->accessTokenRepository = $this->getRepository(AccessTokensRepository::class);
+        $this->loginAttemptsRepository = $this->getRepository(LoginAttemptsRepository::class);
+        $this->autoLogin = $this->inject(AutoLogin::class);
+
+        $this->lazyEventEmitter = $this->inject(LazyEventEmitter::class);
+        $this->lazyEventEmitter->addListener(
+            LoginAttemptEvent::class,
+            $this->inject(LoginAttemptHandler::class),
+        );
 
         /** @var AccessToken $accessToken */
         $accessToken = $this->inject(AccessToken::class);
@@ -107,6 +126,13 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
         $this->getUser();
         $this->getAdmin();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->lazyEventEmitter->removeAllListeners(LoginAttemptEvent::class);
+
+        parent::tearDown();
     }
 
 
@@ -236,11 +262,17 @@ class UserAuthenticatorTest extends DatabaseTestCase
     {
         $token = $this->accessTokenRepository->add($this->getAdmin(), $this->accessTokenLastVersion);
 
-        $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage($this->translator->translate('users.authenticator.access_token.autologin_disabled'));
-        $this->expectExceptionCode(Authenticator::NotApproved);
+        try {
+            $this->userAuthenticator->authenticateCredentials(['accessToken' => $token->token]);
+            $this->fail('Admin login with access token should be rejected.');
+        } catch (AuthenticationException $e) {
+            $this->assertEquals($this->translator->translate('users.authenticator.access_token.autologin_disabled'), $e->getMessage());
+            $this->assertEquals(Authenticator::NotApproved, $e->getCode());
+        }
 
-        $this->userAuthenticator->authenticateCredentials(['accessToken' => $token->token]);
+        $lastAttempt = $this->lastLoginAttempt();
+        $this->assertEquals(LoginAttemptsRepository::STATUS_LOGIN_TYPE_DISABLED_FOR_ADMIN, $lastAttempt->status);
+        $this->assertEquals($this->getAdmin()->id, $lastAttempt->user_id);
     }
 
     public function testAccessTokenInvalid()
@@ -254,8 +286,37 @@ class UserAuthenticatorTest extends DatabaseTestCase
 
 
     /* **************************************************************
+     * AUTOLOGIN TOKEN
+     */
+
+    public function testAutoLoginTokenAdmin()
+    {
+        $autoLoginToken = $this->autoLogin->addUserToken($this->getAdmin(), DateTime::from('-1 hour'), DateTime::from('+1 hour'));
+
+        try {
+            $this->userAuthenticator->authenticateCredentials(['autologin_token' => $autoLoginToken->token]);
+            $this->fail('Admin login with autologin token should be rejected.');
+        } catch (AuthenticationException $e) {
+            $this->assertEquals('Autologin for this account is disabled', $e->getMessage());
+            $this->assertEquals(Authenticator::NotApproved, $e->getCode());
+        }
+
+        $lastAttempt = $this->lastLoginAttempt();
+        $this->assertEquals(LoginAttemptsRepository::STATUS_LOGIN_TYPE_DISABLED_FOR_ADMIN, $lastAttempt->status);
+        $this->assertEquals($this->getAdmin()->id, $lastAttempt->user_id);
+    }
+
+    /* **************************************************************
      * Helpers
      */
+
+    private function lastLoginAttempt(): ActiveRow
+    {
+        return $this->loginAttemptsRepository->getTable()
+            ->order('id DESC')
+            ->limit(1)
+            ->fetch();
+    }
 
     private function getUser() : ActiveRow
     {
