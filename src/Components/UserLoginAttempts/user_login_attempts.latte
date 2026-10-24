@@ -8,7 +8,9 @@
   <div class="row" style="margin-top:30px">
     <div class="col-md-3">
       <div class="panel panel-default">
-        <div class="panel-heading">{_users.component.user_login_attempts.total_stats}</div>
+        <div class="panel-heading">{_users.component.user_login_attempts.total_stats}
+          {if $statsDays} <small>({_users.component.user_login_attempts.stats_period, $statsDays})</small>{/if}
+        </div>
         <ul class="list-group">
           <li class="list-group-item">{_users.component.user_login_attempts.ip_count}: <span class="badge">{$totalUserIps}</span></li>
           <li class="list-group-item">{_users.component.user_login_attempts.browser_count}: <span class="badge">{$totalUserAgents}</span></li>
@@ -17,7 +19,9 @@
     </div>
     <div class="col-md-3">
       <div class="panel panel-default">
-        <div class="panel-heading">{_users.component.user_login_attempts.web_logins}</div>
+        <div class="panel-heading">{_users.component.user_login_attempts.web_logins}
+          {if $statsDays} <small>({_users.component.user_login_attempts.stats_period, $statsDays})</small>{/if}
+        </div>
         <ul class="list-group">
           <li class="list-group-item">{_users.component.user_login_attempts.ip_count}: <span class="badge">{$webUserIps}</span></li>
           <li class="list-group-item">{_users.component.user_login_attempts.browser_count}: <span class="badge">{$webUserAgents}</span></li>
@@ -26,7 +30,9 @@
     </div>
     <div class="col-md-3">
       <div class="panel panel-default">
-        <div class="panel-heading">{_users.component.user_login_attempts.mobile_app_logins}</div>
+        <div class="panel-heading">{_users.component.user_login_attempts.mobile_app_logins}
+          {if $statsDays} <small>({_users.component.user_login_attempts.stats_period, $statsDays})</small>{/if}
+        </div>
         <ul class="list-group">
           <li class="list-group-item">{_users.component.user_login_attempts.ip_count}: <span class="badge">{$mobileUserIps}</span></li>
           <li class="list-group-item">{_users.component.user_login_attempts.browser_count}: <span class="badge">{$mobileUserAgents}</span></li>

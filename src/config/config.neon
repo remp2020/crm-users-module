@@ -122,7 +122,8 @@ services:
 		factory: Crm\UsersModule\Components\UserAddressListWidget\UserAddressListConfig
 		setup:
 			- addIconMapping(default, fa-envelope)
-	- Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts
+	userLoginAttempts:
+		factory: Crm\UsersModule\Components\UserLoginAttempts\UserLoginAttempts
 	- Crm\UsersModule\Components\UserPasswordChanges\UserPasswordChanges
 	- Crm\UsersModule\Components\AutologinTokens\AutologinTokens
 	- Crm\UsersModule\Components\UserMeta\UserMeta

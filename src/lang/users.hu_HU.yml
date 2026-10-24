@@ -532,6 +532,7 @@ component:
         browser_count: Böngészők száma
         web_logins: Webes bejelentkezések
         mobile_app_logins: Mobiltelefonos bejelentkezések (alkalmazások)
+        stats_period: 'elmúlt %count% nap'
         last_access_by_source: Forrás szerinti utolsó bejelentkezés
         status: Állapot
         attempted_at: Bejelentkezés ideje

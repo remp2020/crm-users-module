@@ -1817,6 +1817,14 @@ Admin user detail listing component.
 
 ![alt text](docs/user_login_attempts.png "UserLoginAttempts")
 
+IP address and user agent counts are calculated from all login attempts by default. To calculate them only from the last N days, set the number of days in your `config.neon`:
+
+```neon
+userLoginAttempts:
+    setup:
+        - setStatsDays(30)
+```
+
 [Source code](https://github.com/remp2020/crm-users-module/blob/0683e04c95027043d1d30f1d0aa868d9270e7aaf/src/components/UserLoginAttempts/UserLoginAttempts.php#L1)
 
 [How to use](https://github.com/remp2020/crm-users-module/blob/0683e04c95027043d1d30f1d0aa868d9270e7aaf/src/UsersModule.php#L194)

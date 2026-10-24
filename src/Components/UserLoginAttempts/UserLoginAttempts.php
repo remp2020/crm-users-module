@@ -26,6 +26,8 @@ class UserLoginAttempts extends BaseLazyWidget implements DetailWidgetInterface
 
     private $translator;
 
+    private ?int $statsDays = null;
+
     public function __construct(
         LazyWidgetManager $lazyWidgetManager,
         LoginAttemptsRepository $loginAttemptsRepository,
@@ -36,6 +38,18 @@ class UserLoginAttempts extends BaseLazyWidget implements DetailWidgetInterface
         $this->loginAttemptsRepository = $loginAttemptsRepository;
         $this->userSourceAccessesRepository = $userSourceAccessesRepository;
         $this->translator = $translator;
+    }
+
+    /**
+     * Sets how many days back IP and user agent counts are calculated.
+     * If not set, counts are calculated from all login attempts.
+     */
+    public function setStatsDays(int $days): void
+    {
+        if ($days < 1) {
+            throw new \InvalidArgumentException("Number of days must be a positive integer, {$days} given.");
+        }
+        $this->statsDays = $days;
     }
 
     public function header($id = ''): string
@@ -69,14 +83,20 @@ class UserLoginAttempts extends BaseLazyWidget implements DetailWidgetInterface
         };
         $this->template->totalSignInAttempts = $this->totalCount($id);
 
-        $this->template->totalUserIps = $this->loginAttemptsRepository->userIps($id)->count();
-        $this->template->totalUserAgents = $this->loginAttemptsRepository->userAgents($id)->count();
+        $statsConditions = [];
+        if ($this->statsDays !== null) {
+            $statsConditions['created_at >= ?'] = DateTime::from("-{$this->statsDays} days");
+        }
+        $this->template->statsDays = $this->statsDays;
 
-        $this->template->mobileUserIps = $this->loginAttemptsRepository->userIps($id)->where(['source != ?' => 'web'])->count();
-        $this->template->mobileUserAgents = $this->loginAttemptsRepository->userAgents($id)->where(['source != ?' => 'web'])->count();
+        $this->template->totalUserIps = $this->loginAttemptsRepository->userIps($id)->where($statsConditions)->count();
+        $this->template->totalUserAgents = $this->loginAttemptsRepository->userAgents($id)->where($statsConditions)->count();
 
-        $this->template->webUserIps = $this->loginAttemptsRepository->userIps($id)->where(['source' => 'web'])->count();
-        $this->template->webUserAgents = $this->loginAttemptsRepository->userAgents($id)->where(['source' => 'web'])->count();
+        $this->template->mobileUserIps = $this->loginAttemptsRepository->userIps($id)->where(['source != ?' => 'web'] + $statsConditions)->count();
+        $this->template->mobileUserAgents = $this->loginAttemptsRepository->userAgents($id)->where(['source != ?' => 'web'] + $statsConditions)->count();
+
+        $this->template->webUserIps = $this->loginAttemptsRepository->userIps($id)->where(['source' => 'web'] + $statsConditions)->count();
+        $this->template->webUserAgents = $this->loginAttemptsRepository->userAgents($id)->where(['source' => 'web'] + $statsConditions)->count();
 
         $this->template->userSourceAccesses = $this->userSourceAccessesRepository->getTable()->where(['user_id' => $id]);
 

@@ -576,6 +576,7 @@ component:
         browser_count: Anzahl der Browser
         web_logins: Web-Anmeldungen
         mobile_app_logins: Mobile-App-Anmeldungen
+        stats_period: '{1}letzter Tag|[2,Inf]letzte %count% Tage'
         last_access_by_source: Letzter Zugriff nach Herkunft
         status: Status
         attempted_at: Versucht am

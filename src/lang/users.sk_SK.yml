@@ -620,6 +620,7 @@ component:
         browser_count: Počet prehliadačov
         web_logins: Prihlásenia cez web
         mobile_app_logins: "Mobilné prihlásenia (aplikácie)"
+        stats_period: '{1}posledný deň|[2,4]posledné %count% dni|[5,Inf]posledných %count% dní'
         last_access_by_source: Posledný prístup podľa zdroja
         status: Stav
         attempted_at: Čas prihlásenia

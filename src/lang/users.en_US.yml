@@ -613,6 +613,7 @@ component:
         browser_count: Number of browsers
         web_logins: Web logins
         mobile_app_logins: Mobile app logins
+        stats_period: '{1}last day|[2,Inf]last %count% days'
         last_access_by_source: Last access by source
         status: Status
         attempted_at: Attempted at
