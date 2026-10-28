@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth;
 
+use Crm\ApiModule\Models\Authorization\TokenAuthorizationInterface;
 use Crm\ApiModule\Models\Authorization\TokenParser;
 use Crm\ApplicationModule\Models\Request;
 use Crm\UsersModule\Events\UserLastAccessEvent;
@@ -11,7 +12,7 @@ use DateTime;
 use League\Event\Emitter;
 use Nette\Security\Authorizator;
 
-class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface
+class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface, TokenAuthorizationInterface
 {
     protected $accessTokensRepository;
 
@@ -26,6 +27,8 @@ class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, Access
     protected $authorizedUsers = [];
 
     protected $accessTokens = [];
+
+    protected ?string $authorizedToken = null;
 
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
@@ -42,6 +45,7 @@ class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, Access
         $this->authorizedData = [];
         $this->authorizedUsers = [];
         $this->accessTokens = [];
+        $this->authorizedToken = null;
 
         $tokenParser = new TokenParser();
         if (!$tokenParser->isOk()) {
@@ -73,7 +77,13 @@ class DeviceTokenAuthorization implements UsersApiAuthorizationInterface, Access
         }
 
         $this->authorizedData['token'] = $deviceToken;
+        $this->authorizedToken = $tokenParser->getToken();
         return true;
+    }
+
+    public function getAuthorizedToken(): ?string
+    {
+        return $this->authorizedToken;
     }
 
     public function getErrorMessage(): ?string

@@ -2,6 +2,7 @@
 
 namespace Crm\UsersModule\Models\Auth;
 
+use Crm\ApiModule\Models\Authorization\TokenAuthorizationInterface;
 use Crm\ApiModule\Models\Authorization\TokenParser;
 use Crm\ApplicationModule\Models\Config\ApplicationConfig;
 use Crm\ApplicationModule\Models\Request;
@@ -11,7 +12,7 @@ use DateTime;
 use League\Event\Emitter;
 use Nette\Security\Authorizator;
 
-class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface
+class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface, TokenAuthorizationInterface
 {
     protected $accessTokensRepository;
 
@@ -27,6 +28,8 @@ class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, A
 
     protected $applicationConfig;
 
+    protected ?string $authorizedToken = null;
+
     public function __construct(
         AccessTokensRepository $accessTokensRepository,
         Emitter $emitter,
@@ -39,6 +42,8 @@ class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, A
 
     public function authorized($resource = Authorizator::ALL): bool
     {
+        $this->authorizedToken = null;
+
         $tokenParser = new TokenParser();
         if (!$tokenParser->isOk()) {
             $this->errorMessage = $tokenParser->errorMessage();
@@ -68,7 +73,13 @@ class DefaultUserTokenAuthorization implements UsersApiAuthorizationInterface, A
         $this->accessTokens[] = $token;
         $this->authorizedUsers[$token->user_id] = $token->user;
         $this->authorizedData['token'] = $token;
+        $this->authorizedToken = $tokenParser->getToken();
         return true;
+    }
+
+    public function getAuthorizedToken(): ?string
+    {
+        return $this->authorizedToken;
     }
 
     public function getErrorMessage(): ?string

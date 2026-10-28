@@ -3,10 +3,11 @@
 namespace Crm\UsersModule\Models\Auth;
 
 use Crm\ApiModule\Models\Authorization\ApiAuthorizationInterface;
+use Crm\ApiModule\Models\Authorization\TokenAuthorizationInterface;
 use League\Event\Emitter;
 use Nette\Security\Authorizator;
 
-class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface
+class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTokensApiAuthorizationInterface, TokenAuthorizationInterface
 {
     protected UsersApiAuthorizationInterface $authorizator;
 
@@ -82,5 +83,13 @@ class UserTokenAuthorization implements UsersApiAuthorizationInterface, AccessTo
             return [];
         }
         return $this->authorizator->getAccessTokens();
+    }
+
+    public function getAuthorizedToken(): ?string
+    {
+        if (isset($this->authorizator) && $this->authorizator instanceof TokenAuthorizationInterface) {
+            return $this->authorizator->getAuthorizedToken();
+        }
+        return null;
     }
 }
