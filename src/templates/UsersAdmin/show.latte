@@ -46,7 +46,7 @@
 <div class="row">
   <div class="col-md-3">
 
-    {control simpleWidget 'admin.user.detail.left.top', $userRow->id}
+    {control simpleWidget, 'admin.user.detail.left.top', $userRow->id}
 
     <div class="panel panel-default">
       <div class="panel-heading">{_users.admin.show.groups}</div>
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    {control simpleWidget 'admin.user.detail.left', $userRow->id}
+    {control simpleWidget, 'admin.user.detail.left', $userRow->id}
 
   </div>
 
@@ -126,21 +126,21 @@
         <li n:if="$userRow->referer" class="list-group-item"><b>{_users.admin.show.referer}:</b> <small class="text-muted"><a href="{$userRow->referer}" target="_blank">{$userRow->referer|truncate:70}</a></small></li>
         <li class="list-group-item"><b>{_users.admin.show.locale}:</b> {Locale::getDisplayLanguage($userRow->locale, $translator->getLocale())}</li>
 
-        {control simpleWidget 'admin.user.detail.basic_info', $userRow->id}
+        {control simpleWidget, 'admin.user.detail.basic_info', $userRow->id}
       </ul>
     </div>
 
-    {control simpleWidget 'admin.user.detail.mainbox', $userRow->id}
+    {control simpleWidget, 'admin.user.detail.mainbox', $userRow->id}
   </div>
 
   <div class="col-md-3">
-    {control simpleWidget 'admin.user.detail.center', $userRow->id}
+    {control simpleWidget, 'admin.user.detail.center', $userRow->id}
 
   </div>
 
   <div class="col-md-2">
 
-    {control simpleWidget 'admin.user.detail.box', $userRow->id}
+    {control simpleWidget, 'admin.user.detail.box', $userRow->id}
 
     <div class="panel panel-default">
       <div class="panel-heading">{_users.admin.show.current_login}</div>
@@ -168,7 +168,7 @@
   </div>
 </div>
 
-{control detailWidget 'admin.user.detail.bottom', $userRow->id}
+{control detailWidget, 'admin.user.detail.bottom', $userRow->id}
 
 <div class="modal fade modal-ajax" id="admin-user-delete-modal">
   <div class="modal-dialog modal-lg" style="width: 800px">

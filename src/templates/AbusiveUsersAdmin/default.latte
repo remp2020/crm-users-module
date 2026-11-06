@@ -85,7 +85,7 @@
                                 {$abuser->email|gravatar}
                                 {$abuser->email}
                             </a>
-                            {control simpleWidget 'admin.user.abusive.emailcolumn', $abuser->user_row}
+                            {control simpleWidget, 'admin.user.abusive.emailcolumn', $abuser->user_row}
                         </td>
                         <td>{$abuser->first_name} {$abuser->last_name}</td>
                         <td>
@@ -99,7 +99,7 @@
                             <small n:if="$abuser->current_sign_in_ip">/ {$abuser->current_sign_in_ip}</small>
                         </td>
                         <td>
-                            {control simpleWidget 'admin.user.abusive.additional', $abuser->user_row}
+                            {control simpleWidget, 'admin.user.abusive.additional', $abuser->user_row}
                         </td>
                         <td>
                             <p class="text-nowrap">

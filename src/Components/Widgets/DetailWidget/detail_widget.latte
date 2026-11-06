@@ -18,11 +18,11 @@
     <div class="tab-content">
 
       <div n:foreach="$mainWidgets as $widget" role="tabpanel" class="tab-pane {first}active{/first}" id="{$widget->identifier()}">
-        {control $widget $params}
+        {control $widget, $params}
       </div>
 
       <div n:foreach="$subWidgets as $widget" role="tabpanel" class="tab-pane" id="{$widget->identifier()}">
-        {control $widget $params}
+        {control $widget, $params}
       </div>
 
     </div>

@@ -118,7 +118,7 @@
   <div class="row">
 
     <div class="col-md-12">
-      {control snippet 'linked-accounts'}
+      {control snippet, 'linked-accounts'}
     </div>
 
     <div class="col-md-8">
@@ -156,7 +156,7 @@
       {/if}
     </div>
 
-    {control simpleWidget 'frontend.user.connected_accounts.bottom'}
+    {control simpleWidget, 'frontend.user.connected_accounts.bottom'}
   </div>
 {/if}
 
@@ -166,7 +166,7 @@
     <h1 n:block=title>{_users.frontend.settings.title}</h1>
   </div>
 
-  {control simpleWidget 'frontend.user.settings.top'}
+  {control simpleWidget, 'frontend.user.settings.top'}
 
   <h4>{_users.frontend.settings.personal_data.title}</h4>
   <div class="row">
@@ -189,5 +189,5 @@
 
   <hr/>
 
-  {control simpleWidget 'frontend.user.settings.account_delete'}
+  {control simpleWidget, 'frontend.user.settings.account_delete'}
 {/if}
